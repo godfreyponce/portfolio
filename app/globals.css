@@ -1,9 +1,17 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@layer base {
-  body {
-    @apply bg-zinc-50 text-zinc-900 antialiased;
-  }
+@theme {
+  --color-zinc-50: #fafafa;
+  --color-zinc-900: #18181b;
+}
+
+:root {
+  --background: var(--color-zinc-50);
+  --foreground: var(--color-zinc-900);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  @apply antialiased;
 }

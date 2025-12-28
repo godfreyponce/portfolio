@@ -18,9 +18,9 @@ export default function Hero() {
       {/* Right: Text Content */}
       <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-6">
         <div className="space-y-2">
-          <h2 className="text-xl md:text-2xl font-medium text-zinc-500 tracking-wide">
+          {/* <h2 className="text-xl md:text-2xl font-medium text-zinc-500 tracking-wide">
             Hello, I&apos;m
-          </h2>
+          </h2> */}
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-zinc-900">
             Godfrey Ponce
           </h1>

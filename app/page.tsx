@@ -3,6 +3,9 @@ import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import Timeline from "@/components/sections/Timeline";
 import Education from "@/components/sections/Education";
+import TheLab from "@/components/sections/TheLab";
+import Passions from "@/components/sections/Passions";
+import Footer from "@/components/sections/Footer";
 
 export default function Home() {
   return (
@@ -17,6 +20,9 @@ export default function Home() {
           <About />
           <Timeline />
           <Education />
+          <TheLab />
+          <Passions />
+          <Footer />
         </div>
       </div>
     </main>

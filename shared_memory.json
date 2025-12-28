@@ -1,0 +1,25 @@
+{
+  "user_profile": {
+    "name": "Geov",
+    "role": "Student Web Developer",
+    "preferences": {
+      "tech_stack": ["React", "Next.js", "Tailwind", "Three.js", "Node.js"],
+      "aesthetic": "Minimalist",
+      "os": "macOS (Darwin)"
+    }
+  },
+  "domains": {
+    "web_dev": {
+      "current_project": "Personal Portfolio",
+      "last_action": "Initial project strategy mapping",
+      "notes": "Inspired by lduy.dev and karpathy.ai"
+    },
+    "hardware": {
+      "interests": ["monitors", "MacBook setups"],
+      "history": []
+    }
+  },
+  "general_context": {
+    "interests": ["soccer", "AI Agents", "n8n automation", "self-hosting"]
+  }
+}

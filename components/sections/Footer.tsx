@@ -7,7 +7,6 @@ export default function Footer() {
         
         <div>
           <h2 className="text-2xl font-bold">Godfrey Ponce</h2>
-          <p className="text-zinc-400 mt-1">Building the future, one commit at a time.</p>
         </div>
 
         <div className="flex gap-6">

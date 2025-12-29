@@ -80,7 +80,7 @@ export default function TheLab() {
         {/* Project 2: Quartz */}
         <ProjectCard 
           title="Quartz"
-          description="A privacy-first, macOS-native productivity tracker inspired by Karpathy's ulogme. Logs active window usage locally for self-reflection."
+          description="Inspired by Karpathy's ulogme, I wanted to create a modern, macOS-native version that logs a user's productivity."
           tags={["Swift", "SQLite", "Local-First"]}
           status="Concept"
           color="bg-indigo-50"

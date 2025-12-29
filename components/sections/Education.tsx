@@ -55,7 +55,7 @@ export default function Education() {
             title="BS in Computer Science"
             subtitle="The University of Texas at Dallas"
             date="Fall 2024 - Winter 2027"
-            description="Minor in Cognitive Science | GPA: 3.7"
+            description="Minor in Cognitive Science"
             points={[
               "Relevant Courses: Data Structures & Algorithms, Computer Architecture, Cognitive and Neural Modeling."
             ]}
@@ -85,8 +85,7 @@ export default function Education() {
             subtitle="Google Developer Student Club (GDSC)"
             date="Fall 2024 - Present"
             points={[
-              "Spearheaded a social media strategy boosting engagement by 850% and gaining 150k+ video views.",
-              "Design and execute technical workshops for a community of 200+ members."
+              "Spearheaded a social media strategy boosting engagement by 850% and gaining 150k+ video views."
             ]}
             logoSrc="/gdsc_logo.png"
           />

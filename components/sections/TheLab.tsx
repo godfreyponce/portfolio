@@ -78,7 +78,6 @@ function ProjectCard({ title, description, tags, status, date, link, githubLink,
               <h3 className="text-2xl font-bold text-zinc-900">{title}</h3>
             </div>
             <div className="flex items-center gap-3">
-              {date && <span className="text-xs font-medium text-zinc-400">{date}</span>}
               <span className={`px-3 py-1 rounded-full text-xs font-medium border ${
                 status === "Live" ? "bg-green-50 text-green-600 border-green-200" :
                 status === "Building" ? "bg-amber-50 text-amber-600 border-amber-200" :
@@ -121,13 +120,16 @@ function ProjectCard({ title, description, tags, status, date, link, githubLink,
                 `}
               >
                 <div className="flex flex-col gap-4 p-4 bg-zinc-50 rounded-xl border border-zinc-100 shadow-sm">
-                  {/* Tech Stack revealed inside drawer */}
-                  <div className="flex flex-wrap gap-2 pb-2 border-b border-zinc-200/50">
-                    {tags.map((tag) => (
-                      <span key={tag} className="px-2 py-1 bg-white text-zinc-500 text-xs rounded-md border border-zinc-100 font-medium">
-                        {tag}
-                      </span>
-                    ))}
+                  {/* Tech Stack and Date revealed inside drawer - Date on right */}
+                  <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-zinc-200/50">
+                    <div className="flex flex-wrap gap-2">
+                      {tags.map((tag) => (
+                        <span key={tag} className="px-2 py-1 bg-white text-zinc-500 text-xs rounded-md border border-zinc-100 font-medium">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    {date && <span className="text-xs font-bold text-zinc-400 uppercase tracking-tight ml-auto">{date}</span>}
                   </div>
 
                   <div className="flex flex-col gap-2">
@@ -152,15 +154,6 @@ function ProjectCard({ title, description, tags, status, date, link, githubLink,
             </div>
           )}
         </div>
-
-        {/* Footer */}
-        <div className="mt-8 pt-6 border-t border-zinc-100 flex flex-wrap gap-2">
-          {tags.map((tag) => (
-            <span key={tag} className="px-2 py-1 bg-zinc-50 text-zinc-500 text-xs rounded-md border border-zinc-100 font-medium">
-              {tag}
-            </span>
-          ))}
-        </div>
       </div>
     </div>
   );
@@ -171,21 +164,11 @@ export default function TheLab() {
     <section className="w-full max-w-3xl mx-auto px-6 py-24 space-y-12">
       <div className="flex flex-col items-center text-center gap-2">
         <h2 className="text-3xl font-bold text-zinc-900">The Lab</h2>
-        <p className="text-zinc-500 text-lg">Experiments, agents, and open-source ideas.</p>
+        <p className="text-zinc-500 text-lg">Projects, agents, and open-source ideas.</p>
       </div>
 
       <div className="flex flex-col gap-6">
-        {/* Project 1: Signal */}
-        <ProjectCard 
-          title="Signal"
-          description="An autonomous AI agent that scouts market trends by scraping, analyzing, and synthesizing competitor data into actionable moodboards."
-          tags={["n8n", "Gemini 2.5", "Docker", "Python"]}
-          status="Building"
-          color="bg-blue-50"
-          icon={<Radio size={20} />}
-        />
-
-        {/* Project 2: TechAssist */}
+        {/* Project 1: TechAssist */}
         <ProjectCard 
           title="TechAssist"
           description="A native iOS assistant for data center technicians with 'scan-to-solution' QR navigation."
@@ -197,6 +180,16 @@ export default function TheLab() {
           videoUrl="https://www.youtube.com/watch?v=RTfW7j82g7E"
           color="bg-orange-50"
           icon={<Image src="/tech_assist.png" alt="TechAssist Logo" width={64} height={64} className="rounded-md" />}
+        />
+
+        {/* Project 2: Signal */}
+        <ProjectCard 
+          title="Signal"
+          description="An autonomous AI agent that scouts market trends by scraping, analyzing, and synthesizing competitor data into actionable moodboards."
+          tags={["n8n", "Gemini 2.5", "Docker", "Python"]}
+          status="Building"
+          color="bg-blue-50"
+          icon={<Radio size={20} />}
         />
 
         {/* Project 3: Quartz */}

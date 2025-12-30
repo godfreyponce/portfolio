@@ -31,7 +31,7 @@ export default function Passions() {
             </div>
             <h3 className="text-3xl font-bold text-white mb-2">The Beautiful Game</h3>
             <p className="text-zinc-300 text-sm leading-relaxed max-w-md">
-              A lifelong athlete, I believe the best results come from disciplined teamwork. I bring the same energy and translate it over to professional environments.
+              A lifelong athlete, I believe the best results come from disciplined teamwork, bringing in the same energy and translating it over to professional environments.
             </p>
           </div>
           {/* Placeholder Image */}

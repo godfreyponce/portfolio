@@ -129,7 +129,7 @@ function ProjectCard({ title, description, tags, status, date, link, githubLink,
                         </span>
                       ))}
                     </div>
-                    {date && <span className="text-xs font-bold text-zinc-400 uppercase tracking-tight ml-auto">{date}</span>}
+                    {date && <span className="text-xs font-bold text-zinc-500 uppercase tracking-tight ml-auto">{date}</span>}
                   </div>
 
                   <div className="flex flex-col gap-2">
@@ -171,7 +171,7 @@ export default function TheLab() {
         {/* Project 1: TechAssist */}
         <ProjectCard 
           title="TechAssist"
-          description="A native iOS assistant for data center technicians with 'scan-to-solution' QR navigation."
+          description="A smart and efficient native iOS assistant for data center technicians with 'scan-to-solution' QR navigation."
           tags={["SwiftUI", "Auth0", "Figma"]}
           status="Hackathon"
           date="October 2025"

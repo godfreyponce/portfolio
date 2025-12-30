@@ -54,7 +54,7 @@ function TimelineItem({ date, title, subtitle, logoSrc, points, tags, isLast }: 
 
 export default function Timeline() {
   return (
-    <section className="w-full max-w-3xl mx-auto px-6 py-24">
+    <section className="w-full max-w-3xl mx-auto px-6 pt-24 pb-8">
       <h2 className="text-3xl font-bold tracking-tight text-zinc-900 mb-12">
         Work Experience
       </h2>

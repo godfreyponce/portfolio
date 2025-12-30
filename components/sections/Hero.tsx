@@ -22,7 +22,7 @@ export default function Hero() {
         </h1>
         
         <p className="max-w-xl text-xl md:text-2xl text-zinc-600 font-light leading-relaxed mt-4">
-          I like to build agents that think, so we can create.
+          I like to build agents that think, so we can create
         </p>
       </div>
 

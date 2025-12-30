@@ -9,7 +9,7 @@ export default function Passions() {
         </div>
         <div>
           <h2 className="text-3xl font-bold text-zinc-900">Passions</h2>
-          <p className="text-zinc-500">Beyond my Mac.</p>
+          <p className="text-zinc-500">Beyond my Mac</p>
         </div>
       </div>
 

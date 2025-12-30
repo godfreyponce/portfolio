@@ -101,10 +101,20 @@ export default function Timeline() {
           subtitle="Apple"
           logoSrc="/apple_logo.jpeg"
           points={[
-            "Resolved complex iOS/macOS/watchOS technical issues with a 96% success rate using advanced diagnostics.",
-            "Provided user focused support while relaying critical technical feedback to internal engineering teams."
+            "Resolved complex iOS/macOS technical issues with a 96% success rate using advanced diagnostics.",
+            "Provided user-focused support while relaying critical technical feedback to internal engineering teams."
           ]}
-          tags={["Tableau", "iOS/macOS/watchOS", "Keynote"]}
+          tags={["Tableau", "iOS/macOS", "Keynote"]}
+        />
+
+        <TimelineItem 
+          date="Fall 2024 - Present"
+          title="Community Lead & Events Officer"
+          subtitle="Google Developer Student Club (GDSC)"
+          logoSrc="/gdsc_logo.png"
+          points={[
+            "Spearheaded a social media strategy boosting engagement by 850% and gaining 150k+ video views."
+          ]}
           isLast
         />
       </div>

@@ -1,6 +1,20 @@
+"use client";
+
 import { Heart, Mountain, Trophy, Play, Server, Terminal } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function Passions() {
+  const [highlight, setHighlight] = useState(false);
+
+  useEffect(() => {
+    const handleHighlight = () => {
+      setHighlight(true);
+      setTimeout(() => setHighlight(false), 2000);
+    };
+    window.addEventListener('highlight-soccer', handleHighlight);
+    return () => window.removeEventListener('highlight-soccer', handleHighlight);
+  }, []);
+
   return (
     <section className="w-full max-w-6xl mx-auto px-6 py-24 space-y-12">
       <div className="flex items-center gap-4">
@@ -15,7 +29,12 @@ export default function Passions() {
 
       <div className="grid md:grid-cols-2 gap-6 h-[500px]">
         {/* Soccer - Large Left Card */}
-        <div className="relative group rounded-3xl overflow-hidden bg-zinc-100 md:row-span-2">
+        <div 
+          id="soccer" 
+          className={`relative group rounded-3xl overflow-hidden bg-zinc-100 md:row-span-2 transition-all duration-500 ${
+            highlight ? "animate-shake ring-2 ring-emerald-500/30" : "ring-0"
+          }`}
+        >
           {/* Video Placeholder Overlay */}
           <div className="absolute inset-0 flex items-center justify-center z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
             <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30 text-white">

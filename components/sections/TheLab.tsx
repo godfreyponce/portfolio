@@ -9,6 +9,7 @@ interface ProjectCardProps {
   description: string;
   tags: string[];
   status: "Live" | "Building" | "Concept" | "Hackathon";
+  date?: string;
   link?: string;
   githubLink?: string;
   devpostLink?: string;
@@ -18,7 +19,7 @@ interface ProjectCardProps {
   icon?: React.ReactNode;
 }
 
-function ProjectCard({ title, description, tags, status, link, githubLink, devpostLink, videoUrl, className = "", color = "bg-zinc-100", icon }: ProjectCardProps) {
+function ProjectCard({ title, description, tags, status, date, link, githubLink, devpostLink, videoUrl, className = "", color = "bg-zinc-100", icon }: ProjectCardProps) {
   // Extract YouTube ID if present
   const youtubeId = videoUrl?.includes("youtube.com") 
     ? new URL(videoUrl).searchParams.get("v") 
@@ -76,14 +77,17 @@ function ProjectCard({ title, description, tags, status, link, githubLink, devpo
               {icon && <div className="text-zinc-600 flex-shrink-0 -my-2">{icon}</div>}
               <h3 className="text-2xl font-bold text-zinc-900">{title}</h3>
             </div>
-            <span className={`px-3 py-1 rounded-full text-xs font-medium border ${
-              status === "Live" ? "bg-green-50 text-green-600 border-green-200" :
-              status === "Building" ? "bg-amber-50 text-amber-600 border-amber-200" :
-              status === "Hackathon" ? "bg-purple-50 text-purple-600 border-purple-200" :
-              "bg-zinc-50 text-zinc-500 border-zinc-200"
-            }`}>
-              {status}
-            </span>
+            <div className="flex items-center gap-3">
+              {date && <span className="text-xs font-medium text-zinc-400">{date}</span>}
+              <span className={`px-3 py-1 rounded-full text-xs font-medium border ${
+                status === "Live" ? "bg-green-50 text-green-600 border-green-200" :
+                status === "Building" ? "bg-amber-50 text-amber-600 border-amber-200" :
+                status === "Hackathon" ? "bg-purple-50 text-purple-600 border-purple-200" :
+                "bg-zinc-50 text-zinc-500 border-zinc-200"
+              }`}>
+                {status}
+              </span>
+            </div>
           </div>
           
           <p className="text-zinc-500 leading-relaxed text-base md:text-lg mt-2">
@@ -148,6 +152,15 @@ function ProjectCard({ title, description, tags, status, link, githubLink, devpo
             </div>
           )}
         </div>
+
+        {/* Footer */}
+        <div className="mt-8 pt-6 border-t border-zinc-100 flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <span key={tag} className="px-2 py-1 bg-zinc-50 text-zinc-500 text-xs rounded-md border border-zinc-100 font-medium">
+              {tag}
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -161,19 +174,6 @@ export default function TheLab() {
         <p className="text-zinc-500 text-lg">Experiments, agents, and open-source ideas.</p>
       </div>
 
-      {/* Project 2: TechAssist */}
-        <ProjectCard 
-          title="TechAssist"
-          description="A native iOS assistant for data center technicians with 'scan-to-solution' QR navigation."
-          tags={["SwiftUI", "Auth0", "Figma"]}
-          status="Hackathon"
-          devpostLink="https://devpost.com/software/techassist"
-          githubLink="https://github.com/godfreyponce/TechAssistCLONE"
-          videoUrl="https://www.youtube.com/watch?v=RTfW7j82g7E"
-          color="bg-orange-50"
-          icon={<Image src="/tech_assist.png" alt="TechAssist Logo" width={64} height={64} className="rounded-md" />}
-        />
-  
       <div className="flex flex-col gap-6">
         {/* Project 1: Signal */}
         <ProjectCard 
@@ -185,7 +185,19 @@ export default function TheLab() {
           icon={<Radio size={20} />}
         />
 
-      
+        {/* Project 2: TechAssist */}
+        <ProjectCard 
+          title="TechAssist"
+          description="A native iOS assistant for data center technicians with 'scan-to-solution' QR navigation."
+          tags={["SwiftUI", "Auth0", "Figma"]}
+          status="Hackathon"
+          date="October 2025"
+          devpostLink="https://devpost.com/software/techassist"
+          githubLink="https://github.com/godfreyponce/TechAssistCLONE"
+          videoUrl="https://www.youtube.com/watch?v=RTfW7j82g7E"
+          color="bg-orange-50"
+          icon={<Image src="/tech_assist.png" alt="TechAssist Logo" width={64} height={64} className="rounded-md" />}
+        />
 
         {/* Project 3: Quartz */}
         <ProjectCard 

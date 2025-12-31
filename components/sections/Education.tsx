@@ -12,8 +12,8 @@ interface EducationItemProps {
 
 function EducationItem({ title, subtitle, date, description, points, logoSrc, link }: EducationItemProps) {
   return (
-    <div className="group relative flex items-start gap-4 p-4 rounded-2xl hover:bg-zinc-100 transition-colors">
-      <div className="w-12 h-12 rounded-full bg-white border border-zinc-200 flex items-center justify-center overflow-hidden z-10 shrink-0 relative">
+    <div className="group relative flex items-start gap-4 p-4 rounded-2xl hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors duration-500">
+      <div className="w-12 h-12 rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-center justify-center overflow-hidden z-10 shrink-0 relative transition-colors duration-500">
         <Image 
           src={logoSrc} 
           alt={`${subtitle} logo`} 
@@ -24,22 +24,22 @@ function EducationItem({ title, subtitle, date, description, points, logoSrc, li
       <div className="flex-1">
         <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1">
           <div className="flex items-center gap-2">
-            <h3 className="text-lg font-bold text-zinc-900">{title}</h3>
+            <h3 className="text-lg font-bold text-zinc-900 dark:text-zinc-50">{title}</h3>
             {link && (
-              <a href={link} target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-zinc-900 transition-colors">
+              <a href={link} target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">
                 <ArrowUpRight size={16} />
               </a>
             )}
           </div>
           <span className="text-xs font-medium text-zinc-400 uppercase tracking-wider whitespace-nowrap">{date}</span>
         </div>
-        <p className="text-zinc-600 font-medium text-sm">{subtitle}</p>
-        {description && <p className="text-zinc-500 text-sm mt-2 leading-relaxed">{description}</p>}
+        <p className="text-zinc-600 dark:text-zinc-400 font-medium text-sm">{subtitle}</p>
+        {description && <p className="text-zinc-500 dark:text-zinc-500 text-sm mt-2 leading-relaxed">{description}</p>}
         {points && (
           <ul className="mt-3 space-y-2">
             {points.map((point, index) => (
-              <li key={index} className="text-zinc-500 text-sm leading-relaxed flex gap-2">
-                <span className="text-zinc-300">•</span>
+              <li key={index} className="text-zinc-500 dark:text-zinc-500 text-sm leading-relaxed flex gap-2">
+                <span className="text-zinc-300 dark:text-zinc-700">•</span>
                 {point}
               </li>
             ))}
@@ -53,7 +53,7 @@ function EducationItem({ title, subtitle, date, description, points, logoSrc, li
 export default function Education() {
   return (
     <section className="w-full max-w-3xl mx-auto px-6 py-8">
-      <h2 className="text-3xl font-bold tracking-tight text-zinc-900 mb-8">
+      <h2 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 mb-8">
         Education
       </h2>
       <div className="space-y-4">

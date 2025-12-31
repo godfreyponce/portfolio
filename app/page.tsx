@@ -26,9 +26,9 @@ export default function Home() {
         {/* Education & Switch row */}
         <div className="relative w-full">
           <Education />
-          <div className="absolute right-6 md:right-12 top-1/2 -translate-y-1/2 shrink-0">
+          {/* <div className="absolute right-6 md:right-12 top-1/2 -translate-y-1/2 shrink-0">
             <LightSwitch />
-          </div>
+          </div> */}
         </div>
 
         {/* Convergence Graph as a Connector between Foundation and Output */}

@@ -36,13 +36,6 @@ export default function Passions() {
             highlight ? "animate-shake ring-2 ring-emerald-500/30" : "ring-0"
           }`}
         >
-          {/* Video Placeholder Overlay */}
-          <div className="absolute inset-0 flex items-center justify-center z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-            <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30 text-white">
-              <Play fill="white" size={24} />
-            </div>
-          </div>
-
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10" />
           <div className="absolute bottom-0 left-0 p-8 z-20">
             <div className="flex items-center gap-2 text-white/80 mb-2">
@@ -65,13 +58,6 @@ export default function Passions() {
 
         {/* Snowboarding - Top Right */}
         <div className="relative group rounded-3xl overflow-hidden bg-zinc-100">
-           {/* Video Placeholder Overlay */}
-           <div className="absolute inset-0 flex items-center justify-center z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-            <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30 text-white">
-              <Play fill="white" size={20} />
-            </div>
-          </div>
-
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10" />
           <div className="absolute bottom-0 left-0 p-8 z-20">
             <div className="flex items-center gap-2 text-white/80 mb-2">

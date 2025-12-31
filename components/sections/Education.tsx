@@ -10,7 +10,7 @@ interface EducationItemProps {
   logoSrc: string;
 }
 
-function EducationItem({ title, subtitle, date, description, points, logoSrc }: EducationItemProps) {
+function EducationItem({ title, subtitle, date, description, points, logoSrc, link }: EducationItemProps) {
   return (
     <div className="group relative flex items-start gap-4 p-4 rounded-2xl hover:bg-zinc-100 transition-colors">
       <div className="w-12 h-12 rounded-full bg-white border border-zinc-200 flex items-center justify-center overflow-hidden z-10 shrink-0 relative">
@@ -18,12 +18,19 @@ function EducationItem({ title, subtitle, date, description, points, logoSrc }: 
           src={logoSrc} 
           alt={`${subtitle} logo`} 
           fill 
-          className="object-cover"
+          className={subtitle.includes("GDSC") ? "object-contain p-2" : "object-cover"}
         />
       </div>
       <div className="flex-1">
         <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1">
-          <h3 className="text-lg font-bold text-zinc-900">{title}</h3>
+          <div className="flex items-center gap-2">
+            <h3 className="text-lg font-bold text-zinc-900">{title}</h3>
+            {link && (
+              <a href={link} target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-zinc-900 transition-colors">
+                <ArrowUpRight size={16} />
+              </a>
+            )}
+          </div>
           <span className="text-xs font-medium text-zinc-400 uppercase tracking-wider whitespace-nowrap">{date}</span>
         </div>
         <p className="text-zinc-600 font-medium text-sm">{subtitle}</p>

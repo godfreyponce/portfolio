@@ -20,8 +20,8 @@ export default function LossGraph() {
     const numPoints = 200;
     const springConstant = 0.05;
     const dampening = 0.95;
-    const mouseRadius = 20; // Reduced from 80 for precision
-    const mouseStrength = 5;
+    const mouseRadius = 20; 
+    const mouseStrength = 2; // Reduced from 5
 
     let prevMouseY = 0;
     const mouse = { x: -1000, y: -1000 };
@@ -52,7 +52,7 @@ export default function LossGraph() {
         if (dx < mouseRadius) {
           // Bell curve intensity: 1 at center, 0 at radius edge
           const intensity = Math.pow(1 - (dx / mouseRadius), 2);
-          points[i].vy += dy * 0.3 * intensity; 
+          points[i].vy += dy * 0.1 * intensity; // Reduced from 0.3
         }
       }
 

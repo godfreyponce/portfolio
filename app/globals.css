@@ -6,8 +6,8 @@
 }
 
 :root {
-  --background: var(--color-zinc-50);
-  --foreground: var(--color-zinc-900);
+  --background: #fafafa;
+  --foreground: #18181b;
 }
 
 body {

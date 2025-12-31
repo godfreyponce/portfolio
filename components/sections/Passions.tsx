@@ -2,6 +2,7 @@
 
 import { Heart, Mountain, Trophy, Play, Server, Terminal } from "lucide-react";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 export default function Passions() {
   const [highlight, setHighlight] = useState(false);
@@ -53,8 +54,13 @@ export default function Passions() {
               A lifelong athlete, I believe the best results come from disciplined teamwork, bringing in the same energy and translating it over to professional environments.
             </p>
           </div>
-          {/* Placeholder Image */}
-          <div className="w-full h-full bg-zinc-800 group-hover:scale-105 transition-transform duration-700" />
+          {/* Soccer Photo */}
+          <Image 
+            src="/godfrey_soccerShot.jpg"
+            alt="Godfrey playing soccer"
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-700"
+          />
         </div>
 
         {/* Snowboarding - Top Right */}

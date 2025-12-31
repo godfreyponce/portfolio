@@ -1,6 +1,6 @@
 "use client";
 
-import MiniSoccerField from "@/components/canvas/MiniSoccerField";
+// import MiniSoccerField from "@/components/canvas/MiniSoccerField";
 
 
 

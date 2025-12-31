@@ -18,13 +18,13 @@ export default function Hero() {
       {/* Right: Text Content */}
       <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-6">
         <div className="space-y-2">
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+          <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-zinc-900">
             Godfrey Ponce
           </h1>
         </div>
         
-        <p className="max-w-xl text-xl md:text-2xl text-zinc-600 dark:text-zinc-400 font-light leading-relaxed">
-          I like to build agents that think, so we humans can create.
+        <p className="max-w-4xl text-xl md:text-2xl text-zinc-600 font-light leading-relaxed">
+          I like to build agents that think, so we humans can create
         </p>
       </div>
 

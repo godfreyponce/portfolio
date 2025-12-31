@@ -15,7 +15,7 @@ function TimelineItem({ date, title, subtitle, logoSrc, points, tags, isLast }: 
     <div className="flex gap-4 relative">
       {/* Icon & Line Column */}
       <div className="flex flex-col items-center">
-        <div className="w-12 h-12 rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-center justify-center overflow-hidden z-10 shrink-0 relative transition-colors duration-500">
+        <div className="w-12 h-12 rounded-full bg-white border border-zinc-200 flex items-center justify-center overflow-hidden z-10 shrink-0 relative transition-colors duration-500">
           <Image 
             src={logoSrc} 
             alt={`${subtitle} logo`} 
@@ -23,16 +23,16 @@ function TimelineItem({ date, title, subtitle, logoSrc, points, tags, isLast }: 
             className="object-cover"
           />
         </div>
-        {!isLast && <div className="w-[2px] bg-zinc-200 dark:bg-zinc-800 grow mt-2 mb-2 transition-colors duration-500" />}
+        {!isLast && <div className="w-[2px] bg-zinc-200 grow mt-2 mb-2 transition-colors duration-500" />}
       </div>
 
       {/* Content Column */}
       <div className="pb-12">
         <span className="text-sm font-medium text-zinc-400">{date}</span>
-        <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-50 mt-1">{title}</h3>
-        <p className="text-zinc-600 dark:text-zinc-400 font-medium mb-3">{subtitle}</p>
+        <h3 className="text-xl font-bold text-zinc-900 mt-1">{title}</h3>
+        <p className="text-zinc-600 font-medium mb-3">{subtitle}</p>
         
-        <ul className="list-disc list-outside ml-4 space-y-2 text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-lg marker:text-zinc-300 dark:marker:text-zinc-700">
+        <ul className="list-disc list-outside ml-4 space-y-2 text-zinc-500 leading-relaxed max-w-lg marker:text-zinc-300">
           {points.map((point, index) => (
             <li key={index}>{point}</li>
           ))}
@@ -41,7 +41,7 @@ function TimelineItem({ date, title, subtitle, logoSrc, points, tags, isLast }: 
         {tags && (
           <div className="flex flex-wrap gap-2 mt-4">
             {tags.map((tag) => (
-              <span key={tag} className="text-xs px-2 py-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 rounded-md font-medium border border-zinc-200 dark:border-zinc-700 transition-colors duration-500">
+              <span key={tag} className="text-xs px-2 py-1 bg-zinc-100 text-zinc-500 rounded-md font-medium border border-zinc-200 transition-colors duration-500">
                 {tag}
               </span>
             ))}
@@ -55,7 +55,7 @@ function TimelineItem({ date, title, subtitle, logoSrc, points, tags, isLast }: 
 export default function Timeline() {
   return (
     <section className="w-full max-w-3xl mx-auto px-6 pt-24 pb-8">
-      <h2 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 mb-12">
+      <h2 className="text-3xl font-bold tracking-tight text-zinc-900 mb-12">
         Work Experience
       </h2>
       

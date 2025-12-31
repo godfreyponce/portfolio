@@ -1,4 +1,4 @@
-import { GraduationCap } from "lucide-react";
+import { GraduationCap, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 
 interface EducationItemProps {
@@ -8,6 +8,7 @@ interface EducationItemProps {
   description?: string;
   points?: string[];
   logoSrc: string;
+  link?: string;
 }
 
 function EducationItem({ title, subtitle, date, description, points, logoSrc, link }: EducationItemProps) {

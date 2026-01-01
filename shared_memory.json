@@ -11,12 +11,19 @@
   "domains": {
     "web_dev": {
       "current_project": "Personal Portfolio",
-      "last_action": "Initial project strategy mapping",
-      "notes": "Inspired by lduy.dev and karpathy.ai"
+      "status": "Live/Deployed",
+      "url": "https://godfreyponce.dev",
+      "stack": ["Next.js 16", "Tailwind v4", "Three.js", "TypeScript"],
+      "hosting": {
+        "platform": "AWS Amplify",
+        "dns": "Cloudflare"
+      },
+      "last_action": "Successfully connected custom .dev domain and verified SSL",
+      "notes": "Features animated Loss Convergence graph and interactive project drawers."
     },
     "hardware": {
       "interests": ["monitors", "MacBook setups"],
-      "history": []
+      "history": ["Verified Samsung LC27T55 @ 75Hz", "Identified MSI Optix G24C @ 144Hz"]
     }
   },
   "general_context": {

@@ -23,8 +23,8 @@ export default function Hero() {
           </h1>
         </div>
         
-        <p className="max-w-4xl text-xl md:text-2xl text-zinc-600 font-light leading-relaxed">
-          I like to build agents that think, so we humans can create
+        <p className="max-w-4xl text-lg md:text-2xl text-zinc-600 font-light leading-relaxed">
+          I like to build agents that think, so we can create
         </p>
       </div>
 

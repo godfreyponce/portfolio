@@ -28,11 +28,11 @@ export default function Passions() {
         </div>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6 h-[500px]">
-        {/* Soccer - Large Left Card */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:h-[500px]">
+        {/* Soccer - Large Card */}
         <div 
           id="soccer" 
-          className={`relative group rounded-3xl overflow-hidden bg-zinc-100 md:row-span-2 transition-all duration-500 ${
+          className={`relative group rounded-3xl overflow-hidden bg-zinc-100 h-[300px] md:h-auto md:row-span-2 transition-all duration-500 ${
             highlight ? "animate-shake ring-2 ring-emerald-500/30" : "ring-0"
           }`}
         >
@@ -42,7 +42,7 @@ export default function Passions() {
               <Trophy size={18} />
               <span className="font-bold tracking-wide uppercase text-xs">Soccer</span>
             </div>
-            <h3 className="text-3xl font-bold text-white mb-2">The Beautiful Game</h3>
+            <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">The Beautiful Game</h3>
             <p className="text-zinc-300 text-sm leading-relaxed max-w-md">
               A lifelong athlete, I believe the best results come from disciplined teamwork, bringing in the same energy and translating it over to professional environments.
             </p>
@@ -57,20 +57,20 @@ export default function Passions() {
         </div>
 
         {/* Snowboarding - Top Right */}
-        <div className="relative group rounded-3xl overflow-hidden bg-zinc-100">
+        <div className="relative group rounded-3xl overflow-hidden bg-zinc-100 h-[300px] md:h-auto">
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10" />
           <div className="absolute bottom-0 left-0 p-8 z-20">
             <div className="flex items-center gap-2 text-white/80 mb-2">
               <Mountain size={18} />
               <span className="font-bold tracking-wide uppercase text-xs">Snowboarding</span>
             </div>
-            <h3 className="text-xl font-bold text-white">Carving Lines</h3>
+            <h3 className="text-2xl md:text-xl font-bold text-white">Carving Lines</h3>
           </div>
           <div className="w-full h-full bg-zinc-700 group-hover:scale-105 transition-transform duration-700" />
         </div>
 
         {/* Self-Hosting - Bottom Right */}
-        <div className="relative group rounded-3xl overflow-hidden bg-zinc-950 border border-zinc-800 p-8 flex flex-col justify-between">
+        <div className="relative group rounded-3xl overflow-hidden bg-zinc-950 border border-zinc-800 p-8 flex flex-col justify-between h-[300px] md:h-auto">
           {/* Subtle Grid Background */}
           <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] [background-size:24px_24px]" />
           

@@ -110,7 +110,6 @@ function ProjectCard({ title, description, tags, status, date, link, githubLink,
                     {isExpanded ? <ChevronUp size={14} /> : <ArrowUpRight size={14} />}
                   </span>
                 </button>
-                {date && <span className="text-xs font-bold text-zinc-500 uppercase tracking-tight ml-auto">{date}</span>}
               </div>
               
               {/* Invisible Bridge - Fills the gap between button and drawer */}

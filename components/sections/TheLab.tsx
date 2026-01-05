@@ -70,14 +70,14 @@ function ProjectCard({ title, description, tags, status, date, link, githubLink,
       </div>
 
       {/* Content */}
-      <div className="px-8 py-6 flex flex-col grow justify-between">
+      <div className="px-6 md:px-8 py-6 flex flex-col grow justify-between">
         <div className="flex flex-col">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+            <div className="flex items-center gap-2 md:gap-4">
               {icon && <div className="text-zinc-600 flex-shrink-0 -my-2">{icon}</div>}
-              <h3 className="text-2xl font-bold text-zinc-900">{title}</h3>
+              <h3 className="text-xl md:text-2xl font-bold text-zinc-900 leading-tight">{title}</h3>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 shrink-0">
               <span className={`px-3 py-1 rounded-full text-xs font-medium border ${
                 status === "Live" ? "bg-green-50 text-green-600 border-green-200" :
                 status === "Building" ? "bg-amber-50 text-amber-600 border-amber-200" :

@@ -102,13 +102,15 @@ function ProjectCard({ title, description, tags, status, date, link, githubLink,
             >
               <div className="flex items-center gap-3">
                 <button 
-                  className="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 hover:text-zinc-700 transition-colors group/btn cursor-default"
+                  onClick={() => setIsExpanded(!isExpanded)}
+                  className="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 hover:text-zinc-700 transition-colors group/btn"
                 >
                   View Project 
                   <span className="transition-transform duration-300 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-0.5">
                     {isExpanded ? <ChevronUp size={14} /> : <ArrowUpRight size={14} />}
                   </span>
                 </button>
+                {date && <span className="text-xs font-bold text-zinc-500 uppercase tracking-tight ml-auto">{date}</span>}
               </div>
               
               {/* Invisible Bridge - Fills the gap between button and drawer */}

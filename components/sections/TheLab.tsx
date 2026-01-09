@@ -2,7 +2,7 @@
 
 import { ArrowUpRight, FlaskConical, Github, Play, Server, Radio, QrCode, Timer, Eye, Construction, ChevronDown, ChevronUp } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface ProjectCardProps {
   title: string;
@@ -17,9 +17,10 @@ interface ProjectCardProps {
   className?: string;
   color?: string;
   icon?: React.ReactNode;
+  isSecret?: boolean; // New prop
 }
 
-function ProjectCard({ title, description, tags, status, date, link, githubLink, devpostLink, videoUrl, className = "", color = "bg-zinc-100", icon }: ProjectCardProps) {
+function ProjectCard({ title, description, tags, status, date, link, githubLink, devpostLink, videoUrl, className = "", color = "bg-zinc-100", icon, isSecret }: ProjectCardProps) {
   // Extract YouTube ID if present
   const youtubeId = videoUrl?.includes("youtube.com") 
     ? new URL(videoUrl).searchParams.get("v") 
@@ -29,6 +30,19 @@ function ProjectCard({ title, description, tags, status, date, link, githubLink,
 
   const isUnderConstruction = status === "Building" || status === "Concept";
   const [isExpanded, setIsExpanded] = useState(false);
+  const [displayDescription, setDisplayDescription] = useState(isSecret ? "••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••" : description);
+
+  useEffect(() => {
+    if (isSecret) {
+      // Decode Base64 on client-side only
+      try {
+        const decoded = atob(description);
+        setDisplayDescription(decoded);
+      } catch (e) {
+        console.error("Failed to decode secret description");
+      }
+    }
+  }, [isSecret, description]);
 
   return (
     <div className={`relative group rounded-3xl bg-white border border-zinc-200 hover:border-zinc-300 transition-all duration-500 hover:shadow-xl flex flex-col overflow-hidden ${className}`}>
@@ -89,8 +103,8 @@ function ProjectCard({ title, description, tags, status, date, link, githubLink,
             </div>
           </div>
           
-          <p className="text-zinc-500 leading-relaxed text-base md:text-lg mt-2">
-            {description}
+          <p className={`text-zinc-500 leading-relaxed text-base md:text-lg mt-2 ${isSecret ? "font-mono text-xs opacity-70" : ""}`}>
+            {displayDescription}
           </p>
 
           {/* Expandable Links Section - Hover strictly on the button area */}
@@ -198,9 +212,10 @@ export default function TheLab() {
         {/* Project 3: Quartz */}
         <ProjectCard 
           title="Quartz"
-          description="Inspired by Karpathy's ulogme, I wanted to create a modern, macOS-native version that logs active window usage locally for self-reflection."
+          description="SW5zcGlyZWQgYnkgS2FycGF0aHkncyB1bG9nbWUsIEkgd2FudGVkIHRvIGNyZWF0ZSBhIG1vZGVybiwgbWFjT1MtbmF0aXZlIHZlcnNpb24gdGhhdCBsb2dzIGFjdGl2ZSB3aW5kb3cgdXNhZ2UgbG9jYWxseSBmb3Igc2VsZi1yZWZsZWN0aW9uLg=="
           tags={["Swift", "SQLite", "Local-First"]}
           status="Concept"
+          isSecret={true}
           color="bg-indigo-50"
           icon={<Timer size={20} />}
         />

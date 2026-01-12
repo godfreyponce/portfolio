@@ -13,9 +13,6 @@ import SocialSidebar from "@/components/ui/SocialSidebar";
 export default function Home() {
   return (
     <main className="relative w-full overflow-x-hidden">
-      {/* Fixed Sidebar Socials */}
-      <SocialSidebar />
-
       {/* Hero with Soft Background */}
       <div className="relative">
         <SimpleBackground />

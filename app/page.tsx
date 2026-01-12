@@ -8,10 +8,18 @@ import TheLab from "@/components/sections/TheLab";
 import Passions from "@/components/sections/Passions";
 import Footer from "@/components/sections/Footer";
 import LightSwitch from "@/components/ui/LightSwitch";
+import Navbar from "@/components/ui/Navbar";
+
+import LiquidDock from "@/components/ui/LiquidDock";
 
 export default function Home() {
   return (
     <main className="relative w-full overflow-x-hidden">
+      {/* Liquid Glass Socials
+      <LiquidDock />
+      */}
+
+      {/* Hero with Soft Background */}
       {/* Hero with Soft Background */}
       <div className="relative">
         <SimpleBackground />

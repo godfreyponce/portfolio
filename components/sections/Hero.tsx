@@ -27,13 +27,13 @@ export default function Hero() {
           I like to build agents that think, so we humans can create
         </p>
 
-        {/* Social Footnote */}
-        <div className="flex gap-4 mt-8 text-sm font-medium text-zinc-400">
-          <a href="https://github.com/godfreyponce" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-900 transition-colors">github</a>
-          <span className="opacity-30">/</span>
-          <a href="https://linkedin.com/in/godfreyponce" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-900 transition-colors">linkedin</a>
-          <span className="opacity-30">/</span>
-          <a href="mailto:poncegodfrey@gmail.com" className="hover:text-zinc-900 transition-colors">email</a>
+        {/* Big Social Footnote */}
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-10 text-sm md:text-base font-bold text-zinc-500 tracking-[0.2em] uppercase">
+          <a href="https://github.com/godfreyponce" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-900 transition-all hover:translate-y-[-1px]">Github</a>
+          <span className="opacity-20 font-light">/</span>
+          <a href="https://linkedin.com/in/godfreyponce" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-900 transition-all hover:translate-y-[-1px]">Linkedin</a>
+          <span className="opacity-20 font-light">/</span>
+          <a href="mailto:poncegodfrey@gmail.com" className="hover:text-zinc-900 transition-all hover:translate-y-[-1px]">Email</a>
         </div>
       </div>
 

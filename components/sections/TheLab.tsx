@@ -209,7 +209,7 @@ export default function TheLab() {
           icon={<Radio size={20} />}
         />
 
-        {/* Project 3: Quartz */}
+        {/* Project 3: Quartz - Commented out for now
         <ProjectCard 
           title="Quartz"
           description="" // Empty string to hide it from props
@@ -219,6 +219,7 @@ export default function TheLab() {
           color="bg-indigo-50"
           icon={<Timer size={20} />}
         />
+        */}
 
         {/* Project 4: Juggler Vision */}
         <ProjectCard 

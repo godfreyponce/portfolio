@@ -19,7 +19,7 @@
         "dns": "Cloudflare"
       },
       "last_action": "Successfully connected custom .dev domain and verified SSL",
-      "notes": "Features animated Loss Convergence graph and interactive project drawers."
+      "notes": "Features animated Loss Convergence graph, interactive project drawers, and a Big Social Footnote in the Hero."
     },
     "hardware": {
       "interests": ["monitors", "MacBook setups"],

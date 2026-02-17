@@ -209,7 +209,18 @@ export default function TheLab() {
           icon={<Radio size={20} />}
         />
 
-        {/* Project 3: Quartz - Commented out for now
+        {/* Project 3: Contextual Memory Engine */}
+        <ProjectCard 
+          title="Contextual Memory Engine"
+          description="A high-fidelity RAG pipeline using FAISS and MPNET to synthesize unstructured data into searchable vector indices. Optimized for agentic memory retrieval."
+          tags={["FAISS", "MPNET", "Python", "Vector DB"]}
+          status="Live"
+          color="bg-indigo-50"
+          githubLink="https://github.com/godfreyponce/GDSC-Contextual-Memory"
+          icon={<Server size={20} />}
+        />
+
+        {/* Project 4: Quartz - Commented out for now
         <ProjectCard 
           title="Quartz"
           description="" // Empty string to hide it from props
@@ -221,7 +232,7 @@ export default function TheLab() {
         />
         */}
 
-        {/* Project 4: Juggler Vision */}
+        {/* Project 5: Juggler Vision */}
         <ProjectCard 
           title="Juggler Vision"
           description="I kept losing track on the # of times I juggle the soccer ball, so I'm going to build an agent that tracks my juggling metrics."

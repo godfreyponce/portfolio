@@ -61,7 +61,7 @@ export default function Timeline() {
       
       <div className="flex flex-col">
         <TimelineItem 
-          date="November 2025 - Present"
+          date="November 2025 - January 2026"
           title="AI Data Researcher - Contract"
           subtitle="Handshake AI"
           logoSrc="/team_handshake_logo.jpeg"

@@ -3,7 +3,7 @@ import SocialLink from "@/components/ui/SocialLink";
 
 export default function Hero() {
   return (
-    <section className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center justify-center gap-12 px-6 py-32 md:flex-row md:py-48">
+    <section className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center justify-center gap-12 px-6 pt-24 pb-8 md:flex-row md:pt-32 md:pb-12">
       <div className="relative h-48 w-48 shrink-0 overflow-hidden rounded-full border-4 border-surface-raised shadow-lift md:h-64 md:w-64">
         <Image
           src="/godfrey_headShot.JPG"

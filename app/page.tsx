@@ -7,33 +7,20 @@ import Education from "@/components/sections/Education";
 import TheLab from "@/components/sections/TheLab";
 import Passions from "@/components/sections/Passions";
 import Footer from "@/components/sections/Footer";
-import LightSwitch from "@/components/ui/LightSwitch";
 
 export default function Home() {
   return (
     <main className="relative w-full overflow-x-hidden">
-      {/* Hero with Soft Background */}
       <div className="relative">
         <SimpleBackground />
         <Hero />
       </div>
-      
-      {/* Main Content */}
-      <div className="relative z-10 bg-white/50 backdrop-blur-3xl">
+
+      <div className="relative z-10">
         <About />
         <Timeline />
-        
-        {/* Education & Switch row */}
-        <div className="relative w-full">
-          <Education />
-          {/* <div className="absolute right-6 md:right-12 top-1/2 -translate-y-1/2 shrink-0">
-            <LightSwitch />
-          </div> */}
-        </div>
-
-        {/* Convergence Graph as a Connector between Foundation and Output */}
+        <Education />
         <LossGraph />
-
         <TheLab />
         <Passions />
         <Footer />
@@ -41,3 +28,4 @@ export default function Home() {
     </main>
   );
 }
+

@@ -1,35 +1,73 @@
 @import "tailwindcss";
 
+/*
+ * Design tokens — Godfrey Ponce portfolio
+ *
+ * Spacing scale: 4px base. Allowed steps: 1 (4px), 2 (8px), 3 (12px), 4 (16px),
+ * 6 (24px), 8 (32px), 10 (40px), 12 (48px), 16 (64px), 20 (80px), 24 (96px),
+ * 32 (128px). Do not introduce arbitrary values like p-[13px] or gap-7 —
+ * extend the scale here first if a new step is truly needed.
+ *
+ * Type pairing: Fraunces (display serif, opsz + wght) for h1/h2 section
+ * headings. Geist Sans for everything else. Both loaded via next/font in
+ * app/layout.tsx and exposed here as --font-display and --font-sans.
+ *
+ * Color: semantic tokens — ink (text), rule (borders), surface (backgrounds),
+ * accent (a single burnt-orange used sparingly for emphasis). Never hardcode
+ * zinc/stone/arbitrary hex in components; always reference a token.
+ *
+ * Radius: sm (4), md (8), lg (16), xl (24), full (pill/circle). No other
+ * values.
+ */
+
 @theme {
-  --color-zinc-50: #fafafa;
-  --color-zinc-900: #18181b;
+  /* ---- Colors ---- */
+  --color-ink: #1c1917;              /* primary text */
+  --color-ink-muted: #44403c;        /* secondary text */
+  --color-ink-subtle: #78716c;       /* tertiary text, captions */
+  --color-ink-faint: #a8a29e;        /* placeholder, meta */
+  --color-rule: #e7e5e4;             /* borders, dividers */
+  --color-rule-soft: #f5f5f4;        /* very subtle fills */
+  --color-surface: #fafaf9;          /* page background (warm off-white) */
+  --color-surface-raised: #ffffff;   /* cards, elevated */
+  --color-surface-sunken: #f5f5f4;   /* inset regions */
+  --color-surface-inverse: #1c1917;  /* dark sections, footer */
+  --color-accent: #c2410c;           /* burnt orange — UTD nod, used sparingly */
+  --color-accent-soft: #fff7ed;      /* accent tint for selection / hover */
+
+  /* ---- Fonts (variables set by next/font in layout.tsx) ---- */
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+
+  /* ---- Radius ---- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  /* ---- Shadow ---- */
+  --shadow-soft: 0 1px 2px rgba(28, 25, 23, 0.04), 0 2px 8px rgba(28, 25, 23, 0.04);
+  --shadow-lift: 0 2px 4px rgba(28, 25, 23, 0.06), 0 12px 32px rgba(28, 25, 23, 0.08);
 }
 
 :root {
-  --background: #fafafa;
-  --foreground: #18181b;
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  @apply antialiased;
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-@utility perspective-1000 {
-  perspective: 1000px;
-}
-
-@utility rotateX-60 {
-  transform: rotateX(60deg);
-}
-
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px) rotate(-1deg); }
-  75% { transform: translateX(5px) rotate(1deg); }
-}
-
-.animate-shake {
-  animation: shake 0.4s ease-in-out infinite;
+::selection {
+  background: var(--color-accent-soft);
+  color: var(--color-ink);
 }

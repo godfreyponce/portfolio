@@ -1,11 +1,8 @@
 export default function SimpleBackground() {
   return (
-    <div className="absolute top-0 left-0 w-full h-full -z-10 overflow-hidden pointer-events-none">
-      {/* Soft Orange Glow (Top Left) */}
-      <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] bg-orange-100/40 rounded-full blur-[120px]" />
-      
-      {/* Soft Blue/Grey Glow (Bottom Right) */}
-      <div className="absolute top-[40%] -right-[10%] w-[40%] h-[40%] bg-zinc-200/40 rounded-full blur-[100px]" />
+    <div className="pointer-events-none absolute left-0 top-0 -z-10 h-full w-full overflow-hidden">
+      <div className="absolute -left-[10%] -top-[20%] h-[50%] w-[50%] rounded-full bg-accent-soft/60 blur-[120px]" />
+      <div className="absolute -right-[10%] top-[40%] h-[40%] w-[40%] rounded-full bg-rule/40 blur-[100px]" />
     </div>
   );
 }

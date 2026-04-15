@@ -75,7 +75,7 @@ export default function LossGraph() {
       ctx.clearRect(0, 0, width, height);
       
       ctx.beginPath();
-      ctx.strokeStyle = "rgba(24, 24, 27, 0.6)"; 
+      ctx.strokeStyle = "rgba(28, 25, 23, 0.6)";
       ctx.lineWidth = 2;
 
       const baseline = height * 0.7; 

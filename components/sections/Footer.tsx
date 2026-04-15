@@ -1,28 +1,25 @@
 import { Github, Linkedin, Mail } from "lucide-react";
+import SocialLink from "@/components/ui/SocialLink";
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-zinc-900 text-white py-12 mt-12">
-      <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
-        
-        <div>
-          <h2 className="text-2xl font-bold">Godfrey Ponce</h2>
-        </div>
+    <footer className="mt-12 w-full bg-surface-inverse py-12 text-white">
+      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-6 md:flex-row">
+        <h2 className="font-display text-2xl font-medium">Godfrey Ponce</h2>
 
-        <div className="flex gap-6">
-          <a href="https://github.com/godfreyponce" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-300 transition-colors">
+        <div className="flex gap-6 text-white/60">
+          <SocialLink href="https://github.com/godfreyponce" className="hover:!text-white">
             <Github size={24} />
-          </a>
-          <a href="https://linkedin.com/in/godfreyponce" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-300 transition-colors">
+          </SocialLink>
+          <SocialLink href="https://linkedin.com/in/godfreyponce" className="hover:!text-white">
             <Linkedin size={24} />
-          </a>
-          <a href="mailto:poncegodfrey@gmail.com" className="hover:text-zinc-300 transition-colors">
+          </SocialLink>
+          <SocialLink href="mailto:poncegodfrey@gmail.com" className="hover:!text-white">
             <Mail size={24} />
-          </a>
+          </SocialLink>
         </div>
-
       </div>
-      <div className="max-w-6xl mx-auto px-6 mt-12 pt-8 border-t border-zinc-800 text-center md:text-left text-zinc-500 text-sm">
+      <div className="mx-auto mt-12 max-w-6xl border-t border-white/10 px-6 pt-8 text-center text-sm text-white/50 md:text-left">
         © {new Date().getFullYear()} Godfrey Ponce. All rights reserved.
       </div>
     </footer>

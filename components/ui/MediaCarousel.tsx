@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, ImageIcon } from "lucide-react";
+import { ImageIcon } from "lucide-react";
+import CarouselArrow from "@/components/ui/CarouselArrow";
 
 export interface MediaItem {
   type: "image" | "youtube";
@@ -26,14 +27,14 @@ export default function MediaCarousel({ items, title }: MediaCarouselProps) {
   };
 
   const item = items[current];
+  const hasMultiple = items.length > 1;
 
   return (
-    <div className="relative w-full h-full group/carousel">
-      {/* Current Slide */}
-      <div className="w-full h-full relative">
+    <div className="group/carousel relative h-full w-full">
+      <div className="relative h-full w-full">
         {item.type === "youtube" && item.videoId ? (
           <iframe
-            className="w-full h-full border-0"
+            className="h-full w-full border-0"
             src={`https://www.youtube.com/embed/${item.videoId}?autoplay=0&mute=1&controls=1&loop=1&playlist=${item.videoId}`}
             title={title}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -48,7 +49,7 @@ export default function MediaCarousel({ items, title }: MediaCarouselProps) {
             sizes="(max-width: 768px) 100vw, 672px"
           />
         ) : (
-          <div className="w-full h-full flex flex-col items-center justify-center gap-2 text-zinc-300">
+          <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-ink-faint">
             <ImageIcon size={36} strokeWidth={1.5} />
             <span className="text-xs font-mono uppercase tracking-widest opacity-60">
               {item.alt || "Drop image here"}
@@ -57,42 +58,24 @@ export default function MediaCarousel({ items, title }: MediaCarouselProps) {
         )}
       </div>
 
-      {/* Navigation Arrows */}
-      {items.length > 1 && (
+      {hasMultiple && (
         <>
-          <button
-            onClick={() => goTo(current - 1)}
-            className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm border border-zinc-200 flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300 hover:bg-white hover:scale-110"
-            aria-label="Previous slide"
-          >
-            <ChevronLeft size={16} className="text-zinc-700" />
-          </button>
-          <button
-            onClick={() => goTo(current + 1)}
-            className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm border border-zinc-200 flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300 hover:bg-white hover:scale-110"
-            aria-label="Next slide"
-          >
-            <ChevronRight size={16} className="text-zinc-700" />
-          </button>
-        </>
-      )}
+          <CarouselArrow direction="prev" onClick={() => goTo(current - 1)} />
+          <CarouselArrow direction="next" onClick={() => goTo(current + 1)} />
 
-      {/* Dot Indicators */}
-      {items.length > 1 && (
-        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex items-center gap-1.5">
-          {items.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => goTo(i)}
-              className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
-                i === current
-                  ? "bg-zinc-800 w-4"
-                  : "bg-zinc-400/60 hover:bg-zinc-500"
-              }`}
-              aria-label={`Go to slide ${i + 1}`}
-            />
-          ))}
-        </div>
+          <div className="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1.5">
+            {items.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => goTo(i)}
+                aria-label={`Go to slide ${i + 1}`}
+                className={`h-1.5 rounded-full transition-all duration-200 ${
+                  i === current ? "w-4 bg-ink" : "w-1.5 bg-ink-faint hover:bg-ink-subtle"
+                }`}
+              />
+            ))}
+          </div>
+        </>
       )}
     </div>
   );

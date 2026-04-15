@@ -1,11 +1,10 @@
 import Image from "next/image";
+import SocialLink from "@/components/ui/SocialLink";
 
 export default function Hero() {
   return (
-    <section className="relative z-10 flex flex-col md:flex-row items-center justify-center w-full max-w-5xl mx-auto px-6 gap-12 py-32 md:py-48">
-      
-      {/* Left: Profile Picture */}
-      <div className="relative w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden border-4 border-white/20 shadow-2xl shrink-0">
+    <section className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center justify-center gap-12 px-6 py-32 md:flex-row md:py-48">
+      <div className="relative h-48 w-48 shrink-0 overflow-hidden rounded-full border-4 border-white/20 shadow-lift md:h-64 md:w-64">
         <Image
           src="/godfrey_headShot.JPG"
           alt="Godfrey Ponce"
@@ -16,28 +15,23 @@ export default function Hero() {
         />
       </div>
 
-      {/* Right: Text Content */}
-      <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-6">
-        <div className="space-y-2">
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-zinc-900">
-            Godfrey Ponce
-          </h1>
-        </div>
-        
-        <p className="max-w-4xl text-lg md:text-2xl text-zinc-600 font-light leading-relaxed">
+      <div className="flex flex-col items-center space-y-6 text-center md:items-start md:text-left">
+        <h1 className="font-display text-5xl font-medium tracking-tight text-ink md:text-7xl">
+          Godfrey Ponce
+        </h1>
+
+        <p className="max-w-4xl text-lg font-light leading-relaxed text-ink-muted md:text-2xl">
           I like to build agents that think, so we humans can create
         </p>
 
-        {/* Big Social Footnote */}
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-10 text-sm md:text-base font-bold text-zinc-500 tracking-[0.2em] uppercase">
-          <a href="https://github.com/godfreyponce" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-900 transition-all hover:translate-y-[-1px]">Github</a>
-          <span className="opacity-20 font-light">/</span>
-          <a href="https://linkedin.com/in/godfreyponce" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-900 transition-all hover:translate-y-[-1px]">Linkedin</a>
-          <span className="opacity-20 font-light">/</span>
-          <a href="mailto:poncegodfrey@gmail.com" className="hover:text-zinc-900 transition-all hover:translate-y-[-1px]">Email</a>
+        <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-semibold uppercase tracking-[0.2em] text-ink-subtle md:text-base">
+          <SocialLink href="https://github.com/godfreyponce">Github</SocialLink>
+          <span className="font-light text-ink-faint/40">/</span>
+          <SocialLink href="https://linkedin.com/in/godfreyponce">Linkedin</SocialLink>
+          <span className="font-light text-ink-faint/40">/</span>
+          <SocialLink href="mailto:poncegodfrey@gmail.com">Email</SocialLink>
         </div>
       </div>
-
     </section>
   );
 }

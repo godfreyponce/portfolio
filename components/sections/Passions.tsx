@@ -1,6 +1,6 @@
 "use client";
 
-import { Heart, Mountain, Trophy, Play, Server, Terminal } from "lucide-react";
+import { Heart, Mountain, Server, Terminal, Trophy } from "lucide-react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
@@ -12,87 +12,82 @@ export default function Passions() {
       setHighlight(true);
       setTimeout(() => setHighlight(false), 2000);
     };
-    window.addEventListener('highlight-soccer', handleHighlight);
-    return () => window.removeEventListener('highlight-soccer', handleHighlight);
+    window.addEventListener("highlight-soccer", handleHighlight);
+    return () => window.removeEventListener("highlight-soccer", handleHighlight);
   }, []);
 
   return (
-    <section className="w-full max-w-6xl mx-auto px-6 py-24 space-y-12">
+    <section className="mx-auto w-full max-w-6xl space-y-12 px-6 py-24">
       <div className="flex items-center gap-4">
-        <div className="p-3 bg-red-50 text-red-500 rounded-xl">
+        <div className="rounded-md bg-accent-soft p-3 text-accent">
           <Heart size={24} />
         </div>
         <div>
-          <h2 className="text-3xl font-bold text-zinc-900">Passions</h2>
-          <p className="text-zinc-500">Beyond my Mac</p>
+          <h2 className="font-display text-3xl font-medium text-ink">Passions</h2>
+          <p className="text-ink-subtle">Beyond my Mac</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:h-[500px]">
-        {/* Soccer - Large Card */}
-        <div 
-          id="soccer" 
-          className={`relative group rounded-3xl overflow-hidden bg-zinc-100 h-[300px] md:h-auto md:row-span-2 transition-all duration-500 ${
-            highlight ? "animate-shake ring-2 ring-emerald-500/30" : "ring-0"
+      <div className="grid grid-cols-1 gap-6 md:h-[500px] md:grid-cols-2">
+        <div
+          id="soccer"
+          className={`group relative h-[300px] overflow-hidden rounded-xl bg-rule-soft transition-shadow duration-500 md:row-span-2 md:h-auto ${
+            highlight ? "ring-2 ring-accent/40" : "ring-0"
           }`}
         >
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10" />
-          <div className="absolute bottom-0 left-0 p-8 z-20">
-            <div className="flex items-center gap-2 text-white/80 mb-2">
+          <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+          <div className="absolute bottom-0 left-0 z-20 p-8">
+            <div className="mb-2 flex items-center gap-2 text-white/80">
               <Trophy size={18} />
-              <span className="font-bold tracking-wide uppercase text-xs">Soccer</span>
+              <span className="text-xs font-semibold uppercase tracking-wider">Soccer</span>
             </div>
-            <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">The Beautiful Game</h3>
-            <p className="text-zinc-300 text-sm leading-relaxed max-w-md">
+            <h3 className="mb-2 font-display text-2xl font-medium text-white md:text-3xl">The Beautiful Game</h3>
+            <p className="max-w-md text-sm leading-relaxed text-white/80">
               A lifelong athlete, I believe the best results come from disciplined teamwork, bringing in the same energy and translating it over to professional environments.
             </p>
           </div>
-          {/* Soccer Photo */}
           <Image
             src="/godfrey_soccerShot.jpg"
             alt="Godfrey playing soccer"
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-cover group-hover:scale-105 transition-transform duration-700"
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
           />
         </div>
 
-        {/* Snowboarding - Top Right */}
-        <div className="relative group rounded-3xl overflow-hidden bg-zinc-100 h-[300px] md:h-auto">
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10" />
-          <div className="absolute bottom-0 left-0 p-8 z-20">
-            <div className="flex items-center gap-2 text-white/80 mb-2">
+        <div className="group relative h-[300px] overflow-hidden rounded-xl bg-rule-soft md:h-auto">
+          <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/70 to-transparent" />
+          <div className="absolute bottom-0 left-0 z-20 p-8">
+            <div className="mb-2 flex items-center gap-2 text-white/80">
               <Mountain size={18} />
-              <span className="font-bold tracking-wide uppercase text-xs">Snowboarding</span>
+              <span className="text-xs font-semibold uppercase tracking-wider">Snowboarding</span>
             </div>
-            <h3 className="text-2xl md:text-xl font-bold text-white">Carving Lines</h3>
+            <h3 className="font-display text-2xl font-medium text-white md:text-xl">Carving Lines</h3>
           </div>
-          <div className="w-full h-full bg-zinc-700 group-hover:scale-105 transition-transform duration-700" />
+          <div className="h-full w-full bg-ink-muted transition-transform duration-700 group-hover:scale-105" />
         </div>
 
-        {/* Self-Hosting - Bottom Right */}
-        <div className="relative group rounded-3xl overflow-hidden bg-zinc-950 border border-zinc-800 p-8 flex flex-col justify-between h-[300px] md:h-auto">
-          {/* Subtle Grid Background */}
-          <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] [background-size:24px_24px]" />
-          
+        <div className="group relative flex h-[300px] flex-col justify-between overflow-hidden rounded-xl border border-white/10 bg-surface-inverse p-8 md:h-auto">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] opacity-20 [background-size:24px_24px]" />
+
           <div className="relative z-10">
-            <div className="flex items-center gap-3 mb-4 text-emerald-400">
+            <div className="mb-4 flex items-center gap-3 text-emerald-400">
               <Server size={24} />
-              <span className="text-xs font-mono bg-emerald-400/10 px-2 py-1 rounded">SYSTEM_ONLINE</span>
+              <span className="rounded-sm bg-emerald-400/10 px-2 py-1 font-mono text-xs">SYSTEM_ONLINE</span>
             </div>
-            <h3 className="text-2xl font-bold text-white">Home Lab</h3>
-            <p className="text-zinc-400 mt-2 text-sm leading-relaxed">
+            <h3 className="font-display text-2xl font-medium text-white">Home Lab</h3>
+            <p className="mt-2 text-sm leading-relaxed text-white/60">
               I self host my own infrastructure to avoid paying for subscriptions and to keep my data secure/private.
             </p>
           </div>
-          
-          <div className="relative z-10 flex gap-3 mt-4">
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-zinc-900 border border-zinc-800 rounded-lg text-xs text-zinc-400 font-mono">
+
+          <div className="relative z-10 mt-4 flex gap-3">
+            <div className="flex items-center gap-2 rounded-sm border border-white/10 bg-ink px-3 py-1.5 font-mono text-xs text-white/60">
               <Terminal size={12} />
               <span>~/docker</span>
             </div>
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-zinc-900 border border-zinc-800 rounded-lg text-xs text-zinc-400 font-mono">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+            <div className="flex items-center gap-2 rounded-sm border border-white/10 bg-ink px-3 py-1.5 font-mono text-xs text-white/60">
+              <div className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
               <span>n8n active</span>
             </div>
           </div>

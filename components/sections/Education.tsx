@@ -1,5 +1,6 @@
-import { GraduationCap, ArrowUpRight } from "lucide-react";
-import Image from "next/image";
+import { ArrowUpRight } from "lucide-react";
+import Section from "@/components/ui/Section";
+import Avatar from "@/components/ui/Avatar";
 
 interface EducationItemProps {
   title: string;
@@ -13,35 +14,27 @@ interface EducationItemProps {
 
 function EducationItem({ title, subtitle, date, description, points, logoSrc, link }: EducationItemProps) {
   return (
-    <div className="group relative flex items-start gap-4 p-4 rounded-2xl hover:bg-zinc-100 transition-colors duration-500">
-      <div className="w-12 h-12 rounded-full bg-white border border-zinc-200 flex items-center justify-center overflow-hidden z-10 shrink-0 relative transition-colors duration-500">
-        <Image
-          src={logoSrc}
-          alt={`${subtitle} logo`}
-          fill
-          sizes="48px"
-          className={subtitle.includes("GDSC") ? "object-contain p-2" : "object-cover"}
-        />
-      </div>
+    <div className="group relative flex items-start gap-4 rounded-md p-4 transition-colors hover:bg-rule-soft">
+      <Avatar src={logoSrc} alt={`${subtitle} logo`} variant={subtitle.includes("GDSC") ? "contain" : "cover"} />
       <div className="flex-1">
-        <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1">
+        <div className="flex flex-col gap-1 md:flex-row md:items-baseline md:justify-between">
           <div className="flex items-center gap-2">
-            <h3 className="text-lg font-bold text-zinc-900">{title}</h3>
+            <h3 className="text-lg font-semibold text-ink">{title}</h3>
             {link && (
-              <a href={link} target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-zinc-900 transition-colors">
+              <a href={link} target="_blank" rel="noopener noreferrer" className="text-ink-faint transition-colors hover:text-ink">
                 <ArrowUpRight size={16} />
               </a>
             )}
           </div>
-          <span className="text-xs font-medium text-zinc-400 uppercase tracking-wider whitespace-nowrap">{date}</span>
+          <span className="whitespace-nowrap text-xs font-medium uppercase tracking-wider text-ink-faint">{date}</span>
         </div>
-        <p className="text-zinc-600 font-medium text-sm">{subtitle}</p>
-        {description && <p className="text-zinc-500 text-sm mt-2 leading-relaxed">{description}</p>}
+        <p className="text-sm font-medium text-ink-muted">{subtitle}</p>
+        {description && <p className="mt-2 text-sm leading-relaxed text-ink-subtle">{description}</p>}
         {points && (
           <ul className="mt-3 space-y-2">
             {points.map((point, index) => (
-              <li key={index} className="text-zinc-500 text-sm leading-relaxed flex gap-2">
-                <span className="text-zinc-300">•</span>
+              <li key={index} className="flex gap-2 text-sm leading-relaxed text-ink-subtle">
+                <span className="text-ink-faint">•</span>
                 {point}
               </li>
             ))}
@@ -54,12 +47,12 @@ function EducationItem({ title, subtitle, date, description, points, logoSrc, li
 
 export default function Education() {
   return (
-    <section className="w-full max-w-3xl mx-auto px-6 py-8">
-      <h2 className="text-3xl font-bold tracking-tight text-zinc-900 mb-8">
+    <Section className="py-8">
+      <h2 className="mb-8 font-display text-3xl font-medium tracking-tight text-ink">
         Education
       </h2>
       <div className="space-y-4">
-        <EducationItem 
+        <EducationItem
           title="BS in Computer Science"
           subtitle="The University of Texas at Dallas"
           date="Fall 2024 - Winter 2027"
@@ -67,6 +60,6 @@ export default function Education() {
           logoSrc="/utd_logo.jpeg"
         />
       </div>
-    </section>
+    </Section>
   );
 }

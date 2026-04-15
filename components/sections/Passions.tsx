@@ -48,10 +48,11 @@ export default function Passions() {
             </p>
           </div>
           {/* Soccer Photo */}
-          <Image 
+          <Image
             src="/godfrey_soccerShot.jpg"
             alt="Godfrey playing soccer"
             fill
+            sizes="(max-width: 768px) 100vw, 50vw"
             className="object-cover group-hover:scale-105 transition-transform duration-700"
           />
         </div>

@@ -15,10 +15,11 @@ function EducationItem({ title, subtitle, date, description, points, logoSrc, li
   return (
     <div className="group relative flex items-start gap-4 p-4 rounded-2xl hover:bg-zinc-100 transition-colors duration-500">
       <div className="w-12 h-12 rounded-full bg-white border border-zinc-200 flex items-center justify-center overflow-hidden z-10 shrink-0 relative transition-colors duration-500">
-        <Image 
-          src={logoSrc} 
-          alt={`${subtitle} logo`} 
-          fill 
+        <Image
+          src={logoSrc}
+          alt={`${subtitle} logo`}
+          fill
+          sizes="48px"
           className={subtitle.includes("GDSC") ? "object-contain p-2" : "object-cover"}
         />
       </div>

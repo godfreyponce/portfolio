@@ -16,10 +16,11 @@ function TimelineItem({ date, title, subtitle, logoSrc, points, tags, isLast }: 
       {/* Icon & Line Column */}
       <div className="flex flex-col items-center">
         <div className="w-12 h-12 rounded-full bg-white border border-zinc-200 flex items-center justify-center overflow-hidden z-10 shrink-0 relative transition-colors duration-500">
-          <Image 
-            src={logoSrc} 
-            alt={`${subtitle} logo`} 
-            fill 
+          <Image
+            src={logoSrc}
+            alt={`${subtitle} logo`}
+            fill
+            sizes="48px"
             className="object-cover"
           />
         </div>

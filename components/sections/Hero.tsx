@@ -6,10 +6,11 @@ export default function Hero() {
       
       {/* Left: Profile Picture */}
       <div className="relative w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden border-4 border-white/20 shadow-2xl shrink-0">
-        <Image 
-          src="/godfrey_headShot.JPG" 
+        <Image
+          src="/godfrey_headShot.JPG"
           alt="Godfrey Ponce"
           fill
+          sizes="(max-width: 768px) 192px, 256px"
           className="object-cover"
           priority
         />

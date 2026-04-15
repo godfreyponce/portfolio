@@ -1,4 +1,5 @@
 import Section from "@/components/ui/Section";
+import Reveal from "@/components/ui/Reveal";
 import Avatar from "@/components/ui/Avatar";
 import Badge from "@/components/ui/Badge";
 
@@ -10,11 +11,12 @@ interface TimelineItemProps {
   points: string[];
   tags?: string[];
   isLast?: boolean;
+  delay?: number;
 }
 
-function TimelineItem({ date, title, subtitle, logoSrc, points, tags, isLast }: TimelineItemProps) {
+function TimelineItem({ date, title, subtitle, logoSrc, points, tags, isLast, delay = 0 }: TimelineItemProps) {
   return (
-    <div className="relative flex gap-4">
+    <Reveal delay={delay} className="relative flex gap-4">
       <div className="flex flex-col items-center">
         <Avatar src={logoSrc} alt={`${subtitle} logo`} />
         {!isLast && <div className="mb-2 mt-2 w-px grow bg-rule" />}
@@ -39,16 +41,18 @@ function TimelineItem({ date, title, subtitle, logoSrc, points, tags, isLast }: 
           </div>
         )}
       </div>
-    </div>
+    </Reveal>
   );
 }
 
 export default function Timeline() {
   return (
     <Section className="pb-8 pt-24">
-      <h2 className="mb-12 font-display text-3xl font-medium tracking-tight text-ink">
-        Work Experience
-      </h2>
+      <Reveal>
+        <h2 className="mb-12 font-display text-3xl font-medium tracking-tight text-ink md:text-4xl">
+          Work Experience
+        </h2>
+      </Reveal>
 
       <div className="flex flex-col">
         <TimelineItem

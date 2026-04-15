@@ -1,5 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
 import Section from "@/components/ui/Section";
+import Reveal from "@/components/ui/Reveal";
 import Avatar from "@/components/ui/Avatar";
 
 interface EducationItemProps {
@@ -48,10 +49,12 @@ function EducationItem({ title, subtitle, date, description, points, logoSrc, li
 export default function Education() {
   return (
     <Section className="py-8">
-      <h2 className="mb-8 font-display text-3xl font-medium tracking-tight text-ink">
-        Education
-      </h2>
-      <div className="space-y-4">
+      <Reveal>
+        <h2 className="mb-8 font-display text-3xl font-medium tracking-tight text-ink md:text-4xl">
+          Education
+        </h2>
+      </Reveal>
+      <Reveal delay={0.05} className="space-y-4">
         <EducationItem
           title="BS in Computer Science"
           subtitle="The University of Texas at Dallas"
@@ -59,7 +62,7 @@ export default function Education() {
           description="Minor in Cognitive Science"
           logoSrc="/utd_logo.jpeg"
         />
-      </div>
+      </Reveal>
     </Section>
   );
 }

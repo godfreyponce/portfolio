@@ -1,6 +1,7 @@
 "use client";
 
 import Section from "@/components/ui/Section";
+import Reveal from "@/components/ui/Reveal";
 
 export default function About() {
   return (
@@ -8,8 +9,10 @@ export default function About() {
       <div className="mb-8 h-px w-full bg-gradient-to-r from-transparent via-ink/75 to-transparent" />
 
       <Section className="mt-8">
-        <h2 className="text-left font-display text-2xl font-medium tracking-tight text-ink md:text-3xl">Bio</h2>
-        <div className="mt-6 space-y-6 text-left text-base leading-relaxed text-ink-muted md:text-lg">
+        <Reveal>
+          <h2 className="text-left font-display text-2xl font-medium tracking-tight text-ink md:text-3xl">Bio</h2>
+        </Reveal>
+        <Reveal delay={0.05} className="mt-6 space-y-6 text-left text-base leading-relaxed text-ink-muted md:text-lg">
           <p>
             Hey! I&apos;m a Sophmore Computer Scientist major at{" "}
             <span className="group relative inline-block cursor-help font-medium text-ink underline decoration-rule transition-colors duration-200 hover:text-accent hover:decoration-accent">
@@ -38,7 +41,7 @@ export default function About() {
             </button>
             , traits that I translate well over to professional environments.
           </p>
-        </div>
+        </Reveal>
       </Section>
     </section>
   );

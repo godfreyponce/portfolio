@@ -20,7 +20,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="mx-auto mt-12 max-w-6xl border-t border-white/10 px-6 pt-8 text-center text-sm text-white/50 md:text-left">
-        © {new Date().getFullYear()} Godfrey Ponce. All rights reserved.
+        © Godfrey Ponce.
       </div>
     </footer>
   );

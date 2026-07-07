@@ -82,13 +82,4 @@ export const projects: Project[] = [
     color: "bg-orange-50",
     iconSrc: "/tech_assist.png",
   },
-  {
-    title: "Signal",
-    description:
-      "An autonomous AI agent that scouts market trends by scraping, analyzing, and synthesizing competitor data into actionable moodboards.",
-    tags: ["n8n", "Gemini 2.5", "Docker", "Python"],
-    status: "building",
-    color: "bg-blue-50",
-    iconLucide: "radio",
-  },
 ];

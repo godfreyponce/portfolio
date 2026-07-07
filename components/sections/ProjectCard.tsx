@@ -38,6 +38,21 @@ const statusLabel = {
   project: "Project",
 } as const;
 
+// Brand marks in public/tech (FAISS uses the Meta mark; Nebula API and Plaid are hand-drawn stand-ins)
+const techIcons: Record<string, string> = {
+  Gemini: "/tech/gemini.svg",
+  ElevenLabs: "/tech/elevenlabs.svg",
+  "Nebula API": "/tech/nebula.svg",
+  FAISS: "/tech/meta.svg",
+  HuggingFace: "/tech/huggingface.svg",
+  LangChain: "/tech/langchain.svg",
+  Plaid: "/tech/plaid.svg",
+  Twilio: "/tech/twilio.svg",
+  Auth0: "/tech/auth0.svg",
+  SwiftUI: "/tech/swift.svg",
+  Figma: "/tech/figma.svg",
+};
+
 export default function ProjectCard({
   project,
   featured = false,
@@ -171,7 +186,12 @@ export default function ProjectCard({
                   <div className="flex flex-wrap items-center justify-between gap-2 border-b border-rule pb-2">
                     <div className="flex flex-wrap gap-2">
                       {tags.map((tag) => (
-                        <Badge key={tag}>{tag}</Badge>
+                        <Badge key={tag} className="gap-1.5">
+                          {techIcons[tag] && (
+                            <Image src={techIcons[tag]} alt="" width={13} height={13} unoptimized className="opacity-75" />
+                          )}
+                          {tag}
+                        </Badge>
                       ))}
                     </div>
                     {date && <span className="ml-auto text-xs font-medium uppercase tracking-wider text-ink-subtle">{date}</span>}

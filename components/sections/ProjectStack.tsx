@@ -6,8 +6,36 @@ import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } f
 import ProjectCard from "@/components/sections/ProjectCard";
 import Reveal from "@/components/ui/Reveal";
 import type { Project } from "@/lib/projects";
+import type { Contributions, ContributionDay } from "@/lib/github";
 
-function GitHubTile({ stacked = false }: { stacked?: boolean }) {
+// GitHub's dark-mode contribution scale; level 0 is a faint cell on the dark card
+const HEAT_COLORS = ["rgba(255,255,255,0.06)", "#0e4429", "#006d32", "#26a641", "#39d353"];
+
+function Heatmap({ days }: { days: ContributionDay[] }) {
+  const firstDow = new Date(days[0].date + "T00:00:00Z").getUTCDay();
+  const rows: (ContributionDay | null)[][] = Array.from({ length: 7 }, () => []);
+  for (let i = 0; i < firstDow; i++) rows[i].push(null);
+  days.forEach((d, i) => rows[(firstDow + i) % 7].push(d));
+
+  return (
+    <div className="relative z-10 mt-4 flex flex-col gap-[3px]" aria-hidden>
+      {rows.map((row, r) => (
+        <div key={r} className="flex gap-[3px]">
+          {row.map((d, c) => (
+            <div
+              key={c}
+              className="h-[9px] w-[9px] rounded-[2px]"
+              style={{ backgroundColor: d ? HEAT_COLORS[d.level] : "transparent" }}
+              title={d ? `${d.date} — ${d.count} contribution${d.count === 1 ? "" : "s"}` : undefined}
+            />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function GitHubTile({ stacked = false, contributions }: { stacked?: boolean; contributions?: Contributions | null }) {
   return (
     <a
       href="https://github.com/godfreyponce"
@@ -23,6 +51,12 @@ function GitHubTile({ stacked = false }: { stacked?: boolean }) {
         <h3 className="font-display text-xl font-medium">View more on GitHub</h3>
         <p className="mt-2 text-ink-faint">Explore my repositories and contributions</p>
       </div>
+      {stacked && contributions && (
+        <>
+          <Heatmap days={contributions.days} />
+          <span className="sr-only">{contributions.total} contributions on GitHub in the last year</span>
+        </>
+      )}
     </a>
   );
 }
@@ -55,7 +89,13 @@ function StackedCard({
   );
 }
 
-export default function ProjectStack({ projects }: { projects: Project[] }) {
+export default function ProjectStack({
+  projects,
+  contributions,
+}: {
+  projects: Project[];
+  contributions?: Contributions | null;
+}) {
   const reduced = useReducedMotion();
   const [isMd, setIsMd] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -106,7 +146,7 @@ export default function ProjectStack({ projects }: { projects: Project[] }) {
       ))}
 
       <StackedCard index={projects.length} total={total} progress={scrollYProgress}>
-        <GitHubTile stacked />
+        <GitHubTile stacked contributions={contributions} />
       </StackedCard>
     </div>
   );

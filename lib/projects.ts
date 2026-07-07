@@ -33,7 +33,7 @@ export const projects: Project[] = [
     media: [
       { type: "image", src: "/projects/cometadvisor/cometLogo.jpg", alt: "CometAdvisor — Logo" },
       { type: "image", src: "/projects/cometadvisor/comet.jpg", alt: "CometAdvisor — Screenshot" },
-      { type: "image", src: "/projects/cometadvisor/comet-stack.png", alt: "CometAdvisor — Tech Stack" },
+      { type: "image", src: "/projects/cometadvisor/comet-stack.png", alt: "CometAdvisor — Tech Stack", fit: "contain" },
     ],
   },
   {
@@ -47,9 +47,9 @@ export const projects: Project[] = [
     color: "bg-rose-50",
     iconSrc: "/projects/remix/LOGO.png",
     media: [
-      { type: "image", src: "/projects/remix/remixLogo.png", alt: "Remix — Project Overview" },
+      { type: "image", src: "/projects/remix/remixLogo.png", alt: "Remix — Project Overview", fit: "contain" },
       { type: "image", src: "/projects/remix/Godfrey.JPG", alt: "Remix — Presenting" },
-      { type: "image", src: "/projects/remix/remix_stack.png", alt: "Remix — Tech Stack" },
+      { type: "image", src: "/projects/remix/remix_stack.png", alt: "Remix — Tech Stack", fit: "contain" },
     ],
   },
   {
@@ -66,7 +66,7 @@ export const projects: Project[] = [
     media: [
       { type: "image", src: "/projects/nudge/nudgelogo.jpg", alt: "Nudge — Logo" },
       { type: "image", src: "/projects/nudge/nudge.jpg", alt: "Nudge — Screenshot" },
-      { type: "image", src: "/projects/nudge/nudge-stack.png", alt: "Nudge — Tech Stack" },
+      { type: "image", src: "/projects/nudge/nudge-stack.png", alt: "Nudge — Tech Stack", fit: "contain" },
     ],
   },
   {

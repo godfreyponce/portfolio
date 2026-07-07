@@ -38,8 +38,17 @@ const statusLabel = {
   project: "Project",
 } as const;
 
-export default function ProjectCard({ project, featured = false }: { project: Project; featured?: boolean }) {
+export default function ProjectCard({
+  project,
+  featured = false,
+  variant = "grid",
+}: {
+  project: Project;
+  featured?: boolean;
+  variant?: "grid" | "stack";
+}) {
   const { title, description, tags, status, date, link, githubLink, devpostLink, videoUrl, media, iconSrc, iconLucide, color = "bg-rule-soft" } = project;
+  const stack = variant === "stack";
 
   const youtubeId = videoUrl?.includes("youtube.com")
     ? new URL(videoUrl).searchParams.get("v")
@@ -53,8 +62,20 @@ export default function ProjectCard({ project, featured = false }: { project: Pr
   const LucideIcon = iconLucide ? lucideMap[iconLucide] : null;
 
   return (
-    <div className={`group relative flex h-full flex-col overflow-hidden rounded-xl border border-rule bg-surface-raised transition hover:border-ink-faint hover:shadow-lift ${featured ? "md:flex-row" : ""}`}>
-      <div className={`relative flex aspect-video w-full items-center justify-center overflow-hidden ${featured ? "md:aspect-auto md:w-1/2 md:min-h-96" : ""} ${color}`}>
+    <div
+      className={
+        stack
+          ? "group relative flex h-full flex-col overflow-hidden rounded-xl border border-rule bg-white/85 shadow-lift ring-1 ring-white/60 backdrop-blur-md md:flex-row"
+          : `group relative flex h-full flex-col overflow-hidden rounded-xl border border-rule bg-surface-raised transition hover:border-ink-faint hover:shadow-lift ${featured ? "md:flex-row" : ""}`
+      }
+    >
+      <div
+        className={
+          stack
+            ? `relative flex h-64 w-full items-center justify-center overflow-hidden md:h-full md:w-[55%] ${color}`
+            : `relative flex aspect-video w-full items-center justify-center overflow-hidden ${featured ? "md:aspect-auto md:w-1/2 md:min-h-96" : ""} ${color}`
+        }
+      >
         {isUnderConstruction && (
           <div className="pointer-events-none absolute inset-0 z-20 flex items-center">
             <div className="w-full -rotate-2 border-y border-ink/10 bg-amber-400 py-1.5 text-center text-[10px] font-black uppercase tracking-[0.3em] text-ink shadow-sm">
@@ -90,9 +111,15 @@ export default function ProjectCard({ project, featured = false }: { project: Pr
         )}
       </div>
 
-      <div className={`flex grow flex-col justify-between px-8 py-6 ${featured ? "md:w-1/2 md:p-10" : ""}`}>
+      <div
+        className={
+          stack
+            ? "relative flex grow flex-col justify-center px-8 py-6 md:w-[45%] md:p-10"
+            : `flex grow flex-col justify-between px-8 py-6 ${featured ? "md:w-1/2 md:p-10" : ""}`
+        }
+      >
         <div className="flex flex-col">
-          <div className="mb-4 flex items-center justify-between">
+          <div className={`mb-4 flex items-center justify-between ${stack ? "flex-wrap gap-y-3" : ""}`}>
             <div className="flex items-center gap-4">
               {iconSrc && (
                 <Image
@@ -100,11 +127,11 @@ export default function ProjectCard({ project, featured = false }: { project: Pr
                   alt={`${title} logo`}
                   width={40}
                   height={40}
-                  className="rounded-sm"
+                  className="rounded-sm object-contain"
                 />
               )}
               {!iconSrc && LucideIcon && <div className="-my-2 shrink-0 text-ink-muted"><LucideIcon size={20} /></div>}
-              <h3 className={`font-display font-medium text-ink ${featured ? "text-3xl md:text-4xl" : "text-2xl"}`}>{title}</h3>
+              <h3 className={`font-display font-medium text-ink ${stack ? "text-3xl" : featured ? "text-3xl md:text-4xl" : "text-2xl"}`}>{title}</h3>
             </div>
             <Badge tone={status}>{statusLabel[status]}</Badge>
           </div>
@@ -127,12 +154,18 @@ export default function ProjectCard({ project, featured = false }: { project: Pr
                 </span>
               </button>
 
-              <div className="absolute left-0 top-full z-10 h-4 w-full" />
+              <div className={stack ? "absolute bottom-full left-0 h-3 w-full" : "absolute left-0 top-full z-10 h-4 w-full"} />
 
               <div
-                className={`relative z-20 overflow-hidden transition-[max-height,opacity,margin] duration-300 ease-out ${
-                  isExpanded ? "mt-2 max-h-80 opacity-100" : "mt-0 max-h-0 opacity-0"
-                }`}
+                className={
+                  stack
+                    ? `absolute bottom-full left-0 z-30 mb-2 w-72 max-w-[80vw] transition-opacity duration-200 ${
+                        isExpanded ? "opacity-100" : "pointer-events-none opacity-0"
+                      }`
+                    : `relative z-20 overflow-hidden transition-[max-height,opacity,margin] duration-300 ease-out ${
+                        isExpanded ? "mt-2 max-h-80 opacity-100" : "mt-0 max-h-0 opacity-0"
+                      }`
+                }
               >
                 <div className="flex flex-col gap-4 rounded-md border border-rule bg-surface-sunken p-4 shadow-soft">
                   <div className="flex flex-wrap items-center justify-between gap-2 border-b border-rule pb-2">

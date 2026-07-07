@@ -11,7 +11,7 @@ import Footer from "@/components/sections/Footer";
 
 export default function Home() {
   return (
-    <main className="relative w-full overflow-x-hidden">
+    <main className="relative w-full overflow-x-clip">
       <div className="relative">
         <SimpleBackground />
         <Hero />

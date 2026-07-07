@@ -3,6 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
+    qualities: [30, 75, 90],
     remotePatterns: [
       { protocol: "https", hostname: "github.com", pathname: "/**" },
       { protocol: "https", hostname: "avatars.githubusercontent.com", pathname: "/**" },

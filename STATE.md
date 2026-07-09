@@ -8,11 +8,12 @@ Education → LossGraph → The Lab → Passions → Footer. Repo: github.com/go
 
 ## ⏩ NEW AGENT — START HERE
 
-*Last updated: 2026-07-07 · Big redesign session shipped + pushed (6 feature commits,
-`45936f3..0b2bd35`): scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel,
-retina-sharpened images, GitHub contribution heatmap, brand icons on tech tags, Signal card
-removed. Working tree clean except pre-existing items (see bottom). Everything below was
-verified in the browser + `tsc --noEmit` clean.*
+*Last updated: 2026-07-09 · LossGraph divider rewritten to "ghost runs" training animation
+(uncommitted; owner picked it from HTML variant previews, V1b). Previous session (2026-07-07)
+shipped + pushed 6 feature commits (`45936f3..0b2bd35`): scroll-driven stickman,
+scroll-stacking Lab cards, crossfading carousel, retina-sharpened images, GitHub contribution
+heatmap, brand icons on tech tags, Signal card removed. Everything below was verified in the
+browser + `tsc --noEmit` clean.*
 
 **How to run (rules live in CLAUDE.md — follow them):**
 ```bash
@@ -30,6 +31,14 @@ the real components, DELETE the preview file. Confirm understanding before execu
 
 ## What's on the page (current behavior)
 
+- **LossGraph** (`components/canvas/LossGraph.tsx`) — "ghost runs" training divider
+  (Education → The Lab): the loss curve draws itself (~7s ≙ 50k fake steps), mono ticker
+  top-right (`run N · step · loss · best`, ★ on a new best); converged runs stay behind as
+  faint ghosts (max 4), each run gets a new seed. Mouse-pluck springs kept (now scoped to
+  the band, not window). dpr-scaled canvas; IntersectionObserver pauses offscreen;
+  `useReducedMotion` → static ghosts+curve, no loop. Ghosts/best reset on resize (widths
+  no longer line up). Readout uses `text-accent` via innerHTML — fine because the component
+  never re-renders.
 - **StickmanRunner** (`components/StickmanRunner.tsx`) — "scroll buddy": his x-position
   mirrors scroll through the band (runs right scrolling down, moonwalks back up, breathes/
   blinks when idle). Ref-driven SVG via rAF (no per-frame React state); IntersectionObserver
@@ -77,6 +86,7 @@ the real components, DELETE the preview file. Confirm understanding before execu
 ```
 app/page.tsx                          section order; overflow-x-clip lives here
 components/StickmanRunner.tsx         scroll-buddy stickman (self-contained)
+components/canvas/LossGraph.tsx       ghost-runs training divider (self-contained)
 components/sections/TheLab.tsx        async server component; fetches contributions
 components/sections/ProjectStack.tsx  sticky stack + StackedCard math + GitHubTile + Heatmap
 components/sections/ProjectCard.tsx   grid|stack variants; techIcons map; upward expander

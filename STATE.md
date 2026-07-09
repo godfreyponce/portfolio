@@ -9,7 +9,8 @@ Education → LossGraph → The Lab → Passions → Footer. Repo: github.com/go
 ## ⏩ NEW AGENT — START HERE
 
 *Last updated: 2026-07-09 · LossGraph divider rewritten to "ghost runs" training animation
-(uncommitted; owner picked it from HTML variant previews, V1b). Previous session (2026-07-07)
+(owner picked V1b from HTML variant previews) — committed + pushed (`b1a3f53`, `a521ace`).
+Working tree clean except pre-existing items (see bottom). Previous session (2026-07-07)
 shipped + pushed 6 feature commits (`45936f3..0b2bd35`): scroll-driven stickman,
 scroll-stacking Lab cards, crossfading carousel, retina-sharpened images, GitHub contribution
 heatmap, brand icons on tech tags, Signal card removed. Everything below was verified in the
@@ -80,6 +81,13 @@ the real components, DELETE the preview file. Confirm understanding before execu
   screenshots to force frames.
 - projects data lives in `lib/projects.ts` (typed `Project`, `MediaItem` with optional
   `fit`); Signal was deliberately REMOVED 2026-07-07 (owner) — don't resurrect from git.
+- git (any external binary, really) can suddenly die with `fatal: Unable to read current
+  working directory: Operation not permitted` in this repo — that's macOS revoking the
+  terminal's **Desktop folder** access (TCC), NOT a git/repo problem. File tools keep
+  working, which makes it confusing. Fix: owner re-allows in System Settings → Privacy &
+  Security → Files and Folders (or clicks the Allow dialog), then retry. Happened
+  2026-07-09 mid-session. Also: the harness may reset the shell cwd between calls — prefix
+  git commands with `cd /Users/geovponce/Desktop/personalWebsite;` if paths act weird.
 
 ## File map (the parts that matter)
 
@@ -104,7 +112,11 @@ public/projects/**                    upscaled media (originals in git history p
 - Stickman traversal speed: tune `vh * 1.3` in StickmanRunner if owner wants faster/slower.
 - Mobile (390px) was never live-tested this session (window resize was ignored on the scaled
   display) — fallback grid is the untouched original code path, but eyeball it sometime.
-- Deploy: push to `main` on GitHub; Vercel Git integration assumed (not verified this session).
+- Deploy: push to `main` on GitHub; Vercel Git integration assumed (pushed 2026-07-09 but
+  deploy never confirmed live — worth checking the dashboard once).
+- LossGraph reduced-motion static path + multi-run ghost accumulation were verified in a
+  fast-forwarded preview, not live on the wired page (Chrome throttles automation tabs to
+  ~1fps) — eyeball a full run cycle in a real browser sometime.
 
 ## Pre-existing working-tree items (NOT part of the redesign — owner's, don't touch)
 

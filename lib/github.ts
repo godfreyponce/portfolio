@@ -9,12 +9,12 @@ export interface Contributions {
   total: number;
 }
 
-// Public contributions API (no token needed), revalidated daily.
+// Public contributions API (no token needed), revalidated every 6 hours.
 // Returns null on any failure so the GitHub tile can render without the heatmap.
 export async function getContributions(): Promise<Contributions | null> {
   try {
     const res = await fetch("https://github-contributions-api.jogruber.de/v4/godfreyponce?y=last", {
-      next: { revalidate: 86400 },
+      next: { revalidate: 21600 },
     });
     if (!res.ok) return null;
     const json: {

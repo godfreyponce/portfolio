@@ -61,7 +61,7 @@ the real components, DELETE the preview file. Confirm understanding before execu
   object-contain over a blurred cover copy of themselves.
 - **GitHub finale card** — real contribution heatmap (classic green, per-day tooltips).
   `lib/github.ts` fetches `github-contributions-api.jogruber.de/v4/godfreyponce?y=last`
-  server-side in `TheLab` (async server component, `revalidate: 86400`); null on failure →
+  server-side in `TheLab` (async server component, `revalidate: 21600` = 6h); null on failure →
   card renders plain. Heatmap only shows on the stacked (wide) tile, not the grid fallback.
 - **Tech tags** — brand-colored SVGs in `public/tech/`, mapped in `ProjectCard.tsx`
   `techIcons`. From simple-icons except: FAISS→Meta mark; **Plaid + Nebula API are
@@ -100,7 +100,7 @@ components/sections/ProjectStack.tsx  sticky stack + StackedCard math + GitHubTi
 components/sections/ProjectCard.tsx   grid|stack variants; techIcons map; upward expander
 components/ui/MediaCarousel.tsx       all-mounted crossfade carousel; fit:"contain" backdrop
 lib/projects.ts                       project data (4 projects)
-lib/github.ts                         getContributions() server fetch, daily revalidate
+lib/github.ts                         getContributions() server fetch, 6h revalidate
 public/tech/*.svg                     brand-colored tag icons
 public/projects/**                    upscaled media (originals in git history pre-ce61d11)
 ```

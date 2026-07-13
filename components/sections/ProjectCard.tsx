@@ -134,21 +134,31 @@ export default function ProjectCard({
         }
       >
         <div className="flex flex-col">
-          <div className={`mb-4 flex items-center justify-between ${stack ? "flex-wrap gap-y-3" : ""}`}>
-            <div className="flex items-center gap-4">
+          <div
+            className={`mb-4 flex min-w-0 items-center gap-2 sm:justify-between sm:gap-4 ${stack ? "sm:flex-wrap sm:gap-y-3" : ""}`}
+          >
+            <div className="contents sm:flex sm:items-center sm:gap-4">
               {iconSrc && (
                 <Image
                   src={iconSrc}
                   alt={`${title} logo`}
                   width={40}
                   height={40}
-                  className="rounded-sm object-contain"
+                  className="shrink-0 rounded-sm object-contain"
                 />
               )}
               {!iconSrc && LucideIcon && <div className="-my-2 shrink-0 text-ink-muted"><LucideIcon size={20} /></div>}
-              <h3 className={`font-display font-medium text-ink ${stack ? "text-3xl" : featured ? "text-3xl md:text-4xl" : "text-2xl"}`}>{title}</h3>
+              <h3
+                className={`min-w-0 flex-1 truncate font-display font-medium text-ink max-sm:text-xl sm:flex-none sm:overflow-visible sm:text-clip sm:whitespace-normal ${
+                  stack ? "text-3xl" : featured ? "text-3xl md:text-4xl" : "text-2xl"
+                }`}
+              >
+                {title}
+              </h3>
             </div>
-            <Badge tone={status}>{statusLabel[status]}</Badge>
+            <Badge tone={status} className="shrink-0 max-sm:px-1 max-sm:text-[10px]">
+              {statusLabel[status]}
+            </Badge>
           </div>
 
           <p className="mt-2 text-base leading-relaxed text-ink-subtle md:text-lg">{description}</p>

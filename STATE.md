@@ -12,9 +12,9 @@ per-feature detail: `docs/HISTORY.md`. Work queue: GitHub Issues (`gh issue list
 
 ## Now
 
-- Nothing mid-flight. Session convention adopted 2026-07-13; the old in-file backlog is now
-  GitHub Issues #1–#6 (none `ready-for-agent` yet — confirm with the owner before starting any).
-- `main` is 2 commits ahead of origin (heatmap 6h revalidate, 2026-07-11) — pushing is the owner's call.
+- Nothing mid-flight. Accepted QA issues #4/#5 and mobile header fix #7 are closed.
+- Next planning targets #6 and #10 remain `ready-for-agent`; no work has begun on either.
+- Follow-ups #8/#9/#11/#12 are unvetted.
 - Pre-existing tree items (owner's, don't touch): unstaged deletion of
   `agent_architecture_strategy.md`, untracked `Icon` file.
 

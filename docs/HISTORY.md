@@ -11,6 +11,20 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-07-13 — Accepted QA and compact mobile project headers
+
+- **#4 mobile QA:** accepted after a full 390px browser pass found no page-level horizontal
+  overflow and confirmed the carousel and in-flow project expander. The CometAdvisor
+  title/status collision discovered during that pass was split into #7.
+- **#5 production pipeline QA:** accepted after confirming the latest pushed functional
+  revision was live through the repository's AWS Amplify push webhook. The unrelated
+  `.com` Open Graph fallback discovered in production remains tracked separately as #10.
+- **#7 mobile header fix:** the owner selected the compact single-row variant. Below 640px,
+  the project logo, flexible title, and compact status badge now share one row; the grouped
+  desktop header is unchanged. Verified across all four project cards at 390×844 with no
+  overlap, clipping, or horizontal overflow, then checked again at 1280px; `tsc --noEmit`
+  passed. The three-option throwaway preview was deleted after selection.
+
 ## What's on the page (current behavior)
 
 - **LossGraph** (`components/canvas/LossGraph.tsx`) — "ghost runs" training divider

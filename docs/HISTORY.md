@@ -11,7 +11,7 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
-### 2026-07-13 — Accepted QA and compact mobile project headers
+### 2026-07-13 — Accepted QA, compact mobile headers, and metadata
 
 - **#4 mobile QA:** accepted after a full 390px browser pass found no page-level horizontal
   overflow and confirmed the carousel and in-flow project expander. The CometAdvisor
@@ -24,6 +24,16 @@ Everything below was verified in the browser + `tsc --noEmit` clean.*
   desktop header is unchanged. Verified across all four project cards at 390×844 with no
   overlap, clipping, or horizontal overflow, then checked again at 1280px; `tsc --noEmit`
   passed. The three-option throwaway preview was deleted after selection.
+- **#6 LossGraph QA:** normal runs, four-ghost accumulation, offscreen pause/resume, and
+  resize reset all passed live. The exact reduced-motion branch was then forced temporarily
+  for browser coverage: three faint ghosts plus the converged curve rendered with a stable
+  `run 4 · loss` readout, and both the screenshot bytes and readout were unchanged after
+  3.2s. The force was reverted and normal animation resumed. Limitation accepted by the
+  owner: the in-app browser does not inherit the host macOS reduced-motion preference.
+- **#10 metadata fix:** `app/layout.tsx` now uses `https://godfreyponce.dev` as the canonical
+  site URL directly, eliminating the stale `.com` fallback and environment ambiguity.
+  Browser verification confirmed the Open Graph URL and image resolve under `.dev`;
+  `tsc --noEmit` passed.
 
 ## What's on the page (current behavior)
 

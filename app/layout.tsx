@@ -15,7 +15,7 @@ const fraunces = Fraunces({
   display: "swap",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://godfreyponce.com";
+const siteUrl = "https://godfreyponce.dev";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

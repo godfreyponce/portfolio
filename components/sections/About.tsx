@@ -14,19 +14,18 @@ export default function About() {
         </Reveal>
         <Reveal delay={0.05} className="mt-6 space-y-6 text-left text-base leading-relaxed text-ink-muted md:text-lg">
           <p>
-            Hey! I&apos;m a Sophmore Computer Scientist major at{" "}
+            Hey! I&apos;m a junior Computer Science major with a minor in Cognitive Science at{" "}
             <span className="group relative inline-block cursor-help font-medium text-ink underline decoration-rule transition-colors duration-200 hover:text-accent hover:decoration-accent">
               UTD
               <span className="pointer-events-none absolute bottom-full left-1/2 mb-2 w-max -translate-x-1/2 rounded-sm bg-ink px-3 py-1 text-xs text-white opacity-0 shadow-lift transition-opacity duration-200 group-hover:opacity-100">
                 The University of Texas at Dallas
                 <span className="absolute left-1/2 top-full -translate-x-1/2 border-4 border-transparent border-t-ink" />
               </span>
-            </span>{" "}
-            and I like to build things. 
+            </span>
+            , and I like to build things.
           </p>
-      
+
           <p>
-              {" "}
             <button
               onClick={() => {
                 document.getElementById("soccer")?.scrollIntoView({ behavior: "smooth" });
@@ -37,7 +36,7 @@ export default function About() {
             >
               Soccer
             </button>
-            {" "}gave me resilience, discipline, and belief in teamwork. Code gives me a way to use it. Let's talk about agents, the beautiful game, and everything in between.
+            {" "}taught me resilience, discipline, and belief in teamwork. Code gives me a way to use those lessons. Let&apos;s talk about agents, the beautiful game, and everything in between.
           </p>
         </Reveal>
       </Section>

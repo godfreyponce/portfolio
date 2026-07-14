@@ -8,13 +8,13 @@ export default function Footer() {
         <h2 className="font-display text-2xl font-medium">Godfrey Ponce</h2>
 
         <div className="flex gap-6 text-white/60">
-          <SocialLink href="https://github.com/godfreyponce" className="hover:!text-white">
+          <SocialLink href="https://github.com/godfreyponce" ariaLabel="GitHub" className="hover:!text-white">
             <Github size={24} />
           </SocialLink>
-          <SocialLink href="https://linkedin.com/in/godfreyponce" className="hover:!text-white">
+          <SocialLink href="https://linkedin.com/in/godfreyponce" ariaLabel="LinkedIn" className="hover:!text-white">
             <Linkedin size={24} />
           </SocialLink>
-          <SocialLink href="mailto:poncegodfrey@gmail.com" className="hover:!text-white">
+          <SocialLink href="mailto:poncegodfrey@gmail.com" ariaLabel="Email" className="hover:!text-white">
             <Mail size={24} />
           </SocialLink>
         </div>

@@ -34,6 +34,15 @@ Everything below was verified in the browser + `tsc --noEmit` clean.*
   site URL directly, eliminating the stale `.com` fallback and environment ambiguity.
   Browser verification confirmed the Open Graph URL and image resolve under `.dev`;
   `tsc --noEmit` passed.
+- **#11 footer social-link accessibility:** icon-only GitHub, LinkedIn, and email links now
+  expose explicit accessible names through `SocialLink` without changing their appearance.
+  Browser accessibility snapshots confirmed all three names at 390x844 and 1280x900; both
+  layouts retained zero horizontal overflow and `tsc --noEmit` passed.
+- **#12 Bio copy:** the owner selected the direct-and-familiar option from a three-variant
+  throwaway HTML preview. The Bio now identifies Godfrey as a junior Computer Science major
+  with a minor in Cognitive Science, and the soccer paragraph matches the selected voice.
+  The UTD tooltip and soccer scroll interaction remain intact; the preview was deleted after
+  selection. Mobile/desktop browser checks and `tsc --noEmit` passed.
 
 ## What's on the page (current behavior)
 

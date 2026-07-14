@@ -12,8 +12,8 @@ per-feature detail: `docs/HISTORY.md`. Work queue: GitHub Issues (`gh issue list
 
 ## Now
 
-- Nothing mid-flight. Accepted issues #4/#5/#6/#7/#10 are closed.
-- Open follow-ups #1/#2/#3/#8/#9/#11/#12 are unvetted.
+- Nothing mid-flight. Accepted issues #4/#5/#6/#7/#10/#11/#12 are closed.
+- Open follow-ups #1/#2/#3/#8/#9 are unvetted.
 - Pre-existing tree items (owner's, don't touch): unstaged deletion of
   `agent_architecture_strategy.md`, untracked `Icon` file.
 

@@ -144,7 +144,7 @@ export default function ProjectCard({
                   alt={`${title} logo`}
                   width={40}
                   height={40}
-                  className="shrink-0 rounded-sm object-contain"
+                  className="size-10 shrink-0 rounded-sm object-contain"
                 />
               )}
               {!iconSrc && LucideIcon && <div className="-my-2 shrink-0 text-ink-muted"><LucideIcon size={20} /></div>}

@@ -8,12 +8,12 @@ Education → LossGraph → The Lab → Passions → Footer. Repo: github.com/go
 per-feature detail: `docs/HISTORY.md`. Work queue: GitHub Issues (`gh issue list`). Protocol:
 `AGENTS.md`.*
 
-**Last updated: 2026-07-13**
+**Last updated: 2026-07-14**
 
 ## Now
 
-- Nothing mid-flight. Accepted issues #4/#5/#6/#7/#10/#11/#12 are closed.
-- Vetted next: issues #8/#9 carry `ready-for-agent`. Open #1/#2/#3 remain unvetted.
+- Nothing mid-flight. Accepted issues #4/#5/#6/#7/#8/#9/#10/#11/#12 are closed.
+- Open follow-ups #1/#2/#3 remain unvetted.
 - Pre-existing tree items (owner's, don't touch): unstaged deletion of
   `agent_architecture_strategy.md`, untracked `Icon` file.
 

@@ -11,6 +11,20 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-07-14 — Lab runtime warning cleanup
+
+- **#8 Framer Motion scroll measurement:** the installed Framer Motion version measures a
+  target against `document.scrollingElement`, so positioning the ProjectStack target alone
+  does not satisfy its development check. The root `<html>` element now carries Tailwind's
+  `relative` utility. Clean 390x844 and 1280x900 runs emitted no warning; the five desktop
+  cards retained sticky positioning, scale transforms, and their full stacking sequence.
+- **#9 project-logo sizing:** project header logos now use an explicit 40x40 box with
+  `object-contain`. This overrides automatic image height sizing without distorting the
+  non-square CometAdvisor, Remix, and TechAssist assets. All four headers retained their
+  mobile and desktop layouts with zero Next image warnings or horizontal overflow.
+- Full mobile-page and desktop-stack browser sweeps passed with no warnings or errors;
+  `tsc --noEmit` passed.
+
 ### 2026-07-13 — Accepted QA, compact mobile headers, and metadata
 
 - **#4 mobile QA:** accepted after a full 390px browser pass found no page-level horizontal
@@ -89,6 +103,9 @@ Everything below was verified in the browser + `tsc --noEmit` clean.*
 - `overflow-x-hidden` on `<main>` silently KILLS `position: sticky` descendants (it creates
   a scroll container). It's now `overflow-x-clip` (`app/page.tsx`) — don't revert; watch for
   horizontal-overflow regressions instead.
+- Framer Motion's target-based `useScroll` checks the page scroller's positioning. Keep the
+  `relative` utility on the root `<html>` element in `app/layout.tsx`; it does not create a
+  scroll container, while removing it restores the development warning.
 - Next 16 statically prerenders + needs `images.qualities` config for non-75 qualities.
 - Browser-automation tab gets frozen/throttled when backgrounded — long JS with awaits times
   out (CDP 45s); use fire-and-collect (write to `window.__x`, read in a 2nd call) and

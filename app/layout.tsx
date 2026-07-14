@@ -43,7 +43,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geist.variable} ${fraunces.variable}`}>
+    <html lang="en" className={`${geist.variable} ${fraunces.variable} relative`}>
       <body>{children}</body>
     </html>
   );

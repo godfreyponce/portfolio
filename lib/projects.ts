@@ -31,8 +31,8 @@ export const projects: Project[] = [
     color: "bg-violet-50",
     iconSrc: "/projects/cometadvisor/LOGO.png",
     media: [
-      { type: "image", src: "/projects/cometadvisor/cometLogo.jpg", alt: "CometAdvisor — Logo" },
-      { type: "image", src: "/projects/cometadvisor/comet.jpg", alt: "CometAdvisor — Screenshot" },
+      { type: "image", src: "/projects/cometadvisor/cometLogo.png", alt: "CometAdvisor — Logo" },
+      { type: "image", src: "/projects/cometadvisor/comet.png", alt: "CometAdvisor — Screenshot" },
       { type: "image", src: "/projects/cometadvisor/comet-stack.png", alt: "CometAdvisor — Tech Stack", fit: "contain" },
     ],
   },
@@ -64,8 +64,8 @@ export const projects: Project[] = [
     color: "bg-green-50",
     iconSrc: "/projects/nudge/LOGO.png",
     media: [
-      { type: "image", src: "/projects/nudge/nudgelogo.jpg", alt: "Nudge — Logo" },
-      { type: "image", src: "/projects/nudge/nudge.jpg", alt: "Nudge — Screenshot" },
+      { type: "image", src: "/projects/nudge/nudgelogo.jpeg", alt: "Nudge — Logo" },
+      { type: "image", src: "/projects/nudge/nudge.png", alt: "Nudge — Screenshot" },
       { type: "image", src: "/projects/nudge/nudge-stack.png", alt: "Nudge — Tech Stack", fit: "contain" },
     ],
   },

@@ -11,6 +11,15 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-07-15 — Stickman traversal speed tuned
+
+- **#3 traversal speed:** the scroll buddy's crossing was spread over more scroll for a
+  more relaxed stroll — the `vh` divisor in the tick function's progress ratio went from
+  `1.3` to `1.7` (larger = slower). Owner picked `1.7` by feel from live `?stick=<K>`
+  candidates (1.0 / 1.3 / 1.7) on the real page; the temporary query-param scaffold was
+  removed after selection. One-line change in `components/StickmanRunner.tsx`;
+  `tsc --noEmit` clean, reduced-motion static-pose path untouched.
+
 ### 2026-07-14 — Lab runtime warning cleanup
 
 - **#8 Framer Motion scroll measurement:** the installed Framer Motion version measures a
@@ -72,7 +81,7 @@ Everything below was verified in the browser + `tsc --noEmit` clean.*
   mirrors scroll through the band (runs right scrolling down, moonwalks back up, breathes/
   blinks when idle). Ref-driven SVG via rAF (no per-frame React state); IntersectionObserver
   starts/stops the loop; `useReducedMotion` → static waving pose. Traversal feel is tuned by
-  the `vh * 1.3` range in the tick function.
+  the `vh * 1.7` range in the tick function.
 - **The Lab** (`TheLab.tsx` → `ProjectStack.tsx` → `ProjectCard.tsx` variant="stack") —
   scroll-stacking glass cards: each card `md:sticky` (440px tall, stack max-w 900px,
   `top: 7vh + i*12px` cascade), scale + cream-veil scrub via framer-motion

@@ -38,11 +38,11 @@ const statusLabel = {
   project: "Project",
 } as const;
 
-// Brand marks in public/tech (FAISS uses the Meta mark; Nebula API and Plaid are hand-drawn stand-ins)
+// Brand marks in public/tech (FAISS uses the Meta mark; Nebula API is the UTD Nebula app-icon, Plaid the official lattice)
 const techIcons: Record<string, string> = {
   Gemini: "/tech/gemini.svg",
   ElevenLabs: "/tech/elevenlabs.svg",
-  "Nebula API": "/tech/nebula.svg",
+  "Nebula API": "/tech/nebula.png",
   FAISS: "/tech/meta.svg",
   HuggingFace: "/tech/huggingface.svg",
   LangChain: "/tech/langchain.svg",

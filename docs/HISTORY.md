@@ -11,6 +11,20 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-07-16 — Official Plaid + Nebula tech-tag icons (#2)
+
+- **#2 icon swap:** replaced the two hand-drawn tech-tag stand-ins with official marks,
+  matching the sibling simple-icons format (single-path, brand-color fill, `role`/`title`)
+  rendered by `ProjectCard.tsx` `techIcons` at 13px `unoptimized`. **Plaid** — the owner's
+  raster lattice was authentic (Plaid = the tartan weave) but muddy at 13px; swapped for the
+  vector silhouette from plaid.com's `safari-pinned-tab.svg`, normalized to a single
+  `#1c1917`-filled path → `public/tech/plaid.svg`. **Nebula API** — the UTD Nebula app-icon
+  (`utdnebula.com/apple-icon.png`, dark line-art, transparent, 180px) → `public/tech/nebula.png`;
+  the owner-supplied purple-tile PNG was rejected (baked-in gradient bg, only 48px). Mapping
+  repointed Plaid → `.svg`, Nebula API → `.png`; old `nebula.svg`/`plaid.svg` stand-ins removed.
+  Note for next time: simple-icons no longer carries Plaid (404 on all sources). Verified: both
+  serve 200, `plaid.svg` well-formed XML, owner confirmed the render on localhost.
+
 ### 2026-07-15 — Retina project screenshots (partial, #1)
 
 - **#1 re-export (partial):** owner supplied native high-res exports; wired the clean

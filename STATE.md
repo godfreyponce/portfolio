@@ -12,11 +12,12 @@ per-feature detail: `docs/HISTORY.md`. Work queue: GitHub Issues (`gh issue list
 
 ## Now
 
-- #1 (retina screenshots) in progress: comet ×3, nudge ×3, and remix Godfrey re-exported at
-  ≥1600px (Godfrey PNG→JPG, 8.9M→1.1M via sips) — **owner visually confirmed these render on
-  localhost 2026-07-16.** Remix stack + logo kept as-is — their NEW exports were *lower* res
-  than live (776w/960w vs 1280w); owner to re-export those two later. #1 stays open on that.
-- Accepted issues #3–#12 are closed. Open follow-up #2 remains unvetted.
+- **Issue queue is empty** — all accepted work closed. #2 (official Plaid + Nebula tech-tag
+  icons) shipped 2026-07-16, owner-confirmed on localhost. #1 (retina screenshots) closed
+  2026-07-16: comet/nudge/Godfrey done; remix stack + logo left at current res (no higher-res
+  source available). #3–#12 closed earlier.
+- Local `main` is ahead of `origin/main` by 2 (#2 feat + this docs commit) — awaiting owner
+  push. Earlier retina commits already pushed (through `acea98f`).
 - Pre-existing tree items (owner's, don't touch): unstaged deletion of
   `agent_architecture_strategy.md`, untracked `Icon` file.
 

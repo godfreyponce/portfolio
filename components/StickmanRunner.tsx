@@ -84,7 +84,7 @@ export default function StickmanRunner() {
       const m = motionRef.current;
 
       // Traverse the band as it moves through the viewport
-      const pr = clamp(1 - (rect.top + 70) / (vh * 1.3), 0, 1);
+      const pr = clamp(1 - (rect.top + 70) / (vh * 1.7), 0, 1);
       const x = lerp(-30, widthRef.current + 30, pr);
       const dx = m.lastX === null ? 0 : x - m.lastX;
       m.lastX = x;

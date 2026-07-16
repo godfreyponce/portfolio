@@ -12,8 +12,11 @@ per-feature detail: `docs/HISTORY.md`. Work queue: GitHub Issues (`gh issue list
 
 ## Now
 
-- Nothing mid-flight. Accepted issues #3/#4/#5/#6/#7/#8/#9/#10/#11/#12 are closed.
-- Open follow-ups #1/#2 remain unvetted.
+- #1 (retina screenshots) in progress: comet ×3, nudge ×3, and remix Godfrey re-exported at
+  ≥1600px (Godfrey PNG→JPG, 8.9M→1.1M via sips). Remix stack + logo kept as-is — their NEW
+  exports were *lower* res than live (776w/960w vs 1280w); owner to re-export those two later.
+  #1 stays open. Owner still owes a browser eyeball (Chrome ext was disconnected this session).
+- Accepted issues #3–#12 are closed. Open follow-up #2 remains unvetted.
 - Pre-existing tree items (owner's, don't touch): unstaged deletion of
   `agent_architecture_strategy.md`, untracked `Icon` file.
 

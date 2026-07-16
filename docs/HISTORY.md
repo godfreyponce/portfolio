@@ -11,6 +11,19 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-07-15 — Retina project screenshots (partial, #1)
+
+- **#1 re-export (partial):** owner supplied native high-res exports; wired the clean
+  upgrades and dropped the ones that would regress. Comet (logo/screenshot 1612w→~2700w,
+  stack 1218w→1762w) and Nudge (screenshot 1612w→2732w, stack 1400w→2622w, logo
+  1484w→1584w) swapped in. Several changed format (jpg→png/jpeg), so the `lib/projects.ts`
+  media refs were updated to match filenames. Remix Godfrey re-exported (1400w→2732w) and
+  re-encoded PNG→JPG (8.9M→1.1M, `sips` q85) to keep the repo asset sane. Remix stack + logo
+  NEW exports were *lower* resolution than the live files (776w/960w vs 1280w), so they were
+  left as-is and #1 stays open for genuine re-exports of those two. Verified: new paths serve
+  200, old 404, page compiles, `tsc --noEmit` clean. Browser visual check deferred to owner
+  (Chrome extension disconnected this session).
+
 ### 2026-07-15 — Stickman traversal speed tuned
 
 - **#3 traversal speed:** the scroll buddy's crossing was spread over more scroll for a

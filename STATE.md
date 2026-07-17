@@ -8,18 +8,19 @@ Education → LossGraph → The Lab → Passions → Footer. Repo: github.com/go
 per-feature detail: `docs/HISTORY.md`. Work queue: GitHub Issues (`gh issue list`). Protocol:
 `AGENTS.md`.*
 
-**Last updated: 2026-07-16**
+**Last updated: 2026-07-17**
 
 ## Now
 
-- **Issue queue is empty** — all accepted work closed. #2 (official Plaid + Nebula tech-tag
-  icons) shipped 2026-07-16, owner-confirmed on localhost. #1 (retina screenshots) closed
-  2026-07-16: comet/nudge/Godfrey done; remix stack + logo left at current res (no higher-res
-  source available). #3–#12 closed earlier.
-- Local `main` is ahead of `origin/main` by 2 (#2 feat + this docs commit) — awaiting owner
-  push. Earlier retina commits already pushed (through `acea98f`).
+- **WIP: profile README = chafa portrait + neofetch panel** (à la Andrew6rant), issue #13.
+  Deliverable repo `godfreyponce/GodfreyPonce`, NOT this repo. Full recipe + lift.swift:
+  docs/readme-portrait-handoff.md.
+  Portrait phase only. Owner REJECTED head-only crop — need full head+shoulders+polo framing, mouth
+  must read. Next: redo on FULL cutout, CLAHE-dominant (not global level crush) so the near-white
+  polo renders as outline; 3 variants (ascii/block/braille) → public/preview-readme.html, owner
+  picks. Current preview-readme.html is the STALE head-only version — regenerate at full framing.
 - Pre-existing tree items (owner's, don't touch): unstaged deletion of
-  `agent_architecture_strategy.md`, untracked `Icon` file.
+  agent_architecture_strategy.md, untracked Icon file.
 
 ## Run / verify (do this first)
 

@@ -11,6 +11,27 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-07-17 — Profile-README braille portrait accepted: Variant D (#14, part of #13)
+
+- **#14 iteration loop closed:** the full-framing chafa portrait for `godfreyponce/GodfreyPonce`
+  went through 3 preview rounds in `public/preview-readme.html` (Vision subject-lift →
+  ImageMagick → chafa → GitHub-dark HTML cards). Round 1: braille chosen as the style, face too
+  small (72x90). Round 2: all-braille at bigger sizes; owner picked C (96x120 +
+  `-clahe 4x4%+128+6`) but the upper-lip shadow read as a moustache (real shadow band in the
+  source photo, amplified by CLAHE + inverted braille). Round 3: soft-ellipse dodge over the
+  upper lip before chafa — **Variant D (45% dodge) accepted**. Full recipe: flatten-on-white →
+  `-clahe 4x4%+128+6` → dodge (ellipse 360,240 80,26, `-blur 0x14`, screen-composite gray 45%)
+  → `chafa --format symbols --size 96x120 -c none --symbols braille --fill braille+space
+  --fg-only --invert --preprocess off` (51 rows; fill MUST include `space`, NO `-level`).
+- **Ship state (owner decisions):** portrait-only readme committed LOCALLY in a scratch clone
+  (`cb31900`, fence route: ```` ```text ```` block, verbatim art) — **push deliberately HELD**;
+  nothing goes public until the new full-README design (issue #15, separate ticket) ships as one
+  piece. #13 stays open for its neofetch-panel phase. The scratch clone is session-ephemeral —
+  regenerate from the recipe above if gone; D's art also lives in card 2 of the (kept) preview
+  file. Known caveat: art is dark-mode-tuned; light mode renders as a negative (light/dark SVG
+  pair is the eventual fix). Verified this session: `tsc --noEmit` clean, all rounds
+  screenshot-checked in Chrome incl. mouth zooms.
+
 ### 2026-07-16 — Official Plaid + Nebula tech-tag icons (#2)
 
 - **#2 icon swap:** replaced the two hand-drawn tech-tag stand-ins with official marks,

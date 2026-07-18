@@ -11,6 +11,38 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-07-17 — Profile README SHIPPED: braille portrait + neofetch panel SVG pair (#15, absorbs #13)
+
+- **Live at github.com/godfreyponce** (`GodfreyPonce` main, commit `e0e9e4a`): `readme.md` is a
+  `<picture>` with `prefers-color-scheme` sources → `dark_mode.svg` / `light_mode.svg`. The held
+  fence-route commit `cb31900` was superseded (old scratch clone gone; remote replaced wholesale).
+- **Owner gates:** layout pick = **classic** (portrait left, panel right) over stacked/terminal;
+  light mode = **same art recolored** accepted (no polarity regen); final render approved before
+  push. Panel text finalized with owner edits — header `godfreyponce@github`, rows OS / College /
+  Minor / Stack (`Python TypeScript Java C++`, from a repo-language census) / Projects
+  ("building things that automate my lifestyle") / Interests ("soccer AI agents"). New standing
+  owner rule discovered here: **no middle dots (·), no em dashes in shipped copy.**
+- **How it was built:** Variant D art extracted byte-faithfully from card 2 of the (now deleted)
+  `public/preview-readme.html` (51×96, all U+2800–U+28FF); python `gen_svg.py` renders art +
+  panel as SVG `<text>` with one `xml:space="preserve"` tspan per row. Plan constants were wrong
+  in practice — braille advance measured **11.04px** @16px (not 8.8; Apple Braille fallback), and
+  the panel column is sized from the longest panel line × 9.7px/char (plan's fixed 52-cell width
+  clipped the panel). Generator preserved inline in issue #16; art + panel recoverable verbatim
+  from the shipped SVGs' tspans.
+- **Verified live:** dark render checked on the profile (signed-out Chrome, dark scheme);
+  light checked via `curl` — 200, `image/svg+xml`, light palette in body (theme-toggle step
+  skipped: browser signed out, no account setting to flip; `<picture>` media queries carry it).
+  Local: both SVGs screenshot-matched the picked variant on a static server before push.
+- **Follow-up:** owner flagged post-ship that the panel is too small at GitHub's ~850px README
+  width (SVG natural width 1668px scales to ~50%) → **issue #16** (green-lit) with full
+  continuity notes. #13 closed as absorbed; #15 auto-closed by the push. Preview files
+  (`preview-readme.html`, `preview-readme-full.html`, `preview-svg/`) deleted — all were
+  untracked, so no removal commit exists.
+- Side observation for the owner: while the dev server ran this session, something on the
+  network sent `GET /login` + `POST /api/auth/login` (404s) to localhost:3000's bound network
+  address, then the process died (exit 144). No repo change involved; worth knowing the dev
+  server is network-visible (Tailscale interface).
+
 ### 2026-07-17 — Profile-README braille portrait accepted: Variant D (#14, part of #13)
 
 - **#14 iteration loop closed:** the full-framing chafa portrait for `godfreyponce/GodfreyPonce`

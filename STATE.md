@@ -12,12 +12,11 @@ per-feature detail: `docs/HISTORY.md`. Work queue: GitHub Issues (`gh issue list
 
 ## Now
 
-- **Profile README (repo `godfreyponce/GodfreyPonce`, NOT this one):** portrait ACCEPTED —
-  Variant D, #14 closed (recipe + round history: docs/HISTORY.md 2026-07-17 entry). Readme
-  committed LOCALLY in scratch clone (`cb31900`), **push HELD by owner decision**: nothing goes
-  public until the new full-README design (**issue #15**, not yet green-lit) ships as one piece.
-  Scratch clone is session-ephemeral — D's art survives in card 2 of `public/preview-readme.html`
-  (KEEP until ship) + recipe in HISTORY. #13 stays open: neofetch-panel phase, owner-gated.
+- **Profile README SHIPPED 2026-07-17** (#15 + #13 + #14 closed): live at github.com/godfreyponce,
+  classic layout, SVG dark/light pair, `GodfreyPonce` commit `e0e9e4a`. Follow-up **#16
+  (green-lit)**: neofetch panel renders too small at GitHub's README width — generator, panel
+  text, and continuity notes preserved in the ticket. Next: `/plan-ticket 16` in a fresh window.
+  Owner rule (2026-07-17): NO middle dots (·) or em dashes in shipped copy.
 - Pre-existing tree items (owner's, don't touch): unstaged deletion of
   agent_architecture_strategy.md, untracked Icon file.
 

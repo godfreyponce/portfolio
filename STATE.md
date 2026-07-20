@@ -8,14 +8,15 @@ Education → LossGraph → The Lab → Passions → Footer. Repo: github.com/go
 per-feature detail: `docs/HISTORY.md`. Work queue: GitHub Issues (`gh issue list`). Protocol:
 `AGENTS.md`.*
 
-**Last updated: 2026-07-19**
+**Last updated: 2026-07-20**
 
 ## Now
 
-- **Profile README done** (#16 closed 2026-07-19, after #15/#13/#14): live at
-  github.com/godfreyponce, `GodfreyPonce` commit `ad1373c` — variant A "big type classic"
-  (panel 26px, wrapped ≤33ch, ~12.9px effective at README width vs 8px before). Detail in
-  `docs/HISTORY.md`. No WIP — next work: pick from `gh issue list`.
+- **Profile README done** (#16, #17 closed; after #15/#13/#14): live at
+  github.com/godfreyponce, `GodfreyPonce` commit `c0ab83b` — variant A "big type classic"
+  (panel 26px, wrapped ≤33ch, ~12.9px effective at README width vs 8px before); Interests
+  line now "soccer, 3d printing, agents" (#17). Detail in `docs/HISTORY.md`. No WIP —
+  next work: pick from `gh issue list`.
   Owner rule (2026-07-17): NO middle dots (·) or em dashes in shipped copy.
 - Pre-existing tree items (owner's, don't touch): unstaged deletion of
   agent_architecture_strategy.md, untracked Icon file.

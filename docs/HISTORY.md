@@ -11,6 +11,13 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-07-20 — Interests line updated (#17)
+
+- Panel line changed to `Interests: soccer, 3d printing, agents` (owner request, verbatim);
+  wraps at 33ch to `soccer, 3d printing,` + indented `agents` continuation. Regenerated both
+  themes with the same variant A args, pushed `c0ab83b`, verified live. Geometry unchanged
+  (1684×864, Stack line still the longest); portrait byte-identical.
+
 ### 2026-07-19 — Neofetch panel resized for GitHub render width (#16)
 
 - **Shipped variant A "big type classic"** to `GodfreyPonce` main (`ad1373c`): same classic

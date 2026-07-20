@@ -11,6 +11,26 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-07-19 — Neofetch panel resized for GitHub render width (#16)
+
+- **Shipped variant A "big type classic"** to `GodfreyPonce` main (`ad1373c`): same classic
+  layout as #15 (portrait left 16px, ~527px effective), panel type bumped 16/22 → **26/34**
+  with the panel text wrapped at ≤33 chars (2-space hanging indent; continuation lines render
+  in the value color). Panel now reads at **~12.9px effective** at GitHub's ~838px README
+  width (was 8.0px). `readme.md` untouched — its `<picture>` already points at both SVGs.
+- **How:** #15's generator recreated from the ticket with `P_SIZE/T_SIZE/T_LH` as CLI args
+  (advances scale linearly: braille `11.04·P/16`, panel text `9.7·T/16`), regression-pinned to
+  the shipped 1668×864 geometry before any variant work. Portrait extracted from the shipped
+  SVG's tspans (51×96) and diff-verified byte-identical after regeneration. Three variants
+  (A big-type / B compact P=12,T=20 / C stacked hero T=18) previewed against the shipped
+  render at 838px in throwaway `public/preview-16.html` (deleted); owner picked A; pushed
+  files byte-matched the previewed ones. Verified live on the profile (dark, signed-out);
+  light is the same generator run, checked in preview.
+- **Known limit (owner accepted desktop-only):** at mobile README width (~370px) even A is
+  ~6px — a static SVG can't fix that while the portrait spans 96 braille columns. A real
+  mobile fix is architectural: panel as native README text (e.g. highlighted code block)
+  beside a portrait-only image.
+
 ### 2026-07-17 — Profile README SHIPPED: braille portrait + neofetch panel SVG pair (#15, absorbs #13)
 
 - **Live at github.com/godfreyponce** (`GodfreyPonce` main, commit `e0e9e4a`): `readme.md` is a
@@ -202,12 +222,15 @@ Everything below was verified in the browser + `tsc --noEmit` clean.*
 - projects data lives in `lib/projects.ts` (typed `Project`, `MediaItem` with optional
   `fit`); Signal was deliberately REMOVED 2026-07-07 (owner) — don't resurrect from git.
 - git (any external binary, really) can suddenly die with `fatal: Unable to read current
-  working directory: Operation not permitted` in this repo — that's macOS revoking the
-  terminal's **Desktop folder** access (TCC), NOT a git/repo problem. File tools keep
-  working, which makes it confusing. Fix: owner re-allows in System Settings → Privacy &
-  Security → Files and Folders (or clicks the Allow dialog), then retry. Happened
-  2026-07-09 mid-session. Also: the harness may reset the shell cwd between calls — prefix
-  git commands with `cd /Users/geovponce/Desktop/personalWebsite;` if paths act weird.
+  working directory: Operation not permitted` — that's macOS revoking the terminal's
+  folder access (TCC), NOT a git/repo problem. File tools keep working, which makes it
+  confusing. Fix: owner re-allows in System Settings → Privacy & Security → Files and
+  Folders (or clicks the Allow dialog), then retry. Happened 2026-07-09 and 2026-07-17.
+  Since 2026-07-18 the repo's ONLY home is `/Users/geovponce/Developer/personalWebsite` —
+  the old `~/Desktop/personalWebsite` path is gone; paths in pre-2026-07-18 plan files
+  still say Desktop, substitute Developer. The harness may reset the shell cwd between
+  calls — prefix git commands with `cd /Users/geovponce/Developer/personalWebsite;` if
+  paths act weird.
 
 ## File map (the parts that matter)
 

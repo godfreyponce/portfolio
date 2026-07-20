@@ -8,14 +8,14 @@ Education → LossGraph → The Lab → Passions → Footer. Repo: github.com/go
 per-feature detail: `docs/HISTORY.md`. Work queue: GitHub Issues (`gh issue list`). Protocol:
 `AGENTS.md`.*
 
-**Last updated: 2026-07-17**
+**Last updated: 2026-07-19**
 
 ## Now
 
-- **Profile README SHIPPED 2026-07-17** (#15 + #13 + #14 closed): live at github.com/godfreyponce,
-  classic layout, SVG dark/light pair, `GodfreyPonce` commit `e0e9e4a`. Follow-up **#16
-  (green-lit)**: neofetch panel renders too small at GitHub's README width — generator, panel
-  text, and continuity notes preserved in the ticket. Next: `/plan-ticket 16` in a fresh window.
+- **Profile README done** (#16 closed 2026-07-19, after #15/#13/#14): live at
+  github.com/godfreyponce, `GodfreyPonce` commit `ad1373c` — variant A "big type classic"
+  (panel 26px, wrapped ≤33ch, ~12.9px effective at README width vs 8px before). Detail in
+  `docs/HISTORY.md`. No WIP — next work: pick from `gh issue list`.
   Owner rule (2026-07-17): NO middle dots (·) or em dashes in shipped copy.
 - Pre-existing tree items (owner's, don't touch): unstaged deletion of
   agent_architecture_strategy.md, untracked Icon file.
@@ -34,8 +34,5 @@ Verify visually via Chrome automation at localhost:3000 (scroll the whole page).
 
 - `overflow-x-hidden` on `<main>` kills `position: sticky` — it's `overflow-x-clip` now, don't revert.
 - Next 16 needs `images.qualities` in `next.config.ts` for non-75 image qualities.
-- git (any external binary) can die here with `Operation not permitted` — macOS TCC revoking
-  Desktop access, not a repo problem; owner re-allows in System Settings, retry. Prefix git
-  with `cd /Users/geovponce/Desktop/personalWebsite;` if paths act weird.
 - Signal project was deliberately removed 2026-07-07 (owner) — don't resurrect from git.
 - Backgrounded browser-automation tabs get throttled — fire-and-collect JS + screenshots.

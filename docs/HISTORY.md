@@ -11,6 +11,31 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-07-21 — Social hover weight: Kal bubble physics on hero links (#19)
+
+- **Shipped variant A "subtle pop"** (commit `f7fbe25`): hero GITHUB/LINKEDIN/EMAIL carry
+  press-and-hold bubble weight on top of #18's cursors/colors. Hover pops to `scale(1.05)`
+  on the 0.3s `cubic-bezier(0.34,1.56,0.64,1)` overshoot spring; press sinks to
+  `scale(0.94) translateY(1px)` on the slow 0.45s `(0.16,0.9,0.3,1)` curve; release
+  springs back with overshoot. Ported from Kal `app/globals.css:1719-1735` (Kal is
+  press-only; the hover pop is our adaptation).
+- **Where it lives / #20 reuse:** ONE plain unlayered class `.hover-bubble` in
+  `app/globals.css` — deliberately NOT `@utility`: SocialLink carries the layered
+  `transition-colors` utility, and two same-specificity utilities setting transition
+  longhands would race on stylesheet order; an unlayered class always beats layered
+  utilities (same pattern as `.email-google`). Tailwind's 150ms color timing is folded
+  into the transition shorthand so brand-color fades don't snap. Wired per-link in
+  `Hero.tsx` classNames (hero-scoped; Footer also uses SocialLink and stays plain).
+  #20 = add `hover-bubble` to the UTD/Soccer bio links, nothing more.
+- **Verified:** computed `matrix(1.05,…)` + brand colors on hover; EMAIL letters resolve
+  to Google colors WHILE the word is scaled (transform composes with the span animation);
+  `/` separators shift 0px (no reflow); footer unaffected; reduced-motion guard in served
+  CSS; `tsc --noEmit` clean. Owner picked A from 3 variants in throwaway
+  `public/preview-bubble.html` (B scale 1.08, C 1.06 + 1px lift; deleted after).
+- **Gotcha re-confirmed:** a hidden/backgrounded automation tab does not flush hover
+  style recalc — synthetic hover reads stale computed styles until a frame is forced
+  (take a screenshot after hovering, then read).
+
 ### 2026-07-21 — Hero social hover revamp: brand cursors + brand colors (#18)
 
 - **Shipped variant C** (commit `2c28330`): hovering GITHUB/LINKEDIN/EMAIL in the hero swaps

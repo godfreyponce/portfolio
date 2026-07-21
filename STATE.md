@@ -12,12 +12,13 @@ per-feature detail: `docs/HISTORY.md`. Work queue: GitHub Issues (`gh issue list
 
 ## Now
 
-- **Hero social hover revamp SHIPPED (#18 closed)**: brand logo cursors + brand color
-  hovers, EMAIL variant C (Gmail-red flash then Google multicolor letters). Commit
-  `2c28330`, owner accepted. NOT pushed (repo convention: owner pushes). Detail in
-  `docs/HISTORY.md`. No WIP — next work: **#19** (hover weight, Kal bubble port) and
-  **#20** (UTD/Soccer same feel, depends on #19), both filed with full specs, awaiting
-  owner green-light (`ready-for-agent`).
+- **#19 SHIPPED**: bubble weight on hero social hovers (Kal .cell port), owner
+  picked VARIANT A: hover scale(1.05) on the overshoot spring, press sink
+  0.94 + 1px on the slow curve. Commit `f7fbe25`, owner accepted 2026-07-21.
+  Physics live in ONE reusable class `.hover-bubble` (app/globals.css). NOT
+  pushed - neither is #18 (`2c28330`); owner pushes, `fixes #N` auto-closes.
+  Detail in `docs/HISTORY.md`. Next: **#20** (UTD/Soccer in bio get the same
+  feel, just add `hover-bubble`), filed, needs `ready-for-agent`.
   Owner rule (2026-07-17): NO middle dots (·) or em dashes in shipped copy.
 - Pre-existing tree items (owner's, don't touch): unstaged deletion of
   agent_architecture_strategy.md, untracked Icon file.

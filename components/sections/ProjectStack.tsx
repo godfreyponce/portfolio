@@ -6,7 +6,7 @@ import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } f
 import ProjectCard from "@/components/sections/ProjectCard";
 import Reveal from "@/components/ui/Reveal";
 import type { Project } from "@/lib/projects";
-import type { Contributions, ContributionDay } from "@/lib/github";
+import type { Contributions, ContributionDay, Streaks } from "@/lib/github";
 
 // GitHub's dark-mode contribution scale; level 0 is a faint cell on the dark card
 const HEAT_COLORS = ["rgba(255,255,255,0.06)", "#0e4429", "#006d32", "#26a641", "#39d353"];
@@ -61,6 +61,25 @@ function GitHubTile({ stacked = false, contributions }: { stacked?: boolean; con
   );
 }
 
+// Owner-picked "editorial numerals" treatment (#21): current streak in the
+// display serif with a small flame, longest kept faint beside it.
+function StreakLine({ streaks, className = "" }: { streaks?: Streaks | null; className?: string }) {
+  if (!streaks) return null;
+  return (
+    <div className={`flex items-baseline justify-end gap-4 ${className}`}>
+      <span className="sr-only">
+        {streaks.current} day current streak, {streaks.longest} day longest streak on GitHub
+      </span>
+      <span aria-hidden className="font-display text-[17px] text-ink-muted tabular-nums">
+        {streaks.current} <span className="text-[13px]">&#x1F525;</span>
+      </span>
+      <span aria-hidden className="text-xs text-ink-faint tabular-nums">
+        longest {streaks.longest}
+      </span>
+    </div>
+  );
+}
+
 function StackedCard({
   index,
   total,
@@ -92,9 +111,11 @@ function StackedCard({
 export default function ProjectStack({
   projects,
   contributions,
+  streaks,
 }: {
   projects: Project[];
   contributions?: Contributions | null;
+  streaks?: Streaks | null;
 }) {
   const reduced = useReducedMotion();
   const [isMd, setIsMd] = useState(false);
@@ -129,7 +150,12 @@ export default function ProjectStack({
         ))}
 
         <Reveal delay={0.1 + rest.length * 0.05}>
-          <GitHubTile />
+          <div className="flex h-full flex-col gap-3">
+            <div className="min-h-0 flex-1">
+              <GitHubTile />
+            </div>
+            <StreakLine streaks={streaks} />
+          </div>
         </Reveal>
       </div>
     );
@@ -147,6 +173,7 @@ export default function ProjectStack({
 
       <StackedCard index={projects.length} total={total} progress={scrollYProgress}>
         <GitHubTile stacked contributions={contributions} />
+        <StreakLine streaks={streaks} className="absolute inset-x-0 top-full mt-3" />
       </StackedCard>
     </div>
   );

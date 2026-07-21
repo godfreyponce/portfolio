@@ -132,3 +132,30 @@ body {
   35% { color: var(--color-google-red); }
   100% { color: var(--color-google-green); }
 }
+
+/*
+ * Social link hover weight (Kal bubble port, #19; reused by #20). Hover pops
+ * on the overshoot spring; press sinks slowly so the hold reads as weight;
+ * release snaps back to the spring settle. Plain class, not @utility: it must
+ * beat SocialLink's layered `transition-colors` utility in the cascade, so the
+ * color timing is folded into this shorthand.
+ */
+.hover-bubble {
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.hover-bubble:hover {
+  transform: scale(1.05);
+}
+.hover-bubble:active {
+  transform: scale(0.94) translateY(1px);
+  transition: transform 0.45s cubic-bezier(0.16, 0.9, 0.3, 1), color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hover-bubble,
+  .hover-bubble:hover,
+  .hover-bubble:active {
+    transition: none;
+    transform: none;
+  }
+}

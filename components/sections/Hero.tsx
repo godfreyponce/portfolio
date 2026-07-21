@@ -25,11 +25,31 @@ export default function Hero() {
         </p>
 
         <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-semibold uppercase tracking-[0.2em] text-ink-subtle md:text-base">
-          <SocialLink href="https://github.com/godfreyponce">Github</SocialLink>
+          <SocialLink
+            href="https://github.com/godfreyponce"
+            className="cursor-github hover:!text-brand-github"
+          >
+            Github
+          </SocialLink>
           <span className="font-light text-ink-faint/40">/</span>
-          <SocialLink href="https://linkedin.com/in/godfreyponce">Linkedin</SocialLink>
+          <SocialLink
+            href="https://linkedin.com/in/godfreyponce"
+            className="cursor-linkedin hover:!text-brand-linkedin"
+          >
+            Linkedin
+          </SocialLink>
           <span className="font-light text-ink-faint/40">/</span>
-          <SocialLink href="mailto:poncegodfrey@gmail.com">Email</SocialLink>
+          <SocialLink
+            href="mailto:poncegodfrey@gmail.com"
+            className="email-google cursor-gmail"
+            ariaLabel="Email"
+          >
+            <span>E</span>
+            <span>m</span>
+            <span>a</span>
+            <span>i</span>
+            <span>l</span>
+          </SocialLink>
         </div>
       </div>
     </section>

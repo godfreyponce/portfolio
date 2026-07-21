@@ -12,14 +12,16 @@ per-feature detail: `docs/HISTORY.md`. Work queue: GitHub Issues (`gh issue list
 
 ## Now
 
-- **#20 SHIPPED**: bio bubble weight (UTD + Soccer in About.tsx), owner picked
-  VARIANT A: transform on an inner wrapper so UTD's tooltip stays anchored;
-  Soccer hover color changed to hunter green #355e3b (owner-directed, deviates
-  from the plan's keep-accent rule). Reuses `.hover-bubble` from #19, no new
-  physics. Commit `9a3a1f1`, owner accepted 2026-07-21. PUSHED 2026-07-21
-  (owner-directed); issue #20 auto-closed. Queue is EMPTY, no open issues.
-  Detail in `docs/HISTORY.md`.
-  Owner rule (2026-07-17): NO middle dots (·) or em dashes in shipped copy.
+- **#21 SHIPPED**: streak line under the Lab GitHub card, owner picked
+  VARIANT C (editorial numerals: current in Fraunces + flame, faint
+  "longest N"). Zero state shows 0 honestly. Commit `be3873c`, owner accepted
+  2026-07-21. NOT pushed (issue #21 auto-closes on push via fixes #21).
+  Detail + API gotchas (y=all years DESCENDING, future zero-day padding) in
+  `docs/HISTORY.md`.
+- **#22 QUEUED**: animate streak numbers on hover (owner request, depends on #21).
+- Owner rule (2026-07-17): NO middle dots (·) or em dashes in shipped copy.
+- Owner rule (2026-07-21): ideas become GitHub issues at first actionable moment.
+- #20 shipped/pushed 2026-07-21, detail in `docs/HISTORY.md`.
 - Pre-existing tree items (owner's, don't touch): unstaged deletion of
   agent_architecture_strategy.md, untracked Icon file.
 

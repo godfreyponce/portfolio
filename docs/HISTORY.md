@@ -11,6 +11,35 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-07-21 — Streak line: current + longest GitHub streak under Lab card (#21)
+
+- **Shipped variant C "editorial numerals"** (commit `be3873c`): right-aligned line just
+  under the GitHub tile — current streak in Fraunces (`font-display text-[17px]
+  text-ink-muted`) with a small flame, `longest N` faint beside it (`text-xs ink-faint`),
+  `tabular-nums`, flame `aria-hidden` + `sr-only` sentence. Owner picked C from 3 variants
+  in throwaway `public/preview-streak.html` (A = caption text line, B = badge pills;
+  deleted after). First mock used a generic card and owner rejected it — the preview card
+  must faithfully replicate the real tile (octocat, Fraunces heading, 9px heatmap cells).
+- **Data:** new `getStreaks()` in `lib/github.ts` fetches the jogruber proxy with `?y=all`
+  (all-time longest, not capped at 365 days), 6h revalidate, null on any failure → line
+  renders nothing (mirrors heatmap). `getContributions()` untouched. `TheLab.tsx` fetches
+  both via `Promise.all`.
+- **⚠️ API gotchas (y=all):** years arrive in DESCENDING order (2026 first), and the
+  current year is PADDED with future zero-count days through Dec 31. `computeStreaks()`
+  filters `date <= todayISO` and string-sorts before any math or the current streak is
+  always 0.
+- **Streak semantics:** a zero-count TODAY is pending, not a break (skip it, walk back
+  from yesterday); zero state renders `0` honestly (owner call); adjacency checked via
+  `Date.parse` day-diff so a missing day breaks a run. Pure `computeStreaks(days,
+  todayISO)` is exported; verified with 9 node fixture cases (Node 24 runs `.ts` directly)
+  + live call matching known real values (16/16 on ship day).
+- **Placement:** `StreakLine` local to `ProjectStack.tsx`. Stacked branch: second child of
+  the last `StackedCard`, `absolute inset-x-0 top-full mt-3` off the `h-[440px]` sticky
+  wrapper (last card keeps scale 1 / veil 0, so no overlap). Grid/SSR branch: tile wrapped
+  in `flex h-full flex-col gap-3` with the line below (verified via SSR HTML — `isMd`
+  starts false, so curl shows the grid branch).
+- **Follow-up queued:** #22 animate the streak numbers on hover (owner request at pick).
+
 ### 2026-07-21 — Bio bubble weight: UTD + Soccer hovers (#20)
 
 - **Shipped variant A "anchored tooltip"** (commit `9a3a1f1`): the two interactive bio

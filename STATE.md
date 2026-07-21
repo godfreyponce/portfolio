@@ -12,13 +12,10 @@ per-feature detail: `docs/HISTORY.md`. Work queue: GitHub Issues (`gh issue list
 
 ## Now
 
-- **#21 SHIPPED**: streak line under the Lab GitHub card, owner picked
-  VARIANT C (editorial numerals: current in Fraunces + flame, faint
-  "longest N"). Zero state shows 0 honestly. Commit `be3873c`, owner accepted
-  2026-07-21. NOT pushed (issue #21 auto-closes on push via fixes #21).
-  Detail + API gotchas (y=all years DESCENDING, future zero-day padding) in
-  `docs/HISTORY.md`.
 - **#22 QUEUED**: animate streak numbers on hover (owner request, depends on #21).
+  Awaiting ready-for-agent label.
+- #21 shipped/pushed 2026-07-21 (streak line, VARIANT C), issue auto-closed.
+  Detail + API gotchas in `docs/HISTORY.md`.
 - Owner rule (2026-07-17): NO middle dots (·) or em dashes in shipped copy.
 - Owner rule (2026-07-21): ideas become GitHub issues at first actionable moment.
 - #20 shipped/pushed 2026-07-21, detail in `docs/HISTORY.md`.

@@ -11,6 +11,32 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-07-21 — Bio bubble weight: UTD + Soccer hovers (#20)
+
+- **Shipped variant A "anchored tooltip"** (commit `9a3a1f1`): the two interactive bio
+  words in `components/sections/About.tsx` reuse `.hover-bubble` from #19 verbatim — no
+  new physics, zero additions to globals.css. Owner picked A from 3 variants in throwaway
+  `public/preview-bio-bubble.html` (B = transform on the outer span so the tooltip rides
+  along; C = hover pop without press sink on UTD; deleted after).
+- **UTD restructure:** `.hover-bubble` can't sit on UTD's outer span without scaling the
+  absolutely-positioned tooltip inside it. Fix: outer span keeps `group relative
+  inline-block cursor-help` and anchors the tooltip; a NEW inner span carries
+  `hover-bubble` + the word. Two gotchas baked into that move: (1) underline classes MUST
+  move to the inner span — `text-decoration` does not propagate into `inline-block`
+  children, leaving them outside renders no underline at all; (2) color hover became
+  `group-hover:` so it still fires from the whole word area, matching the old behavior.
+- **Transition conflict rule (same as #19):** both words DROPPED Tailwind's
+  `transition-colors duration-200` — `.hover-bubble` folds color timing (150ms) into its
+  own transition shorthand, and two transition declarations fight in the cascade. Net:
+  bio hover color fades went 200ms → 150ms, matching the hero socials.
+- **Owner-directed deviation:** Soccer's hover color is hunter green `#355e3b` (arbitrary
+  values `hover:text-[#355e3b] hover:decoration-[#355e3b]`, no theme token — single use),
+  requested at review; the plan had said keep accent. UTD keeps accent `#c2410c`.
+- **Verified:** UTD pops with anchored, non-wobbling tooltip; underlines intact at rest;
+  no paragraph reflow on hover; Soccer click still fires `highlight-soccer` + scrolls to
+  `#soccer` (smooth animation doesn't play in a throttled background automation tab —
+  environment, not code; handler + target confirmed via JS); `tsc --noEmit` clean.
+
 ### 2026-07-21 — Social hover weight: Kal bubble physics on hero links (#19)
 
 - **Shipped variant A "subtle pop"** (commit `f7fbe25`): hero GITHUB/LINKEDIN/EMAIL carry

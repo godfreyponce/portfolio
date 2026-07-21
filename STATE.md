@@ -12,13 +12,13 @@ per-feature detail: `docs/HISTORY.md`. Work queue: GitHub Issues (`gh issue list
 
 ## Now
 
-- **#19 SHIPPED**: bubble weight on hero social hovers (Kal .cell port), owner
-  picked VARIANT A: hover scale(1.05) on the overshoot spring, press sink
-  0.94 + 1px on the slow curve. Commit `f7fbe25`, owner accepted 2026-07-21.
-  Physics live in ONE reusable class `.hover-bubble` (app/globals.css).
-  PUSHED 2026-07-21 (owner-directed) along with #18 (`2c28330`); issues #18/#19
-  auto-closed. Detail in `docs/HISTORY.md`. Next: **#20** (UTD/Soccer in bio get
-  the same feel, just add `hover-bubble`), filed, needs `ready-for-agent`.
+- **#20 SHIPPED**: bio bubble weight (UTD + Soccer in About.tsx), owner picked
+  VARIANT A: transform on an inner wrapper so UTD's tooltip stays anchored;
+  Soccer hover color changed to hunter green #355e3b (owner-directed, deviates
+  from the plan's keep-accent rule). Reuses `.hover-bubble` from #19, no new
+  physics. Commit `9a3a1f1`, owner accepted 2026-07-21. NOT pushed yet, owner
+  reviews (`fixes #20` closes the issue on push). Queue is now EMPTY.
+  Detail in `docs/HISTORY.md`.
   Owner rule (2026-07-17): NO middle dots (·) or em dashes in shipped copy.
 - Pre-existing tree items (owner's, don't touch): unstaged deletion of
   agent_architecture_strategy.md, untracked Icon file.

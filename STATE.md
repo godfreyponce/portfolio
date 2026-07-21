@@ -16,8 +16,8 @@ per-feature detail: `docs/HISTORY.md`. Work queue: GitHub Issues (`gh issue list
   VARIANT A: transform on an inner wrapper so UTD's tooltip stays anchored;
   Soccer hover color changed to hunter green #355e3b (owner-directed, deviates
   from the plan's keep-accent rule). Reuses `.hover-bubble` from #19, no new
-  physics. Commit `9a3a1f1`, owner accepted 2026-07-21. NOT pushed yet, owner
-  reviews (`fixes #20` closes the issue on push). Queue is now EMPTY.
+  physics. Commit `9a3a1f1`, owner accepted 2026-07-21. PUSHED 2026-07-21
+  (owner-directed); issue #20 auto-closed. Queue is EMPTY, no open issues.
   Detail in `docs/HISTORY.md`.
   Owner rule (2026-07-17): NO middle dots (·) or em dashes in shipped copy.
 - Pre-existing tree items (owner's, don't touch): unstaged deletion of

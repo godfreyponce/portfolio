@@ -11,6 +11,29 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-07-21 — Hero social hover revamp: brand cursors + brand colors (#18)
+
+- **Shipped variant C** (commit `2c28330`): hovering GITHUB/LINKEDIN/EMAIL in the hero swaps
+  the cursor for the brand logo and takes brand text colors. Cursors are 32px SVG data URIs
+  in `@utility cursor-github/-linkedin/-gmail` (globals.css): Simple Icons octocat `#181717`,
+  LinkedIn mark `#0a66c2`, official multicolor Gmail M (viewBox `52 42 88 66`), hotspot 4 4,
+  `pointer` fallback. Text hovers: `hover:!text-brand-github` / `hover:!text-brand-linkedin`
+  (`!` needed to beat SocialLink's baked-in `hover:text-ink`, same trick as Footer's
+  `hover:!text-white`). EMAIL = variant C: word flashes Gmail red at 35%, then letters
+  resolve to Google colors (blue/red/yellow/blue/green) via `email-resolve-*` keyframes,
+  0.55s ease-out forwards; letters are 5 spans inside the `.email-google` link,
+  `aria-label="Email"` keeps it one word for screen readers.
+- **Tokens added** (no-hardcoded-hex rule): `--color-brand-github/-brand-linkedin` +
+  `--color-google-blue/-red/-yellow/-green` in the `@theme` block.
+- **Owner picked C** from 3 variants in throwaway `public/preview-social-hover.html`
+  (A snap-in colors, B 24px cursor + 40ms letter stagger, C red-flash resolve; deleted after).
+- **Safari:** no SVG-cursor support — falls back to plain pointer, colors still work. If
+  parity ever matters: swap data URIs for 32px PNGs in `public/cursors/`.
+- **Follow-ups filed:** #19 (hover weight — port Kal's `.cell` bubble physics: 0.30s
+  `cubic-bezier(0.34,1.56,0.64,1)` overshoot release + 0.45s `(0.16,0.9,0.3,1)` press-in
+  sink, from Kal `app/globals.css:1719-1735`), #20 (UTD + Soccer in bio get the same feel,
+  reusing #19's shared utility). Both await owner green-light.
+
 ### 2026-07-20 — Interests line updated (#17)
 
 - Panel line changed to `Interests: soccer, 3d printing, agents` (owner request, verbatim);

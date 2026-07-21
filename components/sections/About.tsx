@@ -15,8 +15,10 @@ export default function About() {
         <Reveal delay={0.05} className="mt-6 space-y-6 text-left text-base leading-relaxed text-ink-muted md:text-lg">
           <p>
             Hey! I&apos;m a junior Computer Science major with a minor in Cognitive Science at{" "}
-            <span className="group relative inline-block cursor-help font-medium text-ink underline decoration-rule transition-colors duration-200 hover:text-accent hover:decoration-accent">
-              UTD
+            <span className="group relative inline-block cursor-help">
+              <span className="hover-bubble font-medium text-ink underline decoration-rule group-hover:text-accent group-hover:decoration-accent">
+                UTD
+              </span>
               <span className="pointer-events-none absolute bottom-full left-1/2 mb-2 w-max -translate-x-1/2 rounded-sm bg-ink px-3 py-1 text-xs text-white opacity-0 shadow-lift transition-opacity duration-200 group-hover:opacity-100">
                 The University of Texas at Dallas
                 <span className="absolute left-1/2 top-full -translate-x-1/2 border-4 border-transparent border-t-ink" />
@@ -32,7 +34,7 @@ export default function About() {
                 window.dispatchEvent(new CustomEvent("highlight-soccer"));
               }}
               style={{ cursor: "url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"32\" height=\"32\" style=\"font-size: 24px\"><text y=\"20\">⚽</text></svg>'), auto" }}
-              className="font-medium text-ink underline decoration-rule transition-colors duration-200 hover:text-accent hover:decoration-accent"
+              className="hover-bubble font-medium text-ink underline decoration-rule hover:text-[#355e3b] hover:decoration-[#355e3b]"
             >
               Soccer
             </button>

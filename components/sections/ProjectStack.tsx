@@ -63,18 +63,54 @@ function GitHubTile({ stacked = false, contributions }: { stacked?: boolean; con
 
 // Owner-picked "editorial numerals" treatment (#21): current streak in the
 // display serif with a small flame, longest kept faint beside it.
+// #22: on hover the numbers count up from 0 (skipped for reduced motion).
 function StreakLine({ streaks, className = "" }: { streaks?: Streaks | null; className?: string }) {
+  const reduced = useReducedMotion();
+  const [shown, setShown] = useState<{ current: number; longest: number } | null>(null);
+  const rafRef = useRef(0);
+
+  useEffect(() => () => cancelAnimationFrame(rafRef.current), []);
+
   if (!streaks) return null;
+  const current = shown?.current ?? streaks.current;
+  const longest = shown?.longest ?? streaks.longest;
+
+  const play = () => {
+    if (reduced) return;
+    cancelAnimationFrame(rafRef.current);
+    const start = performance.now();
+    const tick = (now: number) => {
+      const t = Math.min((now - start) / 600, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      setShown({
+        current: Math.round(eased * streaks.current),
+        longest: Math.round(eased * streaks.longest),
+      });
+      if (t < 1) rafRef.current = requestAnimationFrame(tick);
+    };
+    rafRef.current = requestAnimationFrame(tick);
+  };
+
+  const widthCh = (n: number) => `${String(n).length}ch`;
+
   return (
-    <div className={`flex items-baseline justify-end gap-4 ${className}`}>
-      <span className="sr-only">
-        {streaks.current} day current streak, {streaks.longest} day longest streak on GitHub
-      </span>
-      <span aria-hidden className="font-display text-[17px] text-ink-muted tabular-nums">
-        {streaks.current} <span className="text-[13px]">&#x1F525;</span>
-      </span>
-      <span aria-hidden className="text-xs text-ink-faint tabular-nums">
-        longest {streaks.longest}
+    <div className={`flex justify-end ${className}`}>
+      <span className="flex items-baseline gap-4" onMouseEnter={play}>
+        <span className="sr-only">
+          {streaks.current} day current streak, {streaks.longest} day longest streak on GitHub
+        </span>
+        <span aria-hidden className="font-display text-[17px] text-ink-muted tabular-nums">
+          <span className="inline-block text-right" style={{ minWidth: widthCh(streaks.current) }}>
+            {current}
+          </span>{" "}
+          <span className="text-[13px]">&#x1F525;</span>
+        </span>
+        <span aria-hidden className="text-xs text-ink-faint tabular-nums">
+          longest{" "}
+          <span className="inline-block text-right" style={{ minWidth: widthCh(streaks.longest) }}>
+            {longest}
+          </span>
+        </span>
       </span>
     </div>
   );

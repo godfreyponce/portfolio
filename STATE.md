@@ -12,9 +12,8 @@ per-feature detail: `docs/HISTORY.md`. Work queue: GitHub Issues (`gh issue list
 
 ## Now
 
-- **#22 COMMITTED, not pushed** (`ae57c65`): streak hover count-up (variant A),
-  trigger narrowed to the numbers cluster at acceptance. Owner reviews + pushes;
-  push to main auto-closes the issue. Detail in `docs/HISTORY.md`.
+- #22 shipped/pushed 2026-07-22 (streak hover count-up, VARIANT A, trigger on
+  numbers only), issue auto-closed. Detail in `docs/HISTORY.md`.
 - #21 shipped/pushed 2026-07-21 (streak line, VARIANT C), issue auto-closed.
   Detail + API gotchas in `docs/HISTORY.md`.
 - Owner rule (2026-07-17): NO middle dots (·) or em dashes in shipped copy.

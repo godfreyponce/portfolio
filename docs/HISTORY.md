@@ -11,6 +11,31 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-07-22 — Streak hover animation: count-up on the numbers (#22)
+
+- **Shipped variant A "count-up"** (commit `ae57c65`): hovering the streak numbers makes
+  both count up from 0 to their real values over ~600ms with a cubic ease-out, driven by a
+  `requestAnimationFrame` loop in `StreakLine` (`ProjectStack.tsx`). Owner picked A from 3
+  variants in throwaway `public/preview-streak-hover.html` (B = bubble-weight swell,
+  C = odometer digit roll; deleted after).
+- **Hover target narrowed at acceptance:** first build put `onMouseEnter` on the outer
+  full-width line div (`absolute inset-x-0` in the stacked branch → ~900px hover row).
+  Owner feedback: trigger only on the numbers. The handler moved to an inner
+  shrink-wrapped span (`flex items-baseline gap-4`, ~115px) holding the visible cluster;
+  the outer div only right-aligns (`flex justify-end`). Both call sites untouched.
+- **No layout shift:** each number renders in an `inline-block text-right` span with
+  `minWidth` reserved in `ch` units for the final value, so mid-count digits never move
+  the flame, "longest", or the right edge.
+- **Guards:** `useReducedMotion()` skips the animation entirely; hooks are hoisted above
+  the `if (!streaks) return null` early return (React hook-order requirement); unmount
+  cleanup cancels the pending rAF; re-hover cancels and restarts cleanly. `sr-only`
+  sentence + `aria-hidden` structure from #21 unchanged.
+- **⚠️ Verification gotcha:** hidden automation tabs suspend rAF — the count-up can't be
+  watched frame-by-frame there. Verified instead by reading the StreakLine fiber's hook
+  state (shown state reaches final values, rafRef id advances) plus owner's live check.
+  React `onMouseEnter` also never fires from synthetic dispatched events; call the
+  element's `__reactProps` handler directly.
+
 ### 2026-07-21 — Streak line: current + longest GitHub streak under Lab card (#21)
 
 - **Shipped variant C "editorial numerals"** (commit `be3873c`): right-aligned line just

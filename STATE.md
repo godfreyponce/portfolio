@@ -8,12 +8,13 @@ Education → LossGraph → The Lab → Passions → Footer. Repo: github.com/go
 per-feature detail: `docs/HISTORY.md`. Work queue: GitHub Issues (`gh issue list`). Protocol:
 `AGENTS.md`.*
 
-**Last updated: 2026-07-21**
+**Last updated: 2026-07-22**
 
 ## Now
 
-- **#22 QUEUED**: animate streak numbers on hover (owner request, depends on #21).
-  Awaiting ready-for-agent label.
+- **#22 COMMITTED, not pushed** (`ae57c65`): streak hover count-up (variant A),
+  trigger narrowed to the numbers cluster at acceptance. Owner reviews + pushes;
+  push to main auto-closes the issue. Detail in `docs/HISTORY.md`.
 - #21 shipped/pushed 2026-07-21 (streak line, VARIANT C), issue auto-closed.
   Detail + API gotchas in `docs/HISTORY.md`.
 - Owner rule (2026-07-17): NO middle dots (·) or em dashes in shipped copy.

@@ -11,6 +11,34 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-07-27 — Client-side streak + heatmap fetch (#24)
+
+- **Root cause:** Amplify never runs ISR background revalidation, so `TheLab`'s server
+  fetches (`next: { revalidate: 21600 }`) froze at deploy time — prod showed 16/16 on
+  2026-07-27 while fresh data computed 21/21. Full probe trace in issue #24. Alternatives
+  rejected with owner: fixing Amplify ISR (open-ended AWS debugging), `force-dynamic`
+  (slows every visit, still fights CloudFront).
+- **Shipped fix** (commit `16e5ab1`): `ProjectStack` owns `contributions` + `streaks` as
+  state and fetches both in a `useEffect` on mount; `TheLab` is a plain non-async
+  component; `lib/github.ts` helpers dropped the Next-only `revalidate` option (only
+  server-specific thing in them). The jogruber API sends `access-control-allow-origin: *`
+  so browser calls work. `computeStreaks`, `StreakLine`, `GitHubTile`, `Heatmap` all
+  byte-identical.
+- **Intentional behavior change:** the streak line no longer exists in the SSR HTML
+  (`curl | grep -c "day current streak"` → 0); it appears ~200-400ms post-hydration.
+  Heatmap already behaved that way (stacked branch only renders post-hydration). Both
+  fetchers resolve null on failure → components render nothing, no new UI needed.
+- **Live-data proof during verification:** node helper run computed 21/21; minutes later
+  the browser showed 22/22 — the API had registered that day's contributions in between,
+  and a node re-run agreed at 22/22. Exactly the freshness the ticket wanted.
+- **⚠️ Verification gotchas:** backgrounded automation tabs throttle `setTimeout` to
+  ≥1s on top of suspending rAF, so the #22 count-up can't be watched even with an
+  rAF-shim — read the `shown` hook state off the StreakLine fiber instead (null until
+  hover, final values after). `read_network_requests` only tracks from its first call;
+  the page's own `performance.getEntriesByType('resource')` is the reliable check.
+  Grid-branch check without window resize: dispatch `isMd` state to false via the
+  ProjectStack fiber's hook queue, then reload the tab to discard the poke.
+
 ### 2026-07-22 — Streak hover animation: count-up on the numbers (#22)
 
 - **Shipped variant A "count-up"** (commit `ae57c65`): hovering the streak numbers makes

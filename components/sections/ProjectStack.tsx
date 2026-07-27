@@ -6,7 +6,7 @@ import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } f
 import ProjectCard from "@/components/sections/ProjectCard";
 import Reveal from "@/components/ui/Reveal";
 import type { Project } from "@/lib/projects";
-import type { Contributions, ContributionDay, Streaks } from "@/lib/github";
+import { getContributions, getStreaks, type Contributions, type ContributionDay, type Streaks } from "@/lib/github";
 
 // GitHub's dark-mode contribution scale; level 0 is a faint cell on the dark card
 const HEAT_COLORS = ["rgba(255,255,255,0.06)", "#0e4429", "#006d32", "#26a641", "#39d353"];
@@ -144,15 +144,10 @@ function StackedCard({
   );
 }
 
-export default function ProjectStack({
-  projects,
-  contributions,
-  streaks,
-}: {
-  projects: Project[];
-  contributions?: Contributions | null;
-  streaks?: Streaks | null;
-}) {
+export default function ProjectStack({ projects }: { projects: Project[] }) {
+  // Fetched in the browser so the numbers survive Amplify's frozen ISR cache (#24).
+  const [contributions, setContributions] = useState<Contributions | null>(null);
+  const [streaks, setStreaks] = useState<Streaks | null>(null);
   const reduced = useReducedMotion();
   const [isMd, setIsMd] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -164,6 +159,11 @@ export default function ProjectStack({
     update();
     mq.addEventListener("change", update);
     return () => mq.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
+    getContributions().then(setContributions);
+    getStreaks().then(setStreaks);
   }, []);
 
   const stacked = isMd && !reduced;

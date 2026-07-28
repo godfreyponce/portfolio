@@ -42,12 +42,13 @@ export function computeStreaks(days: { date: string; count: number }[], todayISO
 }
 
 // All-years contributions so the longest streak is all-time, not capped at 365 days.
-// Called from the browser (#24): Amplify never runs ISR revalidation, so any server
-// fetch freezes at deploy time. Returns null on any failure so the streak line
+// Called from the browser (#24, so Amplify's frozen ISR can't stale it) via the
+// same-origin proxy (#25, so content blockers can't block it; the relative URL
+// means this is browser-only). Returns null on any failure so the streak line
 // simply doesn't render.
 export async function getStreaks(): Promise<Streaks | null> {
   try {
-    const res = await fetch("https://github-contributions-api.jogruber.de/v4/godfreyponce?y=all");
+    const res = await fetch("/api/contributions?y=all");
     if (!res.ok) return null;
     const json: { contributions?: { date: string; count: number }[] } = await res.json();
     if (!json.contributions?.length) return null;
@@ -57,12 +58,12 @@ export async function getStreaks(): Promise<Streaks | null> {
   }
 }
 
-// Public contributions API (no token needed), called from the browser (#24, same
-// reason as getStreaks). Returns null on any failure so the GitHub tile can render
-// without the heatmap.
+// Last-year contributions for the heatmap, called from the browser via the
+// same-origin proxy (#24 + #25, same reasons as getStreaks; browser-only).
+// Returns null on any failure so the GitHub tile can render without the heatmap.
 export async function getContributions(): Promise<Contributions | null> {
   try {
-    const res = await fetch("https://github-contributions-api.jogruber.de/v4/godfreyponce?y=last");
+    const res = await fetch("/api/contributions?y=last");
     if (!res.ok) return null;
     const json: {
       total?: { lastYear?: number };

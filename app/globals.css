@@ -46,6 +46,7 @@
   /* ---- Fonts (variables set by next/font in layout.tsx) ---- */
   --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-streak: var(--font-nunito-sans), ui-sans-serif, system-ui, sans-serif; /* streak number only (#26) */
 
   /* ---- Radius ---- */
   --radius-sm: 4px;

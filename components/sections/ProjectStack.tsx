@@ -61,9 +61,11 @@ function GitHubTile({ stacked = false, contributions }: { stacked?: boolean; con
   );
 }
 
-// Owner-picked "editorial numerals" treatment (#21): current streak in the
-// display serif with a small flame, longest kept faint beside it.
+// Owner-picked "editorial numerals" treatment (#21): current streak with a
+// small flame, longest kept faint beside it.
 // #22: on hover the numbers count up from 0 (skipped for reduced motion).
+// #26: current streak number set in Nunito Sans ExtraBold (Snapchat streak
+// look, owner picked VARIANT B); "longest" stays in the site sans.
 function StreakLine({ streaks, className = "" }: { streaks?: Streaks | null; className?: string }) {
   const reduced = useReducedMotion();
   const [shown, setShown] = useState<{ current: number; longest: number } | null>(null);
@@ -99,7 +101,7 @@ function StreakLine({ streaks, className = "" }: { streaks?: Streaks | null; cla
         <span className="sr-only">
           {streaks.current} day current streak, {streaks.longest} day longest streak on GitHub
         </span>
-        <span aria-hidden className="font-display text-[17px] text-ink-muted tabular-nums">
+        <span aria-hidden className="font-streak font-extrabold tracking-[-0.01em] text-[17px] text-ink-muted tabular-nums">
           <span className="inline-block text-right" style={{ minWidth: widthCh(streaks.current) }}>
             {current}
           </span>{" "}

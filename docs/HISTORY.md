@@ -11,6 +11,29 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-07-28 — Same-origin contributions proxy (#25)
+
+- **Problem (issue #25):** since #24 the browser fetched jogruber.de directly; a visitor's
+  content blocker can block that third-party domain permanently, and the once-on-mount
+  fetch had no retry, so a transient API flake blanked the whole pageview.
+- **Shipped fix** (commit `84922be`): new route handler `app/api/contributions/route.ts`
+  proxies `github-contributions-api.jogruber.de/v4/godfreyponce` server-side, keyed by the
+  same `y=all|last` param; 3 attempts with 300ms/600ms backoff; 400 on any other `y`,
+  502 when all retries fail. `lib/github.ts` helpers just swapped their URLs to the
+  relative `/api/contributions?y=...` (browser-only by construction) — signatures,
+  parsing, and null-on-failure behavior unchanged, so `ProjectStack`, `StreakLine`,
+  `Heatmap`, `computeStreaks` are all byte-identical.
+- **Why `no-store`, not `s-maxage`:** freshness is the hard requirement and CloudFront
+  already froze this data once (#24). Route handlers run per-request on Amplify (no
+  frozen-ISR problem), and `Cache-Control: no-store` on the response is the only value
+  that provably can't be over-cached by the Amplify/CloudFront stack. If the community
+  API ever needs sparing, swap the header for `public, s-maxage=300` — nothing else changes.
+- **Verification:** curl → 200 + `cache-control: no-store` + expected JSON for both
+  `y` values, 400 for `y=bogus`; in the browser
+  `performance.getEntriesByType("resource")` showed only the two same-origin
+  `/api/contributions` requests and ZERO jogruber.de entries (the blocker-proofness
+  proof); heatmap rendered and streak line read 23/23; `tsc --noEmit` exit 0.
+
 ### 2026-07-27 — Client-side streak + heatmap fetch (#24)
 
 - **Root cause:** Amplify never runs ISR background revalidation, so `TheLab`'s server

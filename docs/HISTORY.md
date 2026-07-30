@@ -11,6 +11,28 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-07-30 — Snapchat-style streak number font (#26)
+
+- **Ask:** the big current-streak number next to the 🔥 should match Snapchat's
+  streak counter (Avenir Next Bold). Scope confirmed with owner: ONLY the big
+  number; the "longest N" text keeps the site sans.
+- **Owner picked VARIANT B** (Nunito Sans ExtraBold, bundled webfont) from the
+  3-variant preview (`public/preview-streak-font.html`, deleted after the pick)
+  over (A) the Apple-only Avenir Next system stack and (C) Montserrat Bold.
+  B is the closest cross-platform clone of the Avenir look and renders
+  identically for every visitor.
+- **Shipped** (commit `92cacff`): `app/layout.tsx` loads Nunito Sans via
+  next/font as `--font-nunito-sans`; `app/globals.css` exposes it as the
+  `--font-streak` theme token (font-streak utility); in `ProjectStack.tsx`'s
+  `StreakLine` the big number's span swapped `font-display` for
+  `font-streak font-extrabold tracking-[-0.01em]`. Size (17px), color,
+  tabular-nums, sr-only text, and the #22 hover count-up all untouched.
+- **Note:** Nunito Sans loads as a variable font, so the woff2 covers the full
+  weight range rather than just the 800 cut (still one small latin-subset file).
+- **Verification:** computed style on the live element showed Nunito Sans /
+  weight 800 / 17px / -0.17px letter-spacing; zoom screenshot matched the
+  Snapchat reference; `tsc --noEmit` exit 0.
+
 ### 2026-07-28 — Same-origin contributions proxy (#25)
 
 - **Problem (issue #25):** since #24 the browser fetched jogruber.de directly; a visitor's

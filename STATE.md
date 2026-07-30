@@ -8,16 +8,18 @@ Education → LossGraph → The Lab → Passions → Footer. Repo: github.com/go
 per-feature detail: `docs/HISTORY.md`. Work queue: GitHub Issues (`gh issue list`). Protocol:
 `AGENTS.md`.*
 
-**Last updated: 2026-07-28**
+**Last updated: 2026-07-30**
 
 ## Now
 
-- #25 built + committed locally 2026-07-28 (`84922be`), NOT pushed yet — issue
-  auto-closes when the owner pushes. Streak + heatmap now fetch via same-origin
-  `/api/contributions` proxy (server-side retry, `no-store`), so content
-  blockers and API flakes can't blank the tile. Detail in `docs/HISTORY.md`.
-  Post-deploy check: `curl -i https://<prod>/api/contributions?y=last` → 200,
-  `cache-control: no-store`, and the page makes zero jogruber.de requests.
+- #26 shipped/pushed 2026-07-30 (streak number next to the fire set in Nunito
+  Sans ExtraBold, Snapchat streak look, VARIANT B; "longest" stays in the site
+  sans), issue auto-closed. Detail in `docs/HISTORY.md`.
+- #25 shipped/pushed 2026-07-28 (streak + heatmap fetch via same-origin
+  `/api/contributions` proxy with server-side retry + `no-store`, so content
+  blockers and API flakes can't blank the tile), issue auto-closed. Detail in
+  `docs/HISTORY.md`. Post-deploy check: `curl -i https://<prod>/api/contributions?y=last`
+  → 200 + `cache-control: no-store`, page makes zero jogruber.de requests.
 - #24 shipped/pushed 2026-07-27 (streak + heatmap now fetched client-side;
   Amplify never runs ISR so server data froze at deploy), issue auto-closed.
   Detail in `docs/HISTORY.md`.

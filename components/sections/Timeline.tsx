@@ -17,6 +17,7 @@ const TAG_LOGOS: Record<string, { label: string; src: string }[]> = {
   ],
   Jira: [{ label: "Jira", src: "/logos/jira.svg" }],
   DreamWeaver: [{ label: "Dreamweaver", src: "/logos/dreamweaver.svg" }],
+  Silktide: [{ label: "Silktide", src: "/logos/silktide.svg" }],
   Python: [{ label: "Python", src: "/logos/python.svg" }],
   "Google Gemini": [{ label: "Google Gemini", src: "/logos/googlegemini.svg" }],
   Tableau: [{ label: "Tableau", src: "/logos/tableau.svg" }],
@@ -128,7 +129,7 @@ export default function Timeline() {
             "Managed the technical lifecycle of 20+ departmental and lab websites, implementing high performance responsive frameworks that enhanced the university's digital accessibility.",
             "Coordinated high priority site migrations and asset management using Jira, ensuring seamless delivery of large scale university updates.",
           ]}
-          tags={["WordPress", "HTML/CSS/JS", "Jira", "DreamWeaver"]}
+          tags={["WordPress", "HTML/CSS/JS", "Jira", "DreamWeaver", "Silktide"]}
         />
 
         <TimelineItem

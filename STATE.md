@@ -16,8 +16,10 @@ per-feature detail: `docs/HISTORY.md`. Work queue: GitHub Issues (`gh issue list
   click-to-expand "Details" toggle, tags stay visible, Web Specialist pinned to
   top with "Present" in new `--color-accent-green` token, VARIANT A), owner
   accepted, pushed, issue auto-closed. Detail in `docs/HISTORY.md`.
-- #28 filed 2026-08-02 (timeline tag badges → tech logos with hover names),
-  owner's idea, not green-lit.
+- #28 shipped 2026-08-02 (timeline tag badges → tech logos with name tooltip on
+  hover/focus, VARIANT B brand-color row; 12 SVGs vendored in `public/logos/`),
+  owner accepted, committed with `fixes #28`, closes when owner pushes. Detail
+  in `docs/HISTORY.md`.
 - #26 shipped/pushed 2026-07-30 (streak number next to the fire set in Nunito
   Sans ExtraBold, Snapchat streak look, VARIANT B; "longest" stays in the site
   sans), issue auto-closed. Detail in `docs/HISTORY.md`.

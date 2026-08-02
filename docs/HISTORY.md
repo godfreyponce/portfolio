@@ -11,6 +11,34 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-02 — Timeline tags as tech logos with hover tooltips (#28)
+
+- **Ask:** replace the gray text tag badges under the Work Experience entries
+  with the actual technology logos, showing the tool's name in a tooltip on
+  hover. Spun out of #27's tag-style exploration.
+- **Owner picked VARIANT B** (bare logos in full brand color, no chip borders)
+  from the 3-variant preview (`public/preview-tech-tags.html`, deleted after
+  the pick) over (A) monochrome silhouettes inside the existing chip outline
+  and (C) grayscale logos that colorize on hover.
+- **Shipped:** 12 SVGs vendored into `public/logos/` — 9 from the simple-icons
+  CDN (pre-filled with brand color; note the slug is `css`, not `css3`) plus
+  3 from Wikimedia Commons for logos simple-icons dropped or never had
+  (Tableau, Dreamweaver, Keynote; the Tableau glyph shipped unfilled so brand
+  orange #E97627 was stamped onto its root element). New
+  `components/ui/TechTag.tsx`: 20px img, lifts 2px on hover, CSS-only tooltip
+  (opacity transition) on `group-hover` and `group-focus-visible`, wrapper
+  `tabIndex={0}` for keyboard reach, label as alt text for screen readers.
+  `Timeline.tsx` gained a module-scope `TAG_LOGOS` lookup mapping each tag
+  string to logo entries: `HTML/CSS/JS` renders as three icons (HTML5, CSS,
+  JavaScript), `iOS/macOS` as the Apple logo. Unmapped tags fall back to the
+  old text `Badge` (kept import), and the `tags` arrays on the five
+  `TimelineItem` calls are untouched. Touch devices get no tooltip (accepted
+  limitation; alt text still serves assistive tech).
+- **Verification:** live site showed 14 logos (Web Specialist 6, Wayfair 5,
+  Apple 3), Handshake + GDSC rows unchanged, tooltip on hover and on
+  Shift+Tab keyboard focus, Details toggle still expands/collapses, full-page
+  scroll clean, no site console errors; `tsc --noEmit` exit 0.
+
 ### 2026-08-02 — Work Experience redesign: collapsed details + pinned current role (#27)
 
 - **Ask:** collapse each job's bullet points out of sight, move the current role

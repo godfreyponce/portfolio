@@ -5,6 +5,26 @@ import Section from "@/components/ui/Section";
 import Reveal from "@/components/ui/Reveal";
 import Avatar from "@/components/ui/Avatar";
 import Badge from "@/components/ui/Badge";
+import TechTag from "@/components/ui/TechTag";
+
+/* tag string -> logo(s); a tag with no entry falls back to the text Badge */
+const TAG_LOGOS: Record<string, { label: string; src: string }[]> = {
+  WordPress: [{ label: "WordPress", src: "/logos/wordpress.svg" }],
+  "HTML/CSS/JS": [
+    { label: "HTML", src: "/logos/html5.svg" },
+    { label: "CSS", src: "/logos/css.svg" },
+    { label: "JavaScript", src: "/logos/javascript.svg" },
+  ],
+  Jira: [{ label: "Jira", src: "/logos/jira.svg" }],
+  DreamWeaver: [{ label: "Dreamweaver", src: "/logos/dreamweaver.svg" }],
+  Python: [{ label: "Python", src: "/logos/python.svg" }],
+  "Google Gemini": [{ label: "Google Gemini", src: "/logos/googlegemini.svg" }],
+  Tableau: [{ label: "Tableau", src: "/logos/tableau.svg" }],
+  n8n: [{ label: "n8n", src: "/logos/n8n.svg" }],
+  JavaScript: [{ label: "JavaScript", src: "/logos/javascript.svg" }],
+  "iOS/macOS": [{ label: "iOS/macOS", src: "/logos/apple.svg" }],
+  Keynote: [{ label: "Keynote", src: "/logos/keynote.svg" }],
+};
 
 interface TimelineItemProps {
   date: string;
@@ -44,10 +64,14 @@ function TimelineItem({ date, title, subtitle, logoSrc, points, tags, present, i
         <p className="font-medium text-ink-muted">{subtitle}</p>
 
         {tags && (
-          <div className="mt-3 flex flex-wrap gap-2">
-            {tags.map((tag) => (
-              <Badge key={tag}>{tag}</Badge>
-            ))}
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            {tags.flatMap((tag) =>
+              TAG_LOGOS[tag] ? (
+                TAG_LOGOS[tag].map((icon) => <TechTag key={icon.label} label={icon.label} src={icon.src} />)
+              ) : (
+                [<Badge key={tag}>{tag}</Badge>]
+              )
+            )}
           </div>
         )}
 

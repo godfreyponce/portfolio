@@ -11,6 +11,32 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-02 — Work Experience redesign: collapsed details + pinned current role (#27)
+
+- **Ask:** collapse each job's bullet points out of sight, move the current role
+  (Web Specialist, UT Dallas) to the top, and mark it visually — "Present" in a
+  different color. Scope confirmed with owner: click-to-expand (not hidden
+  entirely), tags stay visible when collapsed, ONLY Web Specialist gets the
+  treatment (GDSC is also "Present" but stays plain), rest keep their old order.
+- **Owner picked VARIANT A** (quietest: timeline unchanged, only "Present"
+  accented) from the 3-variant preview (`public/preview-experience.html`, deleted
+  after the pick) over (B) a tinted current-role card with pulsing pill and
+  (C) a Currently/Previously split. Round-2 tweaks from owner: forest green
+  instead of the orange accent, "Details" hover turns the same green and the
+  chevron nudges down. Tag-style variants (dark pills / green pills / outline
+  pills) were also shown; owner kept the current gray badges and spun the
+  logo-tags idea into #28 (not green-lit).
+- **Shipped:** `components/sections/Timeline.tsx` became a client component
+  (useState per item); bullets sit in a `grid-rows-[0fr→1fr]` sliding panel
+  behind a "Details" button (aria-expanded, chevron rotates when open,
+  `group-hover:translate-y-1` nudge); Web Specialist entry moved first with a
+  `present` prop that renders "Present" in the new `--color-accent-green`
+  token (#2d6a4f, added to `globals.css`). Tags moved above the toggle so they
+  stay visible collapsed.
+- **Verification:** clicked through the section at localhost:3000 (order, green
+  Present, hover, expand/collapse all match the approved preview);
+  `tsc --noEmit` exit 0.
+
 ### 2026-07-30 — Snapchat-style streak number font (#26)
 
 - **Ask:** the big current-streak number next to the 🔥 should match Snapchat's

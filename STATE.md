@@ -8,10 +8,16 @@ Education → LossGraph → The Lab → Passions → Footer. Repo: github.com/go
 per-feature detail: `docs/HISTORY.md`. Work queue: GitHub Issues (`gh issue list`). Protocol:
 `AGENTS.md`.*
 
-**Last updated: 2026-07-30**
+**Last updated: 2026-08-02**
 
 ## Now
 
+- #27 shipped 2026-08-02 (Work Experience redesign: bullets collapsed behind a
+  click-to-expand "Details" toggle, tags stay visible, Web Specialist pinned to
+  top with "Present" in new `--color-accent-green` token, VARIANT A), owner
+  accepted, committed (not pushed). Detail in `docs/HISTORY.md`.
+- #28 filed 2026-08-02 (timeline tag badges → tech logos with hover names),
+  owner's idea, not green-lit.
 - #26 shipped/pushed 2026-07-30 (streak number next to the fire set in Nunito
   Sans ExtraBold, Snapchat streak look, VARIANT B; "longest" stays in the site
   sans), issue auto-closed. Detail in `docs/HISTORY.md`.

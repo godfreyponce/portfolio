@@ -12,6 +12,9 @@ per-feature detail: `docs/HISTORY.md`. Work queue: GitHub Issues (`gh issue list
 
 ## Now
 
+- #29 shipped/pushed 2026-08-02 (Silktide logo tag on Web Specialist row;
+  mark vendored from silktide.com favicon, brand purple #533BE2), issue
+  auto-closed. Detail in `docs/HISTORY.md`.
 - #27 shipped 2026-08-02 (Work Experience redesign: bullets collapsed behind a
   click-to-expand "Details" toggle, tags stay visible, Web Specialist pinned to
   top with "Present" in new `--color-accent-green` token, VARIANT A), owner
@@ -19,17 +22,12 @@ per-feature detail: `docs/HISTORY.md`. Work queue: GitHub Issues (`gh issue list
 - #28 shipped/pushed 2026-08-02 (timeline tag badges → tech logos with name
   tooltip on hover/focus, VARIANT B brand-color row; 12 SVGs vendored in
   `public/logos/`), issue auto-closed. Detail in `docs/HISTORY.md`.
-- #26 shipped/pushed 2026-07-30 (streak number next to the fire set in Nunito
-  Sans ExtraBold, Snapchat streak look, VARIANT B; "longest" stays in the site
-  sans), issue auto-closed. Detail in `docs/HISTORY.md`.
 - #25 shipped/pushed 2026-07-28 (streak + heatmap fetch via same-origin
   `/api/contributions` proxy with server-side retry + `no-store`, so content
   blockers and API flakes can't blank the tile), issue auto-closed. Detail in
   `docs/HISTORY.md`. Post-deploy check: `curl -i https://<prod>/api/contributions?y=last`
   → 200 + `cache-control: no-store`, page makes zero jogruber.de requests.
-- #24 shipped/pushed 2026-07-27 (streak + heatmap now fetched client-side;
-  Amplify never runs ISR so server data froze at deploy), issue auto-closed.
-  Detail in `docs/HISTORY.md`.
+- #26 and #24 shipped/pushed earlier, issues auto-closed. Detail in `docs/HISTORY.md`.
 - Owner rule (2026-07-17): NO middle dots (·) or em dashes in shipped copy.
 - Owner rule (2026-07-21): ideas become GitHub issues at first actionable moment.
 - Pre-existing tree items (owner's, don't touch): unstaged deletion of

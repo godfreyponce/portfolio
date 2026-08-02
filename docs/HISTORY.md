@@ -11,6 +11,22 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-02 — Silktide logo tag on the Web Specialist role (#29)
+
+- **Ask:** add a Silktide logo to the Web Specialist tag row, same TechTag
+  pattern as #28. Direct owner request; no variant round needed (extends the
+  established #28 pattern).
+- **Shipped:** `public/logos/silktide.svg` vendored from silktide.com's own
+  favicon SVG (simple-icons has no Silktide slug, CDN 404s) — stripped the
+  favicon's dark-mode `<style>` block down to a static brand-purple
+  `fill="#533BE2"` to match the other 12 logos' format. Added a `Silktide`
+  entry to `TAG_LOGOS` and appended the tag to the Web Specialist
+  `TimelineItem` in `Timeline.tsx`.
+- **Verification:** live site shows it as the 7th icon after Dreamweaver,
+  "Silktide" tooltip on hover, SVG loads (naturalWidth > 0); `tsc --noEmit`
+  exit 0. Note: programmatic `window.scrollTo` from the JS tool was reset to
+  0 on this page — real wheel-event scrolls via the computer tool worked.
+
 ### 2026-08-02 — Timeline tags as tech logos with hover tooltips (#28)
 
 - **Ask:** replace the gray text tag badges under the Work Experience entries

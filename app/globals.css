@@ -34,6 +34,7 @@
   --color-surface-inverse: #1c1917;  /* dark sections, footer */
   --color-accent: #c2410c;           /* burnt orange — UTD nod, used sparingly */
   --color-accent-soft: #fff7ed;      /* accent tint for selection / hover */
+  --color-accent-green: #2d6a4f;     /* forest green — current-role marker in Timeline (#27) */
 
   /* ---- Brand colors (hero social link hovers only) ---- */
   --color-brand-github: #181717;

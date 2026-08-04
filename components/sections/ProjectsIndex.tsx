@@ -1,0 +1,176 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { ArrowLeft, ArrowUpRight, ChevronRight, FlaskConical, Github } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import Badge from "@/components/ui/Badge";
+import MediaCarousel, { type MediaItem } from "@/components/ui/MediaCarousel";
+import { projectsNewestFirst, shortDate, techIcons, type Project } from "@/lib/projects";
+
+type Filter = "all" | "project" | "hackathon";
+
+const FILTERS: { key: Filter; label: string }[] = [
+  { key: "all", label: "All" },
+  { key: "project", label: "Personal" },
+  { key: "hackathon", label: "Hackathon" },
+];
+
+// Row pill copy (#30 owner pick): "Personal", not the homepage's "Project".
+const rowLabel = { live: "Live", building: "Building", hackathon: "Hackathon", project: "Personal" } as const;
+
+function youtubeId(url?: string): string | null {
+  if (!url) return null;
+  if (url.includes("youtube.com")) return new URL(url).searchParams.get("v");
+  if (url.includes("youtu.be")) return url.split("/").pop() ?? null;
+  return null;
+}
+
+function rowMedia(project: Project): MediaItem[] {
+  if (project.media && project.media.length > 0) return project.media;
+  const id = youtubeId(project.videoUrl);
+  if (id) return [{ type: "youtube", src: "", videoId: id }];
+  return [];
+}
+
+function ProjectRow({ project }: { project: Project }) {
+  const [open, setOpen] = useState(false);
+  const reduced = useReducedMotion();
+  const media = rowMedia(project);
+  const { title, shortDesc, description, tags, status, date, link, githubLink, devpostLink, iconSrc, color = "bg-rule-soft" } = project;
+
+  return (
+    <div className="border-b border-rule">
+      <button
+        onClick={() => setOpen(!open)}
+        aria-expanded={open}
+        className="flex w-full items-center gap-4 px-2 py-4 text-left transition-colors hover:bg-accent-soft"
+      >
+        <ChevronRight
+          size={16}
+          className={`shrink-0 text-ink-faint transition-transform duration-200 ${open ? "rotate-90" : ""}`}
+        />
+        {iconSrc ? (
+          <Image
+            src={iconSrc}
+            alt=""
+            width={40}
+            height={40}
+            className={`size-10 shrink-0 rounded-sm object-contain ${color}`}
+          />
+        ) : (
+          <div className={`size-10 shrink-0 rounded-sm ${color}`} />
+        )}
+        <div className="min-w-0 flex-1">
+          <div className="font-display text-xl font-medium text-ink">{title}</div>
+          <div className="hidden truncate text-sm text-ink-subtle sm:block">{shortDesc}</div>
+        </div>
+        <div className="flex shrink-0 items-center gap-3">
+          <Badge tone={status}>{rowLabel[status]}</Badge>
+          {date && (
+            <span className="hidden w-16 text-right text-xs tabular-nums text-ink-faint sm:block">
+              {shortDate(date)}
+            </span>
+          )}
+        </div>
+      </button>
+
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={reduced ? false : { height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={reduced ? undefined : { height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.2, 0.8, 0.2, 1] }}
+            className="overflow-hidden"
+          >
+            <div className="px-2 pb-8 pt-2 sm:pl-16">
+              {media.length > 0 && (
+                <div className="relative aspect-[3/2] w-full overflow-hidden rounded-md border border-rule bg-surface-sunken">
+                  <MediaCarousel items={media} title={title} />
+                </div>
+              )}
+              <div className="mt-4 flex flex-col justify-between gap-6 sm:flex-row">
+                <p className="max-w-prose text-base leading-relaxed text-ink-muted">{description}</p>
+                <div className="flex shrink-0 flex-col items-start gap-3 sm:items-end">
+                  <div className="flex flex-wrap gap-2 sm:justify-end">
+                    {tags.map((tag) => (
+                      <Badge key={tag} className="gap-1.5">
+                        {techIcons[tag] && (
+                          <Image src={techIcons[tag]} alt="" width={13} height={13} unoptimized className="opacity-75" />
+                        )}
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
+                  <div className="flex gap-4">
+                    {githubLink && (
+                      <a href={githubLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm font-medium text-ink transition-colors hover:text-accent">
+                        <Github size={14} /> GitHub
+                      </a>
+                    )}
+                    {devpostLink && (
+                      <a href={devpostLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm font-medium text-ink transition-colors hover:text-accent">
+                        <FlaskConical size={14} /> Devpost
+                      </a>
+                    )}
+                    {link && (
+                      <a href={link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm font-medium text-ink transition-colors hover:text-accent">
+                        <ArrowUpRight size={14} /> Live demo
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+export default function ProjectsIndex() {
+  const [filter, setFilter] = useState<Filter>("all");
+  const all = projectsNewestFirst();
+  const shown = all.filter((p) => filter === "all" || p.status === filter);
+
+  return (
+    <div className="mx-auto w-full max-w-[960px] px-6 pb-24 pt-16">
+      <Link
+        href="/"
+        className="inline-flex items-center gap-1.5 text-sm font-medium text-ink-subtle transition-colors hover:text-ink"
+      >
+        <ArrowLeft size={14} /> Home
+      </Link>
+      <h1 className="mt-6 font-display text-4xl font-medium tracking-tight text-ink md:text-5xl">Projects</h1>
+      <p className="mt-2 text-lg text-ink-subtle">
+        Everything I have built, from hackathon weekends to long-running personal projects.
+      </p>
+
+      <div className="mt-8 flex gap-2">
+        {FILTERS.map((f) => (
+          <button
+            key={f.key}
+            onClick={() => setFilter(f.key)}
+            aria-pressed={filter === f.key}
+            className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
+              filter === f.key
+                ? "border-ink bg-ink text-surface"
+                : "border-rule bg-surface-raised text-ink-subtle hover:border-ink-faint hover:text-ink"
+            }`}
+          >
+            {f.label}
+          </button>
+        ))}
+      </div>
+
+      <div className="mt-6 border-t border-rule">
+        {shown.map((p) => (
+          <ProjectRow key={p.title} project={p} />
+        ))}
+      </div>
+    </div>
+  );
+}

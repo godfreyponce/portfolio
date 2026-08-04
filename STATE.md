@@ -12,11 +12,10 @@ per-feature detail: `docs/HISTORY.md`. Work queue: GitHub Issues (`gh issue list
 
 ## Now
 
-- #30 built 2026-08-03, owner accepted, committed (closes #30 on push): featured
-  Lab stack + /projects index page. Previews deleted. Nudge/TechAssist shortDesc
-  are agent drafts, owner owns final copy. Detail in `docs/HISTORY.md`.
+- Queue empty. #30 pushed 2026-08-03, issue auto-closed: featured Lab stack +
+  /projects index page. Nudge/TechAssist shortDesc are agent drafts, owner owns
+  final copy. Detail in `docs/HISTORY.md`.
 - #29, #28, #27 shipped/pushed 2026-08-02, issues auto-closed. Detail in `docs/HISTORY.md`.
-- #25, #26, #24 shipped/pushed earlier, issues auto-closed. Detail in `docs/HISTORY.md`.
 - Owner rule (2026-07-17): NO middle dots (·) or em dashes in shipped copy.
 - Owner rule (2026-07-21): ideas become GitHub issues at first actionable moment.
 - Pre-existing tree items (owner's, don't touch): unstaged deletion of

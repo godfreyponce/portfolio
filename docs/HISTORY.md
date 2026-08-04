@@ -11,6 +11,37 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-03 — Featured Lab stack + /projects index page (#30)
+
+- **Ask:** homepage Lab stack shows only hand-picked `featured` projects plus a
+  "See all projects" button; new `/projects` page lists every project newest
+  first with All/Personal/Hackathon filter chips and expand-in-place detail.
+- **Design locked from previews** (owner picks, spec in issue #30's final
+  comment): Variant A index rows, tag T1 (violet/sky pills — existing Badge
+  tones), date D1 ("Mar 2026" short form), expanded E3 (full-width 3:2 media
+  carousel, meta bar underneath). Preview files `public/preview-a/a2/b/c/d.html`
+  deleted after wiring.
+- **Shipped:** `lib/projects.ts` gained `shortDesc` (required) + `featured`
+  fields on `Project` (all 4 projects featured for now, so the homepage stack is
+  unchanged today), exported `techIcons` (moved out of ProjectCard), and
+  `projectsNewestFirst()` / `shortDate()` helpers. New `app/projects/page.tsx`
+  (server, metadata) renders new client component
+  `components/sections/ProjectsIndex.tsx`: rows own their open state, reuse
+  `Badge` + `MediaCarousel` (TechAssist gets a one-item YouTube carousel from
+  its `videoUrl`), AnimatePresence height expansion with reduced-motion guard.
+  Row pill copy says "Personal" for `status: "project"` (homepage cards still
+  say "Project"). `TheLab.tsx` filters to featured and adds a centered
+  "See all projects (4)" button. Radius shipped as token `rounded-md` 8px, not
+  the spec's literal ~6px.
+- **Verification:** Chrome at localhost:3000 — row order/pills/dates correct,
+  chips filter (Personal → Remix only), E3 expansion with working carousel and
+  YouTube embed, hover wash + chevron rotation, mobile (~420px via iframe:
+  one-liners/dates hide, meta stacks), homepage button navigates, no console
+  errors; `tsc --noEmit` exit 0. Fullscreen Chrome windows refuse
+  `resize_window` — narrow-viewport checks used a same-origin iframe instead.
+- **Owner-owns-copy note:** Nudge + TechAssist `shortDesc` are agent drafts;
+  expanded `description` fields still carry pre-2026-07-17 em dashes.
+
 ### 2026-08-02 — Silktide logo tag on the Web Specialist role (#29)
 
 - **Ask:** add a Silktide logo to the Web Specialist tag row, same TechTag

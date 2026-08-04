@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import MediaCarousel from "@/components/ui/MediaCarousel";
 import Badge from "@/components/ui/Badge";
-import type { Project } from "@/lib/projects";
+import { techIcons, type Project } from "@/lib/projects";
 
 const lucideMap = {
   radio: Radio,
@@ -37,21 +37,6 @@ const statusLabel = {
   hackathon: "Hackathon",
   project: "Project",
 } as const;
-
-// Brand marks in public/tech (FAISS uses the Meta mark; Nebula API is the UTD Nebula app-icon, Plaid the official lattice)
-const techIcons: Record<string, string> = {
-  Gemini: "/tech/gemini.svg",
-  ElevenLabs: "/tech/elevenlabs.svg",
-  "Nebula API": "/tech/nebula.png",
-  FAISS: "/tech/meta.svg",
-  HuggingFace: "/tech/huggingface.svg",
-  LangChain: "/tech/langchain.svg",
-  Plaid: "/tech/plaid.svg",
-  Twilio: "/tech/twilio.svg",
-  Auth0: "/tech/auth0.svg",
-  SwiftUI: "/tech/swift.svg",
-  Figma: "/tech/figma.svg",
-};
 
 export default function ProjectCard({
   project,

@@ -12,9 +12,11 @@ per-feature detail: `docs/HISTORY.md`. Work queue: GitHub Issues (`gh issue list
 
 ## Now
 
-- Queue: #31 custom 404, #32 robots+sitemap, #33 analytics, #34 OG image (optional
-  polish). Filed 2026-08-10 from a pre-launch checklist review; none labeled
-  ready-for-agent yet, owner prioritizes.
+- Queue: #31 custom 404, #33 analytics, #34 OG image (optional polish). Filed
+  2026-08-10 from a pre-launch checklist review; none labeled ready-for-agent
+  yet, owner prioritizes.
+- #32 robots+sitemap built and accepted 2026-08-10, committed on main awaiting
+  owner push (fixes #32 auto-closes it).
 - #30 pushed 2026-08-03, issue auto-closed: featured Lab stack + /projects index
   page. Nudge/TechAssist shortDesc are agent drafts, owner owns final copy.
 - Owner rule (2026-07-17): NO middle dots (·) or em dashes in shipped copy.

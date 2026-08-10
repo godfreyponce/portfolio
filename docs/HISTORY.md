@@ -11,6 +11,22 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-10 — robots.txt + sitemap.xml metadata routes (#32)
+
+- **Ask:** serve `/robots.txt` and `/sitemap.xml` so search engines index the
+  site properly (pre-launch checklist item; recruiter-searchability).
+- **Shipped:** two Next 16 App Router metadata routes, no config changes or
+  deps. `app/robots.ts` allows `/`, disallows `/api/` (the contributions proxy
+  is a data endpoint, not a page), and points at the sitemap. `app/sitemap.ts`
+  lists the two pages: `https://godfreyponce.dev` and `/projects`. No
+  `lastModified`/`changeFrequency`/`priority` — no honest data source, and
+  Google ignores the latter two. Site URL is a local const in each file,
+  matching `app/layout.tsx`'s existing pattern.
+- **Verification:** `curl localhost:3000/robots.txt` and `/sitemap.xml` both
+  returned exactly the expected output (no visual surface, so no Chrome pass);
+  `tsc --noEmit` exit 0. Plan `docs/plans/2026-08-10-issue-32.md`, followed
+  with zero deviations.
+
 ### 2026-08-03 — Featured Lab stack + /projects index page (#30)
 
 - **Ask:** homepage Lab stack shows only hand-picked `featured` projects plus a

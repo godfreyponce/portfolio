@@ -8,14 +8,15 @@ Education → LossGraph → The Lab → Passions → Footer. Repo: github.com/go
 per-feature detail: `docs/HISTORY.md`. Work queue: GitHub Issues (`gh issue list`). Protocol:
 `AGENTS.md`.*
 
-**Last updated: 2026-08-03**
+**Last updated: 2026-08-10**
 
 ## Now
 
-- Queue empty. #30 pushed 2026-08-03, issue auto-closed: featured Lab stack +
-  /projects index page. Nudge/TechAssist shortDesc are agent drafts, owner owns
-  final copy. Detail in `docs/HISTORY.md`.
-- #29, #28, #27 shipped/pushed 2026-08-02, issues auto-closed. Detail in `docs/HISTORY.md`.
+- Queue: #31 custom 404, #32 robots+sitemap, #33 analytics, #34 OG image (optional
+  polish). Filed 2026-08-10 from a pre-launch checklist review; none labeled
+  ready-for-agent yet, owner prioritizes.
+- #30 pushed 2026-08-03, issue auto-closed: featured Lab stack + /projects index
+  page. Nudge/TechAssist shortDesc are agent drafts, owner owns final copy.
 - Owner rule (2026-07-17): NO middle dots (·) or em dashes in shipped copy.
 - Owner rule (2026-07-21): ideas become GitHub issues at first actionable moment.
 - Pre-existing tree items (owner's, don't touch): unstaged deletion of

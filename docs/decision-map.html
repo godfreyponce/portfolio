@@ -1,0 +1,364 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Decision map — godfreyponce/portfolio</title>
+<style>
+  :root{
+    --paper:#EEF0F4; --surface:#FAFBFD; --ink:#161C26; --muted:#5A6472; --hair:#D8DCE4;
+    --good:#3C8B58; --warn:#B4462F; --accent:#4F63C2; --amber:#8E571C;
+    --shadow:0 1px 2px rgba(22,28,38,.05), 0 10px 26px rgba(22,28,38,.07);
+  }
+  @media (prefers-color-scheme: dark){ :root{
+    --paper:#0F131A; --surface:#171D26; --ink:#E6EAF1; --muted:#94A0B0; --hair:#2A323E;
+    --good:#58B37B; --warn:#DB6B50; --accent:#818FE2; --amber:#DFA45C;
+    --shadow:0 1px 2px rgba(0,0,0,.35), 0 12px 34px rgba(0,0,0,.42);
+  }}
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--paper); color:var(--ink); line-height:1.5;
+    font-family:-apple-system,system-ui,"Segoe UI",Roboto,sans-serif;
+    padding:clamp(20px,5vw,56px) clamp(16px,4vw,32px);}
+  .page{max-width:940px; margin:0 auto; position:relative}
+  .mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+  h1{font-size:clamp(1.4rem,4vw,2.1rem); margin:0 0 .3rem; letter-spacing:-.02em}
+  .lede{color:var(--muted); margin:0 0 8px}
+  .lede a{color:var(--accent)}
+  h2{font-size:.85rem; letter-spacing:.12em; text-transform:uppercase; margin:34px 0 10px;
+     font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+  .hint{color:var(--muted); text-transform:none; letter-spacing:0; font-weight:400}
+  .row{display:flex; flex-wrap:wrap; gap:12px}
+  .card{display:flex; flex-direction:column; gap:6px; width:min(260px,100%);
+    background:var(--surface); border:1px solid var(--hair); border-radius:12px;
+    padding:12px 14px; text-decoration:none; color:inherit; box-shadow:var(--shadow); position:relative}
+  .num{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:.72rem; color:var(--muted)}
+  .title{font-weight:600; font-size:.92rem}
+  .meta{display:flex; gap:8px; align-items:center; font-size:.72rem;
+    font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+  .type{color:var(--muted)}
+  .question .type{color:var(--accent)}
+  .badge{font-weight:600}
+  .b-decided{color:var(--muted)}
+  .b-frontier{color:var(--good)}
+  .b-blocked{color:var(--warn)}
+  .frontier{border-color:var(--good)}
+  .decided{opacity:.75}
+  .fog{border:1px dashed var(--hair); border-radius:12px; padding:12px 16px; color:var(--muted)}
+  .fog li{margin:.2em 0}
+  .empty{color:var(--muted); font-size:.85rem; margin:0}
+  svg.edges{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; overflow:visible}
+  svg.edges line{stroke:var(--warn); stroke-width:1.5; opacity:.55}
+  .legend{display:flex; flex-wrap:wrap; gap:14px; font-size:.75rem; color:var(--muted); margin-top:6px;
+    font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+  .legend .b-frontier,.legend .b-blocked,.legend .b-decided{font-weight:600}
+</style></head><body><div class="page">
+  <svg class="edges" aria-hidden="true"></svg>
+  <h1>Decision map — godfreyponce/portfolio</h1>
+  <p class="lede">map issue: <a href="https://github.com/godfreyponce/portfolio/issues/35">#35 Map: godfreyponce.dev launch</a> · 34 tickets · red lines are “blocked by” edges · answer one frontier ticket per session</p>
+  <div class="legend"><span><span class="b-decided">✓</span> decided/done (closed)</span>
+    <span><span class="b-frontier">●</span> frontier: no open blockers</span>
+    <span><span class="b-blocked">×</span> blocked by an open ticket</span>
+    <span>▒ fog: not a question yet</span></div>
+  
+  <section>
+    <h2>Decided <span class="hint">closed tickets — the decision list</span></h2>
+    <div class="row">
+  <a class="card decided task" id="n32" href="https://github.com/godfreyponce/portfolio/issues/32">
+    <span class="num">#32</span>
+    <span class="title">Add robots.ts + sitemap.ts for search indexing</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
+  <a class="card decided task" id="n30" href="https://github.com/godfreyponce/portfolio/issues/30">
+    <span class="num">#30</span>
+    <span class="title">Redesign The Lab: showcase personal + hackathon projects, possibly dedicated projects page</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
+  <a class="card decided task" id="n29" href="https://github.com/godfreyponce/portfolio/issues/29">
+    <span class="num">#29</span>
+    <span class="title">Timeline: add Silktide logo tag to Web Specialist role</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
+  <a class="card decided task" id="n28" href="https://github.com/godfreyponce/portfolio/issues/28">
+    <span class="num">#28</span>
+    <span class="title">Timeline tags: replace text badges with tech logos, tooltip shows the name on hover</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
+  <a class="card decided task" id="n27" href="https://github.com/godfreyponce/portfolio/issues/27">
+    <span class="num">#27</span>
+    <span class="title">Redesign Work Experience: collapsed details, current role pinned to top with accent treatment</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
+  <a class="card decided task" id="n26" href="https://github.com/godfreyponce/portfolio/issues/26">
+    <span class="num">#26</span>
+    <span class="title">Streak number next to the fire: match Snapchat's streak font (Avenir Next Bold)</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
+  <a class="card decided task" id="n25" href="https://github.com/godfreyponce/portfolio/issues/25">
+    <span class="num">#25</span>
+    <span class="title">Heatmap + streak invisible for visitors with content blockers: jogruber fetch is blocked client-side</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
+  <a class="card decided task" id="n24" href="https://github.com/godfreyponce/portfolio/issues/24">
+    <span class="num">#24</span>
+    <span class="title">Streak line and heatmap frozen at deploy-time values: ISR revalidation never fires on Amplify</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
+  <a class="card decided task" id="n23" href="https://github.com/godfreyponce/portfolio/issues/23">
+    <span class="num">#23</span>
+    <span class="title">Profile README portrait is stretched ~1.37x horizontally (wrong chafa --font-ratio)</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
+  <a class="card decided task" id="n22" href="https://github.com/godfreyponce/portfolio/issues/22">
+    <span class="num">#22</span>
+    <span class="title">Animate streak numbers on hover (streak line, The Lab)</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
+  <a class="card decided task" id="n21" href="https://github.com/godfreyponce/portfolio/issues/21">
+    <span class="num">#21</span>
+    <span class="title">Streak line: current and longest GitHub streak under the Lab GitHub card</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
+  <a class="card decided task" id="n20" href="https://github.com/godfreyponce/portfolio/issues/20">
+    <span class="num">#20</span>
+    <span class="title">Bio: give UTD and Soccer hovers the same bubble feel as social links</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
+  <a class="card decided task" id="n19" href="https://github.com/godfreyponce/portfolio/issues/19">
+    <span class="num">#19</span>
+    <span class="title">Social links hover: add weight - port Kal bubble feel</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
+  <a class="card decided task" id="n18" href="https://github.com/godfreyponce/portfolio/issues/18">
+    <span class="num">#18</span>
+    <span class="title">Hero social links: brand logo cursors + brand color hovers</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
+  <a class="card decided task" id="n17" href="https://github.com/godfreyponce/portfolio/issues/17">
+    <span class="num">#17</span>
+    <span class="title">Profile README: update Interests line to soccer, 3d printing, agents</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
+  <a class="card decided task" id="n16" href="https://github.com/godfreyponce/portfolio/issues/16">
+    <span class="num">#16</span>
+    <span class="title">Profile README: neofetch panel too small at GitHub render width</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
+  <a class="card decided task" id="n15" href="https://github.com/godfreyponce/portfolio/issues/15">
+    <span class="num">#15</span>
+    <span class="title">New README design incorporating the accepted braille portrait</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
+  <a class="card decided task" id="n14" href="https://github.com/godfreyponce/portfolio/issues/14">
+    <span class="num">#14</span>
+    <span class="title">Portrait variant iteration loop: braille-led redo until owner accepts (follow-up to #13)</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
+  <a class="card decided task" id="n13" href="https://github.com/godfreyponce/portfolio/issues/13">
+    <span class="num">#13</span>
+    <span class="title">Profile README: chafa ASCII portrait + neofetch panel (deliverable: godfreyponce/GodfreyPonce)</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
+  <a class="card decided task" id="n12" href="https://github.com/godfreyponce/portfolio/issues/12">
+    <span class="num">#12</span>
+    <span class="title">Revise Bio: junior status and Cognitive Science minor</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
+  <a class="card decided task" id="n11" href="https://github.com/godfreyponce/portfolio/issues/11">
+    <span class="num">#11</span>
+    <span class="title">Footer social icon links have no accessible names</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
+  <a class="card decided task" id="n10" href="https://github.com/godfreyponce/portfolio/issues/10">
+    <span class="num">#10</span>
+    <span class="title">Production Open Graph URL points to godfreyponce.com instead of .dev</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
+  <a class="card decided task" id="n9" href="https://github.com/godfreyponce/portfolio/issues/9">
+    <span class="num">#9</span>
+    <span class="title">Project logo Images emit aspect-ratio warnings in Next dev</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
+  <a class="card decided task" id="n8" href="https://github.com/godfreyponce/portfolio/issues/8">
+    <span class="num">#8</span>
+    <span class="title">ProjectStack mobile fallback triggers Framer Motion static-container warning</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
+  <a class="card decided task" id="n7" href="https://github.com/godfreyponce/portfolio/issues/7">
+    <span class="num">#7</span>
+    <span class="title">Mobile: CometAdvisor title overlaps Hackathon badge at 390px</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
+  <a class="card decided task" id="n6" href="https://github.com/godfreyponce/portfolio/issues/6">
+    <span class="num">#6</span>
+    <span class="title">Eyeball a full LossGraph run cycle in a real browser</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
+  <a class="card decided task" id="n5" href="https://github.com/godfreyponce/portfolio/issues/5">
+    <span class="num">#5</span>
+    <span class="title">Confirm production deploy pipeline and that the latest push is live</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
+  <a class="card decided task" id="n4" href="https://github.com/godfreyponce/portfolio/issues/4">
+    <span class="num">#4</span>
+    <span class="title">Live-test mobile (390px) layout</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
+  <a class="card decided task" id="n3" href="https://github.com/godfreyponce/portfolio/issues/3">
+    <span class="num">#3</span>
+    <span class="title">Tune stickman traversal speed</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
+  <a class="card decided task" id="n2" href="https://github.com/godfreyponce/portfolio/issues/2">
+    <span class="num">#2</span>
+    <span class="title">Replace hand-drawn Plaid + Nebula API tech-tag icons with official assets</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
+  <a class="card decided task" id="n1" href="https://github.com/godfreyponce/portfolio/issues/1">
+    <span class="num">#1</span>
+    <span class="title">Re-export project screenshots ≥1600px wide for true retina sharpness</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a></div>
+  </section>
+  
+  <section>
+    <h2>The frontier <span class="hint">take these today</span></h2>
+    <div class="row">
+  <a class="card frontier task" id="n34" href="https://github.com/godfreyponce/portfolio/issues/34">
+    <span class="num">#34</span>
+    <span class="title">Purpose-made 1200x630 OG share image (optional polish)</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-frontier">● take it today</span>
+    </span>
+  </a>
+  <a class="card frontier task" id="n33" href="https://github.com/godfreyponce/portfolio/issues/33">
+    <span class="num">#33</span>
+    <span class="title">Add visitor analytics (Vercel Web Analytics)</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-frontier">● take it today</span>
+    </span>
+  </a>
+  <a class="card frontier task" id="n31" href="https://github.com/godfreyponce/portfolio/issues/31">
+    <span class="num">#31</span>
+    <span class="title">Custom 404 page (on-brand not-found.tsx)</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-frontier">● take it today</span>
+    </span>
+  </a></div>
+  </section>
+  
+  <section>
+    <h2>Blocked <span class="hint">written, but waiting on a decision</span></h2>
+    <div class="row"><p class="empty">none</p></div>
+  </section>
+  <section><h2>Fog of war <span class="hint">seen coming, not yet a ticket</span></h2>
+    <ul class="fog"><li>Analytics: #33 is written for Vercel Web Analytics, but the site is on AWS Amplify.</li><li>Are #31 / #33 / #34 launch blockers or post-launch polish? Decides whether the site</li><li>Repo visibility: `shared_memory.json` is tracked, so a public flip needs a history</li></ul>
+  </section>
+  <script>
+    const EDGES = [];
+    function draw(){
+      const svg = document.querySelector("svg.edges");
+      const page = document.querySelector(".page").getBoundingClientRect();
+      svg.innerHTML = EDGES.map(([from,to])=>{
+        const a=document.getElementById("n"+from), b=document.getElementById("n"+to);
+        if(!a||!b) return "";
+        const ra=a.getBoundingClientRect(), rb=b.getBoundingClientRect();
+        return '<line x1="'+(ra.left-page.left+ra.width/2)+'" y1="'+(ra.bottom-page.top)+
+               '" x2="'+(rb.left-page.left+rb.width/2)+'" y2="'+(rb.top-page.top)+'"/>';
+      }).join("");
+    }
+    addEventListener("load",draw); addEventListener("resize",draw);
+  </script>
+</div></body></html>

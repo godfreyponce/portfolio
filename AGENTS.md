@@ -1,30 +1,105 @@
-# Read STATE.md first, then check the issue queue
+# STATE.md's head names the ticket. Start there.
 
-`STATE.md` is a **thin snapshot** of right-now state: what's mid-flight, how to run/verify,
-and the gotchas that have already bitten. Read it before doing anything. The full build
-archive, file map, and per-feature detail live in `docs/HISTORY.md`.
+`STATE.md` opens with a YAML head. **`next_action` names the issue that is up now** — go straight
+to it. Do not read the issue list and decide for yourself what's important; the owner has already
+decided, and that is what the field is for. Below the head, STATE.md is a thin snapshot: what's
+mid-flight, how to run/verify, and the gotchas that have already bitten. The full build archive,
+file map, and per-feature detail live in `docs/HISTORY.md`.
 
-**The work queue is GitHub Issues** (`gh issue list`). The `ready-for-agent` label means the
-owner has green-lit that item; anything unlabeled still needs owner confirmation before
-starting. Reference issues in commits (`fixes #N`) so they close automatically.
+**The work queue is GitHub Issues** (`gh issue list`). The `ready-for-agent` label means the issue
+has its four template sections filled in **and** the owner has green-lit it — that's the eligible
+pool. `next_action` picks one out of it. A ticket also isn't ready unless it is **buildable in one
+fresh session** inside the lean-window target — too big means split it before green-lighting.
+Anything unlabeled still needs owner confirmation before starting. Reference issues in commits
+(`refs #N`).
 ⚠️ This repo is PRIVATE today, but still never commit env values, credentials, or secrets.
 Note: `shared_memory.json` (tracked, personal-profile data) means the git history needs a
 scrub review before this repo could ever flip public.
 
-**Keep state current as you work, not as an end-of-session dump:**
-- Update STATE.md's "Now" section when what's mid-flight changes; keep the file under ~40 lines.
-- New work discovered mid-session → `gh issue create` immediately; don't let it live only in conversation.
-- After a feature is built **and the owner confirms it's good**: close its issue, refresh
-  STATE.md, add the feature's detail section to `docs/HISTORY.md`, and commit them alongside
-  the feature. Don't record work the owner hasn't accepted yet.
+# One ticket = two sessions
+
+Planning and building do not share a window. A context that has read the issue, explored the code,
+and written a plan is a **poor context to then write the code in** — so the plan goes to a file and
+a fresh session builds from it.
+
+- **`/plan-ticket [#N]`** — read the ticket, write `docs/plans/YYYY-MM-DD-issue-N.md`, stop. No
+  code. The owner reads the plan (**gate 1** — cheap; nothing is built yet).
+- `/clear`
+- **`/build-ticket [#N]`** — build from the plan file, verify in the running site, **paste the real
+  `tsc` output**, stop before landing anything on main. Multi-task plans build on a ticket branch
+  with one commit per approved task; single-task plans stay uncommitted in the working tree. The
+  owner reads the diff (**gate 2**).
+- On the owner's accept: land the code (merge the branch, or commit the working tree), then a
+  docs commit; push both together, close the issue, `/clear`.
+
+Planning and reviewing spend judgment; building from an approved plan mostly spends execution, so
+the build session can run a cheaper model. The plan's constraints are what keep a cheaper builder
+in bounds; a build that keeps failing gate 2 means the plan was under-specified first, the builder
+too weak second.
+
+# STATE.md is written exactly once per ticket
+
+**In the accept-time docs commit, after the owner accepts. Never mid-session.**
+
+Continuous updates are what makes this file drift and bloat, because a session writes it from a
+context already full of its own work, and it ends up recording things the owner never accepted.
+One write, at the seam:
+
+- **Mid-session discoveries never touch STATE.md** → `gh issue create` immediately. The issue queue
+  is the capture buffer (write anytime, cheap); STATE.md is the accepted-state snapshot (write once).
+  Nothing is lost if a session dies — the plan file, the branch, and the issue all outlive it.
+- **Acceptance lands as code commits + one docs commit, pushed together**: the code first — the
+  ticket branch's per-task commits merged, or a single `type(scope)` commit for single-task
+  tickets — then one docs commit carrying `STATE.md` (Now cleared of the finished item,
+  `next_action` advanced to the next ticket, `last_worked_on` bumped) and the feature's section
+  in `docs/HISTORY.md`. Then close the issue.
+- **"Now" holds unaccepted work only.** The moment the owner accepts something it moves to
+  `docs/HISTORY.md`. Keep "Now" under ~6 lines. Gotchas stay in STATE.md — they're the memory that
+  earns its place — but a gotcha lives there only while it would still bite an agent working today.
 
 # Session hygiene — keep the window lean (owner rule, 2026-07-12)
 
 Target **≤140k tokens of working context per session.** This works because state lives
 OUTSIDE the conversation: `STATE.md` (snapshot), GitHub Issues (queue), `docs/HISTORY.md`
-(archive). Suggest a fresh window at natural seams — phase acceptance, plan approval,
-deploy — rather than letting a session balloon; a decision that lives only in conversation
-memory doesn't exist, so write it to the right file the moment it's made.
+(archive). Suggest a fresh window at natural seams — phase acceptance, plan approval, deploy —
+rather than letting a session balloon; a decision that lives only in conversation memory doesn't
+exist, so write it to the right file the moment it's made.
+
+# Verification scope
+
+There is no test suite here. Verification is the running site plus the type checker.
+
+- **While iterating, check only what you touched** in the browser. `npx tsc --noEmit` runs **once,
+  at the end** of `/build-ticket` — not in a loop, and never as a substitute for looking at the
+  page. No `npm run build` to verify changes; no `npm install` unless the owner asks.
+- **One dev server at a time.** `pkill -f "next dev"` before starting one. Subagents must never
+  start dev servers.
+- **Stop what you started.** Kill any dev server you launched before ending the session.
+
+# Question tickets — mapping decisions
+
+Most tickets are work orders: the deciding already happened before `ready-for-agent` went on.
+When a decision is still open, it gets a ticket of its own rather than being guessed at inside
+a build:
+
+- **A pinned map issue** names the destination and holds the decision list — one line per
+  answered question — plus a **Fog** section: decisions the owner can see coming but can't
+  phrase as a question yet. Fog costs one line to park and, unlike a premature ticket, has
+  nothing to go stale.
+- **The `question` label** marks a ticket that holds one open decision, not work. Its body
+  says what the question is and what answering it unblocks. Question tickets are exempt from
+  the four-section agent-task template.
+- **`Blocked by #N`** as the first body line of any ticket — question or work — that waits on
+  an open question. The frontier, what the owner can take today, is every open ticket with no
+  open blockers. Answering a question closes its ticket, adds a line to the map, and usually
+  turns some fog into new question tickets.
+- **One question per session**, same rhythm as build tickets. The answer and its reasoning are
+  written on the ticket at close — the ticket does for a decision what the plan file does for
+  code.
+- **Regenerate the map when a ticket closes** — question or work, either kind:
+  `node ~/Developer/tools/decision-map/decision-map.mjs godfreyponce/portfolio --out docs/decision-map.html`.
+  Read-only (it only reads `gh issue list`) and it writes one self-contained HTML file, so it
+  rides along in the accept-time docs commit and the picture in the repo never lags the queue.
 
 # Visual changes — owner's established workflow
 
@@ -32,30 +107,17 @@ Propose variants (owner rule: 3) as a throwaway HTML file in `public/` (works at
 localhost:3000/preview-x.html AND file://), owner picks one, wire the winner into the real
 components, then DELETE the preview file. Confirm understanding before executing.
 
+# Shipped copy
+
+Owner rule (2026-07-17): **NO middle dots (·) and NO em dashes in shipped copy.** This covers
+anything a visitor reads on the site. It does not apply to these internal docs.
+
 # Project rules
 
-## Project
 Personal portfolio website built with Next.js 16, React 19, Tailwind v4, and Framer Motion.
 
-## Before Starting Any Work
-- Run `pkill -f "next dev"` to kill any existing dev servers before starting new ones
-- Only start ONE dev server at a time
-- Do not start multiple builds or dev servers concurrently
-
-## Dev Server
-- Start with: `npm run dev` (runs on http://localhost:3000)
-- To preview the site, open http://localhost:3000 in the browser — do not spawn additional server processes
-- Kill the dev server when done: `pkill -f "next dev"`
-
-## After Large Refactors
-- Clear the Next.js cache if builds behave unexpectedly: `rm -rf .next`
-- Do not run `next build` and `next dev` at the same time
-
-## Memory / Performance Rules
-- Do NOT run multiple Node processes simultaneously
-- Avoid running `npm install` unless explicitly asked — node_modules is already installed
-- Do not use `npm run build` to verify changes during development — use `next dev` only
-
-## TypeScript
-- TypeScript errors are expected during active refactoring — do not spam `tsc` to check
-- Do not run type checks in a loop
+- Do NOT run multiple Node processes simultaneously; do not run `next build` and `next dev` at
+  the same time.
+- After large refactors, clear the Next.js cache if builds behave unexpectedly: `rm -rf .next`.
+- TypeScript errors are expected during active refactoring — do not spam `tsc` to check, and do
+  not run type checks in a loop.

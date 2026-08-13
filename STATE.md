@@ -2,9 +2,9 @@
 glass: ""
 status: in-progress
 last_worked_on: 2026-08-13
-next_action: "None picked — the owner is filing a new ticket to rework the projects section (which of the two surfaces, the homepage Lab stack or the /projects index page, is named in the ticket). Until that exists and is green-lit, the frontier is #31 custom 404, #33 analytics, #34 OG image, all still unlabeled. Heads-up before #33 is planned: the site is hosted on AWS Amplify, not Vercel, so Vercel Web Analytics as written in that ticket would silently no-op."
+next_action: "None picked — no open ticket carries `ready-for-agent`. The frontier is #31 custom 404, #33 analytics, #34 OG image, all unlabeled and waiting on the owner's green light. Two notes before #33 is planned: its body specifies Vercel Web Analytics, which silently no-ops on AWS Amplify, so the ticket itself needs rewriting first; and `docs/plans/2026-08-11-issue-33.md` was drafted against that old body, so it is stale, untracked, and should not be built from."
 blocked_on: ""
-phase: "Pre-launch polish. #32 robots.ts + sitemap.ts pushed and closed 2026-08-13; #30 featured Lab stack + /projects index page pushed 2026-08-03; LossGraph ghost-runs animation 2026-07-09; scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, contribution heatmap 2026-07-07. Remaining pre-launch items are the three optional-polish tickets above."
+phase: "Pre-launch polish. #36 /projects grouped into README sections + seven GitHub projects pushed and closed 2026-08-13; #32 robots.ts + sitemap.ts pushed and closed 2026-08-13; #30 featured Lab stack + /projects index page pushed 2026-08-03; LossGraph ghost-runs animation 2026-07-09; scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, contribution heatmap 2026-07-07. Remaining pre-launch items are the three optional-polish tickets above."
 ---
 
 # personalWebsite — Project State

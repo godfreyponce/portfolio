@@ -11,6 +11,44 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-13 — /projects grouped into README sections, 7 GitHub projects added (#36)
+
+- **Ask:** /projects listed only the four hackathon-era projects; the day-to-day
+  GitHub projects lived only in the profile README. Add seven (kal, Debrief,
+  glass, Jira-Alerts, jiraPlane, clawd, terrariaCompanion; LocalPro-Realty
+  deliberately excluded, owner 2026-08-13) and carry the README's grouping.
+- **Design locked from previews** (owner picks at the plan's Task 1 gate): group
+  names as `text-2xl` Fraunces display headings, groups in README order
+  (daily → work → hackathons → misc). The plan's variant A deleted the filter
+  pills; the owner wanted a control instead, so a second preview round of 3
+  toggle styles picked text links with an underlined active state. The existing
+  four became "Hackathons and sprints" (Remix was a school ML sprint, not a
+  hackathon). `public/preview-{a,b,c}.html` deleted after wiring, never committed.
+- **Shipped:** `lib/projects.ts` gained `ProjectGroup`
+  (`"daily" | "work" | "hackathons" | "misc"`), a required `group` on `Project`,
+  `GROUPS` (array order = page order; `label` = long section header, `tab` = short
+  toggle label), and the seven entries. Those carry no date/tags/media/icon on
+  purpose: `projectsNewestFirst()` gives undated rows `dateKey` 0 and the stable
+  sort keeps them in README order, the colored-square fallback renders, the tag
+  row doesn't render, and the "Personal" badge sits flush right where dated rows
+  show a date. `shortDesc` = README blurb, `description` = GitHub repo
+  description. `ProjectsIndex.tsx` swapped the status filter (`Filter`/`FILTERS`,
+  All/Personal/Hackathon pills) for a group toggle: state is
+  `ProjectGroup | "all"`, the nav renders `[{key:"all",tab:"All"}, ...GROUPS]`,
+  and the flat list became `GROUPS.map` → one `<section>` per non-empty group.
+  `ProjectRow` untouched. Homepage Lab stack unaffected (renders `featured` only;
+  none of the seven are featured).
+- **Verification:** Chrome at localhost:3000 — 11 rows across the four groups in
+  README order, toggle filters to a single section and back (`aria-pressed`
+  tracks), CometAdvisor still expands with its carousel, homepage scrolled end to
+  end with the same four Lab cards; ~390px via same-origin iframe (fullscreen
+  Chrome still refuses `resize_window`): one-liners/dates hide, toggle wraps to
+  two lines, long header wraps. `tsc --noEmit` exit 0. Plan
+  `docs/plans/2026-08-13-issue-36.md`; the only deviations were the toggle (owner
+  ask) and the `tab` field it needed on `GROUPS`.
+- **Left open:** the seven new entries have empty `tags` — per-project tech tags
+  would be their own ticket; guessing stacks risked wrong copy.
+
 ### 2026-08-10 — robots.txt + sitemap.xml metadata routes (#32)
 
 - **Ask:** serve `/robots.txt` and `/sitemap.xml` so search engines index the
@@ -567,7 +605,7 @@ components/sections/TheLab.tsx        async server component; fetches contributi
 components/sections/ProjectStack.tsx  sticky stack + StackedCard math + GitHubTile + Heatmap
 components/sections/ProjectCard.tsx   grid|stack variants; techIcons map; upward expander
 components/ui/MediaCarousel.tsx       all-mounted crossfade carousel; fit:"contain" backdrop
-lib/projects.ts                       project data (4 projects)
+lib/projects.ts                       project data (11 projects, GROUPS sections)
 lib/github.ts                         getContributions() server fetch, 6h revalidate
 public/tech/*.svg                     brand-colored tag icons
 public/projects/**                    upscaled media (originals in git history pre-ce61d11)

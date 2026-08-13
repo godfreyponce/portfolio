@@ -7,15 +7,7 @@ import { ArrowLeft, ArrowUpRight, ChevronRight, FlaskConical, Github } from "luc
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Badge from "@/components/ui/Badge";
 import MediaCarousel, { type MediaItem } from "@/components/ui/MediaCarousel";
-import { projectsNewestFirst, shortDate, techIcons, type Project } from "@/lib/projects";
-
-type Filter = "all" | "project" | "hackathon";
-
-const FILTERS: { key: Filter; label: string }[] = [
-  { key: "all", label: "All" },
-  { key: "project", label: "Personal" },
-  { key: "hackathon", label: "Hackathon" },
-];
+import { GROUPS, projectsNewestFirst, shortDate, techIcons, type Project, type ProjectGroup } from "@/lib/projects";
 
 // Row pill copy (#30 owner pick): "Personal", not the homepage's "Project".
 const rowLabel = { live: "Live", building: "Building", hackathon: "Hackathon", project: "Personal" } as const;
@@ -132,9 +124,8 @@ function ProjectRow({ project }: { project: Project }) {
 }
 
 export default function ProjectsIndex() {
-  const [filter, setFilter] = useState<Filter>("all");
+  const [group, setGroup] = useState<ProjectGroup | "all">("all");
   const all = projectsNewestFirst();
-  const shown = all.filter((p) => filter === "all" || p.status === filter);
 
   return (
     <div className="mx-auto w-full max-w-[960px] px-6 pb-24 pt-16">
@@ -149,28 +140,35 @@ export default function ProjectsIndex() {
         Everything I have built, from hackathon weekends to long-running personal projects.
       </p>
 
-      <div className="mt-8 flex gap-2">
-        {FILTERS.map((f) => (
+      <nav className="mt-6 flex flex-wrap gap-6">
+        {[{ key: "all" as const, tab: "All" }, ...GROUPS].map(({ key, tab }) => (
           <button
-            key={f.key}
-            onClick={() => setFilter(f.key)}
-            aria-pressed={filter === f.key}
-            className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
-              filter === f.key
-                ? "border-ink bg-ink text-surface"
-                : "border-rule bg-surface-raised text-ink-subtle hover:border-ink-faint hover:text-ink"
+            key={key}
+            onClick={() => setGroup(key)}
+            aria-pressed={group === key}
+            className={`border-b py-1 text-sm font-medium transition-colors ${
+              group === key ? "border-ink text-ink" : "border-transparent text-ink-subtle hover:text-ink"
             }`}
           >
-            {f.label}
+            {tab}
           </button>
         ))}
-      </div>
+      </nav>
 
-      <div className="mt-6 border-t border-rule">
-        {shown.map((p) => (
-          <ProjectRow key={p.title} project={p} />
-        ))}
-      </div>
+      {GROUPS.filter(({ key }) => group === "all" || group === key).map(({ key, label }) => {
+        const rows = all.filter((p) => p.group === key);
+        if (rows.length === 0) return null;
+        return (
+          <section key={key} className="mt-12">
+            <h2 className="font-display text-2xl font-medium text-ink">{label}</h2>
+            <div className="mt-4 border-t border-rule">
+              {rows.map((p) => (
+                <ProjectRow key={p.title} project={p} />
+              ))}
+            </div>
+          </section>
+        );
+      })}
     </div>
   );
 }

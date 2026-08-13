@@ -1,11 +1,15 @@
 import type { MediaItem } from "@/components/ui/MediaCarousel";
 import type { BadgeTone } from "@/components/ui/Badge";
 
+export type ProjectGroup = "daily" | "work" | "hackathons" | "misc";
+
 export interface Project {
   title: string;
   description: string;
   /** Hand-written one-liner for /projects index rows; full description shows expanded (#30). */
   shortDesc: string;
+  /** README-mirroring section on /projects (#36). */
+  group: ProjectGroup;
   /** Hand-picked for the homepage Lab stack, 4-6 max (#30). */
   featured?: boolean;
   tags: string[];
@@ -36,12 +40,22 @@ export const techIcons: Record<string, string> = {
   Figma: "/tech/figma.svg",
 };
 
+// Section order and visitor-facing labels for /projects (#36). Copy mirrors the profile README;
+// `tab` is the shorter label the group toggle above the list uses.
+export const GROUPS: { key: ProjectGroup; label: string; tab: string }[] = [
+  { key: "daily", label: "Things I actually use every day", tab: "Every day" },
+  { key: "work", label: "Work stuff", tab: "Work" },
+  { key: "hackathons", label: "Hackathons and sprints", tab: "Hackathons and sprints" },
+  { key: "misc", label: "Everything else", tab: "Everything else" },
+];
+
 export const projects: Project[] = [
   {
     title: "CometAdvisor",
     description:
       "Upload your transcript, talk to an AI advisor, and get a personalized semester plan — what to take, who to take it with, and why.",
     shortDesc: "An AI advisor that turns your transcript into a semester plan.",
+    group: "hackathons",
     featured: true,
     tags: ["ElevenLabs", "Nebula API", "Gemini"],
     status: "hackathon",
@@ -62,6 +76,7 @@ export const projects: Project[] = [
     description:
       "Remix analyzes your resume and job description to surface skill gaps, then builds a personalized interview around them — so you practice what actually matters.",
     shortDesc: "Mock interviews built from your resume's actual skill gaps.",
+    group: "hackathons",
     featured: true,
     tags: ["FAISS", "HuggingFace", "Gemini", "LangChain"],
     status: "project",
@@ -80,6 +95,7 @@ export const projects: Project[] = [
     description:
       "Four broke college students got tired of being broke… so we built an AI budgeting assistant to fix it.",
     shortDesc: "An AI budgeting assistant built by four broke college students.",
+    group: "hackathons",
     featured: true,
     tags: ["Gemini", "Plaid", "Twilio", "Auth0"],
     status: "hackathon",
@@ -99,6 +115,7 @@ export const projects: Project[] = [
     description:
       "A native iOS assistant for data center technicians with 'scan-to-solution' QR navigation.",
     shortDesc: "A native iOS assistant with scan-to-solution QR navigation for data center techs.",
+    group: "hackathons",
     featured: true,
     tags: ["SwiftUI", "Auth0", "Figma"],
     status: "hackathon",
@@ -108,6 +125,76 @@ export const projects: Project[] = [
     videoUrl: "https://www.youtube.com/watch?v=RTfW7j82g7E",
     color: "bg-orange-50",
     iconSrc: "/tech_assist.png",
+  },
+  {
+    title: "kal",
+    description: "My personal fitness chat app. A Claude assistant that knows my meal plan and writes my daily log.",
+    shortDesc: "Started tracking my calories, so I built a tracker.",
+    group: "daily",
+    tags: [],
+    status: "project",
+    githubLink: "https://github.com/godfreyponce/kal",
+    color: "bg-sky-50",
+  },
+  {
+    title: "Debrief",
+    description: "My morning paper. One page of what the people I track posted in the last 24 hours.",
+    shortDesc: "My morning paper. Makes it easier for me to keep up with AI and tech.",
+    group: "daily",
+    tags: [],
+    status: "project",
+    githubLink: "https://github.com/godfreyponce/Debrief",
+    color: "bg-amber-50",
+  },
+  {
+    title: "glass",
+    description: "Dashboard for my projects. Renders from markdown and edits in place through the GitHub API.",
+    shortDesc: "A simplified way to check on everything I'm building.",
+    group: "daily",
+    tags: [],
+    status: "project",
+    githubLink: "https://github.com/godfreyponce/glass",
+    color: "bg-cyan-50",
+  },
+  {
+    title: "Jira-Alerts",
+    description: "DMs me on Teams when a Jira ticket gets a new comment or @mention.",
+    shortDesc: "Jira emails are horrible, so my tickets DM me on Teams instead.",
+    group: "work",
+    tags: [],
+    status: "project",
+    githubLink: "https://github.com/godfreyponce/Jira-Alerts",
+    color: "bg-blue-50",
+  },
+  {
+    title: "jiraPlane",
+    description: "A paper airplane that flies across my screen when Jira needs me.",
+    shortDesc: "Basically Jira-Alerts with an upgraded visual. A paper airplane flies across my screen when Jira needs me.",
+    group: "work",
+    tags: [],
+    status: "project",
+    githubLink: "https://github.com/godfreyponce/jiraPlane",
+    color: "bg-indigo-50",
+  },
+  {
+    title: "clawd",
+    description: "Clyde the crab on an ESP32 desk screen, reacting to my Claude Code session.",
+    shortDesc: "I 3D printed a crab on my desk so I know how my agents are doing.",
+    group: "misc",
+    tags: [],
+    status: "project",
+    githubLink: "https://github.com/godfreyponce/clawd",
+    color: "bg-red-50",
+  },
+  {
+    title: "terrariaCompanion",
+    description: "Terraria companion for my mage run. Answers from a wiki scrape with an image and 3 bullets.",
+    shortDesc: "Played Terraria for the first time this year, idk where to start, so I built this.",
+    group: "misc",
+    tags: [],
+    status: "project",
+    githubLink: "https://github.com/godfreyponce/terrariaCompanion",
+    color: "bg-emerald-50",
   },
 ];
 

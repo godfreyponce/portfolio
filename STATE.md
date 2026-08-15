@@ -1,10 +1,10 @@
 ---
 glass: ""
 status: in-progress
-last_worked_on: 2026-08-13
-next_action: "#31 custom 404 page — green-lit and labeled `ready-for-agent` 2026-08-13. Plan it in a fresh session (`/plan-ticket 31`). Two things the plan must handle: the body is a three-line note from the 2026-08-10 checklist review, not the four-section template, so scope and done-when have to be proposed rather than read off the ticket; and it is a visual change, so it goes through the variants workflow (three throwaway HTML previews in `public/`, owner picks, delete after wiring). #33 and #34 stay unlabeled — and #33 needs its body rewritten before it can be planned at all, since it specifies Vercel Web Analytics, which silently no-ops on AWS Amplify, and `docs/plans/2026-08-11-issue-33.md` was drafted against that old body, so it is stale and must not be built from."
+last_worked_on: 2026-08-14
+next_action: "Rewrite #33's body, then green-light it (owner pick 2026-08-14). The ticket says Vercel Web Analytics, which silently no-ops on AWS Amplify, so it cannot be planned as written: pick an Amplify-compatible option first and rewrite the body around it. `docs/plans/2026-08-11-issue-33.md` was drafted against the old body — it is stale, do not build from it, and mark it dead when the new body lands. This is owner-side work, not an agent task: nothing is labeled `ready-for-agent` right now, so the eligible pool is empty until #33 is rewritten and green-lit (or #34, the OG share image, gets its four template sections filled in and green-lit instead)."
 blocked_on: ""
-phase: "Pre-launch polish. #36 /projects grouped into README sections + seven GitHub projects pushed and closed 2026-08-13; #32 robots.ts + sitemap.ts pushed and closed 2026-08-13; #30 featured Lab stack + /projects index page pushed 2026-08-03; LossGraph ghost-runs animation 2026-07-09; scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, contribution heatmap 2026-07-07. Remaining pre-launch items are the three optional-polish tickets above."
+phase: "Pre-launch polish. #31 custom 404 page pushed and closed 2026-08-14; #36 /projects grouped into README sections + seven GitHub projects pushed and closed 2026-08-13; #32 robots.ts + sitemap.ts pushed and closed 2026-08-13; #30 featured Lab stack + /projects index page pushed 2026-08-03; LossGraph ghost-runs animation 2026-07-09; scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, contribution heatmap 2026-07-07. Remaining pre-launch items are #33 (analytics, needs body rewrite) and #34 (OG share image, optional polish)."
 ---
 
 # personalWebsite — Project State
@@ -39,4 +39,8 @@ Verify visually via Chrome automation at localhost:3000 (scroll the whole page).
 - Next 16 needs `images.qualities` in `next.config.ts` for non-75 image qualities.
 - Signal project was deliberately removed 2026-07-07 (owner) — don't resurrect from git.
 - Backgrounded browser-automation tabs get throttled — fire-and-collect JS + screenshots.
+  `setTimeout` also clamps to ~1s there, so sampling a CSS animation on a short interval aliases
+  and reads as frozen; use `document.getAnimations()` and set `currentTime` instead.
+- `resize_window` refuses bounds on a fullscreen Chrome window — check narrow widths by injecting
+  a same-origin iframe (it gets its own viewport for `vw` and media queries).
 - Hosting is AWS Amplify, not Vercel — Vercel-only features (Web Analytics, ISR knobs) silently no-op.

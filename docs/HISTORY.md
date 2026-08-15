@@ -11,6 +11,49 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-14 — Custom 404 page: stickman chases the missing page (#31)
+
+- **Ask:** the site served the default Next.js 404 (pre-launch checklist item,
+  2026-08-10). Give bad URLs an on-brand page with a link home.
+- **Design locked from previews** (two build sessions, gate between them):
+  A = idle stickman beside a big Fraunces 404, B = Snapchat-style streak
+  numeral counting up, C = stickman sprinting across a band chasing a fleeing
+  page glyph. Owner picked **C with B's count-up grafted on**, numeral staying
+  Fraunces (asked and answered explicitly — it does not switch to the Nunito
+  Sans streak face). `public/preview-404-{a,b,c}.html` deleted after the pick,
+  never committed.
+- **Shipped:** `app/not-found.tsx` stays a server component, so
+  `export const metadata` still sets the tab title to "Page not found";
+  only the counter is a client child. `components/NotFoundCounter.tsx` runs
+  0 → 404 on mount, ease-out cubic over 900ms, the same curve as the streak
+  counter (#26). `tabular-nums` but no width reservation: unlike variant A
+  (numeral in a flex row beside the stickman, which needed `min-w-[3ch]` to
+  stop him sliding), C's numeral is a centered block on its own line and grows
+  symmetrically. `app/globals.css` gained the `nf-*` block: a 7s linear
+  `translateX(-220px → 100vw+40px)` crossing, a two-frame run cycle swapped by
+  `steps(1)` opacity every 0.25s, a bobbing page glyph, and a reduced-motion
+  branch that hides both frames plus the glyph and swaps in a centered
+  standing wave. Stickman geometry copied from `StickmanRunner.tsx`.
+- **Plan deviation (the only one), owner-approved at the preview gate:** the
+  band's ground rule spans the full viewport, so with the home link *below* it
+  the rule read as a section divider slicing the link off from the 404 above
+  (worst at 768px). Order became 404 → blurb → link → band, which turns the
+  band into a footer strip and lets the rule read as ground under the runner.
+- **Verification:** Chrome at localhost:3000 — unmatched URL returns a real
+  HTTP 404 (not a 200), count-up lands on 404, runner loops across the band,
+  home link navigates to `/` and the homepage still renders; ~390px via
+  same-origin iframe: no horizontal overflow, numeral clamps to its 96px
+  floor, blurb and link each hold one line. `tsc --noEmit` exit 0. Plan
+  `docs/plans/2026-08-13-issue-31.md`.
+- **Flagged at accept, deliberately not "fixed":** the stickman is a fixed
+  200×140 SVG next to a fluid `clamp(96px,20vw,160px)` numeral, so he reads
+  small at desktop and proportional at 390px. The shipped Fraunces is chunkier
+  than the previews looked — preview HTML pulled it from the Google CDN with
+  the `opsz` axis live; `next/font` does not expose that axis, so the numeral
+  now matches the hero heading exactly. Without JS the numeral stays `0`
+  (SSR renders `<h1>0</h1>`); every alternative trades a visible 404 → 0 →
+  count flash on hydration.
+
 ### 2026-08-13 — /projects grouped into README sections, 7 GitHub projects added (#36)
 
 - **Ask:** /projects listed only the four hackathon-era projects; the day-to-day
@@ -599,6 +642,8 @@ Everything below was verified in the browser + `tsc --noEmit` clean.*
 
 ```
 app/page.tsx                          section order; overflow-x-clip lives here
+app/not-found.tsx                     custom 404; nf-* keyframes live in globals.css
+components/NotFoundCounter.tsx        404 count-up (client child of not-found.tsx)
 components/StickmanRunner.tsx         scroll-buddy stickman (self-contained)
 components/canvas/LossGraph.tsx       ghost-runs training divider (self-contained)
 components/sections/TheLab.tsx        async server component; fetches contributions

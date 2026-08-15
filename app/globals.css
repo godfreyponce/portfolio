@@ -161,3 +161,57 @@ body {
     transform: none;
   }
 }
+
+/*
+ * 404 page (#31): stickman chases the missing page across the band.
+ * Two-frame run cycle swapped by steps(1); reduced motion swaps in the
+ * standing wave and hides the runner frames.
+ */
+.nf-runner {
+  animation: nf-cross 7s linear infinite;
+}
+@keyframes nf-cross {
+  from { transform: translateX(-220px); }
+  to { transform: translateX(calc(100vw + 40px)); }
+}
+.nf-p1 {
+  animation: nf-gait-a 0.5s steps(1) infinite;
+}
+.nf-p2 {
+  animation: nf-gait-b 0.5s steps(1) infinite;
+}
+@keyframes nf-gait-a {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+@keyframes nf-gait-b {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}
+.nf-page {
+  animation: nf-flee 0.5s ease-in-out infinite alternate;
+}
+@keyframes nf-flee {
+  from { transform: translateY(0); }
+  to { transform: translateY(-3px); }
+}
+.nf-stand {
+  display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nf-runner {
+    animation: none;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .nf-p1,
+  .nf-p2,
+  .nf-page {
+    display: none;
+    animation: none;
+  }
+  .nf-stand {
+    display: block;
+  }
+}

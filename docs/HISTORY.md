@@ -11,6 +11,52 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-16 — Hover color-scramble on the hero tagline (#37)
+
+- **Ask:** inspired by cmrg.me. Letters light under the cursor and ease back,
+  leaving a decaying trail. The reference was a screen recording
+  (`~/Desktop/ticket-37-video.mov`), not a description, so the spec was
+  measured off frames rather than described.
+- **Three preview rounds, and the middle one is the lesson.** Round 1 was
+  rejected as too saturated. Round 2 translated the recording's measured
+  glyph colors faithfully (dusty, sat 0.25-0.65) and was rejected as too
+  dull. Measuring the frame the owner sent back explained both: the
+  reference's own chroma is *low* (red C=0.120, gold 0.090, green 0.050,
+  blue 0.059 in OKLCH). All of its apparent brightness comes from light
+  glyphs on a near-black ground. On our `#fafaf9` there is no value that
+  reproduces both its literal colors and its punch, so brightness had to
+  come from chroma instead.
+- **Palette method (worth reusing).** Holding chroma constant across hues
+  fails: at fixed lightness gold and green hit the sRGB wall around
+  C≈0.11-0.13 while red and blue keep climbing, so the four stop reading as
+  one set. Instead each hue sits at the same *share of the chroma it can
+  actually reach* at that lightness. Owner picked **J**, the gamut edge:
+  `#f00013` `#a67600` `#6e8e00` `#566dff`, at L=0.60 with the recording's
+  measured hues (OKLCH 28 / 80 / 124 / 271). Contrast on the ground stays in
+  a 3.6-4.3 band. Decay **1.0s**, the long end of the measured 0.7-1.0s
+  bracket. `public/preview-scramble.html` deleted after the pick.
+- **Shipped:** `components/ui/ScrambleText.tsx` is a client component only
+  because the color re-randomizes per pass (measured: "computers" reads
+  o=blue m=red on one sweep, o=red m=blue on the next). `mouseenter` writes
+  `--scramble-color` inline, `mouseleave` clears it. No React state, no
+  re-renders; `Math.random()` runs only in handlers, never in render, so
+  hydration stays deterministic. CSS does all motion: color snaps in
+  (`transition-duration: 0s` while `:hover`) and eases out over 1s once the
+  var is cleared. Hero stays a server component.
+- **Reduced motion needs no override block.** The whole thing lives inside
+  `@media (prefers-reduced-motion: no-preference)`, so under `reduce` there
+  are simply zero matching rules: the var is still set by JS but never
+  consumed. Verified against the compiled CSS chunk, not the source.
+- **Two fixes the plan didn't anticipate:** the `sr-only` copy sits inside
+  the `<p>`, so selecting the tagline copied the sentence *twice* until it
+  got `select-none` (still in the DOM, still read by AT, just out of the
+  clipboard). And `cursor: pointer` (owner asked for it) sits on
+  `.scramble-line`, not the letters, or it flickers back to a caret over
+  every space; it is inside the no-preference gate too, since with the
+  effect off it would advertise nothing.
+- **Confetti dropped.** The recording has a click-triggered burst at
+  t≈10.7; owner ruled it out at the plan gate. Not built, no ticket.
+
 ### 2026-08-14 — Custom 404 page: stickman chases the missing page (#31)
 
 - **Ask:** the site served the default Next.js 404 (pre-launch checklist item,
@@ -575,6 +621,12 @@ Everything below was verified in the browser + `tsc --noEmit` clean.*
 
 ## What's on the page (current behavior)
 
+- **Hero tagline** (`components/ui/ScrambleText.tsx`) — per-letter spans; the letter under
+  the cursor snaps to a random color from a 4-hex palette and eases back over 1s, leaving a
+  decaying trail. Handlers write/clear `--scramble-color` inline (no state); `.scramble-*`
+  rules in `globals.css` live entirely inside `prefers-reduced-motion: no-preference`, so
+  `reduce` gets static text and no pointer cursor. `sr-only select-none` sibling carries the
+  sentence for AT without doubling it in the clipboard.
 - **LossGraph** (`components/canvas/LossGraph.tsx`) — "ghost runs" training divider
   (Education → The Lab): the loss curve draws itself (~7s ≙ 50k fake steps), mono ticker
   top-right (`run N · step · loss · best`, ★ on a new best); converged runs stay behind as
@@ -625,6 +677,18 @@ Everything below was verified in the browser + `tsc --noEmit` clean.*
 - Browser-automation tab gets frozen/throttled when backgrounded — long JS with awaits times
   out (CDP 45s); use fire-and-collect (write to `window.__x`, read in a 2nd call) and
   screenshots to force frames.
+- Verifying a React hover effect from browser automation: **dispatching a synthetic
+  `mouseenter` (or `mouseover`) does NOT fire React's `onMouseEnter`** — React delegates
+  enter/leave at the root and the handler never runs, so the effect reads as broken when it
+  is fine. Drive it with a real cursor (`computer` → `hover`) instead. Related: assigning
+  `element.innerHTML` inside a React-rendered subtree recreates those nodes outside the fiber
+  tree, silently killing their handlers for the rest of the page's life — reload after any
+  such probe. Both cost a round of false negatives on #37 (2026-08-16).
+- Timing a CSS transition from automation: the tool round-trip is longer than a ~1s
+  transition, so `transitionrun`/`transitionend` listeners and `getAnimations()` polls both
+  come back empty after the fact. Exercise the rule in ONE call on a throwaway element
+  carrying the same class (set the var → flush via `getComputedStyle` → clear it → read
+  `getAnimations()`), then scrub `currentTime` to sample the curve.
 - projects data lives in `lib/projects.ts` (typed `Project`, `MediaItem` with optional
   `fit`); Signal was deliberately REMOVED 2026-07-07 (owner) — don't resurrect from git.
 - git (any external binary, really) can suddenly die with `fatal: Unable to read current

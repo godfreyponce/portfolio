@@ -163,6 +163,30 @@ body {
 }
 
 /*
+ * Hero tagline hover scramble (#37): ScrambleText.tsx writes a random
+ * palette color into each letter's --scramble-color on mouseenter and
+ * removes it on mouseleave. Color snaps in (0s while :hover) and eases
+ * back out once the var is cleared. Wrapped in no-preference so
+ * reduced-motion users get plain static text - the var is set but never
+ * consumed, so no override block is needed. The pointer cursor sits on
+ * the line rather than the letters so it doesn't flicker back to a caret
+ * over the spaces, and it stays inside no-preference too: with the effect
+ * off there is nothing for it to advertise.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .scramble-line {
+    cursor: pointer;
+  }
+  .scramble-letter {
+    color: var(--scramble-color, currentColor);
+    transition: color 1s ease-out;
+  }
+  .scramble-letter:hover {
+    transition-duration: 0s; /* color arrives instantly, per the reference */
+  }
+}
+
+/*
  * 404 page (#31): stickman chases the missing page across the band.
  * Two-frame run cycle swapped by steps(1); reduced motion swaps in the
  * standing wave and hides the runner frames.

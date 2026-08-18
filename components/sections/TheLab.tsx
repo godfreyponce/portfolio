@@ -20,7 +20,7 @@ export default function TheLab() {
       <Reveal className="flex justify-center">
         <Link
           href="/projects"
-          className="group inline-flex items-center gap-2 rounded-md border border-rule bg-surface-raised px-4 py-3 text-sm font-medium text-ink transition-all hover:border-ink-faint hover:shadow-lift"
+          className="group inline-flex items-center gap-2 rounded-md border border-rule bg-surface-raised px-4 py-3 text-sm font-medium text-ink tactile-btn"
         >
           See all projects <span className="font-normal text-ink-faint">({projects.length})</span>
           <ArrowUpRight

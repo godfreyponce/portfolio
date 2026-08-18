@@ -28,21 +28,21 @@ export default function Hero() {
         <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-semibold uppercase tracking-[0.2em] text-ink-subtle md:text-base">
           <SocialLink
             href="https://github.com/godfreyponce"
-            className="hover-bubble cursor-github hover:!text-brand-github"
+            className="tactile-link cursor-github hover:!text-brand-github"
           >
             Github
           </SocialLink>
           <span className="font-light text-ink-faint/40">/</span>
           <SocialLink
             href="https://linkedin.com/in/godfreyponce"
-            className="hover-bubble cursor-linkedin hover:!text-brand-linkedin"
+            className="tactile-link cursor-linkedin hover:!text-brand-linkedin"
           >
             Linkedin
           </SocialLink>
           <span className="font-light text-ink-faint/40">/</span>
           <SocialLink
             href="mailto:poncegodfrey@gmail.com"
-            className="email-google hover-bubble cursor-gmail"
+            className="email-google tactile-link cursor-gmail"
             ariaLabel="Email"
           >
             <span>E</span>

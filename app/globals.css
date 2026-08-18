@@ -136,7 +136,8 @@ body {
 }
 
 /*
- * Social link hover weight (Kal bubble port, #19; reused by #20). Hover pops
+ * Social link hover weight (Kal bubble port, #19; reused by #20; hero links
+ * moved to .tactile-link in #38, About still uses this). Hover pops
  * on the overshoot spring; press sinks slowly so the hold reads as weight;
  * release snaps back to the spring settle. Plain class, not @utility: it must
  * beat SocialLink's layered `transition-colors` utility in the cascade, so the
@@ -159,6 +160,60 @@ body {
   .hover-bubble:active {
     transition: none;
     transform: none;
+  }
+}
+
+/*
+ * Tactile raised/pressed physics (#38, cmrg.me-inspired). Plain classes, not
+ * @utility, for the same cascade reason as .hover-bubble above: they must beat
+ * layered transition utilities, so color timing is folded into the shorthand.
+ * Links carry the motion only - nothing grows behind them (owner pick, 2026-08-17);
+ * the button carries the reference's rest-state bevel and presses into it.
+ * The link padding is offset by an equal negative margin, so the hit area grows
+ * without the row's layout moving.
+ */
+.tactile-link {
+  display: inline-block;
+  padding: 6px 12px;
+  margin: -6px -12px;
+  transition: transform 150ms ease, color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.tactile-link:hover {
+  transform: translateY(-1px);
+}
+.tactile-link:active {
+  transform: translateY(1px) scale(0.96);
+}
+.tactile-btn {
+  border-color: transparent;
+  background: linear-gradient(to bottom, var(--color-surface-raised), var(--color-surface));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 2px 2px -1px rgba(28, 25, 23, 0.1),
+    0 4px 4px -2px rgba(28, 25, 23, 0.14), 0 0 0 1px var(--color-rule);
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+.tactile-btn:hover {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 3px 3px -1px rgba(28, 25, 23, 0.14),
+    0 6px 6px -2px rgba(28, 25, 23, 0.16), 0 0 0 1px var(--color-ink-faint);
+}
+.tactile-btn:active {
+  transform: scale(0.975);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 1px 2px -1px rgba(28, 25, 23, 0.14),
+    0 0 0 1px var(--color-rule);
+}
+@media (prefers-reduced-motion: reduce) {
+  .tactile-link,
+  .tactile-link:hover,
+  .tactile-link:active,
+  .tactile-btn,
+  .tactile-btn:hover,
+  .tactile-btn:active {
+    transition: none;
+    transform: none;
+  }
+  .tactile-btn:hover,
+  .tactile-btn:active {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 2px 2px -1px rgba(28, 25, 23, 0.1),
+      0 4px 4px -2px rgba(28, 25, 23, 0.14), 0 0 0 1px var(--color-rule);
   }
 }
 

@@ -12,21 +12,25 @@ import Footer from "@/components/sections/Footer";
 export default function Home() {
   return (
     <main className="relative w-full overflow-x-clip">
-      <div className="relative">
-        <SimpleBackground />
-        <Hero />
+      {/* The lid: opaque page content that slides off the footer pinned beneath it (#39) */}
+      <div className="relative z-10 border-b border-rule bg-surface shadow-lid">
+        <div className="relative">
+          <SimpleBackground />
+          <Hero />
+        </div>
+
+        <div className="relative z-10">
+          <About />
+          <StickmanRunner />
+          <Timeline />
+          <Education />
+          <LossGraph />
+          <TheLab />
+          <Passions />
+        </div>
       </div>
 
-      <div className="relative z-10">
-        <About />
-        <StickmanRunner />
-        <Timeline />
-        <Education />
-        <LossGraph />
-        <TheLab />
-        <Passions />
-        <Footer />
-      </div>
+      <Footer />
     </main>
   );
 }

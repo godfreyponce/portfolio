@@ -3,7 +3,7 @@ import SocialLink from "@/components/ui/SocialLink";
 
 export default function Footer() {
   return (
-    <footer className="mt-12 w-full bg-surface-inverse py-12 text-white">
+    <footer className="sticky bottom-0 z-0 w-full bg-surface-inverse py-12 text-white">
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-6 md:flex-row">
         <h2 className="font-display text-2xl font-medium">Godfrey Ponce</h2>
 
@@ -19,8 +19,11 @@ export default function Footer() {
           </SocialLink>
         </div>
       </div>
-      <div className="mx-auto mt-12 max-w-6xl border-t border-white/10 px-6 pt-8 text-center text-sm text-white/50 md:text-left">
-        © Godfrey Ponce.
+
+      <div className="mx-auto mt-12 flex max-w-6xl flex-col items-center justify-between gap-2 border-t border-white/10 px-6 pt-8 text-sm text-white/50 md:flex-row">
+        {/* left slot reserved for the latest-commit status line (#40) */}
+        <span />
+        <span>© Godfrey Ponce</span>
       </div>
     </footer>
   );

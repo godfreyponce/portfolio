@@ -11,6 +11,51 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-18 — Latest-commit status line in the footer (#40)
+
+- **Ask:** cmrg.me's footer stat, filling the empty left cell #39 reserved. Shipped
+  copy is `latest commit today: +N -N`, additions green, deletions red, all lowercase
+  to match the stat-line register.
+- **Owner picked variant A** from `public/preview-commit-line.html` (deleted after the
+  pick): GitHub's own diff colors as `@theme` tokens, `--color-diff-add: #3fb950` and
+  `--color-diff-del: #f85149`. The label stays at the footer's own `text-white/50` and
+  the numbers keep the inherited weight — variant C's faint-label + tabular-numbers
+  treatment was not taken.
+- **Two GitHub calls, not one.** The public events feed carries the PushEvent but no
+  line stats, so `app/api/latest-commit/route.ts` finds the newest PushEvent and then
+  hits `/repos/{owner}/{repo}/commits/{sha}` for `stats.additions/deletions`. No token
+  by owner decision (the portfolio repo is private and invisible without one), so the
+  budget is GitHub's 60 requests/hour per-IP unauthenticated limit. GitHub also rejects
+  requests with no `User-Agent` — the route sets one.
+- **The cache is a module-level TTL, deliberately not `fetch revalidate`.** #24 proved
+  Next's data cache untrustworthy on Amplify (CloudFront froze ISR), so this route keeps
+  its value in module memory and pairs `force-dynamic` with `cache-control: no-store` to
+  keep both CloudFront and the data cache out of the path. TTL is 10 minutes on a stated
+  basis: two calls per refresh caps one warm instance at 12 calls/hour against the 60.
+  On upstream failure it serves the last good value and re-arms the TTL, so a broken
+  GitHub doesn't turn into a call per pageview.
+- **Push time, not the commit's author date.** "latest commit today" means activity
+  today; a rebased or old-authored commit pushed this morning would otherwise read as
+  days old.
+- **The relative phrase is computed in the browser**, not baked into the response, so a
+  server-cached value can't keep saying "today" past midnight. `commitPhrase(dateISO, now)`
+  is pure for the same reason `computeStreaks` is — verifiable with a one-off node run.
+  Calendar-day difference in the viewer's local timezone; clock skew that puts the push in
+  the future still reads "today".
+- **Failure is an empty cell, never a broken stat.** The route answers `{commit: null}`,
+  `getLatestCommit()` returns null on any HTTP or shape failure, and the client component
+  renders a bare `<span />` both while loading and on failure — so the bottom row's
+  layout is identical to the placeholder #39 shipped.
+- **Known accepted quirk:** when the newest push is a merge commit, GitHub's stats count
+  the whole merge diff, so the numbers can spike. Accepted at plan time — it is still the
+  latest public activity.
+- **Worth knowing on Amplify:** the cache is per server instance, so several warm
+  instances each pay their own first fetch and can briefly disagree by up to the TTL.
+  That's inside the rate-limit budget by design, but it means the line is not
+  instantaneous after a push.
+- **Verified:** owner accepted the branch at gate 2; `npx tsc --noEmit` re-run clean on
+  merged main at accept.
+
 ### 2026-08-18 — Footer pinned under the page, uncovered at the bottom (#39)
 
 - **Ask:** cmrg.me's footer that "opens" as the visitor reaches the page bottom.

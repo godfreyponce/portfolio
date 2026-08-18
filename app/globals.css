@@ -35,6 +35,8 @@
   --color-accent: #c2410c;           /* burnt orange — UTD nod, used sparingly */
   --color-accent-soft: #fff7ed;      /* accent tint for selection / hover */
   --color-accent-green: #2d6a4f;     /* forest green — current-role marker in Timeline (#27) */
+  --color-diff-add: #3fb950;         /* footer commit-line additions (#40) */
+  --color-diff-del: #f85149;         /* footer commit-line deletions (#40) */
 
   /* ---- Brand colors (hero social link hovers only) ---- */
   --color-brand-github: #181717;

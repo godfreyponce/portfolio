@@ -1,4 +1,5 @@
 import { Github, Linkedin, Mail } from "lucide-react";
+import LatestCommitLine from "@/components/ui/LatestCommitLine";
 import SocialLink from "@/components/ui/SocialLink";
 
 export default function Footer() {
@@ -21,8 +22,7 @@ export default function Footer() {
       </div>
 
       <div className="mx-auto mt-12 flex max-w-6xl flex-col items-center justify-between gap-2 border-t border-white/10 px-6 pt-8 text-sm text-white/50 md:flex-row">
-        {/* left slot reserved for the latest-commit status line (#40) */}
-        <span />
+        <LatestCommitLine />
         <span>© Godfrey Ponce</span>
       </div>
     </footer>

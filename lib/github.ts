@@ -82,3 +82,38 @@ export async function getContributions(): Promise<Contributions | null> {
     return null;
   }
 }
+
+export interface LatestCommit {
+  date: string;
+  additions: number;
+  deletions: number;
+}
+
+// Footer status line (#40). Browser-only via the same-origin route, same
+// reasons as getStreaks (#24/#25). Null on any failure so the line hides.
+export async function getLatestCommit(): Promise<LatestCommit | null> {
+  try {
+    const res = await fetch("/api/latest-commit");
+    if (!res.ok) return null;
+    const json: { commit?: { date?: string; additions?: number; deletions?: number } | null } =
+      await res.json();
+    const c = json.commit;
+    if (!c || typeof c.date !== "string" || typeof c.additions !== "number" || typeof c.deletions !== "number") {
+      return null;
+    }
+    return { date: c.date, additions: c.additions, deletions: c.deletions };
+  } catch {
+    return null;
+  }
+}
+
+// Pure so it can be verified with a one-off node run (same precedent as
+// computeStreaks). Calendar-day difference in the viewer's local timezone;
+// clock skew that puts the push in the future still reads "today".
+export function commitPhrase(dateISO: string, now: Date): string {
+  const startOfDay = (d: Date) => new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+  const days = Math.round((startOfDay(now) - startOfDay(new Date(dateISO))) / DAY_MS);
+  if (days <= 0) return "today";
+  if (days === 1) return "yesterday";
+  return `${days} days ago`;
+}

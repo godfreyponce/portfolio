@@ -11,6 +11,57 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-18 — Footer pinned under the page, uncovered at the bottom (#39)
+
+- **Ask:** cmrg.me's footer that "opens" as the visitor reaches the page bottom.
+- **The reference effect is not an animation.** Measured off cmrg's live DOM: the
+  footer is `sticky bottom-0 z-0`, pinned to the viewport bottom for the *entire*
+  scroll (at scrollY 0 its rect top is already `viewportHeight - footerHeight`),
+  painted under an opaque `z-10` lid that holds the rest of the page. Scrolling
+  past the end of the lid uncovers it; scrolling back covers it. No scroll
+  listeners, no transitions, no scroll-linked opacity anywhere. "Opens and
+  closes" is entirely the lid sliding off and back on, which is why the boundary
+  cannot jank.
+- **Three variants previewed** in `public/preview-footer.html` (deleted after the
+  pick): A the silent curtain, B the curtain plus a staggered Framer Motion
+  wake-up once ~120px is uncovered, C a literal collapsed strip that unfolds a
+  panel at absolute bottom. Owner picked **A**. Consequence worth remembering:
+  the shipped footer uses **no Framer Motion at all**, so the ticket's
+  "smooth via Framer Motion" and `prefers-reduced-motion` lines are satisfied
+  vacuously — there is nothing to animate.
+- **C's flaw, found while verifying, not while planning:** its unfold triggers
+  when you are already at the bottom, so the panel opens *below* the viewport and
+  nothing appears to happen until you scroll again. A and B reveal into the space
+  you are already looking at. Worth carrying into any future "expand at bottom"
+  idea.
+- **Owner cut the drafted sign-off note at the gate**, which drops the ticket's
+  "expanded state shows a short sign-off note" bullet by owner decision. The
+  revealed layout is name + three social links on top, then a split bottom row:
+  empty left slot reserved for #40's latest-commit line, copyright right. The
+  copyright also lost its trailing period.
+- **`app/page.tsx` restructure is the load-bearing half.** Everything except the
+  footer moved into one `relative z-10 border-b border-rule bg-surface shadow-lid`
+  div; `<Footer />` became the last direct child of `<main>`. The lid's explicit
+  `bg-surface` is required — the old divs were transparent and the body painted
+  the background, which would let the footer show through. `overflow-x-clip` on
+  `<main>` stays and is now doubly load-bearing: `overflow-x-hidden` would make
+  `<main>` a scroll container and kill the sticky pin.
+- **`--shadow-lid` added to globals.css** rather than an inline
+  `shadow-[0_24px_48px_...]`, since the file's own header rule forbids arbitrary
+  values in components and the codebase had zero of them. On our dark footer the
+  shadow is nearly invisible; the light `border-b border-rule` is what actually
+  reads as the seam.
+- **Verified:** sampled 21 scroll positions from 0 to 5687 — the lid covers the
+  viewport bottom at every one, and the footer only shows in the last 229px of
+  scroll, so nothing peeks mid-page behind the Hero background or the sticky Lab
+  cards. All three footer links hit-test to themselves (`elementFromPoint`), so
+  the `z-0` footer is not intercepted by the lid. Real-cursor hover on GitHub
+  lifted it 701 → 700 with the #38 tactile signature intact. Mobile at 371px via
+  the iframe trick: stacks name → icons → divider → copyright, reveal still works.
+  `tsc --noEmit` clean.
+- **Untested:** macOS rubber-band overscroll past the bottom may flash the light
+  body background under the dark footer. Automation cannot reproduce rubber-band.
+
 ### 2026-08-17 — Tactile raised/pressed hover physics (#38)
 
 - **Ask:** cmrg.me's solid button feel on the hero social links, the footer

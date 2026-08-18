@@ -11,6 +11,43 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-17 — Tactile raised/pressed hover physics (#38)
+
+- **Ask:** cmrg.me's solid button feel on the hero social links, the footer
+  icons, and The Lab's "See all projects" CTA. Measured off cmrg's live DOM
+  rather than described: rest state is a bevel (inset white highlight, two
+  stacked drop shadows, the 1px ring living *inside* the shadow stack, plus a
+  radial sheen `::before`), hover deepens the shadows and fades the sheen with
+  **no** transform, press is `scale(0.975)` with the shadows compressing. All
+  at 150ms.
+- **Why the reference could not be copied literally.** cmrg is a dark site, and
+  its "raised" reading comes almost entirely from an inset *white* highlight —
+  which is invisible on our `#fafaf9`. The light-theme adaptation had to move
+  the raise into drop shadows plus `translateY`, which is what the variants
+  explored.
+- **Two preview rounds.** Round 1 offered A (press only), B (lift), C (full
+  bevel); owner picked C but asked for the pill behind the links to go. "Leave
+  out the pill" reads two ways, so round 2 split it rather than guessing: C1
+  (no shape on links, icons keep the pill), C2 (no shape anywhere), C3 (shape
+  kept but squared to 6px). Owner picked **C2**. `public/preview-tactile.html`
+  deleted after the pick.
+- **Shipped:** `.tactile-link` carries motion and color only — 1px rise on
+  hover, `translateY(1px) scale(0.96)` on press — and is used unchanged on both
+  the light hero row and the dark footer. `.tactile-btn` keeps the full
+  rest-state bevel and presses into it at `scale(0.975)`.
+- **The plan's `.tactile-link-dark` was dropped.** It existed to carry
+  dark-surface background and shadow values; C2 has none, so it would have been
+  an empty class. For the same reason the link transition is `transform, color`
+  and not also `box-shadow, background-color`.
+- **The padding/negative-margin pair is deliberate, not pill leftovers.**
+  `padding: 6px 12px; margin: -6px -12px` draws nothing now that there is no
+  background — it widens the hit target, and the equal negative margin is why
+  the row's `/` separators never move (verified: identical x positions hovered
+  and not).
+- **`.hover-bubble` stays** for About's inline prose links; button physics fight
+  underlined prose identity. Also consciously excluded: the 404 back link, the
+  ProjectsIndex home link, and ProjectCard's external-link rows.
+
 ### 2026-08-16 — Hover color-scramble on the hero tagline (#37)
 
 - **Ask:** inspired by cmrg.me. Letters light under the cursor and ease back,

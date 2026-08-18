@@ -1,10 +1,10 @@
 ---
 glass: ""
 status: in-progress
-last_worked_on: 2026-08-16
-next_action: "Fill in the four template sections on ONE of #38 / #39 / #40, then green-light it (owner pick 2026-08-16). These three were filed in the 2026-08-16 intake session alongside #37 and none carry `ready-for-agent` yet: #38 tactile raised/pressed hover on buttons and social links, #39 expanding footer that opens at page bottom, #40 latest-commit status line in the footer. This is owner-side work, not an agent task — the eligible pool is empty until one of them is green-lit. Still outstanding behind it: #33 cannot be planned as written (its body says Vercel Web Analytics, which silently no-ops on AWS Amplify; pick an Amplify-compatible option and rewrite the body around it first, and `docs/plans/2026-08-11-issue-33.md` is stale against the old body), and #34 (OG share image) needs its four sections too."
+last_worked_on: 2026-08-17
+next_action: "Fill in the four template sections on ONE of #39 / #40, then green-light it. Neither carries `ready-for-agent` yet: #39 expanding footer that opens at page bottom, #40 latest-commit status line in the footer. This is owner-side work, not an agent task — the eligible pool is empty until one of them is green-lit. Still outstanding behind it: #33 cannot be planned as written (its body says Vercel Web Analytics, which silently no-ops on AWS Amplify; pick an Amplify-compatible option and rewrite the body around it first, and `docs/plans/2026-08-11-issue-33.md` is stale against the old body), and #34 (OG share image) needs its four sections too."
 blocked_on: ""
-phase: "Pre-launch polish. #37 hero tagline hover color-scramble pushed and closed 2026-08-16; #31 custom 404 page pushed and closed 2026-08-14; #36 /projects grouped into README sections + seven GitHub projects pushed and closed 2026-08-13; #32 robots.ts + sitemap.ts pushed and closed 2026-08-13; #30 featured Lab stack + /projects index page pushed 2026-08-03; LossGraph ghost-runs animation 2026-07-09; scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, contribution heatmap 2026-07-07. Remaining pre-launch items are #33 (analytics, needs body rewrite) and #34 (OG share image, optional polish); #38/#39/#40 are new polish ideas from the 2026-08-16 intake."
+phase: "Pre-launch polish. #38 tactile raise/press physics on links and the projects CTA pushed and closed 2026-08-17; #37 hero tagline hover color-scramble pushed and closed 2026-08-16; #31 custom 404 page pushed and closed 2026-08-14; #36 /projects grouped into README sections + seven GitHub projects pushed and closed 2026-08-13; #32 robots.ts + sitemap.ts pushed and closed 2026-08-13; #30 featured Lab stack + /projects index page pushed 2026-08-03; LossGraph ghost-runs animation 2026-07-09; scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, contribution heatmap 2026-07-07. Remaining pre-launch items are #33 (analytics, needs body rewrite) and #34 (OG share image, optional polish); #39/#40 are the leftover polish ideas from the 2026-08-16 intake."
 ---
 
 # personalWebsite — Project State
@@ -40,7 +40,18 @@ Verify visually via Chrome automation at localhost:3000 (scroll the whole page).
 - Signal project was deliberately removed 2026-07-07 (owner) — don't resurrect from git.
 - Backgrounded browser-automation tabs get throttled — fire-and-collect JS + screenshots.
   `setTimeout` also clamps to ~1s there, so sampling a CSS animation on a short interval aliases
-  and reads as frozen; use `document.getAnimations()` and set `currentTime` instead.
+  and reads as frozen; use `document.getAnimations()` and set `currentTime` instead. `await`ing a
+  `requestAnimationFrame` there never resolves and hangs the whole call for 45s (#38).
+- Automation click/hover coordinates are NOT DOM pixels — the screenshot space is scaled
+  (measured #38: 1512x809 screenshot vs 1464x783 viewport, factor ~0.968). Clicking at raw
+  `getBoundingClientRect` coords silently misses anything under ~30px tall while still hitting big
+  buttons, which looks like a broken effect. Multiply DOM coords by ~1.033, or measure the factor
+  by reading `event.clientX/Y` in a listener after one probe click.
+- `getComputedStyle` is an unreliable witness under automation: in a `mousedown` handler it returns
+  the transition's t=0 value, not the `:active` target (zero `transitionDuration` first — and make
+  sure no earlier listener already forced the recalc), and during hover it can return stale values
+  even when `matches(':hover')` is true. `getBoundingClientRect` forces layout and stays honest — a
+  1px lift reads as 336.50 vs 337.50 against unhovered siblings (#38).
 - Synthetic `mouseenter`/`mouseover` does NOT fire React's `onMouseEnter` (root delegation) —
   verify hover effects with a real cursor (`computer` → `hover`). And never assign `innerHTML`
   inside a React subtree to probe it: the recreated nodes fall out of the fiber tree and lose

@@ -85,14 +85,15 @@ export async function getContributions(): Promise<Contributions | null> {
 
 export interface LatestCommit {
   date: string;
-  // Absent together when the newest push is private (#41): recency only.
+  // Absent together when the route could not attach stats (#42): recency only.
   additions?: number;
   deletions?: number;
 }
 
 // Footer status line (#40). Browser-only via the same-origin route, same
 // reasons as getStreaks (#24/#25). Null on any failure so the line hides.
-// Stats are optional since #41: a private newest push arrives date-only.
+// Stats are optional: a date-only payload means the stats fetch was
+// skipped or failed (#42), and the line renders recency only.
 export async function getLatestCommit(): Promise<LatestCommit | null> {
   try {
     const res = await fetch("/api/latest-commit");

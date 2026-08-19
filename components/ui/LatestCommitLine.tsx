@@ -18,7 +18,7 @@ export default function LatestCommitLine() {
   const { additions, deletions } = commit;
   const phrase = commitPhrase(commit.date, new Date());
 
-  // Private newest push (#41): recency only, no stats and no colon.
+  // No stats attached (skipped or failed stats fetch, #42): recency only, no colon.
   if (typeof additions !== "number" || typeof deletions !== "number") {
     return <span>latest commit {phrase}</span>;
   }

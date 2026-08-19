@@ -25,8 +25,9 @@ if (token) GH_HEADERS.Authorization = `Bearer ${token}`;
 
 interface Commit {
   date: string;
-  // Absent when the newest push went to a private repo: the footer shows
-  // recency only and the route never fetches or names anything private (#41).
+  // Absent when stats could not be fetched (#42): tokenless with a
+  // non-public push (fail closed, the commit API is never called), or the
+  // stats call failed. The footer then shows recency only.
   additions?: number;
   deletions?: number;
 }
@@ -50,24 +51,30 @@ async function fetchLatestCommit(): Promise<Commit | null> {
     (e) => e.type === "PushEvent" && e.created_at && e.repo?.name && e.payload?.head,
   );
   if (!push) return null;
-  // Fail closed: only an explicitly public push gets the stats fetch. A
-  // private push returns recency only, so the response never carries a
-  // private repo name or diff stats, and the commit API is never called.
-  if (push.public !== true) return { date: push.created_at! };
-  const commitRes = await fetch(
-    `https://api.github.com/repos/${push.repo!.name}/commits/${push.payload!.head}`,
-    { headers: GH_HEADERS, cache: "no-store" },
-  );
-  if (!commitRes.ok) throw new Error(`commit status ${commitRes.status}`);
-  const commit: { stats?: { additions?: number; deletions?: number } } = await commitRes.json();
-  if (typeof commit.stats?.additions !== "number" || typeof commit.stats?.deletions !== "number") {
-    return null;
+  const date = push.created_at!;
+  // Stats are gated on the token, not on the push being public (#42): the
+  // commit API 404s on a private repo without auth. Tokenless, the public
+  // feed should only surface public pushes; the check is a fail-closed
+  // guard so a 404 is never provoked if it ever did not.
+  if (!token && push.public !== true) return { date };
+  // From here stats are best effort (#42): any failure degrades to recency
+  // only instead of hiding the line or discarding the fresh date. The
+  // response carries the two integers and nothing else; the repo name only
+  // appears in this server-side URL to GitHub.
+  try {
+    const commitRes = await fetch(
+      `https://api.github.com/repos/${push.repo!.name}/commits/${push.payload!.head}`,
+      { headers: GH_HEADERS, cache: "no-store" },
+    );
+    if (!commitRes.ok) return { date };
+    const commit: { stats?: { additions?: number; deletions?: number } } = await commitRes.json();
+    if (typeof commit.stats?.additions !== "number" || typeof commit.stats?.deletions !== "number") {
+      return { date };
+    }
+    return { date, additions: commit.stats.additions, deletions: commit.stats.deletions };
+  } catch {
+    return { date };
   }
-  return {
-    date: push.created_at!,
-    additions: commit.stats.additions,
-    deletions: commit.stats.deletions,
-  };
 }
 
 export async function GET() {

@@ -85,12 +85,14 @@ export async function getContributions(): Promise<Contributions | null> {
 
 export interface LatestCommit {
   date: string;
-  additions: number;
-  deletions: number;
+  // Absent together when the newest push is private (#41): recency only.
+  additions?: number;
+  deletions?: number;
 }
 
 // Footer status line (#40). Browser-only via the same-origin route, same
 // reasons as getStreaks (#24/#25). Null on any failure so the line hides.
+// Stats are optional since #41: a private newest push arrives date-only.
 export async function getLatestCommit(): Promise<LatestCommit | null> {
   try {
     const res = await fetch("/api/latest-commit");
@@ -98,10 +100,11 @@ export async function getLatestCommit(): Promise<LatestCommit | null> {
     const json: { commit?: { date?: string; additions?: number; deletions?: number } | null } =
       await res.json();
     const c = json.commit;
-    if (!c || typeof c.date !== "string" || typeof c.additions !== "number" || typeof c.deletions !== "number") {
-      return null;
+    if (!c || typeof c.date !== "string") return null;
+    if (typeof c.additions === "number" && typeof c.deletions === "number") {
+      return { date: c.date, additions: c.additions, deletions: c.deletions };
     }
-    return { date: c.date, additions: c.additions, deletions: c.deletions };
+    return { date: c.date };
   } catch {
     return null;
   }

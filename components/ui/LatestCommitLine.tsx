@@ -15,11 +15,19 @@ export default function LatestCommitLine() {
 
   if (!commit) return <span />;
 
+  const { additions, deletions } = commit;
+  const phrase = commitPhrase(commit.date, new Date());
+
+  // Private newest push (#41): recency only, no stats and no colon.
+  if (typeof additions !== "number" || typeof deletions !== "number") {
+    return <span>latest commit {phrase}</span>;
+  }
+
   return (
     <span>
-      latest commit {commitPhrase(commit.date, new Date())}:{" "}
-      <span className="text-diff-add">+{commit.additions}</span>{" "}
-      <span className="text-diff-del">-{commit.deletions}</span>
+      latest commit {phrase}:{" "}
+      <span className="text-diff-add">+{additions}</span>{" "}
+      <span className="text-diff-del">-{deletions}</span>
     </span>
   );
 }

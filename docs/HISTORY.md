@@ -11,6 +11,37 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-19 — Diff stats shown for private pushes too (#42)
+
+- **Reverses #41's decision 2 by owner decision.** #41 deliberately withheld `+N -N` on private
+  pushes and left the question open. On 2026-08-19, right after #41's deploy landed, the owner
+  read the numberless line as a regression and confirmed the bare numbers are acceptable. What
+  stays withheld is unchanged: no repo name, no SHA, no commit message, no file list. Two
+  integers only.
+- **The gate moved from the push to the token.** `if (push.public !== true)` became
+  `if (!token && push.public !== true)`. The real precondition was never publicness, it was
+  auth: `/repos/{o}/{r}/commits/{sha}` 404s on a private repo without a Bearer header. The
+  public check survives only as a tokenless fail-closed guard, so a non-public event appearing
+  in the public feed still cannot provoke a guaranteed 404.
+- **Stats became best effort.** Non-ok response, non-numeric stats, or a throw all return
+  `{ date }` now. Before, a failed stats call threw (stale-on-error silently kept the OLD date)
+  and non-numeric stats returned `null` (the line vanished). The events fetch still throws, so a
+  fresh date is never discarded because the *second* call hiccuped. This is gentler on the error
+  path for public pushes too, which the plan flagged and the owner accepted.
+- **`LatestCommitLine.tsx` needed no code change.** Its `#41` recency-only branch was already the
+  right rendering for "no stats attached"; only its comment was wrong. Same for the two comments
+  in `lib/github.ts`. Three files changed, one of them real.
+- **Verified against a genuinely private push**, not a simulated one: newest push was
+  `godfreyponce/lava-2` with `public: false`, route returned `+65 -9`, and
+  `gh api repos/godfreyponce/lava-2/commits/3bbb670 --jq .stats` returned the same
+  `{"additions":65,"deletions":9}`. Tokenless run returned the newest *public* push
+  (`godfreyponce/GodfreyPonce`, 2026-08-12) with no attempt against the private repo.
+- **A bug surfaced during verification and did NOT get fixed here** (it is #43): the REST events
+  feed lags. The tokened run named lava-2 as newest at 21:00Z while `git ls-remote` showed
+  portfolio's 20:42Z commit already on `origin/main`. The footer was showing a stale winner, and
+  the TTL is not the cause. Also learned: the authenticated feed redacts private repos' payloads
+  down to `before`/`head`/`push_id`/`ref`/`repository_id`, with no commits array.
+
 ### 2026-08-19 — Authenticated latest-commit call so private pushes count (#41)
 
 - **The bug #40 shipped with:** the footer read "latest commit 6 days ago" on a day the

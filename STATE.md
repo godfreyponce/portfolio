@@ -1,10 +1,10 @@
 ---
 glass: ""
 status: in-progress
-last_worked_on: 2026-08-18
-next_action: "Rewrite #33 (visitor analytics) around an Amplify-compatible option, then green-light it. It cannot be planned as written: its body says Vercel Web Analytics, which silently no-ops on AWS Amplify, and `docs/plans/2026-08-11-issue-33.md` is stale against that old body — delete or ignore it and re-plan after the rewrite. This is owner-side work, not an agent task; nothing carries `ready-for-agent` and the eligible pool is empty until you green-light something. The only other open work ticket is #34 (OG share image, optional polish), which still needs its four template sections. #35 is the pinned map, not work."
+last_worked_on: 2026-08-19
+next_action: "Finish the #41 deploy side first (see Now): add `GITHUB_TOKEN` to Amplify's env config, then confirm on the deployed site that the footer date moves after a private push. Code is merged and closed; the live site is still on the public-only feed until that env var exists. Then back to owner-side ticket prep: rewrite #33 (visitor analytics) around an Amplify-compatible option and green-light it. #33 cannot be planned as written — its body says Vercel Web Analytics, which silently no-ops on AWS Amplify, and `docs/plans/2026-08-11-issue-33.md` is stale against that old body, so delete or ignore it and re-plan after the rewrite. Nothing carries `ready-for-agent`; the eligible pool is empty until you green-light something. The only other open work ticket is #34 (OG share image, optional polish), which still needs its four template sections. #35 is the pinned map, not work."
 blocked_on: ""
-phase: "Pre-launch polish. #40 latest-commit status line in the footer pushed and closed 2026-08-18, which empties the 2026-08-16 intake; #39 footer pinned under the page and uncovered at the bottom pushed and closed 2026-08-18; #38 tactile raise/press physics on links and the projects CTA pushed and closed 2026-08-17; #37 hero tagline hover color-scramble pushed and closed 2026-08-16; #31 custom 404 page pushed and closed 2026-08-14; #36 /projects grouped into README sections + seven GitHub projects pushed and closed 2026-08-13; #32 robots.ts + sitemap.ts pushed and closed 2026-08-13; #30 featured Lab stack + /projects index page pushed 2026-08-03; LossGraph ghost-runs animation 2026-07-09; scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, contribution heatmap 2026-07-07. Remaining pre-launch items are #33 (analytics, needs body rewrite) and #34 (OG share image, optional polish) — both waiting on owner-side ticket prep, nothing agent-ready."
+phase: "Pre-launch polish. #41 authenticated latest-commit call (private pushes now move the footer date) pushed and closed 2026-08-19, with the Amplify env var still owner-side; #40 latest-commit status line in the footer pushed and closed 2026-08-18, which empties the 2026-08-16 intake; #39 footer pinned under the page and uncovered at the bottom pushed and closed 2026-08-18; #38 tactile raise/press physics on links and the projects CTA pushed and closed 2026-08-17; #37 hero tagline hover color-scramble pushed and closed 2026-08-16; #31 custom 404 page pushed and closed 2026-08-14; #36 /projects grouped into README sections + seven GitHub projects pushed and closed 2026-08-13; #32 robots.ts + sitemap.ts pushed and closed 2026-08-13; #30 featured Lab stack + /projects index page pushed 2026-08-03; LossGraph ghost-runs animation 2026-07-09; scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, contribution heatmap 2026-07-07. Remaining pre-launch items are #33 (analytics, needs body rewrite) and #34 (OG share image, optional polish) — both waiting on owner-side ticket prep, nothing agent-ready."
 ---
 
 # personalWebsite — Project State
@@ -18,7 +18,12 @@ Archive: `docs/HISTORY.md`. Queue: GitHub Issues (`gh issue list`). Protocol: `A
 
 ## Now
 
-- Nothing mid-flight. Map issue #35 is pinned; regenerate `docs/decision-map.html`
+- **#41 deploy side, owner's:** `GITHUB_TOKEN` is in local `.env.local` but not yet in
+  Amplify's env config, so the deployed footer is still on the public-only feed. After
+  adding it, push to a private repo, wait out the 10 min TTL, hard-reload. If the date
+  still hasn't moved, add `env | grep -e GITHUB_TOKEN >> .env.production` to the console
+  build spec (Amplify's build-time-only env gotcha) and redeploy.
+- Map issue #35 is pinned; regenerate `docs/decision-map.html`
   at every ticket close (command in AGENTS.md, "Question tickets").
 - Pre-existing tree items (owner's, don't touch): unstaged deletion of
   agent_architecture_strategy.md, untracked Icon file.
@@ -72,3 +77,7 @@ Verify visually via Chrome automation at localhost:3000 (scroll the whole page).
 - `resize_window` refuses bounds on a fullscreen Chrome window — check narrow widths by injecting
   a same-origin iframe (it gets its own viewport for `vw` and media queries).
 - Hosting is AWS Amplify, not Vercel — Vercel-only features (Web Analytics, ISR knobs) silently no-op.
+- `/api/latest-commit` behaves differently with and without `GITHUB_TOKEN` (#41): tokenless it
+  reads the public feed and shows `+N -N`, tokened it reads the authenticated feed and a private
+  newest push renders recency only. So a fresh clone with no `.env.local` is NOT broken, it is the
+  documented fallback — check the env var before debugging a "wrong" footer date.

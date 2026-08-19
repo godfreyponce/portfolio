@@ -11,6 +11,51 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-19 — Authenticated latest-commit call so private pushes count (#41)
+
+- **The bug #40 shipped with:** the footer read "latest commit 6 days ago" on a day the
+  owner had committed repeatedly. Cause confirmed, not guessed: the newest *public*
+  PushEvent was 2026-08-12 to godfreyponce/GodfreyPonce, and every commit that day went
+  to private repos (this portfolio included). The public events feed never shows them.
+- **Owner chose the authenticated call** (2026-08-18) over the two alternatives, a
+  contributions-calendar "last active" date and rewording the line to admit it is
+  public-only. A server-side token adds no page weight and lifts the limit from 60
+  req/hour to 5000.
+- **Hybrid copy, decided at the same time:** private pushes move the *date* but must not
+  leak private activity detail. Private newest push renders `latest commit today` with no
+  colon and no numbers; public is byte-identical to #40, `latest commit N days ago: +N -N`.
+- **`GITHUB_TOKEN`, server-only** — no `NEXT_PUBLIC_` prefix, so it cannot reach the client
+  bundle. Present: the route hits `/users/godfreyponce/events` with a Bearer header.
+  Absent (fresh checkout): `EVENTS_URL` and the headers fall back to the exact #40
+  constants, so a tokenless clone degrades to public-only rather than erroring.
+- **Fail closed on the event's `public` field.** The stats fetch runs only when the event
+  says `public: true` explicitly; a missing field counts as private. So a private push
+  costs one API call instead of two, never reaches `/repos/{owner}/{repo}/commits/{sha}`,
+  and the response carries no repo name. Worst case on a malformed event is recency-only,
+  which leaks nothing.
+- **The stats fields are optional and both-or-neither** across all three layers — route
+  `Commit`, `lib/github.ts` `LatestCommit`, and the JSON validation in `getLatestCommit`.
+  `LatestCommitLine` destructures before the guard so TypeScript narrows the properties;
+  a `hasStats` boolean would not narrow them.
+- **Classic PAT with `repo` scope, not fine-grained.** Fine-grained tokens are reported not
+  to surface private events on the events feed. If that ever gets swapped, verify the feed
+  actually shows private pushes before trusting it.
+- **Verified at gate 2 with the leak check made explicit:** the authenticated feed's three
+  newest pushes all read `public: false` *and all carry a repo name*, so the route had the
+  private name in hand and dropped it. The route's response was `{"commit":{"date":
+  "2026-08-18T17:37:56Z"}}` — keys `['date']` only, no `/` anywhere in the body. Tokenless
+  restart reproduced #40's exact response and footer. `npx tsc --noEmit` exit 0, no output.
+- **A stats-missing public commit still returns null** and hides the line, exactly as #40
+  did, rather than degrading to date-only — "public unchanged" was a hard requirement.
+- **Token expiry fails soft, and silently.** GitHub starts 401ing, stale-on-error serves
+  the last good value, then the route is effectively back on the public-only feed: the site
+  never breaks but the date quietly goes stale. Worth a calendar note near the expiry date.
+- **Amplify caveat carried into the close-out:** Amplify has historically exposed console
+  env vars at build time only, not to the SSR compute at runtime. If the deployed footer
+  keeps showing the old public date after the env var is set, the documented workaround is
+  `env | grep -e GITHUB_TOKEN >> .env.production` in the console build spec (no `amplify.yml`
+  in this repo). Newer SSR runtimes may not need it — verify before adding it.
+
 ### 2026-08-18 — Latest-commit status line in the footer (#40)
 
 - **Ask:** cmrg.me's footer stat, filling the empty left cell #39 reserved. Shipped

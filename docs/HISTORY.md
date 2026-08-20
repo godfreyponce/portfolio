@@ -11,6 +11,42 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-19 — Pixel-art cmux chevron fronting the footer day-total line (#44)
+
+- **Owner picked variant C of three.** A — flat `currentColor` mono; B — the same glyph plus a
+  35% copy offset one cell right for depth; C — the same glyph in flat blue `#3b82f6` (rows 0-1),
+  indigo `#6366f1` (row 2), violet `#8b5cf6` (rows 3-4), nodding at the cmux app icon's gradient
+  without being one. C is the only variant that is *not* `currentColor`, so it will not follow a
+  theme flip. That was stated at pick time and checked against the light surface `#fafaf9` on the
+  preview's second strip; accepted knowingly, not overlooked.
+- **B's shadow offsets RIGHT, not down, and that is not a style choice.** On a chevron whose rows
+  step diagonally, a down-offset copy lands exactly on the glyph's own next row and disappears.
+  Worth remembering if a future ticket wants depth on a diagonal pixel glyph.
+- **The crispness is arithmetic, not a CSS property doing the work.** `shape-rendering="crispEdges"`
+  only helps if cells never straddle a device pixel. A 4x5 viewBox rendered at 8x10 CSS px is
+  2 CSS px per cell, so 2 device px at 1x and 4 at 2x — integer both ways. Keep the cell at 2;
+  a fractional size would put `crispEdges` in the position of having to round, which is where
+  pixel art goes soft.
+- **Baseline alignment came free from `inline-block`.** An inline-block box sits its bottom edge on
+  the text baseline, and the row's cap height measured 9.94px against the glyph's 10px, so the
+  chevron spans baseline to cap height with no `vertical-align` fudge. Nothing to tune here if
+  the footer's `text-sm` ever changes; re-measure cap height and match the glyph's px height.
+- **Drawn from scratch, deliberately.** The pixel-icon sheet the owner shared in session is
+  watermarked Adobe Stock and set the *style* target only (chunky blocks, hard edges, limited
+  palette). The rect grid was authored in the plan file. Nothing was traced, copied, or embedded.
+- **Copy changed at gate 2 after the owner asked what the numbers were.** They read as a commit
+  count; they are lines. So `today:` became `lines changed today:` and the no-push line followed
+  from `godfrey no commit (yet)...` to `godfrey no line change (yet)...` (that string is quoted in
+  a STATE.md gotcha, updated with it). The `+N -N` semantics did not change, only what the line
+  claims about them.
+- **The glyph is on the day-total branch only.** The no-push line and the tokenless empty span
+  are untouched, per the ticket's wording.
+- **The fallback branch was verified in source, not on screen, and that is a real gap.** Forcing it
+  means stubbing the API response, which the plan ruled out, and a tokenless run does not reach it
+  either: `{today: null, date: null}` falls through to the empty span. It is a one-line string swap
+  in a branch that already rendered correctly under #43, so the risk was accepted. Live-verified
+  branch: `lines changed today: +8311 -1102` with the chevron, at DPR 2. `npx tsc --noEmit` clean.
+
 ### 2026-08-19 — Today's diff stats summed across ALL repos via GraphQL (#43)
 
 - **The footer stopped describing one push and started describing a day.** `latest commit

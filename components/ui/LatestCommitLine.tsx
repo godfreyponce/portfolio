@@ -15,11 +15,31 @@ export default function LatestCommitLine() {
 
   if (!commit) return <span />;
 
-  // Owner pushed today (server-side Chicago day, #43): the summed total.
+  // Owner pushed today (server-side Chicago day, #43): the summed total,
+  // fronted by the pixel cmux chevron (#44). Hand-drawn on a 4x5 grid at
+  // 2 css px per cell, so crispEdges never splits a cell across device pixels.
   if (commit.today) {
     return (
       <span>
-        today:{" "}
+        <svg
+          viewBox="0 0 4 5"
+          width="8"
+          height="10"
+          shapeRendering="crispEdges"
+          aria-hidden="true"
+          className="mr-1 inline-block"
+        >
+          <g fill="#3b82f6">
+            <rect x="0" y="0" width="2" height="1" />
+            <rect x="1" y="1" width="2" height="1" />
+          </g>
+          <rect fill="#6366f1" x="2" y="2" width="2" height="1" />
+          <g fill="#8b5cf6">
+            <rect x="1" y="3" width="2" height="1" />
+            <rect x="0" y="4" width="2" height="1" />
+          </g>
+        </svg>
+        lines changed today:{" "}
         <span className="text-diff-add">+{commit.today.additions}</span>{" "}
         <span className="text-diff-del">-{commit.today.deletions}</span>
       </span>
@@ -30,7 +50,7 @@ export default function LatestCommitLine() {
   // rendered any more; it is the signal that there IS data, which keeps
   // this line off the tokenless path below.
   if (commit.date) {
-    return <span>godfrey no commit (yet)...</span>;
+    return <span>godfrey no line change (yet)...</span>;
   }
 
   return <span />;

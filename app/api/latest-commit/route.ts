@@ -1,92 +1,122 @@
 import { NextResponse } from "next/server";
+import { chicagoDayStart } from "@/lib/github";
 
-// Latest commit for the footer status line (#40, authenticated in #41).
-// Unlike the contributions route (deliberately no-store end to end), this one
-// caches server-side in module memory: CloudFront froze ISR (#24), so the
-// cache must not lean on CloudFront or Next's data cache, and force-dynamic +
-// no-store on the response keeps both out of the way while the in-memory TTL
-// keeps the GitHub rate limit comfortable.
+// Footer status line (#40), one GraphQL query since #43: the REST events
+// feed lags by hours and redacts private-push payloads, so the day total
+// is summed from repo refs instead. Same caching stance as before:
+// CloudFront froze ISR (#24), so cache in module memory only, with
+// force-dynamic + no-store keeping Next and CloudFront out of the way.
 export const dynamic = "force-dynamic";
 
-// With GITHUB_TOKEN set (Amplify env config and untracked .env.local, never
-// the repo), the authenticated feed includes private pushes and the limit is
-// 5000 req/hour. Without it (fresh checkout), fall back to the public feed
-// and the #40 behavior: 60 req/hour per IP, public pushes only.
+// GraphQL refuses anonymous queries, so tokenless there is NO data path
+// (#43 decision, option B): the route returns the empty payload and the
+// footer line renders nothing. A fresh clone without .env.local is not
+// broken, it is this fallback.
 const token = process.env.GITHUB_TOKEN;
-const EVENTS_URL = token
-  ? "https://api.github.com/users/godfreyponce/events"
-  : "https://api.github.com/users/godfreyponce/events/public";
-const GH_HEADERS: Record<string, string> = {
-  Accept: "application/vnd.github+json",
-  // GitHub rejects requests without a User-Agent.
-  "User-Agent": "godfreyponce-portfolio",
-};
-if (token) GH_HEADERS.Authorization = `Bearer ${token}`;
 
-interface Commit {
-  date: string;
-  // Absent when stats could not be fetched (#42): tokenless with a
-  // non-public push (fail closed, the commit API is never called), or the
-  // stats call failed. The footer then shows recency only.
-  additions?: number;
-  deletions?: number;
+// first: 15 repos by PUSHED_AT covered every repo touched in the month
+// before 2026-08-19; the ordering puts every repo pushed today ahead of
+// all others, so 15 is a measured bound, not a guess. first: 100 on
+// today's history is the API's own page max. The author filter keeps
+// collaborators in shared repos out of the sum.
+const QUERY = `
+query ($since: GitTimestamp!) {
+  viewer {
+    repositories(first: 15, orderBy: { field: PUSHED_AT, direction: DESC }) {
+      nodes {
+        defaultBranchRef {
+          target {
+            ... on Commit {
+              today: history(first: 100, since: $since, author: { id: "U_kgDOBhysEw" }) {
+                nodes { additions deletions }
+              }
+              latest: history(first: 1, author: { id: "U_kgDOBhysEw" }) {
+                nodes { committedDate }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
+
+interface Payload {
+  // Owner's additions/deletions summed across every repo pushed to today
+  // (midnight America/Chicago). Null on a day with no commits yet.
+  today: { additions: number; deletions: number } | null;
+  // Newest owner commit date across repos. Not rendered since #43's copy
+  // change: it is the "this query returned real data" signal, so a day
+  // with no pushes reads differently from a tokenless or failed fetch.
+  date: string | null;
 }
 
-// At most two GitHub calls per refresh; a 10 min TTL caps one warm server
-// instance at 12 calls/hour, comfortable even against the tokenless 60/hour.
-const TTL_MS = 10 * 60 * 1000;
-let cached: { value: Commit | null; at: number } | null = null;
+const EMPTY: Payload = { today: null, date: null };
 
-async function fetchLatestCommit(): Promise<Commit | null> {
-  const eventsRes = await fetch(EVENTS_URL, { headers: GH_HEADERS, cache: "no-store" });
-  if (!eventsRes.ok) throw new Error(`events status ${eventsRes.status}`);
-  const events: {
-    type?: string;
-    public?: boolean;
-    created_at?: string;
-    repo?: { name?: string };
-    payload?: { head?: string };
-  }[] = await eventsRes.json();
-  const push = events.find(
-    (e) => e.type === "PushEvent" && e.created_at && e.repo?.name && e.payload?.head,
-  );
-  if (!push) return null;
-  const date = push.created_at!;
-  // Stats are gated on the token, not on the push being public (#42): the
-  // commit API 404s on a private repo without auth. Tokenless, the public
-  // feed should only surface public pushes; the check is a fail-closed
-  // guard so a 404 is never provoked if it ever did not.
-  if (!token && push.public !== true) return { date };
-  // From here stats are best effort (#42): any failure degrades to recency
-  // only instead of hiding the line or discarding the fresh date. The
-  // response carries the two integers and nothing else; the repo name only
-  // appears in this server-side URL to GitHub.
-  try {
-    const commitRes = await fetch(
-      `https://api.github.com/repos/${push.repo!.name}/commits/${push.payload!.head}`,
-      { headers: GH_HEADERS, cache: "no-store" },
-    );
-    if (!commitRes.ok) return { date };
-    const commit: { stats?: { additions?: number; deletions?: number } } = await commitRes.json();
-    if (typeof commit.stats?.additions !== "number" || typeof commit.stats?.deletions !== "number") {
-      return { date };
+// One GitHub call per refresh; a 10 min TTL is 6 calls/hour against a
+// 5000 points/hour GraphQL budget at a measured 1 point per query.
+const TTL_MS = 10 * 60 * 1000;
+let cached: { value: Payload; at: number } | null = null;
+
+interface RepoNode {
+  defaultBranchRef?: {
+    target?: {
+      today?: { nodes?: { additions?: number; deletions?: number }[] };
+      latest?: { nodes?: { committedDate?: string }[] };
+    };
+  } | null;
+}
+
+async function fetchDayStats(): Promise<Payload> {
+  const res = await fetch("https://api.github.com/graphql", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+      // GitHub rejects requests without a User-Agent.
+      "User-Agent": "godfreyponce-portfolio",
+    },
+    body: JSON.stringify({ query: QUERY, variables: { since: chicagoDayStart(new Date()) } }),
+    cache: "no-store",
+  });
+  if (!res.ok) throw new Error(`graphql status ${res.status}`);
+  const json: {
+    errors?: unknown[];
+    data?: { viewer?: { repositories?: { nodes?: RepoNode[] } } };
+  } = await res.json();
+  if (json.errors?.length) throw new Error("graphql errors");
+  let additions = 0;
+  let deletions = 0;
+  let commits = 0;
+  let date: string | null = null;
+  for (const repo of json.data?.viewer?.repositories?.nodes ?? []) {
+    const target = repo?.defaultBranchRef?.target;
+    for (const c of target?.today?.nodes ?? []) {
+      if (typeof c.additions === "number" && typeof c.deletions === "number") {
+        additions += c.additions;
+        deletions += c.deletions;
+        commits++;
+      }
     }
-    return { date, additions: commit.stats.additions, deletions: commit.stats.deletions };
-  } catch {
-    return { date };
+    const d = target?.latest?.nodes?.[0]?.committedDate;
+    if (typeof d === "string" && (!date || d > date)) date = d;
   }
+  return { today: commits > 0 ? { additions, deletions } : null, date };
 }
 
 export async function GET() {
+  if (!token) {
+    return NextResponse.json(EMPTY, { headers: { "cache-control": "no-store" } });
+  }
   const now = Date.now();
   if (!cached || now - cached.at >= TTL_MS) {
     try {
-      cached = { value: await fetchLatestCommit(), at: now };
+      cached = { value: await fetchDayStats(), at: now };
     } catch {
-      // Stale-on-error: keep the last good value (or null) and re-arm the TTL
-      // so a broken upstream doesn't turn into a GitHub call per pageview.
-      cached = { value: cached?.value ?? null, at: now };
+      // Stale-on-error: keep the last good value (or empty) and re-arm the
+      // TTL so a broken upstream doesn't turn into a GitHub call per pageview.
+      cached = { value: cached?.value ?? EMPTY, at: now };
     }
   }
-  return NextResponse.json({ commit: cached.value }, { headers: { "cache-control": "no-store" } });
+  return NextResponse.json(cached.value, { headers: { "cache-control": "no-store" } });
 }

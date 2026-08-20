@@ -84,40 +84,52 @@ export async function getContributions(): Promise<Contributions | null> {
 }
 
 export interface LatestCommit {
-  date: string;
-  // Absent together when the route could not attach stats (#42): recency only.
-  additions?: number;
-  deletions?: number;
+  // Present when the owner pushed today (midnight America/Chicago, #43):
+  // additions/deletions summed across every repo, owner's commits only.
+  today?: { additions: number; deletions: number };
+  // Newest owner commit date across repos. Not rendered: it is how the
+  // line tells "query worked, nothing pushed today" apart from "no data
+  // at all" (tokenless or upstream failure), which render differently.
+  date?: string;
 }
 
-// Footer status line (#40). Browser-only via the same-origin route, same
-// reasons as getStreaks (#24/#25). Null on any failure so the line hides.
-// Stats are optional: a date-only payload means the stats fetch was
-// skipped or failed (#42), and the line renders recency only.
+// Footer status line (#40, reshaped by #43). Browser-only via the
+// same-origin route, same reasons as getStreaks (#24/#25). Null when the
+// payload carries neither field (tokenless or upstream failure) so the
+// line hides.
 export async function getLatestCommit(): Promise<LatestCommit | null> {
   try {
     const res = await fetch("/api/latest-commit");
     if (!res.ok) return null;
-    const json: { commit?: { date?: string; additions?: number; deletions?: number } | null } =
-      await res.json();
-    const c = json.commit;
-    if (!c || typeof c.date !== "string") return null;
-    if (typeof c.additions === "number" && typeof c.deletions === "number") {
-      return { date: c.date, additions: c.additions, deletions: c.deletions };
+    const json: {
+      today?: { additions?: number; deletions?: number } | null;
+      date?: string | null;
+    } = await res.json();
+    const out: LatestCommit = {};
+    if (typeof json.today?.additions === "number" && typeof json.today?.deletions === "number") {
+      out.today = { additions: json.today.additions, deletions: json.today.deletions };
     }
-    return { date: c.date };
+    if (typeof json.date === "string") out.date = json.date;
+    return out.today || out.date ? out : null;
   } catch {
     return null;
   }
 }
 
 // Pure so it can be verified with a one-off node run (same precedent as
-// computeStreaks). Calendar-day difference in the viewer's local timezone;
-// clock skew that puts the push in the future still reads "today".
-export function commitPhrase(dateISO: string, now: Date): string {
-  const startOfDay = (d: Date) => new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
-  const days = Math.round((startOfDay(now) - startOfDay(new Date(dateISO))) / DAY_MS);
-  if (days <= 0) return "today";
-  if (days === 1) return "yesterday";
-  return `${days} days ago`;
+// computeStreaks). The UTC instant of the most recent midnight in
+// America/Chicago, as ISO-8601 with offset, for GraphQL's GitTimestamp.
+// Uses now's offset, so on the two DST transition days a year the boundary
+// can be an hour off near midnight; accepted (#43).
+export function chicagoDayStart(now: Date): string {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Chicago",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    timeZoneName: "longOffset",
+  }).formatToParts(now);
+  const get = (type: string) => parts.find((p) => p.type === type)?.value ?? "";
+  const offset = get("timeZoneName").replace("GMT", "");
+  return `${get("year")}-${get("month")}-${get("day")}T00:00:00${offset}`;
 }

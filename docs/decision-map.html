@@ -60,6 +60,14 @@
   <section>
     <h2>Decided <span class="hint">closed tickets — the decision list</span></h2>
     <div class="row">
+  <a class="card decided task" id="n43" href="https://github.com/godfreyponce/portfolio/issues/43">
+    <span class="num">#43</span>
+    <span class="title">Footer line: sum today's diff stats across ALL repos via GraphQL</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
   <a class="card decided task" id="n42" href="https://github.com/godfreyponce/portfolio/issues/42">
     <span class="num">#42</span>
     <span class="title">Footer latest-commit line: show +/- stats for private pushes too</span>
@@ -377,9 +385,9 @@
   <section>
     <h2>The frontier <span class="hint">take these today</span></h2>
     <div class="row">
-  <a class="card frontier task" id="n43" href="https://github.com/godfreyponce/portfolio/issues/43">
-    <span class="num">#43</span>
-    <span class="title">Footer line: sum today's diff stats across ALL repos via GraphQL</span>
+  <a class="card frontier task" id="n44" href="https://github.com/godfreyponce/portfolio/issues/44">
+    <span class="num">#44</span>
+    <span class="title">Footer: 8-bit pixel-art cmux chevron left of the today line</span>
     <span class="meta">
       <span class="type">task</span>
       <span class="badge b-frontier">● take it today</span>
@@ -405,21 +413,13 @@
   
   <section>
     <h2>Blocked <span class="hint">written, but waiting on a decision</span></h2>
-    <div class="row">
-  <a class="card blocked task" id="n44" href="https://github.com/godfreyponce/portfolio/issues/44">
-    <span class="num">#44</span>
-    <span class="title">Footer: 8-bit pixel-art cmux chevron left of the today line</span>
-    <span class="meta">
-      <span class="type">task</span>
-      <span class="badge b-blocked">× by #43, #43, #43</span>
-    </span>
-  </a></div>
+    <div class="row"><p class="empty">none</p></div>
   </section>
   <section><h2>Fog of war <span class="hint">seen coming, not yet a ticket</span></h2>
     <ul class="fog"><li>Analytics: #33 is written for Vercel Web Analytics, but the site is on AWS Amplify.</li><li>Are #31 / #33 / #34 launch blockers or post-launch polish? Decides whether the site</li><li>Repo visibility: `shared_memory.json` is tracked, so a public flip needs a history</li></ul>
   </section>
   <script>
-    const EDGES = [[43,44],[43,44],[43,44]];
+    const EDGES = [];
     function draw(){
       const svg = document.querySelector("svg.edges");
       const page = document.querySelector(".page").getBoundingClientRect();

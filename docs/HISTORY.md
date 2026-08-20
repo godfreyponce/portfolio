@@ -11,6 +11,58 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-19 — Today's diff stats summed across ALL repos via GraphQL (#43)
+
+- **The footer stopped describing one push and started describing a day.** `latest commit
+  <phrase>: +N -N` became `today: +N -N`, summed across every repo the owner pushed to today,
+  private repos included. Owner decision at ticket time: total only, no repo count, no names.
+- **Two REST calls became one GraphQL query.** `Commit.additions/deletions` exist directly on
+  the GraphQL type; REST only gives them one commit at a time via `/repos/{o}/{r}/commits/{sha}`.
+  Measured cost was 1 point of the 5000/hour GraphQL budget, so a 10 min TTL is 6 points/hour.
+- **This fixed the #42 lag bug as a side effect, which was the real point.** The REST events feed
+  runs hours behind the refs: at 21:00Z it still named lava-2 newest while portfolio's 20:42Z
+  commit was already on `origin/main`. GraphQL reads refs, so no TTL tuning was ever going to
+  fix it and none was attempted.
+- **"Today" is the OWNER's midnight, America/Chicago, computed server-side.** A visitor in Tokyo
+  sees the owner's work day. `chicagoDayStart(now)` is pure for the same reason `computeStreaks`
+  is, verified with a one-off node run: `2026-01-15T03:00Z → 2026-01-14T00:00:00-06:00` (CST),
+  `2026-07-15T03:00Z → 2026-07-14T00:00:00-05:00` (CDT). It uses *now's* offset, so on the two
+  DST transition days a year the boundary can be an hour off near midnight. Accepted.
+- **Scope is narrower than "all lines you changed today", and the limits are the design:**
+  owner-authored commits only (`author: {id: "U_kgDOBhysEw"}`, so collaborators can't inflate
+  it), default branch only (all 8 active repos are `main`-only, verified), pushed commits only
+  (GraphQL reads GitHub's refs, so local work is invisible), and repos the owner *owns* only
+  (`viewer.repositories` returned 49, every one `godfreyponce/*`, so work pushed to someone
+  else's repo does not count). `first: 15` repos is a measured bound: 15 covered every repo
+  touched in the previous month and `PUSHED_AT DESC` sorts today's repos to the front.
+  `first: 100` on a day's history is GitHub's own page max, not an invented cap.
+- **Tokenless renders NOTHING, and the REST path was deleted rather than kept.** GitHub refuses
+  GraphQL without a token even for public data, so there is no anonymous path to build. Rejected
+  keeping the public feed as a tokenless backup: a second permanent data path in the route, for
+  a case only the owner hits, on a private repo nobody clones. `GITHUB_TOKEN="" npm run dev`
+  returns `{"today":null,"date":null}` at HTTP 200, footer renders an empty span, no errors.
+- **Owner changed the fallback copy at gate 2, and three things followed.** The no-commits line
+  was specced as #40's recency copy and became the static `godfrey no commit (yet)...`. So:
+  `commitPhrase` lost its only caller and was deleted; the recorded timezone seam (visitor-local
+  "today" disagreeing with the server's Chicago day near midnight) dissolved because a static
+  string has no clock; and `date` stopped being rendered but stayed in the payload as the
+  "this query returned real data" signal, which is what keeps a tokenless clone from falsely
+  claiming the owner had not committed.
+- **Verified live, both branches, not by inspection.** Real payload
+  `{"today":{"additions":6133,"deletions":646},"date":"2026-08-19T21:42:53Z"}` rendering
+  `today: +6133 -646` in green/red; fallback forced with a future `since` rendering
+  `godfrey no commit (yet)...`. The total was reconciled against a per-repo breakdown:
+  skillbook 2013/18 + lava-2 3948/585 + portfolio 172/43 = 6133/646 exactly, with no Aug 18
+  commit crossing the boundary. `npx tsc --noEmit` clean.
+- **Privacy, on the record.** This is a wider disclosure than #42, which revealed one push's
+  size. Total daily volume across every private repo now renders on a public page, and day one
+  proved the point: 6133 additions, dominated by files the owner did not type (1927 lines of
+  tracked plan files, 868 of vault churn, 577 from a plugin version bump). The owner asked for
+  this deliberately and accepted the number after seeing it. Withheld stays withheld: no names,
+  no SHAs, no messages, no breakdown.
+- **Merge commits still report their diff against the first parent** (trackerdash carries 3 in
+  its last 40), same accepted quirk #40 recorded.
+
 ### 2026-08-19 — Diff stats shown for private pushes too (#42)
 
 - **Reverses #41's decision 2 by owner decision.** #41 deliberately withheld `+N -N` on private
@@ -117,7 +169,8 @@ Everything below was verified in the browser + `tsc --noEmit` clean.*
   server-cached value can't keep saying "today" past midnight. `commitPhrase(dateISO, now)`
   is pure for the same reason `computeStreaks` is — verifiable with a one-off node run.
   Calendar-day difference in the viewer's local timezone; clock skew that puts the push in
-  the future still reads "today".
+  the future still reads "today". (`commitPhrase` was deleted by #43, when the fallback line
+  became static copy and nothing called it any more.)
 - **Failure is an empty cell, never a broken stat.** The route answers `{commit: null}`,
   `getLatestCommit()` returns null on any HTTP or shape failure, and the client component
   renders a bare `<span />` both while loading and on failure — so the bottom row's

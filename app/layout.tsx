@@ -35,13 +35,13 @@ export const metadata: Metadata = {
     title: "Godfrey Ponce | Developer",
     description: "Personal portfolio of a student web developer.",
     siteName: "Godfrey Ponce",
-    images: [{ url: "/godfrey_headShot.JPG", width: 1200, height: 630, alt: "Godfrey Ponce" }],
+    images: [{ url: "/og-card.png", width: 1200, height: 630, alt: "Godfrey Ponce, developer, godfreyponce.dev" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Godfrey Ponce | Developer",
     description: "Personal portfolio of a student web developer.",
-    images: ["/godfrey_headShot.JPG"],
+    images: ["/og-card.png"],
   },
 };
 

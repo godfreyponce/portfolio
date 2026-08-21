@@ -11,6 +11,53 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-21 — Purpose-made 1200x630 OG share card (#34)
+
+First post-launch ticket. Replaces the mis-declared headshot in link previews with a card built
+for the slot.
+
+- **The bug was a lie in the tags, not a missing file.** `openGraph.images` and `twitter.images`
+  both pointed at `/godfrey_headShot.JPG` and declared `width: 1200, height: 630`. The file is
+  1000x879. With `twitter:card` set to `summary_large_image`, a scraper that trusts the tag
+  reserves a 1.90:1 slot and receives a 1.14:1 portrait. Now the declared numbers are the file's
+  real numbers.
+- **Owner picked variant C of three.** A — editorial nameplate, name alone at Fraunces 148px with
+  an accent rule; B — tagline-led, the hero line in Fraunces italic under a 96px name; C — split,
+  text left and the headshot filling a 440px right column. C ships: name at 112px wrapping to two
+  lines, `DEVELOPER`, `godfreyponce.dev` in accent `#c2410c`, on surface `#fafaf9`.
+- **New filename `/og-card.png` is the cache-bust.** Scrapers key OG images by URL and cache hard,
+  so a new path is the only reliable way to change what a previously-scraped link shows.
+  `godfrey_headShot.JPG` was never touched; the hero still renders it.
+- **Exact pixels came from the Chrome CLI, not the automation screenshot tool.** Automation
+  screenshot space is scaled (see the coordinate gotcha), so it cannot produce a guaranteed
+  1200x630. Headless Chrome can:
+
+  ```bash
+  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+    --headless --force-device-scale-factor=1 --window-size=1200,630 \
+    --hide-scrollbars --virtual-time-budget=10000 \
+    --screenshot="<abs path>/public/og-card.png" "file://<abs path>/public/og-render.html"
+  ```
+
+  `sips -g pixelWidth -g pixelHeight` then confirmed 1200x630 exactly, as a gate rather than an
+  assumption.
+- **`--virtual-time-budget` is load-bearing, not padding.** It makes Chrome wait out the Google
+  Fonts fetch. Without it the card can capture mid-load and ship with a fallback serif instead of
+  Fraunces, which is invisible in the command's output and obvious only in the PNG.
+- **Chrome writes the file correctly while printing `Trying to load the allocator multiple times.
+  This is *not* supported.` to stderr.** Harmless noise on this machine, not a failed render.
+  Check the file, not the stderr.
+- **Preview files DO work from `file://`, and this proved it.** The throwaway render page loaded
+  over a `file://` URL with a relative `godfrey_headShot.JPG` src and the photo is in the output.
+  Relative paths inside `public/` resolve under `file://`; the standing gotcha is only that the
+  *automation* `navigate` tool refuses the scheme. The Chrome CLI does not.
+- **The 300px legibility criterion was checked by reading, not by trusting.**
+  `sips --resampleWidth 300` produced a 300x157 copy, the size an iMessage bubble gives it. Name
+  comfortable, role and URL both still decipherable. Variant B was flagged at pick time as the one
+  whose 46px italic tagline would have gone soft at that scale.
+- Both throwaway previews (`public/preview-og.html`, `public/og-render.html`) were deleted before
+  landing, per the visual-change workflow.
+
 ### 2026-08-20 — #33 analytics: already working at the Cloudflare edge, code reverted
 
 **Net code change: none.** The site has had working visitor analytics since roughly Dec 2025.

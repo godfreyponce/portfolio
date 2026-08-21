@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Fraunces, Nunito_Sans } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const geist = Geist({
@@ -45,6 +46,10 @@ export const metadata: Metadata = {
   },
 };
 
+// Cloudflare Web Analytics (#33). Token set in Amplify env; absent in dev so
+// local sessions never pollute the dashboard. Cookieless, so no consent UI.
+const cfBeaconToken = process.env.NEXT_PUBLIC_CF_BEACON_TOKEN;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -52,7 +57,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${geist.variable} ${fraunces.variable} ${nunitoSans.variable} relative`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        {cfBeaconToken && (
+          <Script
+            src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon={JSON.stringify({ token: cfBeaconToken })}
+            strategy="afterInteractive"
+          />
+        )}
+      </body>
     </html>
   );
 }

@@ -11,37 +11,49 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
-### 2026-08-20 — Cloudflare Web Analytics beacon in the root layout (#33)
+### 2026-08-20 — #33 analytics: already working at the Cloudflare edge, code reverted
 
-- **This ticket was built twice.** The 2026-08-11 attempt wired `@vercel/analytics` and was fully
-  reverted: Vercel Web Analytics posts to `/_vercel/insights/*` on the same origin, a path that
-  only exists when Vercel serves the site, and this site is on Amplify. No code from that attempt
-  survives. Candidates weighed for the re-plan were GA4, Cloudflare, self-hosted Umami/Plausible,
-  and CloudWatch RUM; owner picked Cloudflare on 2026-08-20 as the closest match to why Vercel
-  Analytics was wanted originally (free, cookieless, zero consent UI) minus the host lock-in.
-- **The whole feature is 15 lines in `app/layout.tsx`.** `next/script` is built in, so unlike the
-  Vercel attempt there is no `npm install` and no new dependency in `package.json`.
-- **The env gate is the important half.** `NEXT_PUBLIC_CF_BEACON_TOKEN` absent means the `<Script>`
-  never renders, which is the default for every dev session and every fresh clone. That is what
-  keeps local reloads out of the dashboard; do not put the token in `.env.local`, or every future
-  dev session becomes noise. To exercise the branch locally, prefix the run instead:
-  `NEXT_PUBLIC_CF_BEACON_TOKEN=<token> npm run dev`.
-- **`NEXT_PUBLIC_` is inlined at BUILD time, not read at runtime.** So this one differs from
-  `GITHUB_TOKEN` (#41): an Amplify console env var is present during the build, so the #41
-  build-spec line that pipes env into the SSR *runtime* should not be needed here. Unconfirmed
-  against a real deploy — Amplify env plumbing has bitten before, so check the page source after
-  the first deploy rather than assuming.
-- **One mount covers every route.** The beacon hooks History `pushState`, so App Router
-  client-side navigations to `/projects` and the 404 page report without a per-route mount.
-- **Verified: the no-token default only.** Zero `cloudflareinsights` scripts in the DOM, zero
-  `[data-cf-beacon]` nodes, no matching network requests, page renders unchanged top to bottom.
-  `npx tsc --noEmit` clean.
-- **The token branch was NEVER exercised, locally or live.** The plan's Step 3 required a real
-  beacon token posted to #33; none was ever created, so the Cloudflare site does not exist yet
-  and the accept was given without that verification. This is the one real gap in the ticket:
-  the first time the `<Script>` actually renders will be on the live site. Note that ad blockers
-  routinely block `static.cloudflareinsights.com` and `/cdn-cgi/rum`, so a missing beacon in a
-  browser with extensions is not proof the wiring is broken — check a clean profile first.
+**Net code change: none.** The site has had working visitor analytics since roughly Dec 2025.
+Nobody knew, so this ticket was planned and built twice against a problem that did not exist.
+This entry exists so it does not happen a third time.
+
+- **`godfreyponce.dev` is proxied through Cloudflare, with Amplify as the origin.** Nameservers are
+  `lars/princess.ns.cloudflare.com`, the A records are Cloudflare's (`172.67.194.166`,
+  `104.21.44.38`), and the live response carries `server: cloudflare` + `cf-ray` alongside
+  `via: ...cloudfront.net`. Traffic goes visitor → Cloudflare → CloudFront/Amplify. This is the
+  fact everything else follows from, and no ticket had ever written it down.
+- **A Web Analytics site in AUTOMATIC setup mode injects the beacon at the edge.** Because the zone
+  is proxied, Cloudflare rewrites every HTML response to add its own beacon `<script>`. Verified
+  present on `/` and `/projects`, token `77d792c890fe454cbefc4b9aed62f7c9` (public by design, it
+  ships in the page source of every Cloudflare-analytics site). No repo code is involved.
+- **Done-when verified end to end:** a real browser visit to the live site fired
+  `POST https://godfreyponce.dev/cdn-cgi/rum` → **204**. No cookie banner ships. That is #33's
+  acceptance criterion, met by infrastructure that predates the ticket.
+- **The beacon POSTs SAME-ORIGIN, not to cloudflareinsights.com.** On a proxied domain it is
+  `<your-domain>/cdn-cgi/rum`. Both plan files said to watch for a `cloudflareinsights.com` POST,
+  so the correct behavior looked like no behavior. Only `beacon.min.js` itself comes from
+  `static.cloudflareinsights.com`.
+- **curl does NOT see the beacon; that is not a bug.** Cloudflare skips injection for non-browser
+  user agents, so `curl https://godfreyponce.dev | grep cloudflareinsights` returns nothing while a
+  real browser gets the tag. This produced a confident, wrong "automatic setup is broken" reading
+  mid-session. Send a browser UA before concluding anything about edge injection.
+- **Why the landed code was reverted rather than kept.** It rendered a SECOND beacon with the same
+  token on every page, on top of the edge-injected one: two script instances, two pageview beacons,
+  roughly doubled counts. Keeping it would have been worse than doing nothing. Reverted in
+  `2d41ed6`; `app/layout.tsx` is byte-identical to its pre-ticket state.
+- **The rejected alternative, for the record.** Keeping the code was viable IF automatic setup were
+  switched off in the Cloudflare dashboard, trading edge magic for an explicit tag that survives
+  un-proxying the domain or leaving Cloudflare. Owner chose the revert: analytics already works with
+  zero moving parts, and a build-time `NEXT_PUBLIC_` var is a silent single point of failure.
+- **The dashboard reading "0 visits" meant no visitors, not a broken beacon.** Obvious in hindsight
+  on an unlaunched site; it was read as evidence of breakage twice.
+- **Both prior attempts produced only reverts.** 2026-08-11 wired `@vercel/analytics`, which posts to
+  `/_vercel/insights/*` — a path that only exists when Vercel serves the site, so it silently no-ops
+  on Amplify. 2026-08-20 wired the Cloudflare beacon via `next/script`. Neither shipped a line.
+  **Check the running system before building for it.** One `curl -I` with a browser UA, eight months
+  earlier, would have closed this ticket without a plan file.
+
+
 
 ### 2026-08-19 — Pixel-art cmux chevron fronting the footer day-total line (#44)
 

@@ -11,6 +11,38 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-20 — Cloudflare Web Analytics beacon in the root layout (#33)
+
+- **This ticket was built twice.** The 2026-08-11 attempt wired `@vercel/analytics` and was fully
+  reverted: Vercel Web Analytics posts to `/_vercel/insights/*` on the same origin, a path that
+  only exists when Vercel serves the site, and this site is on Amplify. No code from that attempt
+  survives. Candidates weighed for the re-plan were GA4, Cloudflare, self-hosted Umami/Plausible,
+  and CloudWatch RUM; owner picked Cloudflare on 2026-08-20 as the closest match to why Vercel
+  Analytics was wanted originally (free, cookieless, zero consent UI) minus the host lock-in.
+- **The whole feature is 15 lines in `app/layout.tsx`.** `next/script` is built in, so unlike the
+  Vercel attempt there is no `npm install` and no new dependency in `package.json`.
+- **The env gate is the important half.** `NEXT_PUBLIC_CF_BEACON_TOKEN` absent means the `<Script>`
+  never renders, which is the default for every dev session and every fresh clone. That is what
+  keeps local reloads out of the dashboard; do not put the token in `.env.local`, or every future
+  dev session becomes noise. To exercise the branch locally, prefix the run instead:
+  `NEXT_PUBLIC_CF_BEACON_TOKEN=<token> npm run dev`.
+- **`NEXT_PUBLIC_` is inlined at BUILD time, not read at runtime.** So this one differs from
+  `GITHUB_TOKEN` (#41): an Amplify console env var is present during the build, so the #41
+  build-spec line that pipes env into the SSR *runtime* should not be needed here. Unconfirmed
+  against a real deploy — Amplify env plumbing has bitten before, so check the page source after
+  the first deploy rather than assuming.
+- **One mount covers every route.** The beacon hooks History `pushState`, so App Router
+  client-side navigations to `/projects` and the 404 page report without a per-route mount.
+- **Verified: the no-token default only.** Zero `cloudflareinsights` scripts in the DOM, zero
+  `[data-cf-beacon]` nodes, no matching network requests, page renders unchanged top to bottom.
+  `npx tsc --noEmit` clean.
+- **The token branch was NEVER exercised, locally or live.** The plan's Step 3 required a real
+  beacon token posted to #33; none was ever created, so the Cloudflare site does not exist yet
+  and the accept was given without that verification. This is the one real gap in the ticket:
+  the first time the `<Script>` actually renders will be on the live site. Note that ad blockers
+  routinely block `static.cloudflareinsights.com` and `/cdn-cgi/rum`, so a missing beacon in a
+  browser with extensions is not proof the wiring is broken — check a clean profile first.
+
 ### 2026-08-19 — Pixel-art cmux chevron fronting the footer day-total line (#44)
 
 - **Owner picked variant C of three.** A — flat `currentColor` mono; B — the same glyph plus a

@@ -11,6 +11,48 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-24 — Expanded /projects row split in two, chips answer the cursor (#46)
+
+Owner picked variant A ("Split") from three previews of the opened row. The complaint was that
+the expanded body stacked unrelated blocks: a full-width 3:2 carousel, then the description on
+the left with chips and links crowded to the right, and the chips themselves (13px icon at 75%
+opacity, no hover) read as a footnote rather than as the one place the site names its stack.
+
+- **Two columns instead of a stack.** Media sits left at `sm:w-[55%]`, aspect unchanged at 3:2;
+  the text column takes the rest and holds description, a `Built with` label over the chips, and
+  the links row pushed to the bottom with `mt-auto`. Under `sm` the whole thing is one column with
+  the media on top. Shrinking the frame by column width rather than by aspect is what stopped it
+  dominating the row, and it keeps `MediaCarousel` (#47/#48's territory) untouched: the frame
+  stays `relative` with an explicit aspect ratio and the carousel fills it.
+- **Chips are now interactive, visually only.** `tabIndex={0}` plus `hover:`/`focus-visible:`
+  border-accent and text-ink, icon opacity .75 to 1, and a 2px lift. No tooltip, no link (decided
+  2026-08-21) — `TechTag` was precedent for the treatment, not something to reuse, because its
+  tooltip is banned here. `Badge` grew an optional `tabIndex` passthrough onto its span.
+- **Reduced motion is structural, not a second code path.** Every transform and transition is
+  behind `motion-safe:`, which Tailwind v4 compiles to a real nested
+  `@media (prefers-reduced-motion: no-preference) { @media (hover: hover) { ... } }`, while
+  `hover:border-accent` and `hover:text-ink` sit outside it. Under reduce the colour and border
+  still change, instantly, with no lift — verified by reading the served stylesheet rather than by
+  emulating the setting, which the extension cannot do.
+- **The plan missed an empty-state guard and it was a real defect.** Variant A introduces a
+  standalone `Built with` label, and seven projects carry `tags: []`; `clawd` rendered a dangling
+  `BUILT WITH` heading over nothing. Wrapped in `tags.length > 0`. The plan had written the
+  matching guard for `media.length > 0` and simply did not generalize it: a variant that adds a
+  *label* inherits an empty-state the previous layout never had.
+
+Verification at 1280px: media 462px, text column 649px, split direction `row`. At 375px (injected
+same-origin iframe, since `resize_window` refuses a fullscreen window): `scrollWidth` 375 against a
+375 viewport, direction `column`, chips wrap to two rows. Chip hover reads border `#c2410c`, text
+`#1c1917`, `translate: 0px -2px`, icon opacity 1, and reverts fully on mouse-out; a real Tab reached
+the Gemini chip with the same three changes plus the ring at `outline-offset: 2px`. `clawd`
+(no media, no tags) renders description then GitHub with no hole. `npx tsc --noEmit` clean, exit 0.
+
+Note for the next automation session: `getComputedStyle` read straight after a `hover` action
+returns the transition's t=0 values while `matches(':hover')` is already true — the existing
+gotcha, hit again here. Sleep past the duration before reading. And Tailwind v4 puts translate
+utilities on the `translate` property, not `transform`, so a lift reads as `transform: none` and
+looks absent unless you read `translate`.
+
 ### 2026-08-24 — Peek removed: slides fill the frame again (#48)
 
 Question ticket, answered by discarding both of its options. #48 asked whether the peek should

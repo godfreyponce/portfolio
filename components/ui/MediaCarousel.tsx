@@ -136,12 +136,12 @@ export default function MediaCarousel({ items, title }: MediaCarouselProps) {
       onKeyDown={hasMultiple ? onKeyDown : undefined}
     >
       <div ref={viewportRef} className="relative h-full w-full overflow-hidden">
-        {/* All slides stay mounted so images preload; the track slides horizontally. The peek
-            gutters only earn their place when there is a neighbor to peek at, so a lone slide
-            (TechAssist's video) fills the frame the way it did before. */}
+        {/* All slides stay mounted so images preload; the track slides horizontally. Every slide
+            fills the frame: the #47 peek gutters read as a clipped slab in the homepage card's
+            half-width column, so they came back out (#48). */}
         <motion.div
           ref={trackRef}
-          className={`flex h-full ${hasMultiple ? "gap-3 px-[6%]" : ""}`}
+          className="flex h-full"
           style={{ x, touchAction: "pan-y" }}
           drag={hasMultiple && !reduced ? "x" : false}
           dragConstraints={{ left: -maxDrag, right: 0 }}
@@ -155,9 +155,9 @@ export default function MediaCarousel({ items, title }: MediaCarouselProps) {
             return (
               <div
                 key={`${item.src}-${i}`}
-                className={`relative h-full shrink-0 select-none ${
-                  hasMultiple ? "w-[88%] overflow-hidden rounded-lg" : "w-full"
-                } ${active ? "" : "pointer-events-none"}`}
+                className={`relative h-full w-full shrink-0 select-none ${
+                  active ? "" : "pointer-events-none"
+                }`}
                 aria-hidden={!active}
               >
                 {item.type === "youtube" && item.videoId ? (

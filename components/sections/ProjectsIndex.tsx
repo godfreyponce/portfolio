@@ -78,25 +78,41 @@ function ProjectRow({ project }: { project: Project }) {
             className="overflow-hidden"
           >
             <div className="px-2 pb-8 pt-2 sm:pl-16">
-              {media.length > 0 && (
-                <div className="relative aspect-[3/2] w-full overflow-hidden rounded-md border border-rule bg-surface-sunken">
-                  <MediaCarousel items={media} title={title} />
-                </div>
-              )}
-              <div className="mt-4 flex flex-col justify-between gap-6 sm:flex-row">
-                <p className="max-w-prose text-base leading-relaxed text-ink-muted">{description}</p>
-                <div className="flex shrink-0 flex-col items-start gap-3 sm:items-end">
-                  <div className="flex flex-wrap gap-2 sm:justify-end">
-                    {tags.map((tag) => (
-                      <Badge key={tag} className="gap-1.5">
-                        {techIcons[tag] && (
-                          <Image src={techIcons[tag]} alt="" width={13} height={13} unoptimized className="opacity-75" />
-                        )}
-                        {tag}
-                      </Badge>
-                    ))}
+              <div className="flex flex-col gap-6 sm:flex-row">
+                {media.length > 0 && (
+                  <div className="relative aspect-[3/2] w-full shrink-0 overflow-hidden rounded-md border border-rule bg-surface-sunken sm:w-[55%]">
+                    <MediaCarousel items={media} title={title} />
                   </div>
-                  <div className="flex gap-4">
+                )}
+                <div className="flex min-w-0 flex-1 flex-col gap-5">
+                  <p className="max-w-prose text-base leading-relaxed text-ink-muted">{description}</p>
+                  {tags.length > 0 && (
+                    <div>
+                      <div className="text-xs font-medium uppercase tracking-wide text-ink-faint">Built with</div>
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        {tags.map((tag) => (
+                          <Badge
+                            key={tag}
+                            tabIndex={0}
+                            className="group gap-1.5 outline-offset-2 hover:border-accent hover:text-ink focus-visible:border-accent focus-visible:text-ink motion-safe:transition motion-safe:hover:-translate-y-0.5 motion-safe:focus-visible:-translate-y-0.5"
+                          >
+                            {techIcons[tag] && (
+                              <Image
+                                src={techIcons[tag]}
+                                alt=""
+                                width={13}
+                                height={13}
+                                unoptimized
+                                className="opacity-75 group-hover:opacity-100 group-focus-visible:opacity-100 motion-safe:transition-opacity"
+                              />
+                            )}
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  <div className="mt-auto flex flex-wrap gap-4">
                     {githubLink && (
                       <a href={githubLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm font-medium text-ink transition-colors hover:text-accent">
                         <Github size={14} /> GitHub

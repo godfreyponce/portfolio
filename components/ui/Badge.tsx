@@ -6,6 +6,7 @@ interface BadgeProps {
   children: ReactNode;
   tone?: BadgeTone;
   className?: string;
+  tabIndex?: number;
 }
 
 const toneStyles: Record<BadgeTone, string> = {
@@ -16,9 +17,10 @@ const toneStyles: Record<BadgeTone, string> = {
   project: "bg-sky-50 text-sky-700 border-sky-200",
 };
 
-export default function Badge({ children, tone = "neutral", className = "" }: BadgeProps) {
+export default function Badge({ children, tone = "neutral", className = "", tabIndex }: BadgeProps) {
   return (
     <span
+      tabIndex={tabIndex}
       className={`inline-flex items-center rounded-sm border px-2 py-1 text-xs font-medium ${toneStyles[tone]} ${className}`}
     >
       {children}

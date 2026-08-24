@@ -11,6 +11,58 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-23 — Swipeable slideshow: trackpad, touch, keys (#47)
+
+Replaces `MediaCarousel`'s crossfade with a horizontal track that follows the gesture. First
+ticket of the post-launch projects batch (split from "fix projects section" into #45 content,
+#46 expanded-row redesign, and this).
+
+- **One motion value, three inputs, one exit.** The track is a single `motion.div` (flex row,
+  every slide stays mounted) whose `x` is a `useMotionValue`. Framer `drag="x"` handles touch and
+  mouse, a native `wheel` listener handles the trackpad, `onKeyDown` handles Left/Right, and
+  arrows/dots call the same helper. Everything ends in `snap(index)`, which clamps, sets state,
+  and animates `x` to `-index * step`. No carousel library.
+- **The trackpad rule: one gesture, one slide.** On each `wheel` event, if `|deltaX| <= |deltaY|`
+  it returns and the page scrolls. Otherwise `preventDefault()` (which kills Chrome's back-swipe),
+  then accumulate `deltaX`; at `WHEEL_FIRE_PX` (40) it fires once and **locks**. The lock swallows
+  the rest of the burst including macOS momentum, and only `WHEEL_QUIET_MS` (150) of silence
+  releases it. The listener is attached with `{ passive: false }` in an effect because React marks
+  `onWheel` passive and `preventDefault` would be ignored. Both numbers are still labelled guesses
+  in the source; the owner swiped the preview and kept them.
+- **Owner picked variant B of three previews.** Peek: 88% slides, 12px gap, 8px radius, so
+  neighbours show at both edges, keeping the existing dots. A was flush with a segmented bar,
+  C was flush with a `1 / 3` badge and a sliding underline.
+- **Ends clamp, they do not wrap.** The old `goTo` wrapped with a modulo. With a sliding track,
+  wrapping last-to-first would visibly rewind across every slide, so `snap` clamps and the arrow
+  on a closed end is not rendered. This is a real behaviour change, not just a visual one.
+
+Two defects found at gate 2 that the plan had not anticipated:
+
+- **`dragConstraints={ref}` would have pinned the track.** The plan assumed the track's width
+  minus the viewport equals `(count - 1) * step`. It does not: the track is a *block-level* flex
+  container, so its border box measures exactly the viewport (838px) while its `shrink-0` slides
+  overflow it (`scrollWidth` 2021). Framer measures `getBoundingClientRect()`, so reproducing its
+  `calcConstraintsForAxis` gave `min === max` — a zero-width range — when the track needs to
+  travel to -1322px. The failure would have been easy to miss: `info.offset.x` still reports the
+  true pointer distance, so slides would have changed on release while the track rubber-banded
+  instead of following the finger. Now constrained numerically (`{ left: -maxDrag, right: 0 }`)
+  from the `step` the ResizeObserver already measures, so no box measurement is involved.
+- **The peek broke the single-item carousel.** Applied unconditionally, TechAssist's lone YouTube
+  slide shrank to 649px inside an 838px frame with uneven gutters (50px / 139px). There is no
+  neighbour to peek at, so the gutters were pure regression. The peek classes now apply only when
+  `hasMultiple`; a lone slide is `w-full` in an unpadded track, exactly as before.
+
+Left open as **#48** (question): the peek is lopsided — `w-[88%]` resolves against the track's
+already-padded content box, landing the slide at 77.4% with 50px of gutter left and 139px right.
+`w-full` would make it a true 88% with 50/50 gutters. Shipped as previewed and accepted; the
+one-line alternative is measured and recorded on the ticket.
+
+Verification (no test suite here): one trackpad gesture advanced exactly one slide on `/projects`
+and all three homepage cards; a mouse drag tracked the pointer 1:1 (`translateX(-60px)` for a
+60px move) and settled at exact multiples of `step` (-661, -788, -1322); vertical wheel stayed
+unprevented; arrows vanished at the ends; keys clamped. `npx tsc --noEmit` clean, exit 0.
+Reduced motion and YouTube playback were **not** runtime-verified (see the gotcha in STATE.md).
+
 ### 2026-08-21 — Purpose-made 1200x630 OG share card (#34)
 
 First post-launch ticket. Replaces the mis-declared headshot in link previews with a card built

@@ -11,6 +11,41 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-24 — Peek removed: slides fill the frame again (#48)
+
+Question ticket, answered by discarding both of its options. #48 asked whether the peek should
+centre its active slide (`w-[88%]` → `w-full`, 50/139 gutters → 50/50). The answer is neither:
+the peek came out entirely.
+
+- **The measurements on #48 were taken on the wrong surface.** Both #47's variant preview and
+  #48's table used `/projects`, where the carousel box is 838px and a peek has room. The other
+  caller is the homepage Lab card, where `ProjectCard` puts the media in a `md:w-1/2` column and
+  the carousel is **494px**. There the same 6% padding plus a 12% slide reduction leaves an ~82px
+  vertical slab of the next screenshot pressed against the text column, with the next-slide arrow
+  floating on top of it. It reads as a broken image, not as an invitation to swipe. Centring would
+  have narrowed that slab without changing what it is.
+- **Two class changes, nothing else.** The track drops `gap-3 px-[6%]` and is now plain
+  `flex h-full`; slides drop the `w-[88%] overflow-hidden rounded-lg` / `w-full` branch for plain
+  `w-full` (the radius and clipping only existed to make a peeked neighbour look like a card).
+  `step` is measured from `offsetLeft`, so removing the gap propagates on its own, and `maxDrag`,
+  `dragConstraints`, and every snap target derive from `step`. `hasMultiple` still gates drag,
+  the wheel listener, `tabIndex`, arrows, and dots.
+- **Everything #47 added survives.** Horizontal slide motion, trackpad wheel, drag, arrows, dots,
+  Left/Right keys, reduced-motion path. Only the gutters are gone.
+- **The gate that let it through.** Variant B was picked from a preview that rendered one width.
+  A component with two callers at 494px and 838px needs both widths in the preview, or the pick
+  is made on a surface the visitor may never see.
+
+Verification: homepage Lab card measures a 494px box, a 494px slide, 0/0 gutters, and dot 2
+settles the track at exactly `-494`; the `/projects` row measures an 838px box, an 838px slide,
+0/0 gutters, and dot 3 settles at exactly `-1676` (2 × 838). `npx tsc --noEmit` clean, exit 0.
+Reading a motion value straight after a dot click still returns a mid-spring number in a hidden
+automation tab (`-32`, `-8`) — the #47 gotcha, unchanged: force a frame with a screenshot first,
+then read.
+
+Not touched, pre-existing: on the homepage card the dots (`bottom-3`, centred) overlap
+CometAdvisor's "Start Session" button. Visible in the owner's screenshot, out of scope here.
+
 ### 2026-08-23 — Swipeable slideshow: trackpad, touch, keys (#47)
 
 Replaces `MediaCarousel`'s crossfade with a horizontal track that follows the gesture. First

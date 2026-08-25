@@ -51,7 +51,7 @@
 </style></head><body><div class="page">
   <svg class="edges" aria-hidden="true"></svg>
   <h1>Decision map — godfreyponce/portfolio</h1>
-  <p class="lede">map issue: <a href="https://github.com/godfreyponce/portfolio/issues/35">#35 Map: godfreyponce.dev launch</a> · 49 tickets · red lines are “blocked by” edges · answer one frontier ticket per session</p>
+  <p class="lede">map issue: <a href="https://github.com/godfreyponce/portfolio/issues/35">#35 Map: godfreyponce.dev launch</a> · 51 tickets · red lines are “blocked by” edges · answer one frontier ticket per session</p>
   <div class="legend"><span><span class="b-decided">✓</span> decided/done (closed)</span>
     <span><span class="b-frontier">●</span> frontier: no open blockers</span>
     <span><span class="b-blocked">×</span> blocked by an open ticket</span>
@@ -60,6 +60,14 @@
   <section>
     <h2>Decided <span class="hint">closed tickets — the decision list</span></h2>
     <div class="row">
+  <a class="card decided task" id="n52" href="https://github.com/godfreyponce/portfolio/issues/52">
+    <span class="num">#52</span>
+    <span class="title">Overlay opens instantly: show the loaded image, sharpen in the large render, preload neighbours</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
   <a class="card decided task" id="n50" href="https://github.com/godfreyponce/portfolio/issues/50">
     <span class="num">#50</span>
     <span class="title">Two em dashes left in shipped project descriptions</span>
@@ -456,7 +464,15 @@
   
   <section>
     <h2>The frontier <span class="hint">take these today</span></h2>
-    <div class="row"><p class="empty">none</p></div>
+    <div class="row">
+  <a class="card frontier task" id="n51" href="https://github.com/godfreyponce/portfolio/issues/51">
+    <span class="num">#51</span>
+    <span class="title">Two-finger swipe and touch drag paging in the /projects overlay</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-frontier">● take it today</span>
+    </span>
+  </a></div>
   </section>
   
   <section>
@@ -464,7 +480,7 @@
     <div class="row"><p class="empty">none</p></div>
   </section>
   <section><h2>Fog of war <span class="hint">seen coming, not yet a ticket</span></h2>
-    <ul class="fog"><li>Repo visibility: `shared_memory.json` is tracked, so a public flip needs a history</li></ul>
+    <ul class="fog"><li>Repo visibility: `shared_memory.json` is tracked, so a public flip needs a history</li><li>Source images: the files in `public/projects` are 370KB to 730KB each (5.9MB total).</li></ul>
   </section>
   <script>
     const EDGES = [];

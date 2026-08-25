@@ -11,6 +11,47 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-25 — Overlay opens instantly: cached layer, silent sharpen, neighbour preload (#52)
+
+Follows #49. The `/projects` overlay used to mount one `next/image` at the overlay's own `sizes`,
+which is a different URL from the one the carousel had already fetched, so the stage was blank
+until that second render arrived. Two files, one `export` keyword and a new module-private
+`ImageStage`.
+
+- **The stage is two layers in one `fill object-contain` box.** The bottom layer repeats the
+  carousel's exact request: same `src`, same `quality={90}`, and the carousel's own `sizes` string,
+  now imported as `CAROUSEL_SIZES`. Same URL means the browser already has the decoded picture. The
+  top layer is the 1100px render, wrapped in a `motion.div` at `initial={false}` and
+  `animate={{ opacity: sharp ? 1 : 0 }}`, flipped by the image's `onLoad`. Both layers are `fill`
+  in the same box, so the sharpen cannot shift layout. Measured at gate 2: the stage rect was
+  `x 203, y 114.95, w 1058, h 508.09` before the sharpen and byte-identical after.
+- **The `sizes` string is imported, not copied.** `MediaCarousel.tsx:25` went from `const` to
+  `export const IMAGE_SIZES`. This is the whole carousel diff. Two modules now form an import cycle
+  (`MediaCarousel` imports `MediaLightbox` as a value; `MediaLightbox` now imports a real value
+  back), which is safe only because neither reads the other's export at module top level. Do not
+  hoist `CAROUSEL_SIZES` into a module-level expression.
+- **Neighbours are preloaded with real `<img>` elements, not hand-built URLs.** The candidate the
+  browser picks depends on viewport and DPR, so only the browser's own pick is guaranteed to match
+  what the stage will later ask for. A rolling window of `[index - 1, index + 1]`, clamped at both
+  ends, rendered `loading="eager"`, `fetchPriority="low"`, `opacity-0` and `pointer-events-none`.
+  Verified: `nudge-stack.png` at the large width cost 79,929 bytes / 274 ms when preloaded, then
+  300 bytes / 8 ms when actually paged to.
+- **The preload skips YouTube items** with the same test the stage uses
+  (`item.type === "youtube" && item.videoId`), so the two can never disagree about which items are
+  images. Confirmed on TechAssist slide 4: the iframe renders as before and the preload block emits
+  only `techassist-search.jpg`, never an `<img>` for the video.
+- **Gotcha, dev only: the cached layer still issues one request in dev.** The plan predicted none.
+  Dev's optimizer sends `Cache-Control: public, max-age=0, must-revalidate`, so Chrome revalidates:
+  300 bytes of headers, no image body, 6 ms. Production sends `max-age=14400` (the
+  `minimumCacheTTL` default), so there is no request there. Do not read a `_next/image` line in the
+  dev network panel as a cache miss; check `transferSize` in Resource Timing instead.
+- **Known, not changed:** the bottom layer keeps `next/image`'s default `loading="lazy"`. Only the
+  preloads are `eager`. It works because the stage is in the viewport at mount, but `eager` on that
+  layer would be the stronger first-frame guarantee if this ever looks slow.
+- **Left to the owner:** the throttled (Fast 3G) first-frame check. Browser automation has no
+  network throttle, so the build proved the mechanism (identical URL, no body re-downloaded, image
+  present) and the owner runs the real measure on godfreyponce.dev.
+
 ### 2026-08-25 — Two em dashes out of the shipped project descriptions (#50)
 
 Copy only, two `description` lines in `lib/projects.ts`, no component touched. Both predated the

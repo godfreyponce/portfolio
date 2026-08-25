@@ -66,9 +66,9 @@ export const projects: Project[] = [
     color: "bg-violet-50",
     iconSrc: "/projects/cometadvisor/LOGO.png",
     media: [
-      { type: "image", src: "/projects/cometadvisor/cometLogo.png", alt: "CometAdvisor — Logo" },
-      { type: "image", src: "/projects/cometadvisor/comet.png", alt: "CometAdvisor — Screenshot" },
-      { type: "image", src: "/projects/cometadvisor/comet-stack.png", alt: "CometAdvisor — Tech Stack", fit: "contain" },
+      { type: "image", src: "/projects/cometadvisor/cometLogo.png", alt: "CometAdvisor logo" },
+      { type: "image", src: "/projects/cometadvisor/comet.png", alt: "CometAdvisor screenshot" },
+      { type: "image", src: "/projects/cometadvisor/comet-stack.png", alt: "CometAdvisor tech stack", fit: "contain" },
     ],
   },
   {
@@ -85,9 +85,9 @@ export const projects: Project[] = [
     color: "bg-rose-50",
     iconSrc: "/projects/remix/LOGO.png",
     media: [
-      { type: "image", src: "/projects/remix/remixLogo.png", alt: "Remix — Project Overview", fit: "contain" },
-      { type: "image", src: "/projects/remix/Godfrey.JPG", alt: "Remix — Presenting" },
-      { type: "image", src: "/projects/remix/remix_stack.png", alt: "Remix — Tech Stack", fit: "contain" },
+      { type: "image", src: "/projects/remix/remixLogo.png", alt: "Remix project overview", fit: "contain" },
+      { type: "image", src: "/projects/remix/Godfrey.JPG", alt: "Presenting Remix" },
+      { type: "image", src: "/projects/remix/remix_stack.png", alt: "Remix tech stack", fit: "contain" },
     ],
   },
   {
@@ -105,9 +105,9 @@ export const projects: Project[] = [
     color: "bg-green-50",
     iconSrc: "/projects/nudge/LOGO.png",
     media: [
-      { type: "image", src: "/projects/nudge/nudgelogo.jpeg", alt: "Nudge — Logo" },
-      { type: "image", src: "/projects/nudge/nudge.png", alt: "Nudge — Screenshot" },
-      { type: "image", src: "/projects/nudge/nudge-stack.png", alt: "Nudge — Tech Stack", fit: "contain" },
+      { type: "image", src: "/projects/nudge/nudgelogo.jpeg", alt: "Nudge logo" },
+      { type: "image", src: "/projects/nudge/nudge.png", alt: "Nudge screenshot" },
+      { type: "image", src: "/projects/nudge/nudge-stack.png", alt: "Nudge tech stack", fit: "contain" },
     ],
   },
   {

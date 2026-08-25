@@ -81,7 +81,7 @@ function ProjectRow({ project }: { project: Project }) {
               <div className="flex flex-col gap-6 sm:flex-row">
                 {media.length > 0 && (
                   <div className="relative aspect-[3/2] w-full shrink-0 overflow-hidden rounded-md border border-rule bg-surface-sunken sm:w-[55%]">
-                    <MediaCarousel items={media} title={title} />
+                    <MediaCarousel items={media} title={title} expandable />
                   </div>
                 )}
                 <div className="flex min-w-0 flex-1 flex-col gap-5">

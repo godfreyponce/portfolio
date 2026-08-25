@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ImageIcon } from "lucide-react";
 import { motion, useMotionValue, animate, useReducedMotion, type PanInfo } from "framer-motion";
 import CarouselArrow from "@/components/ui/CarouselArrow";
+import MediaLightbox from "@/components/ui/MediaLightbox";
 
 export interface MediaItem {
   type: "image" | "youtube";
@@ -17,6 +18,8 @@ export interface MediaItem {
 interface MediaCarouselProps {
   items: MediaItem[];
   title: string;
+  /** Opt in to click-to-enlarge. Off on the homepage card, on for the /projects row (#49). */
+  expandable?: boolean;
 }
 
 const IMAGE_SIZES = "(max-width: 767px) 100vw, 500px";
@@ -35,9 +38,14 @@ const DRAG_ELASTIC = 0.2;
 const WHEEL_FIRE_PX = 40;
 const WHEEL_QUIET_MS = 150;
 
-export default function MediaCarousel({ items, title }: MediaCarouselProps) {
+export default function MediaCarousel({ items, title, expandable }: MediaCarouselProps) {
   const [current, setCurrent] = useState(0);
   const [maxDrag, setMaxDrag] = useState(0);
+  const [lightbox, setLightbox] = useState<number | null>(null);
+  // A click that ends a drag must not open the lightbox. Set on drag/pan start, cleared a tick
+  // after settle so the trailing click still sees it.
+  const dragged = useRef(false);
+  const slideButtons = useRef<(HTMLButtonElement | null)[]>([]);
   const reduced = useReducedMotion();
   const viewportRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -114,9 +122,16 @@ export default function MediaCarousel({ items, title }: MediaCarouselProps) {
     if (power < -SWIPE_POWER || (far && info.offset.x < 0)) snap(idx.current + 1);
     else if (power > SWIPE_POWER || (far && info.offset.x > 0)) snap(idx.current - 1);
     else snap(idx.current);
+    setTimeout(() => {
+      dragged.current = false;
+    }, 0);
   };
 
   const onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    // The lightbox portal is a React child of this element, and portal events bubble through
+    // the React tree, not the DOM tree: without this the overlay's arrow keys would page the
+    // carousel underneath too.
+    if (lightbox !== null) return;
     if (e.key === "ArrowRight") {
       e.preventDefault();
       snap(idx.current + 1);
@@ -147,11 +162,49 @@ export default function MediaCarousel({ items, title }: MediaCarouselProps) {
           dragConstraints={{ left: -maxDrag, right: 0 }}
           dragElastic={DRAG_ELASTIC}
           dragMomentum={false}
+          onDragStart={() => {
+            dragged.current = true;
+          }}
           onDragEnd={settle}
+          onPanStart={hasMultiple && reduced ? () => { dragged.current = true; } : undefined}
           onPanEnd={hasMultiple && reduced ? settle : undefined}
         >
           {items.map((item, i) => {
             const active = i === current;
+            const picture =
+              item.fit === "contain" ? (
+                <>
+                  <Image
+                    src={item.src}
+                    alt=""
+                    aria-hidden
+                    fill
+                    draggable={false}
+                    className="scale-110 object-cover opacity-30 blur-2xl"
+                    quality={30}
+                    sizes={IMAGE_SIZES}
+                  />
+                  <Image
+                    src={item.src}
+                    alt={item.alt || title}
+                    fill
+                    draggable={false}
+                    className="object-contain p-6"
+                    quality={90}
+                    sizes={IMAGE_SIZES}
+                  />
+                </>
+              ) : (
+                <Image
+                  src={item.src}
+                  alt={item.alt || title}
+                  fill
+                  draggable={false}
+                  className="object-cover"
+                  quality={90}
+                  sizes={IMAGE_SIZES}
+                />
+              );
             return (
               <div
                 key={`${item.src}-${i}`}
@@ -171,38 +224,24 @@ export default function MediaCarousel({ items, title }: MediaCarouselProps) {
                     />
                   ) : null
                 ) : item.src ? (
-                  item.fit === "contain" ? (
-                    <>
-                      <Image
-                        src={item.src}
-                        alt=""
-                        aria-hidden
-                        fill
-                        draggable={false}
-                        className="scale-110 object-cover opacity-30 blur-2xl"
-                        quality={30}
-                        sizes={IMAGE_SIZES}
-                      />
-                      <Image
-                        src={item.src}
-                        alt={item.alt || title}
-                        fill
-                        draggable={false}
-                        className="object-contain p-6"
-                        quality={90}
-                        sizes={IMAGE_SIZES}
-                      />
-                    </>
+                  expandable ? (
+                    <button
+                      type="button"
+                      ref={(el) => {
+                        slideButtons.current[i] = el;
+                      }}
+                      tabIndex={active ? 0 : -1}
+                      onClick={() => {
+                        if (dragged.current) return;
+                        setLightbox(i);
+                      }}
+                      aria-label={`Open ${item.alt || title} in a larger view`}
+                      className="relative block h-full w-full cursor-zoom-in outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ink/40"
+                    >
+                      {picture}
+                    </button>
                   ) : (
-                    <Image
-                      src={item.src}
-                      alt={item.alt || title}
-                      fill
-                      draggable={false}
-                      className="object-cover"
-                      quality={90}
-                      sizes={IMAGE_SIZES}
-                    />
+                    picture
                   )
                 ) : (
                   <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-ink-faint">
@@ -236,6 +275,22 @@ export default function MediaCarousel({ items, title }: MediaCarouselProps) {
             ))}
           </div>
         </>
+      )}
+
+      {lightbox !== null && (
+        <MediaLightbox
+          items={items}
+          title={title}
+          startIndex={lightbox}
+          onClose={(closeIndex) => {
+            setLightbox(null);
+            snap(closeIndex);
+            // Every slide stays mounted, so the button to return focus to already exists and
+            // this can run now. Deferring it to a frame would strand focus on <body> whenever
+            // the tab is hidden, since requestAnimationFrame does not fire there.
+            slideButtons.current[closeIndex]?.focus();
+          }}
+        />
       )}
     </div>
   );

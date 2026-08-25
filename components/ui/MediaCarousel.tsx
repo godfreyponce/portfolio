@@ -22,7 +22,7 @@ interface MediaCarouselProps {
   expandable?: boolean;
 }
 
-const IMAGE_SIZES = "(max-width: 767px) 100vw, 500px";
+export const IMAGE_SIZES = "(max-width: 767px) 100vw, 500px";
 
 // Swipe release: Framer Motion's image-gallery example (|offset.x| * velocity.x beyond 10000),
 // plus a distance fallback for slow drags (guess: half a slide).

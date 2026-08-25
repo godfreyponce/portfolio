@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, ImageIcon, X } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import type { MediaItem } from "@/components/ui/MediaCarousel";
+import { IMAGE_SIZES as CAROUSEL_SIZES, type MediaItem } from "@/components/ui/MediaCarousel";
 
 interface MediaLightboxProps {
   items: MediaItem[];
@@ -26,6 +26,57 @@ const IMAGE_SIZES = "(max-width: 1200px) 92vw, 1100px";
 // exist inside the overlay, so the buttons would never appear.
 const BUTTON =
   "flex h-8 w-8 items-center justify-center rounded-full border border-rule bg-surface-raised/80 text-ink-muted outline-none backdrop-blur-sm transition-colors hover:bg-surface-raised focus-visible:ring-2 focus-visible:ring-ink/40";
+
+// The image stage is two layers in one fill + object-contain box. The bottom one is the exact
+// request the carousel already made (same src, same sizes, same quality), so it comes from the
+// browser cache and paints on the first frame. The top one is the large render, held invisible
+// until it lands and then faded in: a silent sharpen, no spinner. Same box, so nothing moves.
+// Own component so `sharp` resets with the slide: the parent keys it by index.
+// CAROUSEL_SIZES must stay the carousel's own string; any other value misses the cache and
+// the first frame goes back to blank, silently.
+function ImageStage({
+  item,
+  title,
+  reduced,
+}: {
+  item: MediaItem;
+  title: string;
+  reduced: boolean | null;
+}) {
+  const [sharp, setSharp] = useState(false);
+  return (
+    <>
+      <Image
+        src={item.src}
+        alt=""
+        aria-hidden
+        fill
+        draggable={false}
+        className="object-contain"
+        quality={90}
+        sizes={CAROUSEL_SIZES}
+      />
+      <motion.div
+        className="absolute inset-0"
+        initial={false}
+        animate={{ opacity: sharp ? 1 : 0 }}
+        transition={{ duration: reduced ? 0 : 0.15 }}
+      >
+        <Image
+          src={item.src}
+          alt={item.alt || title}
+          fill
+          draggable={false}
+          className="object-contain"
+          quality={90}
+          sizes={IMAGE_SIZES}
+          fetchPriority="high"
+          onLoad={() => setSharp(true)}
+        />
+      </motion.div>
+    </>
+  );
+}
 
 export default function MediaLightbox({ items, title, startIndex, onClose }: MediaLightboxProps) {
   const [index, setIndex] = useState(startIndex);
@@ -114,6 +165,33 @@ export default function MediaLightbox({ items, title, startIndex, onClose }: Med
         </button>
 
         <div className="relative flex h-[56vh] min-h-0 items-center justify-center bg-surface-sunken p-4 sm:h-[70vh] sm:p-5">
+          {/* Neighbour preload: a rolling window of one slide either side, fetched at low priority
+              with the large layer's exact srcset and sizes so the browser resolves the same URL the
+              stage will ask for. Real image elements, not a hand-built URL: the candidate depends on
+              viewport and DPR, and only the browser's own pick is guaranteed to match. Eager because
+              next/image defaults to lazy; opacity rather than display:none so fill keeps a box. */}
+          {[index - 1, index + 1]
+            .filter((i) => i >= 0 && i < count)
+            .map((i) => {
+              const n = items[i];
+              if ((n.type === "youtube" && n.videoId) || !n.src) return null;
+              return (
+                <Image
+                  key={i}
+                  src={n.src}
+                  alt=""
+                  aria-hidden
+                  fill
+                  draggable={false}
+                  loading="eager"
+                  fetchPriority="low"
+                  className="pointer-events-none opacity-0"
+                  quality={90}
+                  sizes={IMAGE_SIZES}
+                />
+              );
+            })}
+
           {/* Opacity only, never transform, so reduced motion is met by zeroing the duration
               rather than by a second code path. */}
           <AnimatePresence mode="wait" initial={false}>
@@ -134,15 +212,7 @@ export default function MediaLightbox({ items, title, startIndex, onClose }: Med
                   allowFullScreen
                 />
               ) : item.src ? (
-                <Image
-                  src={item.src}
-                  alt={item.alt || title}
-                  fill
-                  draggable={false}
-                  className="object-contain"
-                  quality={90}
-                  sizes={IMAGE_SIZES}
-                />
+                <ImageStage item={item} title={title} reduced={reduced} />
               ) : (
                 <div className="flex flex-col items-center gap-2 text-ink-faint">
                   <ImageIcon size={36} strokeWidth={1.5} />

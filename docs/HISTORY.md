@@ -11,6 +11,52 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-25 — Images, stacks, and dates for the seven new projects (#45)
+
+Data entry only: no component touched. Seven entries had `tags: []`, no `date`, and no `media`,
+so after #46 and #49 made the carousel and the chips the centre of the expanded row, those rows
+had nothing to show. Four projects got carousels, all seven got a stack and a date.
+
+- **Eleven images under `public/projects/<lowercase-name>/`**, following the existing convention
+  (`<name>Logo.*` hero first, `<name>.png` screenshot second, a third named for what it shows).
+  Nothing tripped the ~2800px / 1MB resize bound, so `sips -Z` never ran. Two files were
+  transformed instead: the Power Automate screenshot was cropped `1060:678:560:0` (2170x678 332K
+  to 1060x678 120K) and frame 24 of jiraPlane's `flight.gif` was extracted as a still (9.0MB
+  animated gif to 560x315 212K). Both with `ffmpeg`.
+- **The crop is centred, not left.** The intake said "crop to left ~60%", but the two flow steps
+  sit at x 960 to 1330 of 2170, so a left-60% crop would clip them. The centre crop keeps both
+  steps plus the header.
+- **TechAssist keeps its video by putting it IN the `media` array.** `rowMedia()`
+  (`ProjectsIndex.tsx:22-27`) and `ProjectCard.tsx:87-89` both use `media` when it is non-empty
+  and fall back to `videoUrl` only when it is not, so "stills plus keeps the video" needs a
+  `{ type: "youtube", src: "", videoId }` slide. The fallback builds that exact object, so the
+  player is unchanged. Consequence, accepted at gate 2: TechAssist is `featured`, so the
+  **homepage** Lab card is now a 4-slide carousel opening on the QR scan photo instead of a bare
+  embed.
+- **jiraPlane gets two slides, not three.** `hero.svg` is the same picture as
+  `social-preview.png`, and `magick` cannot rasterise it here (its text needs a font the delegate
+  cannot find). The gif frame is 560x315 in an 838px row, so it upscales ~1.5x and reads soft;
+  the real fix is a phone-video still exported later.
+- **Portrait and wide slides use `fit: "contain"`**, which paints a blurred copy of the image
+  behind the contained one (`MediaCarousel.tsx:175-195`). That answers the intake's "portrait on a
+  colour block" question with the component as it already stands.
+- **Five chips per row is fine.** The widest new chip, "Jira Data Center API", measures 132px, so
+  five wrap onto two lines inside a 375px-wide column with nothing overflowing.
+- **Nine hackathon `alt` strings lost their em dashes** (`CometAdvisor — Logo` became
+  `CometAdvisor logo`, and so on). Deferred here by the #49 plan. `alt` is shipped copy: screen
+  readers read it and `MediaCarousel` puts it in the "Open ... in a larger view" aria-label. Two
+  em dashes remain in CometAdvisor's and Remix's `description` strings; they were scoped out and
+  captured as #50. Nudge's description uses an ellipsis, not a dash, so it is two lines, not the
+  three the plan predicted.
+
+Two plan predictions were wrong and neither needed a code change. Rows with no `media` do not keep
+a placeholder block, they go full width (that is #46's split-row behaviour). And inside "Every day"
+the order is kal, Debrief, glass, not kal, glass, Debrief: Debrief and glass are both May 2026, so
+the tie falls to array order. Not verified in the automation tab: the YouTube slide starting on
+click (same code path as before, so nothing changed) and a true 375px viewport, since Chrome
+refused the window resize and the body-width workaround does not trigger the mobile layout.
+`npx tsc --noEmit` clean.
+
 ### 2026-08-25 — Click a screenshot to open it in a slideshow overlay (#49)
 
 Owner picked variant B ("Gallery card") from three previews of the overlay. #46 shrank the media

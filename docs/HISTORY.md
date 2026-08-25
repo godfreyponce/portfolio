@@ -11,6 +11,52 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-25 — Click a screenshot to open it in a slideshow overlay (#49)
+
+Owner picked variant B ("Gallery card") from three previews of the overlay. #46 shrank the media
+frame on purpose so it would stop dominating the expanded row, which left the screenshots too
+small to read and, because `MediaCarousel` had no click target at all, no way to see one bigger.
+
+- **New `components/ui/MediaLightbox.tsx`.** Portals to `document.body`. A `surface-raised` panel
+  (`min(1100px, 92vw)`, `max-h-[90vh]`, `rounded-lg border-rule shadow-lift`) on an `ink/60`
+  blurred scrim, image on a `surface-sunken` stage (`56vh`, `sm:70vh`) with `object-contain`, and
+  a footer bar under a top rule holding the project title left and a `1 / 3` counter right.
+  Arrows sit on the stage edges rather than the panel edges, so no magic offset is needed to keep
+  them off the footer. `CarouselArrow` could not be reused as a component: its
+  `opacity-0 group-hover/carousel:opacity-100` pair hangs off the carousel's group class, which
+  does not exist inside the overlay, so the chrome is copied and visible by default.
+- **`expandable` is opt-in, so the homepage is untouched.** `MediaCarousel` takes the new prop and
+  `ProjectsIndex` passes it; `ProjectCard` does not, and the homepage still renders three
+  carousels with zero open-larger buttons. The carousel owns the overlay's open index, which makes
+  "the row lands on the slide the overlay was left on" a plain internal `snap(closeIndex)` on
+  close with no controlled-component plumbing in `ProjectRow`.
+- **Portal events bubble through the React tree, not the DOM tree.** The plan called the overlay's
+  placement in the JSX cosmetic because it portals out anyway. It is not: rendered inside the
+  carousel's root `<div>`, the overlay's Left/Right keys also reached that div's `onKeyDown` and
+  paged the row behind the scrim. The carousel's handler now bails while the overlay is open.
+- **Focus returns synchronously, not in a `requestAnimationFrame`.** Every slide stays mounted, so
+  the button to focus already exists and there is nothing to wait for; deferring a frame stranded
+  focus on `<body>` in a hidden tab, where rAF never fires. Focus lands on the slide the carousel
+  shows after the close snap, not always the clicked one: if the visitor paged inside the overlay,
+  the clicked slide is by then `aria-hidden` with `tabIndex -1`, and focusing an aria-hidden
+  element is an accessibility bug.
+- **Swipe must not open the overlay.** A `dragged` ref is set on `onDragStart` (plus `onPanStart`
+  in reduced mode, where drag is off and the carousel settles via `onPanEnd`) and cleared in a
+  `setTimeout(…, 0)` at the end of `settle`, so the click the browser dispatches after `pointerup`
+  still sees it. This is the one behaviour that could not be verified in the automation tab (see
+  the gotcha in STATE.md) and was handed to the owner.
+- **YouTube slides get no open-larger button** (decided in the plan, not guessed at build time):
+  clicks over an embed land inside the iframe and cannot be intercepted without breaking playback.
+  Paging inside the overlay still reaches a video slide and renders it as a bigger embed, so the
+  carousel and overlay indices stay 1:1 with no remapping. No project mixes images with a video
+  today — TechAssist is video-only, via `videoUrl` — so that branch was exercised by temporarily
+  adding a video slide to CometAdvisor's `media`, then restoring the file.
+- **Motion is opacity only, never transform**, with `duration: 0` under `prefers-reduced-motion`,
+  so the reduced-motion rule is met by zeroing a duration rather than by a second code path.
+
+Verified at 375px (panel 343 wide) and 1280px (panel 1100 wide): no horizontal scroll, image
+inside its box at both. `npx tsc --noEmit` clean.
+
 ### 2026-08-24 — Expanded /projects row split in two, chips answer the cursor (#46)
 
 Owner picked variant A ("Split") from three previews of the opened row. The complaint was that

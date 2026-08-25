@@ -125,6 +125,12 @@ export const projects: Project[] = [
     videoUrl: "https://www.youtube.com/watch?v=RTfW7j82g7E",
     color: "bg-orange-50",
     iconSrc: "/tech_assist.png",
+    media: [
+      { type: "image", src: "/projects/techassist/techassist-scan.jpeg", alt: "TechAssist QR scanner screen", fit: "contain" },
+      { type: "image", src: "/projects/techassist/techassist-home.jpg", alt: "TechAssist home screen with the work order list", fit: "contain" },
+      { type: "image", src: "/projects/techassist/techassist-search.jpg", alt: "TechAssist troubleshooting article search", fit: "contain" },
+      { type: "youtube", src: "", videoId: "RTfW7j82g7E" },
+    ],
   },
   {
     title: "kal",
@@ -135,6 +141,11 @@ export const projects: Project[] = [
     status: "project",
     githubLink: "https://github.com/godfreyponce/kal",
     color: "bg-sky-50",
+    media: [
+      { type: "image", src: "/projects/kal/kalLogo.png", alt: "kal wordmark", fit: "contain" },
+      { type: "image", src: "/projects/kal/kal.png", alt: "kal chat logging an off-plan meal", fit: "contain" },
+      { type: "image", src: "/projects/kal/kal-today.png", alt: "kal Today dashboard", fit: "contain" },
+    ],
   },
   {
     title: "Debrief",
@@ -165,6 +176,11 @@ export const projects: Project[] = [
     status: "project",
     githubLink: "https://github.com/godfreyponce/Jira-Alerts",
     color: "bg-blue-50",
+    media: [
+      { type: "image", src: "/projects/jira-alerts/jira-alertsLogo.png", alt: "Jira-Alerts banner", fit: "contain" },
+      { type: "image", src: "/projects/jira-alerts/jira-alerts.png", alt: "Jira-Alerts Teams notification for a new comment", fit: "contain" },
+      { type: "image", src: "/projects/jira-alerts/jira-alerts-flow.png", alt: "Jira-Alerts Power Automate flow" },
+    ],
   },
   {
     title: "jiraPlane",
@@ -175,6 +191,10 @@ export const projects: Project[] = [
     status: "project",
     githubLink: "https://github.com/godfreyponce/jiraPlane",
     color: "bg-indigo-50",
+    media: [
+      { type: "image", src: "/projects/jiraplane/jiraplaneLogo.png", alt: "jiraPlane paper plane towing a Jira tag", fit: "contain" },
+      { type: "image", src: "/projects/jiraplane/jiraplane.png", alt: "jiraPlane flying across a laptop screen" },
+    ],
   },
   {
     title: "clawd",

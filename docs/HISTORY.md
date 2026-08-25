@@ -11,6 +11,30 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-25 — Two em dashes out of the shipped project descriptions (#50)
+
+Copy only, two `description` lines in `lib/projects.ts`, no component touched. Both predated the
+no-em-dash rule (owner rule 2026-07-17) and #45 had scoped them out, so #50 was opened from that
+build to finish the job.
+
+- **The owner wrote the replacements; the build did not guess them.** The ticket said so
+  explicitly, because a rewrite around a removed dash changes the meaning. Both lines came back
+  from the owner at the gate:
+  - CometAdvisor: `...get a personalized semester plan like “what to take”, “who to take it with”, and why.`
+  - Remix: `...builds a personalized interview around them, basically so you can practice what actually matters.`
+- **The quotes are curly** (U+201C/U+201D), picked over straight `"` at the gate. That made the
+  real check a rendering check, not a diff check: a mis-encoded curly quote is invisible in `git
+  diff` and shows as mojibake on the page. Read back off the rendered row at
+  localhost:3000/projects, clean.
+- **`description` has exactly one render site**, `ProjectsIndex.tsx:33` (destructured for the
+  expanded row). The collapsed row and the homepage Lab card both use `shortDesc`. So the expanded
+  /projects row is the entire verification surface for a `description` edit — worth knowing before
+  spinning up a homepage check that proves nothing.
+- Cosmetic, flagged and accepted: at desktop width the second quoted phrase wraps, so a line starts
+  with `take”,`.
+- Gate: `grep -n "—\|·" lib/projects.ts` returns nothing (the ticket's own check), `tsc --noEmit`
+  clean.
+
 ### 2026-08-25 — Images, stacks, and dates for the seven new projects (#45)
 
 Data entry only: no component touched. Seven entries had `tags: []`, no `date`, and no `media`,

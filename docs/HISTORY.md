@@ -305,8 +305,10 @@ This entry exists so it does not happen a third time.
   from `godfrey no commit (yet)...` to `godfrey no line change (yet)...` (that string is quoted in
   a STATE.md gotcha, updated with it). The `+N -N` semantics did not change, only what the line
   claims about them.
-- **The glyph is on the day-total branch only.** The no-push line and the tokenless empty span
-  are untouched, per the ticket's wording.
+- **The glyph was on the day-total branch only, until 2026-08-25.** The ticket's wording left the
+  no-push line and the tokenless empty span untouched. Then the owner saw the chevron vanish on
+  a day with no push and asked for it back; the SVG became a module constant rendered on both
+  data branches (commit `20c4895`). The tokenless empty span is still bare.
 - **The fallback branch was verified in source, not on screen, and that is a real gap.** Forcing it
   means stubbing the API response, which the plan ruled out, and a tokenless run does not reach it
   either: `{today: null, date: null}` falls through to the empty span. It is a one-line string swap

@@ -53,7 +53,7 @@ export const projects: Project[] = [
   {
     title: "CometAdvisor",
     description:
-      "Upload your transcript, talk to an AI advisor, and get a personalized semester plan — what to take, who to take it with, and why.",
+      "Upload your transcript, talk to an AI advisor, and get a personalized semester plan like “what to take”, “who to take it with”, and why.",
     shortDesc: "An AI advisor that turns your transcript into a semester plan.",
     group: "hackathons",
     featured: true,
@@ -74,7 +74,7 @@ export const projects: Project[] = [
   {
     title: "Remix",
     description:
-      "Remix analyzes your resume and job description to surface skill gaps, then builds a personalized interview around them — so you practice what actually matters.",
+      "Remix analyzes your resume and job description to surface skill gaps, then builds a personalized interview around them, basically so you can practice what actually matters.",
     shortDesc: "Mock interviews built from your resume's actual skill gaps.",
     group: "hackathons",
     featured: true,

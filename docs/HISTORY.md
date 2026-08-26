@@ -11,6 +11,62 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-26 — Two-finger swipe and touch drag paging in the /projects overlay (#51)
+
+Follows #52. The overlay paged only by arrows, keys, and the scrim. Now a trackpad swipe or a
+finger drag anywhere on it pages one slide, on the carousel's own thresholds. Two files: four
+`export` keywords in `MediaCarousel.tsx` and a gesture layer in `MediaLightbox.tsx`.
+
+- **The gesture surface is the dialog root.** It became a `motion.div` with `touch-none`,
+  `onPanStart`, `onPanEnd`, and a native `wheel` listener. The root already owned the keys and
+  the backdrop click and covers the whole screen on a phone, so a thumb anywhere pages; a swipe
+  over the title bar or the scrim paging is intended. Moving it to the stage only is: move the
+  `ref`, the two pan props, and `touch-none` to the stage `div`.
+- **The thresholds are the carousel's, imported.** `SWIPE_POWER`, `SWIPE_DISTANCE`,
+  `WHEEL_FIRE_PX`, `WHEEL_QUIET_MS` went from `const` to `export const`; that is the whole
+  carousel diff. The wheel path is the same accumulate, fire once, lock until quiet pattern, so
+  one macOS momentum burst is one slide. It is a native listener with `{ passive: false }`
+  because React's `onWheel` is passive and `preventDefault` (what stops the browser back-swipe)
+  would be ignored. A vertical wheel (`|deltaY| >= |deltaX|`) is left alone and not prevented,
+  so page scroll still belongs to the page.
+- **The pan flips on release and never follows the finger** (owner decision). No `drag`, no
+  motion value: `onPanEnd` reads `offset` and `velocity` off the `PanInfo` and applies the
+  carousel's power-or-distance test. A pan whose `|offset.y| >= |offset.x|` does nothing.
+  Verified at gate 2: dialog, stage, and img all `transform: none` after each drag.
+- **The backdrop-close guard.** A pan released over the scrim fires `click` on the dialog root
+  (the common ancestor of the down and up targets), which `e.target === e.currentTarget` would
+  read as a scrim click. A `panned` ref, set on `onPanStart` and cleared a tick after settle,
+  is the carousel's `dragged` trick. Verified: drag from the image out to x=80 on the scrim
+  landed `pointerup@80 click@80`, the overlay stayed open and paged; a plain click at the same
+  spot then closed it.
+- **`touch-none` costs pinch-zoom while the overlay is open.** If that is wanted back, the
+  class is `touch-pinch-zoom` (Tailwind v4): still blocks single-finger panning, which is all
+  the pan session needs.
+- **Verified under automation, two sessions.** Wheel on Nudge, 150 px `deltaX` per burst:
+  `1/3 -> 2/3`, `2/3 -> 1/3`, `1/3 -> 1/3` (clamped), vertical `deltaY: 120` unchanged and not
+  prevented. Drag 300 px with the mouse at 1:1 scale: left `1/3 -> 2/3`, right `2/3 -> 1/3`,
+  arrows tracking the ends. TechAssist slide 4: Next x3 renders the YouTube iframe at
+  1000x490, ArrowLeft pages off it, Next brings it back, Previous pages off again. Homepage
+  TechAssist card still pages one slide on the same burst and opens no overlay. Console clean.
+- **Gotcha: the automation tab must be the ACTIVE tab of its Chrome window.** Two sessions were
+  lost to `document.visibilityState === "hidden"` with zero animation frames, which kills
+  Framer's pan session AND `AnimatePresence` (the crossfade never finishes, so the incoming slide
+  never mounts: counter `4 / 4` with no iframe). Raising the window, signing in, and creating a
+  fresh tab group all did nothing, because the extension's tab sat at index 3 while index 1
+  ("New Tab") was active. `outerWidth`/`outerHeight` read 0 in that state. The fix from the
+  terminal: `osascript -e 'tell application "Google Chrome" to set active tab index of window 1
+  to N'`, then gate every animated check on `visibilityState === "visible"` and one
+  `requestAnimationFrame` actually firing.
+- **Plan defect, script only:** step 3b read the counter in the same tick it dispatched the
+  wheel events, before React re-rendered, so it always returned the old value. Dispatch and read
+  must be two calls.
+- **Left to the owner:** real trackpad momentum timing and a real finger (automation has no
+  touch emulation), the iOS/Android edge back-swipe (an OS gesture no web content can suppress;
+  drags that start on the overlay's content are covered), a swipe starting on the YouTube
+  player (the iframe swallows it; arrows and keys still page off it, which is the criterion),
+  and Reduce Motion at runtime (no `reduced` branch in the wheel or pan paths by reading the
+  code; toggle it THEN reload).
+
 ### 2026-08-25 — Overlay opens instantly: cached layer, silent sharpen, neighbour preload (#52)
 
 Follows #49. The `/projects` overlay used to mount one `next/image` at the overlay's own `sizes`,

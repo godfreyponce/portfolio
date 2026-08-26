@@ -26,8 +26,8 @@ export const IMAGE_SIZES = "(max-width: 767px) 100vw, 500px";
 
 // Swipe release: Framer Motion's image-gallery example (|offset.x| * velocity.x beyond 10000),
 // plus a distance fallback for slow drags (guess: half a slide).
-const SWIPE_POWER = 10000;
-const SWIPE_DISTANCE = 0.5;
+export const SWIPE_POWER = 10000;
+export const SWIPE_DISTANCE = 0.5;
 // Snap spring: same Framer example.
 const SPRING = { type: "spring", stiffness: 300, damping: 30 } as const;
 // How far the track can be pulled past the ends (guess; Framer default 0.5 feels broken).
@@ -35,8 +35,8 @@ const DRAG_ELASTIC = 0.2;
 // Trackpad: sum of deltaX that counts as intent (guess, checked in the #47 preview), and the
 // silence that ends a gesture so macOS momentum events cannot fire a second slide
 // (guess, must exceed the max gap between wheel events inside one swipe; preview readout).
-const WHEEL_FIRE_PX = 40;
-const WHEEL_QUIET_MS = 150;
+export const WHEEL_FIRE_PX = 40;
+export const WHEEL_QUIET_MS = 150;
 
 export default function MediaCarousel({ items, title, expandable }: MediaCarouselProps) {
   const [current, setCurrent] = useState(0);

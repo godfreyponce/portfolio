@@ -1,11 +1,18 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, ImageIcon, X } from "lucide-react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { IMAGE_SIZES as CAROUSEL_SIZES, type MediaItem } from "@/components/ui/MediaCarousel";
+import { AnimatePresence, motion, useReducedMotion, type PanInfo } from "framer-motion";
+import {
+  IMAGE_SIZES as CAROUSEL_SIZES,
+  SWIPE_DISTANCE,
+  SWIPE_POWER,
+  WHEEL_FIRE_PX,
+  WHEEL_QUIET_MS,
+  type MediaItem,
+} from "@/components/ui/MediaCarousel";
 
 interface MediaLightboxProps {
   items: MediaItem[];
@@ -91,6 +98,17 @@ export default function MediaLightbox({ items, title, startIndex, onClose }: Med
   const state = useRef({ index, count, onClose });
   state.current = { index, count, onClose };
 
+  // A pan that is released over the backdrop fires click on the dialog root, the common
+  // ancestor of the down and up targets, which would read as a backdrop click and close the
+  // overlay mid-swipe. Set on pan start, cleared a tick after settle so the trailing click
+  // still sees it. Same trick as the carousel's `dragged`.
+  const panned = useRef(false);
+  const wheel = useRef({ acc: 0, locked: false, last: 0 });
+
+  const page = useCallback((dir: 1 | -1) => {
+    setIndex((i) => Math.max(0, Math.min(state.current.count - 1, i + dir)));
+  }, []);
+
   // Page scroll lock while open.
   useEffect(() => {
     const prev = document.body.style.overflow;
@@ -142,16 +160,61 @@ export default function MediaLightbox({ items, title, startIndex, onClose }: Med
     return () => document.removeEventListener("keydown", onKey);
   }, []);
 
+  // Trackpad. Native listener because React's onWheel is passive and preventDefault (which
+  // stops the browser's back/forward swipe) would be ignored. Same accumulate, fire once, lock
+  // until quiet pattern as the carousel, same constants, so one macOS momentum burst is one
+  // slide.
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    const onWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return; // vertical intent: not ours
+      e.preventDefault();
+      const w = wheel.current;
+      if (e.timeStamp - w.last > WHEEL_QUIET_MS) {
+        w.acc = 0;
+        w.locked = false;
+      }
+      w.last = e.timeStamp;
+      if (w.locked) return;
+      w.acc += e.deltaX;
+      if (Math.abs(w.acc) >= WHEEL_FIRE_PX) {
+        w.locked = true;
+        page(w.acc > 0 ? 1 : -1);
+      }
+    };
+    dialog.addEventListener("wheel", onWheel, { passive: false });
+    return () => dialog.removeEventListener("wheel", onWheel);
+  }, [page]);
+
+  // Touch and mouse. Flip on release, never follow the finger (owner decision): no `drag`, no
+  // motion value, just the carousel's release thresholds read off the pan summary.
+  const settle = (_: unknown, info: PanInfo) => {
+    setTimeout(() => {
+      panned.current = false;
+    }, 0);
+    if (Math.abs(info.offset.x) <= Math.abs(info.offset.y)) return; // vertical intent
+    const width = dialogRef.current?.clientWidth ?? Infinity;
+    const power = Math.abs(info.offset.x) * info.velocity.x;
+    const far = Math.abs(info.offset.x) > width * SWIPE_DISTANCE;
+    if (power < -SWIPE_POWER || (far && info.offset.x < 0)) page(1);
+    else if (power > SWIPE_POWER || (far && info.offset.x > 0)) page(-1);
+  };
+
   return createPortal(
-    <div
+    <motion.div
       ref={dialogRef}
       role="dialog"
       aria-modal="true"
       aria-label={`${title} slideshow`}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-ink/60 p-4 backdrop-blur-sm sm:p-6"
+      className="fixed inset-0 z-50 flex touch-none items-center justify-center bg-ink/60 p-4 backdrop-blur-sm sm:p-6"
       onClick={(e) => {
-        if (e.target === e.currentTarget) onClose(index);
+        if (e.target === e.currentTarget && !panned.current) onClose(index);
       }}
+      onPanStart={() => {
+        panned.current = true;
+      }}
+      onPanEnd={settle}
     >
       <div className="relative flex max-h-[90vh] w-[min(1100px,92vw)] flex-col overflow-hidden rounded-lg border border-rule bg-surface-raised shadow-lift">
         <button
@@ -253,7 +316,7 @@ export default function MediaLightbox({ items, title, startIndex, onClose }: Med
           </span>
         </div>
       </div>
-    </div>,
+    </motion.div>,
     document.body,
   );
 }

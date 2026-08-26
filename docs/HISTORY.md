@@ -11,6 +11,40 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-26 — Comparison page: site vs cmrg vs genesiating (#54)
+
+First deliverable of the #53 feel pass (its decision 2): put the audit's numbers next to real
+pictures so the gap is seen in pixels before any variant is drawn. **Throwaway.** `public/feel-compare.html`
+and `public/feel-compare/` are deleted in the docs commit that closes the last ticket of the pass.
+Nothing in the site's real components changed; the whole diff is one HTML file and nine PNGs.
+
+- **Nine shots, one recipe.** A ~60-line Node script (scratchpad only, never committed) drove
+  headless Chrome over the DevTools protocol using Node 24's built-in `fetch` and `WebSocket`, so
+  no dependency was added. Every site got the same three shots at a 1440x757 viewport: the hero at
+  scroll 0, one mid-page section scrolled so its heading sits 96px below the top, and one card
+  clipped to its bounding box at `scale: 2`. The CDP `clip` is in PAGE coordinates
+  (`getBoundingClientRect()` plus the scroll offset), not viewport coordinates.
+- **What each column shows.** Site: hero, Work Experience timeline, the first Lab card
+  (CometAdvisor, 900x440, the 24px radius the pass is about). cmrg: hero, the "recently written"
+  blog grid, the first blog card (347x128). genesiating: hero, the logo wall plus speaking list,
+  the Watsi charity card (330x305).
+- **`www.cmrg.me`, not the apex.** `https://cmrg.me` times out from this machine in both curl and
+  Chrome; `https://www.cmrg.me` answers 200 and serves the same page the audit measured.
+- **The outlier rule, and a plan error.** A cell is shaded when the site's value falls outside the
+  range spanned by the two references. The plan's prose said that marks 10 of 13 rows and its Step 6
+  check said "exactly 10", but the plan's own table markup and its own legend mark 11. Checked row by
+  row against the rule, 11 is right: only small label size (12 sits between 11.99 and 15.5) and
+  distinct text colours (17 sits between 8 and 20) put the site inside the range. The body row is
+  shaded for its SIZE (18 against 14.17 and 15.5) even though its line-height 1.625 sits between the
+  references. 11 shipped; the "10" was a planning slip, not a build deviation.
+- **Files, not data URIs.** 2.8MB across nine PNGs, referenced by relative path so the page resolves
+  under both `localhost:3000` and `file://`. Verified both ways: the dev server render (9 images,
+  0 broken, 13 rows, all 11 shaded cells in the godfreyponce.dev column, clicking a hero opens the
+  1440x757 PNG) and a headless `file://` screenshot.
+- **Settle times are guesses that held.** 2500ms after load and after each scroll was enough for the
+  site's 69 scroll-reveal elements, cmrg's opacity ramp and genesiating's lazy images. No shot came
+  back with blank regions, so no reshoot was needed.
+
 ### 2026-08-26 — Two-finger swipe and touch drag paging in the /projects overlay (#51)
 
 Follows #52. The overlay paged only by arrows, keys, and the scrim. Now a trackpad swipe or a

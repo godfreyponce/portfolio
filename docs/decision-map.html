@@ -60,6 +60,14 @@
   <section>
     <h2>Decided <span class="hint">closed tickets — the decision list</span></h2>
     <div class="row">
+  <a class="card decided task" id="n55" href="https://github.com/godfreyponce/portfolio/issues/55">
+    <span class="num">#55</span>
+    <span class="title">Prefactor: one column, one section rhythm</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-decided">✓ decided</span>
+    </span>
+  </a>
   <a class="card decided task" id="n54" href="https://github.com/godfreyponce/portfolio/issues/54">
     <span class="num">#54</span>
     <span class="title">Comparison page: site vs cmrg vs genesiating</span>
@@ -481,6 +489,14 @@
   <section>
     <h2>The frontier <span class="hint">take these today</span></h2>
     <div class="row">
+  <a class="card frontier task" id="n60" href="https://github.com/godfreyponce/portfolio/issues/60">
+    <span class="num">#60</span>
+    <span class="title">Hero: fold Bio in, rectangular portrait</span>
+    <span class="meta">
+      <span class="type">task</span>
+      <span class="badge b-frontier">● take it today</span>
+    </span>
+  </a>
   <a class="card frontier task" id="n59" href="https://github.com/godfreyponce/portfolio/issues/59">
     <span class="num">#59</span>
     <span class="title">Motion: reveals to opacity only, 0.15 to 0.3s</span>
@@ -513,14 +529,6 @@
       <span class="badge b-frontier">● take it today</span>
     </span>
   </a>
-  <a class="card frontier task" id="n55" href="https://github.com/godfreyponce/portfolio/issues/55">
-    <span class="num">#55</span>
-    <span class="title">Prefactor: one column, one section rhythm</span>
-    <span class="meta">
-      <span class="type">task</span>
-      <span class="badge b-frontier">● take it today</span>
-    </span>
-  </a>
   <a class="card frontier task" id="n53" href="https://github.com/godfreyponce/portfolio/issues/53">
     <span class="num">#53</span>
     <span class="title">Feel pass: cmrg weight, genesiating imagery, no structure change</span>
@@ -533,21 +541,13 @@
   
   <section>
     <h2>Blocked <span class="hint">written, but waiting on a decision</span></h2>
-    <div class="row">
-  <a class="card blocked task" id="n60" href="https://github.com/godfreyponce/portfolio/issues/60">
-    <span class="num">#60</span>
-    <span class="title">Hero: fold Bio in, rectangular portrait</span>
-    <span class="meta">
-      <span class="type">task</span>
-      <span class="badge b-blocked">× by #55</span>
-    </span>
-  </a></div>
+    <div class="row"><p class="empty">none</p></div>
   </section>
   <section><h2>Fog of war <span class="hint">seen coming, not yet a ticket</span></h2>
     <ul class="fog"><li>Repo visibility: `shared_memory.json` is tracked, so a public flip needs a history</li><li>Source images: the files in `public/projects` are 370KB to 730KB each (5.9MB total).</li></ul>
   </section>
   <script>
-    const EDGES = [[55,60]];
+    const EDGES = [];
     function draw(){
       const svg = document.querySelector("svg.edges");
       const page = document.querySelector(".page").getBoundingClientRect();

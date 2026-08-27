@@ -11,6 +11,53 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-26 — Prefactor: one 960px column, one section rhythm (#55)
+
+First build ticket of the #53 feel pass, and the reason the rest of the pass is cheap: once every
+home section shares a wrapper, the radius, type, palette, motion and hero tickets each edit one
+file instead of six. Layout only, 14 lines changed across 7 files, no radius, colour, type, motion
+or copy touched.
+
+- **`Section` is the only wrapper.** It lost the `width` prop and the `narrow` / `wide` split, and
+  hard-codes `w-full max-w-[960px] mx-auto px-6 py-24`. Its props are now `id`, `className`,
+  `children`. Later tickets in the pass edit that one class string. `max-w-[960px]` is an arbitrary
+  value on purpose: no Tailwind token equals 960px, and `ProjectsIndex` already uses the same class.
+- **Six callers, all wrapper lines.** Hero and Passions stopped hand-rolling their own `<section>`
+  (they were `max-w-5xl` and `max-w-6xl`). About dropped its outer `<section>` and returns a
+  fragment, so the 1px gradient rule stays a full-bleed sibling of the `Section` instead of being
+  capped at 912px. Timeline (`pb-8 pt-24`), Education (`py-8`) and The Lab (`width="wide" py-24`)
+  stopped passing padding and width. `<section>` count inside `<main>` went 7 to 6.
+- **Padding, not gap — the one interpretation call.** The ticket's Done-when asked for 96px
+  between adjacent sections "measured the way the audit measured it", but the audit measured
+  section BOXES, and boxes that stack with padding touch. So the rhythm shipped as a 96/96 padding
+  pair on every section: computed `padding-top` and `padding-bottom` both read `96px`, box gaps
+  read 0 between direct neighbours. A gap model would need margins or flex-gap, and vertical
+  margins collapse through the lid wrappers in `app/page.tsx`. Owner accepted padding at gate 2
+  after seeing it against the 48px alternative.
+- **The three interstitials are not sections and did not move.** About's 1px rule, `StickmanRunner`
+  (140px) and `LossGraph` (288px) stay full-bleed siblings between section boxes; moving them
+  inside a `Section` would have shrunk them to 912px. Measured box gaps: 1, 140, 0, 288, 0.
+- **The Lab deck kept `max-w-[900px]`.** `ProjectStack.tsx` has zero diff: cards stay 900x440,
+  `gap-[10vh]`, `md:sticky` and the `top: calc(7vh + index*12px)` offsets all untouched inside the
+  new 912px content box. Side effect the owner saw and accepted: The Lab heading's left edge now
+  sits 6px left of the deck's left edge, where it was 102px before. Dropping the 900 cap is a
+  one-class change in `ProjectStack.tsx`, deliberately out of scope.
+- **What moved visibly at 1440**, measured text to text: hero top 128 to 96; hero to Bio 97 to 194;
+  Bio to Work 333; Work to Education 64 to 177; Education to The Lab 497; The Lab to Passions 204.
+  Content boxes for The Lab and Passions went 1104 to 912 wide, so each Passions card went 540 to
+  444 (heights unchanged, the `md:h-[500px]` grid holds). Page height at 1440 is 6792px.
+- **Verification ran on headless Chrome, not the extension.** The extension's tab renders in an
+  offscreen surface at a fixed 1872x862 viewport, reports `visibilityState: "hidden"` and
+  `outerWidth: 0`, and ignores `resize_window` — activating the tab with `osascript` did not fix it
+  this time. The audit-width measurement was taken with the same CDP script recipe #54 used
+  (`Emulation.setDeviceMetricsOverride` to 1440x757, then `Runtime.evaluate`), scripts in the
+  scratchpad, never committed. `npx tsc --noEmit` clean.
+- **Gate-2 aid, thrown away.** To settle padding vs gap the builder captured the same 560px band
+  at every section join twice, once at `py-24` and once at `py-12`, and put them side by side in a
+  scratchpad HTML opened over `file://`. Every join came out exactly 96px tighter at `py-12`, and
+  the whole page 576px shorter. Nothing entered `public/` and the working tree was restored to
+  `py-24` before the commit.
+
 ### 2026-08-26 — Comparison page: site vs cmrg vs genesiating (#54)
 
 First deliverable of the #53 feel pass (its decision 2): put the audit's numbers next to real

@@ -48,7 +48,7 @@ function EducationItem({ title, subtitle, date, description, points, logoSrc, li
 
 export default function Education() {
   return (
-    <Section className="py-8">
+    <Section>
       <Reveal>
         <h2 className="mb-8 font-display text-3xl font-medium tracking-tight text-ink md:text-4xl">
           Education

@@ -111,7 +111,7 @@ function TimelineItem({ date, title, subtitle, logoSrc, points, tags, present, i
 
 export default function Timeline() {
   return (
-    <Section className="pb-8 pt-24">
+    <Section>
       <Reveal>
         <h2 className="mb-12 font-display text-3xl font-medium tracking-tight text-ink md:text-4xl">
           Work Experience

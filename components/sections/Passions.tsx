@@ -4,6 +4,7 @@ import { Mountain, Server, Trophy } from "lucide-react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Reveal from "@/components/ui/Reveal";
+import Section from "@/components/ui/Section";
 
 export default function Passions() {
   const [highlight, setHighlight] = useState(false);
@@ -18,7 +19,7 @@ export default function Passions() {
   }, []);
 
   return (
-    <section className="mx-auto w-full max-w-6xl space-y-12 px-6 py-24">
+    <Section className="space-y-12">
       <Reveal className="flex items-center gap-4">
         <div>
           <h2 className="font-display text-3xl font-medium text-ink md:text-4xl">Passions</h2>
@@ -90,6 +91,6 @@ export default function Passions() {
           </div>
         </Reveal>
       </div>
-    </section>
+    </Section>
   );
 }

@@ -2,15 +2,13 @@ import type { ReactNode } from "react";
 
 interface SectionProps {
   id?: string;
-  width?: "narrow" | "wide";
   className?: string;
   children: ReactNode;
 }
 
-export default function Section({ id, width = "narrow", className = "", children }: SectionProps) {
-  const max = width === "wide" ? "max-w-6xl" : "max-w-3xl";
+export default function Section({ id, className = "", children }: SectionProps) {
   return (
-    <section id={id} className={`w-full ${max} mx-auto px-6 ${className}`}>
+    <section id={id} className={`w-full max-w-[960px] mx-auto px-6 py-24 ${className}`}>
       {children}
     </section>
   );

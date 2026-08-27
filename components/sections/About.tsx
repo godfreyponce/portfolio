@@ -5,10 +5,10 @@ import Reveal from "@/components/ui/Reveal";
 
 export default function About() {
   return (
-    <section className="w-full space-y-8 pt-2 pb-24">
+    <>
       <div className="h-px w-full bg-gradient-to-r from-transparent via-ink/75 to-transparent" />
 
-      <Section className="mt-2">
+      <Section>
         <Reveal>
           <h2 className="text-left font-display text-2xl font-medium tracking-tight text-ink md:text-3xl">Bio</h2>
         </Reveal>
@@ -42,6 +42,6 @@ export default function About() {
           </p>
         </Reveal>
       </Section>
-    </section>
+    </>
   );
 }

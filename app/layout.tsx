@@ -1,18 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Fraunces, Nunito_Sans } from "next/font/google";
+import { Geist, Fraunces } from "next/font/google";
 import "./globals.css";
 
 const geist = Geist({
   subsets: ["latin"],
   variable: "--font-geist",
-  display: "swap",
-});
-
-// Streak number only (#26): Snapchat-style counter, owner picked VARIANT B
-// (Nunito Sans ExtraBold) over the Apple-only Avenir Next system stack.
-const nunitoSans = Nunito_Sans({
-  subsets: ["latin"],
-  variable: "--font-nunito-sans",
   display: "swap",
 });
 
@@ -51,7 +43,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geist.variable} ${fraunces.variable} ${nunitoSans.variable} relative`}>
+    <html lang="en" className={`${geist.variable} ${fraunces.variable} relative`}>
       <body>{children}</body>
     </html>
   );

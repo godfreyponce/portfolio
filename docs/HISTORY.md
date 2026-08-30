@@ -11,6 +11,51 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-30 — Palette: one neutral chip style, Nunito Sans dropped (#57)
+
+Third build ticket of the #53 feel pass. The audit blamed tinted chips for the site's background
+count; the measurement taken while planning showed chips were only 5 of home's 20 distinct
+backgrounds, so the ticket's "4 or fewer" line was ruled out at gate 1 and replaced with 15.
+15 insertions, 49 deletions across 7 files.
+
+- **The owner picked A (outline), from three previews.** `public/preview-chips.html` showed the same
+  markup three times: a status pill on a Lab card, a row of "Built with" tech chips, and the 40px
+  `/projects` tile with and without a logo. A is `border border-rule text-ink-subtle` with no fill;
+  B (soft fill) and C (inverted) lost. Because A is an outline, every chip and tile on both pages now
+  has NO background at all, which is why `/projects` counts 0 distinct backgrounds and not the 2 the
+  plan predicted: the one grey box left there (`bg-surface-sunken` behind an open row's media) only
+  exists while a row is open, and the counter never opens a row.
+- **`tone` is gone, not just retuned.** `BadgeTone`, the five-entry `toneStyles` map and the `tone`
+  prop were deleted, because after the tints came out no tone changed anything — the
+  under-construction banner keys off `status === "building"` in `ProjectCard`, not off `Badge`, and
+  there is no live dot in the codebase. `Badge` is now `{ children, className?, tabIndex? }` and one
+  class string. `Project.status` got its own `ProjectStatus` union, so `lib/projects.ts` no longer
+  imports from a UI component.
+- **The `color` field and all 11 values are out of the data.** Violet, rose, green, orange, sky,
+  amber, cyan, blue, indigo, red and emerald. Rows with no logo (7 of 11 projects) keep their 40px
+  square, now an empty outlined one: removing it would shift the title column on those rows, which
+  is structure, and this ticket is palette only.
+- **The Lab card media pane did NOT take the picked style (plan decision 3).** `ProjectCard` put the
+  project tint on the 55%-wide pane behind the carousel, not on a small tile. Painting a 55% pane to
+  match a chip would have been a surprise, so it took `bg-surface-sunken`, the same inset fill the
+  `/projects` media box already uses. All four featured projects have media, so the pane is invisible
+  today either way.
+- **The `/projects` tech chip kept its accent hover.** `hover:border-accent focus-visible:border-accent`
+  only means something for an outline chip, so A is the one variant that keeps it. Verified live: the
+  hovered chip's computed `borderColor` reads `rgb(194, 65, 12)`.
+- **Nunito Sans is out.** The font, its `--font-nunito-sans` variable, the `--font-streak` token and
+  the `font-streak` class are deleted, so the GitHub streak number falls through to Geist. Its
+  computed family reads `Geist, "Geist Fallback", ...` at weight 800 with `tabular-nums`; weight and
+  tracking were not touched, and the browser made zero requests for Nunito. The count-up animation
+  (#22) could not be exercised: it runs on `requestAnimationFrame`, which does not fire in headless
+  Chrome, and the extension was not connected. The diff touches two comment lines and one class name
+  in that file and nothing in `play`.
+- **Backgrounds, measured the audit's way** (1440 wide, every element inside `main`, transparent
+  excluded): home **20 to 15**, `/projects` **11 to 0**. Of home's remaining 15, five are Heatmap
+  contribution cells (data, like the footer diff colours) and ten are neutral fills the design already
+  used, four of them alpha variants the counter sees as distinct. Reaching the ticket's 4 means ruling
+  on the Heatmap and the alpha fills, neither of which is a chip; that is a new ticket, not this one.
+
 ### 2026-08-30 — Cards: 0px radius, no shadow, no border, equal Passions heights (#56)
 
 Second build ticket of the #53 feel pass, and the first one a visitor can see. The audit ranked

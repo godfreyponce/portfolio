@@ -30,7 +30,7 @@ function ProjectRow({ project }: { project: Project }) {
   const [open, setOpen] = useState(false);
   const reduced = useReducedMotion();
   const media = rowMedia(project);
-  const { title, shortDesc, description, tags, status, date, link, githubLink, devpostLink, iconSrc, color = "bg-rule-soft" } = project;
+  const { title, shortDesc, description, tags, status, date, link, githubLink, devpostLink, iconSrc } = project;
 
   return (
     <div className="border-b border-rule">
@@ -49,17 +49,17 @@ function ProjectRow({ project }: { project: Project }) {
             alt=""
             width={40}
             height={40}
-            className={`size-10 shrink-0 rounded-sm object-contain ${color}`}
+            className="size-10 shrink-0 rounded-sm object-contain border border-rule"
           />
         ) : (
-          <div className={`size-10 shrink-0 rounded-sm ${color}`} />
+          <div className="size-10 shrink-0 rounded-sm border border-rule" />
         )}
         <div className="min-w-0 flex-1">
           <div className="font-display text-xl font-medium text-ink">{title}</div>
           <div className="hidden truncate text-sm text-ink-subtle sm:block">{shortDesc}</div>
         </div>
         <div className="flex shrink-0 items-center gap-3">
-          <Badge tone={status}>{rowLabel[status]}</Badge>
+          <Badge>{rowLabel[status]}</Badge>
           {date && (
             <span className="hidden w-16 text-right text-xs tabular-nums text-ink-faint sm:block">
               {shortDate(date)}

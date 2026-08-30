@@ -1,7 +1,7 @@
 import type { MediaItem } from "@/components/ui/MediaCarousel";
-import type { BadgeTone } from "@/components/ui/Badge";
 
 export type ProjectGroup = "daily" | "work" | "hackathons" | "misc";
+export type ProjectStatus = "live" | "building" | "hackathon" | "project";
 
 export interface Project {
   title: string;
@@ -13,7 +13,7 @@ export interface Project {
   /** Hand-picked for the homepage Lab stack, 4-6 max (#30). */
   featured?: boolean;
   tags: string[];
-  status: Exclude<BadgeTone, "neutral">;
+  status: ProjectStatus;
   date?: string;
   link?: string;
   githubLink?: string;
@@ -22,7 +22,6 @@ export interface Project {
   media?: MediaItem[];
   iconSrc?: string;
   iconLucide?: "radio" | "timer" | "eye" | "server" | "brain" | "dollar" | "rocket";
-  color?: string;
 }
 
 // Brand marks in public/tech (FAISS uses the Meta mark; Nebula API is the UTD Nebula app-icon, Plaid the official lattice)
@@ -63,7 +62,6 @@ export const projects: Project[] = [
     githubLink: "https://github.com/godfreyponce/hackai-26/tree/main",
     devpostLink: "https://devpost.com/software/untitled-project-h2z8qftmvkj9",
     link: "https://www.youtube.com/watch?v=T0LmM8ngKk4",
-    color: "bg-violet-50",
     iconSrc: "/projects/cometadvisor/LOGO.png",
     media: [
       { type: "image", src: "/projects/cometadvisor/cometLogo.png", alt: "CometAdvisor logo" },
@@ -82,7 +80,6 @@ export const projects: Project[] = [
     status: "project",
     date: "February 2026",
     githubLink: "https://github.com/MMehta45/sprint-ml1",
-    color: "bg-rose-50",
     iconSrc: "/projects/remix/LOGO.png",
     media: [
       { type: "image", src: "/projects/remix/remixLogo.png", alt: "Remix project overview", fit: "contain" },
@@ -102,7 +99,6 @@ export const projects: Project[] = [
     date: "January 2026",
     githubLink: "https://github.com/godfreyponce/tamuhack-26",
     devpostLink: "https://devpost.com/software/tamuhack-pq8rof",
-    color: "bg-green-50",
     iconSrc: "/projects/nudge/LOGO.png",
     media: [
       { type: "image", src: "/projects/nudge/nudgelogo.jpeg", alt: "Nudge logo" },
@@ -123,7 +119,6 @@ export const projects: Project[] = [
     devpostLink: "https://devpost.com/software/techassist",
     githubLink: "https://github.com/godfreyponce/TechAssistCLONE",
     videoUrl: "https://www.youtube.com/watch?v=RTfW7j82g7E",
-    color: "bg-orange-50",
     iconSrc: "/tech_assist.png",
     media: [
       { type: "image", src: "/projects/techassist/techassist-scan.jpeg", alt: "TechAssist QR scanner screen", fit: "contain" },
@@ -141,7 +136,6 @@ export const projects: Project[] = [
     status: "project",
     date: "June 2026",
     githubLink: "https://github.com/godfreyponce/kal",
-    color: "bg-sky-50",
     media: [
       { type: "image", src: "/projects/kal/kalLogo.png", alt: "kal wordmark", fit: "contain" },
       { type: "image", src: "/projects/kal/kal.png", alt: "kal chat logging an off-plan meal", fit: "contain" },
@@ -157,7 +151,6 @@ export const projects: Project[] = [
     status: "project",
     date: "May 2026",
     githubLink: "https://github.com/godfreyponce/Debrief",
-    color: "bg-amber-50",
   },
   {
     title: "glass",
@@ -168,7 +161,6 @@ export const projects: Project[] = [
     status: "project",
     date: "May 2026",
     githubLink: "https://github.com/godfreyponce/glass",
-    color: "bg-cyan-50",
   },
   {
     title: "Jira-Alerts",
@@ -179,7 +171,6 @@ export const projects: Project[] = [
     status: "project",
     date: "June 2026",
     githubLink: "https://github.com/godfreyponce/Jira-Alerts",
-    color: "bg-blue-50",
     media: [
       { type: "image", src: "/projects/jira-alerts/jira-alertsLogo.png", alt: "Jira-Alerts banner", fit: "contain" },
       { type: "image", src: "/projects/jira-alerts/jira-alerts.png", alt: "Jira-Alerts Teams notification for a new comment", fit: "contain" },
@@ -195,7 +186,6 @@ export const projects: Project[] = [
     status: "project",
     date: "July 2026",
     githubLink: "https://github.com/godfreyponce/jiraPlane",
-    color: "bg-indigo-50",
     media: [
       { type: "image", src: "/projects/jiraplane/jiraplaneLogo.png", alt: "jiraPlane paper plane towing a Jira tag", fit: "contain" },
       { type: "image", src: "/projects/jiraplane/jiraplane.png", alt: "jiraPlane flying across a laptop screen" },
@@ -210,7 +200,6 @@ export const projects: Project[] = [
     status: "project",
     date: "June 2026",
     githubLink: "https://github.com/godfreyponce/clawd",
-    color: "bg-red-50",
   },
   {
     title: "terrariaCompanion",
@@ -221,7 +210,6 @@ export const projects: Project[] = [
     status: "project",
     date: "May 2026",
     githubLink: "https://github.com/godfreyponce/terrariaCompanion",
-    color: "bg-emerald-50",
   },
 ];
 

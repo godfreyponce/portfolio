@@ -47,7 +47,7 @@ export default function ProjectCard({
   featured?: boolean;
   variant?: "grid" | "stack";
 }) {
-  const { title, description, tags, status, date, link, githubLink, devpostLink, videoUrl, media, iconSrc, iconLucide, color = "bg-rule-soft" } = project;
+  const { title, description, tags, status, date, link, githubLink, devpostLink, videoUrl, media, iconSrc, iconLucide } = project;
   const stack = variant === "stack";
 
   const youtubeId = videoUrl?.includes("youtube.com")
@@ -72,8 +72,8 @@ export default function ProjectCard({
       <div
         className={
           stack
-            ? `relative flex h-64 w-full items-center justify-center overflow-hidden md:h-full md:w-[55%] ${color}`
-            : `relative flex aspect-video w-full items-center justify-center overflow-hidden ${featured ? "md:aspect-auto md:w-1/2 md:min-h-96" : ""} ${color}`
+            ? "relative flex h-64 w-full items-center justify-center overflow-hidden bg-surface-sunken md:h-full md:w-[55%]"
+            : `relative flex aspect-video w-full items-center justify-center overflow-hidden bg-surface-sunken ${featured ? "md:aspect-auto md:w-1/2 md:min-h-96" : ""}`
         }
       >
         {isUnderConstruction && (
@@ -141,7 +141,7 @@ export default function ProjectCard({
                 {title}
               </h3>
             </div>
-            <Badge tone={status} className="shrink-0 max-sm:px-1 max-sm:text-[10px]">
+            <Badge className="shrink-0 max-sm:px-1 max-sm:text-[10px]">
               {statusLabel[status]}
             </Badge>
           </div>

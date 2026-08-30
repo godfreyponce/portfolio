@@ -41,7 +41,7 @@ function GitHubTile({ stacked = false, contributions }: { stacked?: boolean; con
       href="https://github.com/godfreyponce"
       target="_blank"
       rel="noopener noreferrer"
-      className={`group relative flex h-full flex-col items-center justify-center gap-4 overflow-hidden rounded-xl bg-surface-inverse p-8 text-center text-white transition-colors hover:bg-ink-muted ${
+      className={`group relative flex h-full flex-col items-center justify-center gap-4 overflow-hidden rounded-none bg-surface-inverse p-8 text-center text-white transition-colors hover:bg-ink-muted ${
         stacked ? "" : "min-h-60"
       }`}
     >
@@ -141,7 +141,7 @@ function StackedCard({
       style={{ top: `calc(7vh + ${index * 12}px)`, scale, transformOrigin: "top center" }}
     >
       {children}
-      <motion.div aria-hidden className="pointer-events-none absolute inset-0 rounded-xl bg-surface" style={{ opacity: veil }} />
+      <motion.div aria-hidden className="pointer-events-none absolute inset-0 rounded-none bg-surface" style={{ opacity: veil }} />
     </motion.div>
   );
 }

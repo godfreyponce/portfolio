@@ -65,8 +65,8 @@ export default function ProjectCard({
     <div
       className={
         stack
-          ? "group relative flex h-full flex-col overflow-hidden rounded-xl border border-rule bg-white/85 shadow-lift ring-1 ring-white/60 backdrop-blur-md md:flex-row"
-          : `group relative flex h-full flex-col overflow-hidden rounded-xl border border-rule bg-surface-raised transition hover:border-ink-faint hover:shadow-lift ${featured ? "md:flex-row" : ""}`
+          ? "group relative flex h-full flex-col overflow-hidden rounded-none bg-white/85 backdrop-blur-md md:flex-row"
+          : `group relative flex h-full flex-col overflow-hidden rounded-none bg-surface-raised ${featured ? "md:flex-row" : ""}`
       }
     >
       <div
@@ -177,7 +177,7 @@ export default function ProjectCard({
                       }`
                 }
               >
-                <div className="flex flex-col gap-4 rounded-md border border-rule bg-surface-sunken p-4 shadow-soft">
+                <div className="flex flex-col gap-4 rounded-none border border-rule bg-surface-sunken p-4">
                   <div className="flex flex-wrap items-center justify-between gap-2 border-b border-rule pb-2">
                     <div className="flex flex-wrap gap-2">
                       {tags.map((tag) => (

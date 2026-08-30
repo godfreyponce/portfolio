@@ -27,10 +27,10 @@ export default function Passions() {
         </div>
       </Reveal>
 
-      <div className="grid grid-cols-1 gap-6 md:h-[500px] md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 md:h-[500px] md:grid-cols-3">
         <Reveal
           delay={0.05}
-          className={`relative h-[300px] overflow-hidden rounded-xl bg-rule-soft transition-shadow duration-500 md:row-span-2 md:h-auto ${
+          className={`relative h-[300px] overflow-hidden rounded-none bg-rule-soft transition-shadow duration-500 md:h-auto ${
             highlight ? "ring-2 ring-accent/40" : "ring-0"
           }`}
         >
@@ -56,7 +56,7 @@ export default function Passions() {
           </div>
         </Reveal>
 
-        <Reveal delay={0.1} className="relative h-[300px] overflow-hidden rounded-xl border border-rule bg-surface-sunken md:h-auto">
+        <Reveal delay={0.1} className="relative h-[300px] overflow-hidden rounded-none bg-surface-sunken md:h-auto">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,var(--color-rule),transparent_60%)]" />
           <svg
             aria-hidden
@@ -76,7 +76,7 @@ export default function Passions() {
           </div>
         </Reveal>
 
-        <Reveal delay={0.15} className="relative h-[300px] overflow-hidden rounded-xl bg-surface-inverse p-8 md:h-auto">
+        <Reveal delay={0.15} className="relative h-[300px] overflow-hidden rounded-none bg-surface-inverse p-8 md:h-auto">
           <div className="relative z-10 flex h-full flex-col justify-between">
             <div>
               <div className="mb-4 flex items-center gap-2 text-white/60">

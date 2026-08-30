@@ -11,6 +11,56 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-30 — Cards: 0px radius, no shadow, no border, equal Passions heights (#56)
+
+Second build ticket of the #53 feel pass, and the first one a visitor can see. The audit ranked
+radius first: 13 elements sat at 24px while neither reference site goes above 4px and `/projects`
+itself already used 0 and 4. 11 lines across 5 files, radius and elevation only.
+
+- **The owner picked 0px, not the 4px in the ticket title.** `public/preview-cards.html` showed the
+  same markup three times with `--r` at 0, 4 and 8 on a Lab card, the whole Passions row and a grid
+  card, every block already stripped of border and shadow. A won, so `{R}` resolved to
+  `rounded-none` everywhere, and the ticket title (written before the preview existed) is the only
+  place 4px survives.
+- **Six card surfaces went square and flat.** The Lab deck card and its veil, the GitHub tile, the
+  grid project card and the three Passions cards dropped `rounded-xl`; `border border-rule`,
+  `shadow-lift`, `hover:shadow-lift`, `ring-1 ring-white/60` and `shadow-soft` came off the cards.
+  The grid variant's bare `transition` went with them: once both hover classes were gone it
+  animated nothing, so it was an orphan the change created, not adjacent cleanup.
+- **Decision 3 split the two 8px boxes, and both halves shipped.** The ProjectCard details drawer
+  KEPT `border border-rule`: it is a popover (`absolute bottom-full ... w-72`) floating over a card,
+  and a `bg-surface-sunken` panel with no border and no shadow has no edge at all. The `/projects`
+  expanded-row media box DROPPED its border, because an inline frame in the row follows the cards.
+  Both are one class each if the call turns out wrong.
+- **Passions is three equal columns.** The grid went `md:grid-cols-2` to `md:grid-cols-3` and the
+  soccer card lost `md:row-span-2`. Every card already carried `md:h-auto`, so all three stretch to
+  the grid's existing `md:h-[500px]`. Measured: 288 x 500, 288 x 500, 288 x 500. The 500 was already
+  in the code; no new number was invented. Mobile still stacks at `h-[300px]`. The soccer card's
+  `ring-2 ring-accent/40` highlight flash and its `transition-shadow duration-500` stayed, because
+  that is the `highlight-soccer` behaviour from About, not elevation.
+- **Two tokens died.** Nothing referenced `--radius-xl` or `--shadow-soft` afterwards, so both left
+  `app/globals.css` and the header comment's radius list lost `xl (24)`. `--radius-lg` stays for
+  MediaLightbox. `--shadow-lift` stays for the hero avatar, the About tooltip and MediaLightbox.
+  `--shadow-lid` (#39, the page over the pinned footer) was never in scope.
+- **What is still round, all of it deliberate.** Measured on home after the change: the Education
+  rows and The Lab CTA at `rounded-md`, the chips, project logos, links and About tooltips at
+  `rounded-sm`, the 365 Heatmap cells at 2px, and every `rounded-full`. All were on the plan's
+  untouched list. The hero avatar kept its `shadow-lift` and belongs to the hero ticket.
+- **The cost, accepted at gate 2.** A white card on the `#fafaf9` page now has no visible edge; the
+  deck reads as content floating on the page rather than as stacked cards. That is what the ticket
+  asked for. #57 (palette) may resolve it without another radius change.
+- **Two process notes.** The code was written on 2026-08-28 by a session that stopped before it
+  deleted the preview or looked at the running site; the 2026-08-30 session found it uncommitted on
+  main, finished Task 2 steps 7 to 9, verified, and wrote none of the code. And the Chrome extension
+  was not connected that day, so verification ran through headless Chrome over CDP
+  (`--headless=new --remote-debugging-port=9222`, `Emulation.setDeviceMetricsOverride`,
+  `Runtime.evaluate`, `Page.captureScreenshot`) at 1440x900 and again at 600x900 for the grid
+  variant. That is the fallback STATE.md's gotchas already name, and it is more reliable for exact
+  viewports than the extension.
+- **Opened from this gate.** #61: `ProjectCard.tsx:82` ships `Under construction · Under
+  construction · Under construction`, three middle dots in shipped copy, pre-existing and
+  explicitly out of scope in the #56 plan.
+
 ### 2026-08-26 — Prefactor: one 960px column, one section rhythm (#55)
 
 First build ticket of the #53 feel pass, and the reason the rest of the pass is cheap: once every

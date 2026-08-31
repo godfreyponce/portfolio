@@ -10,9 +10,9 @@ export default function About() {
 
       <Section>
         <Reveal>
-          <h2 className="text-left font-display text-2xl font-medium tracking-tight text-ink md:text-3xl">Bio</h2>
+          <h2 className="text-left font-display text-h2 text-ink">Bio</h2>
         </Reveal>
-        <Reveal delay={0.05} className="mt-6 space-y-6 text-left text-base leading-relaxed text-ink-muted md:text-lg">
+        <Reveal delay={0.05} className="mt-6 space-y-6 text-left text-body text-ink-muted">
           <p>
             Hey! I&apos;m a junior Computer Science major with a minor in Cognitive Science at{" "}
             <span className="group relative inline-block cursor-help">

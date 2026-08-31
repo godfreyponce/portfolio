@@ -11,8 +11,8 @@ export default function TheLab() {
   return (
     <Section className="space-y-12">
       <Reveal className="flex flex-col items-start gap-2">
-        <h2 className="font-display text-3xl font-medium tracking-tight text-ink md:text-4xl">The Lab</h2>
-        <p className="text-lg text-ink-subtle">Experiments, agents, and open-source ideas.</p>
+        <h2 className="font-display text-h2 text-ink">The Lab</h2>
+        <p className="text-body text-ink-subtle">Experiments, agents, and open-source ideas.</p>
       </Reveal>
 
       <ProjectStack projects={featured} />

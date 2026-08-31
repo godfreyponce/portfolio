@@ -55,7 +55,7 @@ function ProjectRow({ project }: { project: Project }) {
           <div className="size-10 shrink-0 rounded-sm border border-rule" />
         )}
         <div className="min-w-0 flex-1">
-          <div className="font-display text-xl font-medium text-ink">{title}</div>
+          <div className="text-label text-ink">{title}</div>
           <div className="hidden truncate text-sm text-ink-subtle sm:block">{shortDesc}</div>
         </div>
         <div className="flex shrink-0 items-center gap-3">
@@ -85,10 +85,10 @@ function ProjectRow({ project }: { project: Project }) {
                   </div>
                 )}
                 <div className="flex min-w-0 flex-1 flex-col gap-5">
-                  <p className="max-w-prose text-base leading-relaxed text-ink-muted">{description}</p>
+                  <p className="max-w-prose text-body text-ink-muted">{description}</p>
                   {tags.length > 0 && (
                     <div>
-                      <div className="text-xs font-medium uppercase tracking-wide text-ink-faint">Built with</div>
+                      <div className="text-xs font-medium uppercase tracking-wider text-ink-faint">Built with</div>
                       <div className="mt-2 flex flex-wrap gap-2">
                         {tags.map((tag) => (
                           <Badge
@@ -152,7 +152,7 @@ export default function ProjectsIndex() {
         <ArrowLeft size={14} /> Home
       </Link>
       <h1 className="mt-6 font-display text-4xl font-medium tracking-tight text-ink md:text-5xl">Projects</h1>
-      <p className="mt-2 text-lg text-ink-subtle">
+      <p className="mt-2 text-body text-ink-subtle">
         Everything I have built, from hackathon weekends to long-running personal projects.
       </p>
 
@@ -176,7 +176,7 @@ export default function ProjectsIndex() {
         if (rows.length === 0) return null;
         return (
           <section key={key} className="mt-12">
-            <h2 className="font-display text-2xl font-medium text-ink">{label}</h2>
+            <h2 className="font-display text-h2 text-ink">{label}</h2>
             <div className="mt-4 border-t border-rule">
               {rows.map((p) => (
                 <ProjectRow key={p.title} project={p} />

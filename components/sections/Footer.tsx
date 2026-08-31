@@ -6,7 +6,9 @@ export default function Footer() {
   return (
     <footer className="sticky bottom-0 z-0 w-full bg-surface-inverse py-12 text-white">
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-6 md:flex-row">
-        <h2 className="font-display text-2xl font-medium">Godfrey Ponce</h2>
+        <h2 className="font-display text-2xl font-medium">
+          <a href="#top">Godfrey Ponce</a>
+        </h2>
 
         <div className="flex gap-6 text-white/60">
           <SocialLink href="https://github.com/godfreyponce" ariaLabel="GitHub" className="tactile-link hover:!text-white">

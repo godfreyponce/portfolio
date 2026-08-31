@@ -17,16 +17,16 @@ export default function Hero() {
         />
       </div>
 
-      <div className="flex flex-col items-center space-y-6 text-center md:items-start md:text-left">
-        <h1 className="font-display text-5xl font-medium tracking-tight text-ink md:text-7xl">
+      <div className="flex flex-col items-center space-y-2 text-center md:items-start md:text-left">
+        <h1 className="font-hero text-h1 text-ink">
           Godfrey Ponce
         </h1>
 
-        <p className="max-w-4xl text-lg font-light leading-relaxed text-ink-muted md:text-2xl">
+        <p className="max-w-4xl text-lg font-light leading-relaxed text-ink-faint">
           <ScrambleText text="I like to build agents that think, so we humans can create" />
         </p>
 
-        <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-semibold uppercase tracking-[0.2em] text-ink-subtle md:text-base">
+        <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-semibold uppercase tracking-[0.2em] text-ink-subtle">
           <SocialLink
             href="https://github.com/godfreyponce"
             className="tactile-link cursor-github hover:!text-brand-github"

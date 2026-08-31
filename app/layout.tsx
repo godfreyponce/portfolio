@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Fraunces } from "next/font/google";
+import { Geist, Fraunces, Libre_Baskerville } from "next/font/google";
 import "./globals.css";
 
 const geist = Geist({
@@ -12,6 +12,13 @@ const fraunces = Fraunces({
   subsets: ["latin"],
   variable: "--font-fraunces",
   style: ["normal", "italic"],
+  display: "swap",
+});
+
+const libreBaskerville = Libre_Baskerville({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-baskerville",
   display: "swap",
 });
 
@@ -43,7 +50,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geist.variable} ${fraunces.variable} relative`}>
+    <html lang="en" className={`${geist.variable} ${fraunces.variable} ${libreBaskerville.variable} relative`}>
       <body>{children}</body>
     </html>
   );

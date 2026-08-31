@@ -11,6 +11,45 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-31 — Motion: reveals fade opacity only, 0.25s (#59)
+
+Fifth build ticket of the #53 feel pass. Scroll reveals faded in while sliding up 16px over 0.5s;
+they now fade alone, over 0.25s. Three lines in one file, and no call site changed. No preview file:
+the ticket said the values come off the reference, so it went straight to gate 2.
+
+- **One component, 15 call sites, zero call-site edits.** `Reveal` is the shared scroll-reveal
+  wrapper, so its `initial` / `whileInView` / `transition` props are the whole surface. All 15 call
+  sites are home page sections: About, Timeline, Education, The Lab, Passions.
+- **0.25s, chosen inside the ticket's 0.15 to 0.3s window (plan decision).** The window was measured
+  off cmrg.me in the #53 audit; the point inside it was judgment. These reveals fade whole sections
+  and multi-element blocks, and at 0.15s a full section reads as a pop rather than a fade. 0.25s sits
+  in the upper half, keeps the fade perceptible on large blocks, and halves the old 0.5s.
+- **The `delay` prop is kept (plan decision).** Two reasons. Removing it means editing the 8 call
+  sites that pass it, across 5 files, against the ticket's one-file constraint. And the staggers are
+  not pointless at the shorter duration: the live delays run 0.05s to roughly 0.3s (`ProjectStack`'s
+  `0.1 + i * 0.05` over 4+ cards), which still cascades against a 0.25s fade. `Timeline` plumbs
+  `delay={delay}` through `TimelineItem`, but none of its five call sites sets it, so Timeline has
+  always animated at delay 0 and nothing there changed.
+- **Untouched, deliberately:** the easing `[0.2, 0.8, 0.2, 1]` (the ticket asked for opacity and a
+  shorter duration, not a new curve), `viewport={{ once: true, amount: 0.2 }}`, the `RevealProps`
+  interface, and the reduced-motion branch that returns a plain `div`. No other motion on the site
+  moved: the Lab deck stacking, the ScrambleText hero entrance, the stickman, the loss graph and the
+  lightbox are all as they were.
+- **The slide removal is proven; the duration is not.** With a dev server up, the file was flipped
+  back to HEAD and forward again and the served HTML compared: the same 21 elements went from
+  `style="opacity:0;transform:translateY(16px)"` to `style="opacity:0"`. That is real evidence, and
+  it is the whole of the evidence. A `transition` duration never reaches the server HTML, so
+  **whether 0.25s feels right was never checked by anyone**, in a browser or otherwise. The owner
+  accepted at gate 2 having been told exactly that. If the fade ever reads as a pop, 0.3s is the
+  other end of the sanctioned window and it is a one-number edit.
+- **The Chrome extension would not connect, for the third ticket running** (#57, #58, #59). This is
+  now the normal case here, not a surprise. Unlike #56 and #57 there was no headless-Chrome fallback
+  either, because headless does not fire `requestAnimationFrame` and so cannot judge a Framer
+  transition any better than a hidden tab can.
+- **The plan was wrong about /projects.** Its step 2 said to watch rows fade in there. `/projects`
+  renders `ProjectsIndex`, which imports no `Reveal` at all, and its served HTML carries no
+  `opacity:0` elements. Nothing to fix; the check simply did not exist.
+
 ### 2026-08-31 — Type ramp: one size per tier below the h1 (#58)
 
 Fourth build ticket of the #53 feel pass. Section headings ran `text-2xl` to `text-4xl` with mixed

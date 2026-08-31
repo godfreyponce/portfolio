@@ -11,6 +11,56 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-31 — Type ramp: one size per tier below the h1 (#58)
+
+Fourth build ticket of the #53 feel pass. Section headings ran `text-2xl` to `text-4xl` with mixed
+tracking, and the h2 tracking dropped to `normal` on `/projects`. Four tiers are now defined once in
+`globals.css` and consumed as utility classes. 42 insertions, 26 deletions across 10 files.
+
+- **The owner picked B (32 / 22 / 18), from three previews.** `public/preview-type.html` showed the
+  same four specimens three times: a section heading, a card title, a minor title and a paragraph. A
+  was 36/24/20 (the ticket's own example), C was 40/26/20. B is the quiet ramp: every current desktop
+  h2 shrinks slightly. The owner picked it knowing the flagged consequence, that **the label tier
+  lands at 18px, the same size as body** — only weight 600 and line-height 1.10 separate the two.
+  Timeline role names are where that reads hardest.
+- **Four `--text-*` tokens, not per-component classes** (the ticket's "prefer tokens" constraint, so
+  the hero ticket can reuse them). Tailwind v4 generates `text-h2`, `text-h3` and `text-label`
+  carrying size, line-height, letter-spacing and weight together; `text-body` carries size and
+  line-height only, no weight. Font family stays a separate class, so `font-display` still marks
+  where Fraunces applies.
+- **Two sub-tiers below h2, not one (gate-1 decision 1).** The "every h3 the same" line was read per
+  role. Card titles — the three Passions cards, every project card, the GitHub tile — take the h3
+  tier in Fraunces. Minor titles — Timeline roles, Education degrees, `/projects` row titles — take
+  the smaller label tier in Geist 600, and the row titles **drop `font-display`** to get there.
+- **`ProjectCard`'s h3 lost its three-way size ternary and its mobile step-down.** It was
+  `stack ? text-3xl : featured ? text-3xl md:text-4xl : text-2xl` plus `max-sm:text-xl`; it is now
+  one plain string. The featured card's title visibly shrinks from 30-36px to 22px, which is the
+  flattening the ticket asked for. `stack` and `featured` both stay, still driving layout in five
+  places each in that file.
+- **Body is prose only, fixed 18px/1.625 with no responsive split (decision 2).** About paragraphs,
+  project descriptions on both surfaces, the Timeline bullets, and the sublines under The Lab and the
+  `/projects` h1. The 14px `text-sm` support text inside the Passions and Education cards stays put:
+  that is a caption role, not body. Density did not change.
+- **The footer h2 is exempt and became a link (decision 3, owner-added scope).** It is a signature,
+  not a section heading, so it keeps 24px Fraunces. The name now wraps in `<a href="#top">`. There is
+  no `id="top"` anywhere, which is correct: the HTML spec makes `#top` mean the document top, and
+  `html { scroll-behavior: smooth }` was already in `globals.css`, so no other file changed.
+- **Tracking normalized on the three heading tiers (decision 4).** -0.025em, the value cmrg uses at
+  every heading size. The 12px uppercase meta labels keep positive tracking, and the one straggler
+  (`tracking-wide` on "Built with") moved to `tracking-wider` so every meta label matches.
+- **Untouched, deliberately (decision 5):** the hero h1 and tagline, the `/projects` h1 and its
+  `tracking-tight` (the h1 tier belongs to the hero ticket, #60), the 10px construction banner, the
+  mono "Drafting system…" line and the streak number.
+- **Verification did not use the browser.** The Chrome extension would not connect, on two tries, and
+  the session stopped retrying rather than burn the window. Verification came from the
+  server-rendered HTML plus the generated CSS instead: every h2 on both pages resolves to the same
+  class list, as does every card title and every minor title, and the four utilities were read out of
+  the dev CSS bundle to confirm they carry the intended size, leading, tracking and weight. Two
+  elements only render once a `/projects` row is opened, so they never appear in server HTML and were
+  checked in source only: the expanded description (`text-body`) and the "Built with" label. **Nobody
+  looked at the rendered page**; the owner accepted at gate 2 having been told so. `npx tsc --noEmit`
+  exited 0.
+
 ### 2026-08-30 — Palette: one neutral chip style, Nunito Sans dropped (#57)
 
 Third build ticket of the #53 feel pass. The audit blamed tinted chips for the site's background

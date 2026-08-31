@@ -133,11 +133,7 @@ export default function ProjectCard({
                 />
               )}
               {!iconSrc && LucideIcon && <div className="-my-2 shrink-0 text-ink-muted"><LucideIcon size={20} /></div>}
-              <h3
-                className={`min-w-0 flex-1 truncate font-display font-medium text-ink max-sm:text-xl sm:flex-none sm:overflow-visible sm:text-clip sm:whitespace-normal ${
-                  stack ? "text-3xl" : featured ? "text-3xl md:text-4xl" : "text-2xl"
-                }`}
-              >
+              <h3 className="min-w-0 flex-1 truncate font-display text-h3 text-ink sm:flex-none sm:overflow-visible sm:text-clip sm:whitespace-normal">
                 {title}
               </h3>
             </div>
@@ -146,7 +142,7 @@ export default function ProjectCard({
             </Badge>
           </div>
 
-          <p className="mt-2 text-base leading-relaxed text-ink-subtle md:text-lg">{description}</p>
+          <p className="mt-2 text-body text-ink-subtle">{description}</p>
 
           {(link || githubLink || devpostLink) && (
             <div

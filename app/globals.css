@@ -57,6 +57,24 @@
   /* ---- Shadow ---- */
   --shadow-lift: 0 2px 4px rgba(28, 25, 23, 0.06), 0 12px 32px rgba(28, 25, 23, 0.08);
   --shadow-lid: 0 24px 48px rgba(28, 25, 23, 0.35); /* page content over the pinned footer (#39) */
+
+  /* ---- Type ramp (#58): one size per tier below the h1. Heading tiers share
+     tracking -0.025em and line-height 1.10 (cmrg values, #53 decision 3); the
+     h1 tier belongs to the hero ticket. text-h2/text-h3 pair with font-display. ---- */
+  --text-h2: 2rem;
+  --text-h2--line-height: 1.1;
+  --text-h2--letter-spacing: -0.025em;
+  --text-h2--font-weight: 500;
+  --text-h3: 1.375rem;
+  --text-h3--line-height: 1.1;
+  --text-h3--letter-spacing: -0.025em;
+  --text-h3--font-weight: 500;
+  --text-label: 1.125rem;
+  --text-label--line-height: 1.1;
+  --text-label--letter-spacing: -0.025em;
+  --text-label--font-weight: 600;
+  --text-body: 1.125rem;
+  --text-body--line-height: 1.625;
 }
 
 :root {

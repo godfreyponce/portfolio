@@ -22,7 +22,7 @@ export default function Passions() {
     <Section className="space-y-12">
       <Reveal className="flex items-center gap-4">
         <div>
-          <h2 className="font-display text-3xl font-medium text-ink md:text-4xl">Passions</h2>
+          <h2 className="font-display text-h2 text-ink">Passions</h2>
           <p className="text-ink-subtle">Beyond my Mac</p>
         </div>
       </Reveal>
@@ -41,7 +41,7 @@ export default function Passions() {
                 <Trophy size={18} />
                 <span className="text-xs font-semibold uppercase tracking-wider">Soccer</span>
               </div>
-              <h3 className="mb-2 font-display text-2xl font-medium text-white md:text-3xl">The Beautiful Game</h3>
+              <h3 className="mb-2 font-display text-h3 text-white">The Beautiful Game</h3>
               <p className="max-w-md text-sm leading-relaxed text-white/80">
                 A lifelong athlete, I believe the best results come from disciplined teamwork, bringing in the same energy and translating it over to professional environments.
               </p>
@@ -72,7 +72,7 @@ export default function Passions() {
               <Mountain size={18} />
               <span className="text-xs font-semibold uppercase tracking-wider">Snowboarding</span>
             </div>
-            <h3 className="font-display text-2xl font-medium text-ink">Carving Lines</h3>
+            <h3 className="font-display text-h3 text-ink">Carving Lines</h3>
           </div>
         </Reveal>
 
@@ -83,7 +83,7 @@ export default function Passions() {
                 <Server size={18} />
                 <span className="text-xs font-semibold uppercase tracking-wider">Home Lab</span>
               </div>
-              <h3 className="font-display text-2xl font-medium text-white">Self-hosted by default</h3>
+              <h3 className="font-display text-h3 text-white">Self-hosted by default</h3>
               <p className="mt-3 max-w-sm text-sm leading-relaxed text-white/60">
                 I self host my own infrastructure to avoid paying for subscriptions and to keep my data secure/private.
               </p>

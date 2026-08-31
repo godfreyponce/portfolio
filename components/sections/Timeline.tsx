@@ -61,7 +61,7 @@ function TimelineItem({ date, title, subtitle, logoSrc, points, tags, present, i
             date
           )}
         </span>
-        <h3 className="mt-1 text-xl font-semibold text-ink">{title}</h3>
+        <h3 className="mt-1 text-label text-ink">{title}</h3>
         <p className="font-medium text-ink-muted">{subtitle}</p>
 
         {tags && (
@@ -97,7 +97,7 @@ function TimelineItem({ date, title, subtitle, logoSrc, points, tags, present, i
 
         <div className={`grid transition-[grid-template-rows] duration-300 ${open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}>
           <div className="overflow-hidden">
-            <ul className="ml-4 mt-3 max-w-lg list-outside list-disc space-y-2 leading-relaxed text-ink-subtle marker:text-ink-faint">
+            <ul className="ml-4 mt-3 max-w-lg list-outside list-disc space-y-2 text-body text-ink-subtle marker:text-ink-faint">
               {points.map((point, index) => (
                 <li key={index}>{point}</li>
               ))}
@@ -113,7 +113,7 @@ export default function Timeline() {
   return (
     <Section>
       <Reveal>
-        <h2 className="mb-12 font-display text-3xl font-medium tracking-tight text-ink md:text-4xl">
+        <h2 className="mb-12 font-display text-h2 text-ink">
           Work Experience
         </h2>
       </Reveal>

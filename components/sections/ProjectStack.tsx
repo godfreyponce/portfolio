@@ -48,7 +48,7 @@ function GitHubTile({ stacked = false, contributions }: { stacked?: boolean; con
       <div className="absolute inset-0 bg-[radial-gradient(#fff_1px,transparent_1px)] opacity-10 [background-size:16px_16px]" />
       <Github size={48} className="relative z-10 text-ink-faint transition-colors group-hover:text-white" />
       <div className="relative z-10">
-        <h3 className="font-display text-xl font-medium">View more on GitHub</h3>
+        <h3 className="font-display text-h3">View more on GitHub</h3>
         <p className="mt-2 text-ink-faint">Explore my repositories and contributions</p>
       </div>
       {stacked && contributions && (

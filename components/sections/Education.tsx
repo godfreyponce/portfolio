@@ -20,7 +20,7 @@ function EducationItem({ title, subtitle, date, description, points, logoSrc, li
       <div className="flex-1">
         <div className="flex flex-col gap-1 md:flex-row md:items-baseline md:justify-between">
           <div className="flex items-center gap-2">
-            <h3 className="text-lg font-semibold text-ink">{title}</h3>
+            <h3 className="text-label text-ink">{title}</h3>
             {link && (
               <a href={link} target="_blank" rel="noopener noreferrer" className="text-ink-faint transition-colors hover:text-ink">
                 <ArrowUpRight size={16} />
@@ -50,7 +50,7 @@ export default function Education() {
   return (
     <Section>
       <Reveal>
-        <h2 className="mb-8 font-display text-3xl font-medium tracking-tight text-ink md:text-4xl">
+        <h2 className="mb-8 font-display text-h2 text-ink">
           Education
         </h2>
       </Reveal>

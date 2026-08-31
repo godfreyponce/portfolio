@@ -11,6 +11,44 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-08-31 — Hero type: h1 27px Libre Baskerville, tagline 18, entrance sweep (#60)
+
+Sixth and last build ticket of the #53 feel pass, and it shipped something other than its title:
+the owner rewrote the scope at the preview gate. No Bio fold-in, no rectangular portrait,
+About.tsx untouched. The hero keeps its layout and round headshot; only the type changed.
+
+- **Scope rewrite at the gate (owner decision).** The plan built six layout variants (A/B/C x
+  entrance) around the 2:3 side-crop portrait, then two zoomed-out A variants, then a
+  "current format, Genesia exact" rendering, which won: round headshot kept, Bio stays its own
+  section, type matched to genesiating.com. The unused `godfrey_portrait.jpg` stays untracked;
+  a native portrait photo remains a one-file swap if the layout question ever reopens.
+- **h1: 72px Fraunces -> 27px Libre Baskerville.** 27 is genesiating exact (27.25 measured in the
+  #54 audit). Libre Baskerville is genesiating's actual serif, pulled off the live site's CSS
+  (their stack: Libre Baskerville display, system sans body, IBM Plex Mono labels). Loaded via
+  `next/font` as `--font-baskerville`, consumed through a hero-only `--font-hero` token so the
+  site-wide display-font decision stays open (#62). `--text-h1` tokens (27px / 1.1 / 0 tracking /
+  weight 400) landed in the #58 ramp block. The h1 now sits BELOW the 32px h2s, knowingly; the
+  ramp rework is #63.
+- **Tagline 24 -> 18px, `text-ink-muted` -> `text-ink-faint`; name-to-tagline gap 24 -> 8px
+  (`space-y-6` -> `space-y-2`); links row dropped `md:text-base`** — all matched to the picked
+  rendering, not invented.
+- **The #37 scramble got a load entrance.** One automatic staggered sweep on mount: per letter at
+  `300 + i * 18` ms, inline `transition-duration: 0s` stands in for `:hover`'s snap, a 120ms hold,
+  then both inline props removed so the CSS 1s decay takes over. Guarded by
+  `prefers-reduced-motion`. Hover behavior unchanged.
+- **Verification.** The Chrome extension CONNECTED this ticket (after refusing for #57-#59).
+  Computed styles checked (27px/400/Libre Baskerville, tagline 18px faint), hover checked with a
+  real mouse move, the entrance proven deterministically: a MutationObserver watched a
+  router soft-nav away and back remount the hero and counted 94 style writes across the 47
+  letters. Mobile checked in a 400px iframe (media queries track iframe viewports) because
+  `resize_window` was refused twice. `tsc --noEmit` clean.
+- **Gotcha that cost time:** after editing the `next/font` imports in `layout.tsx`, the running
+  dev server kept serving the old `<html>` class list through hard reloads; only a server restart
+  picked the new font variable up. Font changes in layout.tsx = restart, don't debug the CSS.
+- Follow-ups born at the gate: #62 (site-wide font decision; two serifs coexist until it lands)
+  and #63 (ramp rework). The `feel-compare` throwaways are deleted with this docs commit; the
+  #53 pass build work is complete.
+
 ### 2026-08-31 — Motion: reveals fade opacity only, 0.25s (#59)
 
 Fifth build ticket of the #53 feel pass. Scroll reveals faded in while sliding up 16px over 0.5s;

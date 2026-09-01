@@ -10,7 +10,7 @@ export default function Footer() {
           <a href="#top">Godfrey Ponce</a>
         </h2>
 
-        <div className="flex gap-6 text-white/60">
+        <div className="flex gap-6 text-white/75">
           <SocialLink href="https://github.com/godfreyponce" ariaLabel="GitHub" className="tactile-link hover:!text-white">
             <Github size={24} />
           </SocialLink>

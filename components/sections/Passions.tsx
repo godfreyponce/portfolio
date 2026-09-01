@@ -37,12 +37,12 @@ export default function Passions() {
           <div id="soccer" className="group relative h-full w-full">
             <div className="absolute inset-0 z-10 bg-gradient-to-t from-ink/80 via-ink/20 to-transparent" />
             <div className="absolute bottom-0 left-0 z-20 p-8">
-              <div className="mb-2 flex items-center gap-2 text-white/80">
+              <div className="mb-2 flex items-center gap-2 text-white/75">
                 <Trophy size={18} />
                 <span className="text-xs font-semibold uppercase tracking-wider">Soccer</span>
               </div>
               <h3 className="mb-2 font-display text-h3 text-white">The Beautiful Game</h3>
-              <p className="max-w-md text-sm leading-relaxed text-white/80">
+              <p className="max-w-md text-sm leading-relaxed text-white/75">
                 A lifelong athlete, I believe the best results come from disciplined teamwork, bringing in the same energy and translating it over to professional environments.
               </p>
             </div>
@@ -79,12 +79,12 @@ export default function Passions() {
         <Reveal delay={0.15} className="relative h-[300px] overflow-hidden rounded-none bg-surface-inverse p-8 md:h-auto">
           <div className="relative z-10 flex h-full flex-col justify-between">
             <div>
-              <div className="mb-4 flex items-center gap-2 text-white/60">
+              <div className="mb-4 flex items-center gap-2 text-white/75">
                 <Server size={18} />
                 <span className="text-xs font-semibold uppercase tracking-wider">Home Lab</span>
               </div>
               <h3 className="font-display text-h3 text-white">Self-hosted by default</h3>
-              <p className="mt-3 max-w-sm text-sm leading-relaxed text-white/60">
+              <p className="mt-3 max-w-sm text-sm leading-relaxed text-white/75">
                 I self host my own infrastructure to avoid paying for subscriptions and to keep my data secure/private.
               </p>
             </div>

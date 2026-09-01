@@ -151,7 +151,7 @@ export default function ProjectsIndex() {
       >
         <ArrowLeft size={14} /> Home
       </Link>
-      <h1 className="mt-6 font-display text-4xl font-medium tracking-tight text-ink md:text-5xl">Projects</h1>
+      <h1 className="mt-6 font-display text-h1 text-ink">Projects</h1>
       <p className="mt-2 text-body text-ink-subtle">
         Everything I have built, from hackathon weekends to long-running personal projects.
       </p>

@@ -174,7 +174,6 @@ export const projects: Project[] = [
     githubLink: "https://github.com/godfreyponce/Jira-Alerts",
     media: [
       { type: "image", src: "/projects/jira-alerts/jira-alertsLogo.png", alt: "Jira-Alerts banner", fit: "contain" },
-      { type: "image", src: "/projects/jira-alerts/jira-alerts.png", alt: "Jira-Alerts Teams notification for a new comment", fit: "contain" },
       { type: "image", src: "/projects/jira-alerts/jira-alerts-flow.png", alt: "Jira-Alerts Power Automate flow" },
     ],
   },

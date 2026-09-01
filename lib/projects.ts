@@ -66,6 +66,7 @@ export const projects: Project[] = [
     media: [
       { type: "image", src: "/projects/cometadvisor/cometLogo.png", alt: "CometAdvisor logo" },
       { type: "image", src: "/projects/cometadvisor/comet.png", alt: "CometAdvisor screenshot" },
+      { type: "image", src: "/projects/cometadvisor/comet-hackai.jpg", alt: "The CometAdvisor team presenting at HackAI" },
       { type: "image", src: "/projects/cometadvisor/comet-stack.png", alt: "CometAdvisor tech stack", fit: "contain" },
     ],
   },

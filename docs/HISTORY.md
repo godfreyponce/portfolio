@@ -11,6 +11,39 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-09-01 — HackAI team photo as CometAdvisor slide 3 (#67)
+
+One data edit: one `MediaItem` inserted at index 2 of CometAdvisor's `media` array in
+`lib/projects.ts`, plus the asset `public/projects/cometadvisor/comet-hackai.jpg` (1086x724
+JPEG). `git diff` is exactly `+1`. No component changed, because the carousel and the lightbox
+both read `media` in order, so the stack shot moved to slide 4 on its own and the dot labels
+renumbered themselves. Alt text is the owner's wording from green-light: "The CometAdvisor team
+presenting at HackAI". No preview variants: the owner waived the 3-variant rule at green-light
+because the ticket had already fixed the one visual call.
+
+- **No `fit: "contain"`.** The ticket's named fallback was left unused because the crop is good
+  at every width checked. On `/projects` the box is 3:2 and so is the photo, so object-cover
+  shows the whole frame. On the home Lab card the box is wider than tall, so the sides trim, and
+  all three faces plus the HackAI sign survive.
+- **The plan was wrong about the home card's geometry.** It described `ProjectCard`'s non-stack
+  featured branch (`aspect-video`, `md:aspect-auto md:w-1/2 md:min-h-96`). The Lab deck renders
+  the `stack` branch instead: `h-64 w-full ... md:h-full md:w-[55%]`, measured live at 495x440
+  desktop and 343x256 mobile. The mobile box is 1.34, not 16:9, so the plan's predicted "loses
+  about 15% of its height" never happens; the trim is on the sides.
+- **There is no lightbox on the home card**, so the plan's step to open one there could not be
+  run. Only `ProjectsIndex.tsx:84` passes `expandable` to `MediaCarousel`; `ProjectCard` never
+  does. This is already ticketed as #64 (Lab lightbox), so nothing new was opened. The
+  `/projects` lightbox was verified: it opens on the photo, reads `3 / 4`, renders
+  `object-contain` with the full frame, and arrows on to the stack shot at `4 / 4`.
+- **The mobile shot is a simulated box, and the owner was told at gate 2.** `resize_window` was
+  refused on the fullscreen Chrome window (the existing gotcha), so the media pane was set to
+  343x256 in the live page, screenshotted, and reverted with a reload. The crop inside that frame
+  is the real mobile crop; the page around it is not mobile.
+- **A large PNG reads as a blank panel in dev before it decodes.** Lightbox slide 4 rendered
+  empty for several seconds after the crossfade landed, then painted the stack shot. Not a bug
+  and not caused by this change; wait and re-shoot before chasing it.
+- Gates: `tsc --noEmit` clean, exit 0, no output.
+
 ### 2026-09-01 — Middle dots and an em dash out of the shipped copy (#61)
 
 Copy only: three string literals in three components, no structural, style or behaviour change.

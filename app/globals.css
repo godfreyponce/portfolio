@@ -8,9 +8,10 @@
  * 32 (128px). Do not introduce arbitrary values like p-[13px] or gap-7 —
  * extend the scale here first if a new step is truly needed.
  *
- * Type pairing: Fraunces (display serif, opsz + wght) for h1/h2 section
- * headings. Geist Sans for everything else. Both loaded via next/font in
- * app/layout.tsx and exposed here as --font-display and --font-sans.
+ * Type pairing: Spectral (display serif), the free face closest to
+ * genesiating's Freight Text, for the hero name and card titles. Geist Sans
+ * for everything else. Both loaded via next/font in app/layout.tsx and
+ * exposed here as --font-display and --font-sans.
  *
  * Color: semantic tokens — ink (text), rule (borders), surface (backgrounds),
  * accent (a single burnt-orange used sparingly for emphasis). Never hardcode
@@ -47,11 +48,7 @@
 
   /* ---- Fonts (variables set by next/font in layout.tsx) ---- */
   --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
-  /* Hero-only face (#60): Libre Baskerville, the genesiating reference's serif.
-     A site-wide display-font decision is a follow-up ticket; until it lands,
-     only the hero h1 uses this. */
-  --font-hero: var(--font-baskerville), ui-serif, Georgia, serif;
+  --font-display: var(--font-spectral), ui-serif, Georgia, serif;
 
   /* ---- Radius ---- */
   --radius-sm: 4px;
@@ -62,34 +59,37 @@
   --shadow-lift: 0 2px 4px rgba(28, 25, 23, 0.06), 0 12px 32px rgba(28, 25, 23, 0.08);
   --shadow-lid: 0 24px 48px rgba(28, 25, 23, 0.35); /* page content over the pinned footer (#39) */
 
-  /* ---- Type ramp (#58, reworked #63): one size per tier. h1 is #60's:
-     27px Libre Baskerville at weight 400 (genesiating exact), hero only.
-     h2 is the section-label tier (#63 decision, Variant B): 13px Geist 400
-     at 0.03em tracking, worn with `uppercase text-ink-faint` at the call
-     site. Measured off genesiating's "GLOBAL" card label, normalised to a
-     1440px viewport because their type is fluid: 12.83px / 400 / 0.4px
-     flat / #b7aaaa / line-height 1.2. h3 stays 22px Fraunces 500
-     with tracking -0.025em / line-height 1.10 (cmrg values, #53 decision
-     3) and pairs with font-display; card titles are now the loudest type
-     after the name. ---- */
-  --text-h1: 1.6875rem;
-  --text-h1--line-height: 1.1;
-  --text-h1--letter-spacing: 0em;
+  /* ---- Type ramp (#58, reworked #63, matched to the reference #62): one
+     size per tier. Values measured off genesiating.com on 2026-09-01 at a
+     2545px viewport and normalised to 1440px. Their type is fluid (root
+     font-size scales with width), so ANY future comparison must state the
+     width it read at or the number means nothing. Their display serif is
+     Freight Text rendered at Book 400 (the CSS asks for 200/500 but only
+     Book and Bold files load and browsers do not synthesise lighter
+     weights); Spectral is our free stand-in. Letter-spacing is in px, not
+     em, because theirs is fixed px and does not scale with size. h1 is the
+     name tier (29.33px there), h3 the card-title tier (16.48px), label the
+     bold in-flow list title (15.25px), body 15.25px at lh 1.70. h2 is the
+     section-label tier from #63 and is untouched here: 13px Geist 400 at
+     0.03em, worn with `uppercase text-ink-faint` at the call site. ---- */
+  --text-h1: 1.8125rem;
+  --text-h1--line-height: 1.3;
+  --text-h1--letter-spacing: -0.7px;
   --text-h1--font-weight: 400;
   --text-h2: 0.8125rem;
   --text-h2--line-height: 1.2;
   --text-h2--letter-spacing: 0.03em;
   --text-h2--font-weight: 400;
-  --text-h3: 1.375rem;
-  --text-h3--line-height: 1.1;
-  --text-h3--letter-spacing: -0.025em;
+  --text-h3: 1.03125rem;
+  --text-h3--line-height: 1.3;
+  --text-h3--letter-spacing: -0.3px;
   --text-h3--font-weight: 500;
-  --text-label: 1.125rem;
-  --text-label--line-height: 1.1;
-  --text-label--letter-spacing: -0.025em;
+  --text-label: 0.953125rem;
+  --text-label--line-height: 1.7;
+  --text-label--letter-spacing: 0em;
   --text-label--font-weight: 600;
-  --text-body: 1.125rem;
-  --text-body--line-height: 1.625;
+  --text-body: 0.953125rem;
+  --text-body--line-height: 1.7;
 }
 
 :root {

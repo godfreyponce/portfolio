@@ -18,7 +18,7 @@ export default function Hero() {
       </div>
 
       <div className="flex flex-col items-center space-y-2 text-center md:items-start md:text-left">
-        <h1 className="font-hero text-h1 text-ink">
+        <h1 className="font-display text-h1 text-ink">
           Godfrey Ponce
         </h1>
 

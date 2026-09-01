@@ -11,6 +11,44 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-09-01 — Section headings become 13px Geist labels (#63)
+
+Resolves the ramp inversion #60 left behind, where the 27px hero h1 sat below the 32px section
+h2s. The six `text-h2` headings (About "Bio", Timeline, Education, Passions, The Lab, and the
+year-group labels on /projects) are now quiet uppercase labels, so card titles at 22px Fraunces
+are the loudest type after the hero name.
+
+- **Built twice.** The plan's spec was 12px Geist weight 600 at 0.2em tracking in `ink-subtle`,
+  taken from the ticket's Variant B and our own hero-links idiom. The owner rejected it at gate 2
+  against a screenshot of genesiating's "GLOBAL" card label and asked for that instead.
+- **The plan's premise was wrong.** It cited "genesiating's labels measured 11.99px in the #54
+  audit". That 11.99px element is their "SEND ME AN EMAIL" nav item (Monument Grotesk, 0.975rem),
+  NOT the GLOBAL card label. The size landed close by luck; the weight and tracking came from our
+  hero links and did not resemble the reference at all.
+- **The shipped spec, measured live 2026-09-01.** genesiating's GLOBAL label is 1.1rem, weight
+  400, letter-spacing a flat 0.4px, line-height 1.2, colour `rgb(183,170,170)`, with the capitals
+  typed into the content rather than produced by `text-transform`. Normalised to 1440px that is
+  12.83px. Shipped as `--text-h2` = 13px / 1.2 / 0.03em / weight 400, worn with
+  `uppercase text-ink-faint` at the call site. CSS `uppercase` was kept so the markup still reads
+  "Bio", and `ink-faint` (#a8a29e) was used instead of adding a #b7aaaa token.
+- **Normalising is not optional here.** genesiating's root font-size is fluid (20.736px at a
+  2560px viewport), so a raw px reading off their site means nothing without a stated width. The
+  #54 audit's 1440px is the width used throughout.
+- **A contradiction #62 must settle.** #60 recorded their stack as Libre Baskerville (display),
+  system sans (body), IBM Plex Mono (labels), read off the live CSS on 2026-08-31. On 2026-09-01
+  the live computed `font-family` values read Freight Text (h1 and card titles), Monument Grotesk
+  Variable (body) and Golos Text (labels). Both readings are now on #62; the font choice hangs on
+  which is right.
+- **Verification.** All six headings read 13px Geist w400, ls 0.39px, `rgb(168,162,158)` on home
+  and /projects. At 400px wide every label stays on one line with no sideways scroll.
+  `npx tsc --noEmit` clean.
+- **Untouched:** `--text-h3` (22px Fraunces card titles), `--text-label` (18px item titles),
+  every heading margin, and the footer signature h2 (24px Fraunces via `text-2xl`, exempt
+  since #58).
+- **#62 was widened at this gate** (owner) from a font-face decision to the whole site-wide type
+  match: body 18 vs 15.2, card titles 22 vs 16.4, h1 weight 400 vs 200, 17 text colours vs 8, and
+  the /projects page title's hardcoded 48px Fraunces that bypasses the ramp tokens entirely.
+
 ### 2026-08-31 — Hero type: h1 27px Libre Baskerville, tagline 18, entrance sweep (#60)
 
 Sixth and last build ticket of the #53 feel pass, and it shipped something other than its title:

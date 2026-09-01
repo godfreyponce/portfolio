@@ -11,6 +11,44 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-09-01 — Middle dots and an em dash out of the shipped copy (#61)
+
+Copy only: three string literals in three components, no structural, style or behaviour change.
+The ticket named the under-construction banner; the plan's full-repo sweep found two more
+violations of the no-middle-dots rule (owner rule 2026-07-17), and the ticket's own second
+Done-when bullet ("no other shipped string on home or /projects") covered them, so all three
+shipped in one commit.
+
+- **The banner separates with non-breaking spaces and no character at all.** The owner picked
+  variant A (spacing only) at gate 0 from a 3-variant preview (`public/preview-61.html`, deleted
+  at wiring). `ProjectCard.tsx:82` is now a JSX string expression carrying five `\u00A0` escapes
+  per gap: plain spaces collapse to one when the browser renders them, so the gap has to be
+  non-breaking, and writing them as escapes keeps them visible in `git diff`.
+- **The loss-graph readout uses pipes, not commas**, because the step count already renders with
+  a thousands comma. Seven ` · ` occurrences across the five lines the plan named in
+  `LossGraph.tsx` (lines 168 and 175 carry two each, which is why the count is seven and not
+  five). A grep confirmed all seven sat on those lines before the replace.
+- **The contribution-grid tooltip uses a colon**: `ProjectStack.tsx:29`, now
+  `${d.date}: ${d.count} contribution(s)`.
+- **NO PROJECT CARRIES `status: "building"` TODAY**, so the banner renders nowhere on the real
+  site. To look at it the build set CometAdvisor to `building`, checked it, and set it back;
+  `lib/projects.ts` has zero diff. Any future session verifying that banner has to do the same
+  thing, and nobody should read "banner not found on the page" as a bug.
+- **The banner already wrapped mid-phrase and still does.** At a 1568px viewport the featured
+  card's 496px media pane renders `UNDER CONSTRUCTION  UNDER CONSTRUCTION  UNDER` over
+  `CONSTRUCTION`. Both strings were measured in the same box: 61px tall at 496px wide, 56px at
+  343px (the mobile full-bleed pane), old dot version and new nbsp version IDENTICAL. So the
+  separators changed nothing about the wrap. Layout was out of scope in the ticket and the owner
+  accepted at gate 2 having been told.
+- **Verified live, not in source.** The readout read `run 2 | step 4,047 | loss 1.448 | best
+  0.059` while animating and `run 2 | loss 0.033 ★ new best` when held. That is three of the four
+  rendered branches; the fourth (` | best X ✓`) came out of the same mechanical replace and its
+  ` | best` half was seen in the animating string. The tooltip read `2025-08-31: 0 contributions`
+  off the `title` attribute. /projects is a compact list view with no media pane, so it renders
+  no banner at all, and `document.body.innerText` there carries neither character.
+- Gates: `grep -rn '·\|—' app components lib --include='*.tsx' --include='*.ts'` returns nothing,
+  `tsc --noEmit` clean.
+
 ### 2026-09-01 — Site-wide type match to genesiating (#62)
 
 Closes the #53 feel pass's type work. The site had two serifs and a ramp set by taste; it now has

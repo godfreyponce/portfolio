@@ -8,9 +8,10 @@
  * 32 (128px). Do not introduce arbitrary values like p-[13px] or gap-7 —
  * extend the scale here first if a new step is truly needed.
  *
- * Type pairing: Fraunces (display serif, opsz + wght) for h1/h2 section
- * headings. Geist Sans for everything else. Both loaded via next/font in
- * app/layout.tsx and exposed here as --font-display and --font-sans.
+ * Type pairing: Spectral (display serif), the free face closest to
+ * genesiating's Freight Text, for the hero name and card titles. Geist Sans
+ * for everything else. Both loaded via next/font in app/layout.tsx and
+ * exposed here as --font-display and --font-sans.
  *
  * Color: semantic tokens — ink (text), rule (borders), surface (backgrounds),
  * accent (a single burnt-orange used sparingly for emphasis). Never hardcode
@@ -47,11 +48,7 @@
 
   /* ---- Fonts (variables set by next/font in layout.tsx) ---- */
   --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
-  /* Hero-only face (#60): Libre Baskerville, the genesiating reference's serif.
-     A site-wide display-font decision is a follow-up ticket; until it lands,
-     only the hero h1 uses this. */
-  --font-hero: var(--font-baskerville), ui-serif, Georgia, serif;
+  --font-display: var(--font-spectral), ui-serif, Georgia, serif;
 
   /* ---- Radius ---- */
   --radius-sm: 4px;

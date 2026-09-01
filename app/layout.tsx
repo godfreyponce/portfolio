@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Fraunces, Libre_Baskerville } from "next/font/google";
+import { Geist, Spectral } from "next/font/google";
 import "./globals.css";
 
 const geist = Geist({
@@ -8,17 +8,10 @@ const geist = Geist({
   display: "swap",
 });
 
-const fraunces = Fraunces({
+const spectral = Spectral({
   subsets: ["latin"],
-  variable: "--font-fraunces",
-  style: ["normal", "italic"],
-  display: "swap",
-});
-
-const libreBaskerville = Libre_Baskerville({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-baskerville",
+  weight: ["400", "500"],
+  variable: "--font-spectral",
   display: "swap",
 });
 
@@ -50,7 +43,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geist.variable} ${fraunces.variable} ${libreBaskerville.variable} relative`}>
+    <html lang="en" className={`${geist.variable} ${spectral.variable} relative`}>
       <body>{children}</body>
     </html>
   );

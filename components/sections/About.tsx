@@ -10,7 +10,7 @@ export default function About() {
 
       <Section>
         <Reveal>
-          <h2 className="text-left font-display text-h2 text-ink">Bio</h2>
+          <h2 className="text-left text-h2 uppercase text-ink-faint">Bio</h2>
         </Reveal>
         <Reveal delay={0.05} className="mt-6 space-y-6 text-left text-body text-ink-muted">
           <p>

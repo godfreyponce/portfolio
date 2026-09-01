@@ -113,7 +113,7 @@ export default function Timeline() {
   return (
     <Section>
       <Reveal>
-        <h2 className="mb-12 font-display text-h2 text-ink">
+        <h2 className="mb-12 text-h2 uppercase text-ink-faint">
           Work Experience
         </h2>
       </Reveal>

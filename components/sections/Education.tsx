@@ -50,7 +50,7 @@ export default function Education() {
   return (
     <Section>
       <Reveal>
-        <h2 className="mb-8 font-display text-h2 text-ink">
+        <h2 className="mb-8 text-h2 uppercase text-ink-faint">
           Education
         </h2>
       </Reveal>

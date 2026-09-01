@@ -22,7 +22,7 @@ export default function Passions() {
     <Section className="space-y-12">
       <Reveal className="flex items-center gap-4">
         <div>
-          <h2 className="font-display text-h2 text-ink">Passions</h2>
+          <h2 className="text-h2 uppercase text-ink-faint">Passions</h2>
           <p className="text-ink-subtle">Beyond my Mac</p>
         </div>
       </Reveal>

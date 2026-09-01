@@ -62,19 +62,24 @@
   --shadow-lift: 0 2px 4px rgba(28, 25, 23, 0.06), 0 12px 32px rgba(28, 25, 23, 0.08);
   --shadow-lid: 0 24px 48px rgba(28, 25, 23, 0.35); /* page content over the pinned footer (#39) */
 
-  /* ---- Type ramp (#58): one size per tier. h2/h3 share tracking -0.025em
-     and line-height 1.10 (cmrg values, #53 decision 3) and pair with
-     font-display. The h1 tier is #60's: 27px Libre Baskerville at weight 400
-     (genesiating exact), hero only. It sits BELOW text-h2 on purpose; the
-     ramp rework that resolves that is a follow-up ticket. ---- */
+  /* ---- Type ramp (#58, reworked #63): one size per tier. h1 is #60's:
+     27px Libre Baskerville at weight 400 (genesiating exact), hero only.
+     h2 is the section-label tier (#63 decision, Variant B): 13px Geist 400
+     at 0.03em tracking, worn with `uppercase text-ink-faint` at the call
+     site. Measured off genesiating's "GLOBAL" card label, normalised to a
+     1440px viewport because their type is fluid: 12.83px / 400 / 0.4px
+     flat / #b7aaaa / line-height 1.2. h3 stays 22px Fraunces 500
+     with tracking -0.025em / line-height 1.10 (cmrg values, #53 decision
+     3) and pairs with font-display; card titles are now the loudest type
+     after the name. ---- */
   --text-h1: 1.6875rem;
   --text-h1--line-height: 1.1;
   --text-h1--letter-spacing: 0em;
   --text-h1--font-weight: 400;
-  --text-h2: 2rem;
-  --text-h2--line-height: 1.1;
-  --text-h2--letter-spacing: -0.025em;
-  --text-h2--font-weight: 500;
+  --text-h2: 0.8125rem;
+  --text-h2--line-height: 1.2;
+  --text-h2--letter-spacing: 0.03em;
+  --text-h2--font-weight: 400;
   --text-h3: 1.375rem;
   --text-h3--line-height: 1.1;
   --text-h3--letter-spacing: -0.025em;

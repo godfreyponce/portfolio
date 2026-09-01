@@ -176,7 +176,7 @@ export default function ProjectsIndex() {
         if (rows.length === 0) return null;
         return (
           <section key={key} className="mt-12">
-            <h2 className="font-display text-h2 text-ink">{label}</h2>
+            <h2 className="text-h2 uppercase text-ink-faint">{label}</h2>
             <div className="mt-4 border-t border-rule">
               {rows.map((p) => (
                 <ProjectRow key={p.title} project={p} />

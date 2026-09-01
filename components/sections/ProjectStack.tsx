@@ -26,7 +26,7 @@ function Heatmap({ days }: { days: ContributionDay[] }) {
               key={c}
               className="h-[9px] w-[9px] rounded-[2px]"
               style={{ backgroundColor: d ? HEAT_COLORS[d.level] : "transparent" }}
-              title={d ? `${d.date} — ${d.count} contribution${d.count === 1 ? "" : "s"}` : undefined}
+              title={d ? `${d.date}: ${d.count} contribution${d.count === 1 ? "" : "s"}` : undefined}
             />
           ))}
         </div>

@@ -105,7 +105,7 @@ export default function LossGraph() {
         runIdx = 3;
         genRun();
         strokeCurve(ys, N, INK, 2, false);
-        readout.textContent = `run 4 · loss ${yToLoss(ys[N], h).toFixed(3)}`;
+        readout.textContent = `run 4 | loss ${yToLoss(ys[N], h).toFixed(3)}`;
       };
       renderStatic();
       window.addEventListener("resize", renderStatic);
@@ -164,15 +164,15 @@ export default function LossGraph() {
 
       const loss = yToLoss(ys[headIdx], h);
       if (p < 1) {
-        const bestStr = best < Infinity ? ` · best ${best.toFixed(3)}` : "";
-        readout.textContent = `run ${runIdx + 1} · step ${Math.floor(p * TOTAL_STEPS).toLocaleString()} · loss ${loss.toFixed(3)}${bestStr}`;
+        const bestStr = best < Infinity ? ` | best ${best.toFixed(3)}` : "";
+        readout.textContent = `run ${runIdx + 1} | step ${Math.floor(p * TOTAL_STEPS).toLocaleString()} | loss ${loss.toFixed(3)}${bestStr}`;
         frame++;
       } else {
         if (holding === 0) {
           readout.innerHTML =
             loss < best
-              ? `run ${runIdx + 1} · loss ${loss.toFixed(3)} <span class="text-accent">★ new best</span>`
-              : `run ${runIdx + 1} · loss ${loss.toFixed(3)} · best ${best.toFixed(3)} <span class="text-accent">✓</span>`;
+              ? `run ${runIdx + 1} | loss ${loss.toFixed(3)} <span class="text-accent">★ new best</span>`
+              : `run ${runIdx + 1} | loss ${loss.toFixed(3)} | best ${best.toFixed(3)} <span class="text-accent">✓</span>`;
         }
         holding++;
         if (holding > HOLD_FRAMES) {

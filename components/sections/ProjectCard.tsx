@@ -79,7 +79,7 @@ export default function ProjectCard({
         {isUnderConstruction && (
           <div className="pointer-events-none absolute inset-0 z-20 flex items-center">
             <div className="w-full -rotate-2 border-y border-ink/10 bg-amber-400 py-1.5 text-center text-[10px] font-black uppercase tracking-[0.3em] text-ink shadow-sm">
-              Under construction · Under construction · Under construction
+              {"Under construction\u00A0\u00A0\u00A0\u00A0\u00A0Under construction\u00A0\u00A0\u00A0\u00A0\u00A0Under construction"}
             </div>
           </div>
         )}

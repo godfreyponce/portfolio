@@ -11,6 +11,65 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-09-01 — Site-wide type match to genesiating (#62)
+
+Closes the #53 feel pass's type work. The site had two serifs and a ramp set by taste; it now has
+one serif and a ramp copied from measurements. Six commits on branch `issue-62`, merged at accept.
+
+**The reference stack, corrected.** #60's record (Libre Baskerville display, system sans body,
+IBM Plex Mono labels) was WRONG on every line. Read off genesiating's live computed styles and
+`@font-face` rules on 2026-09-01: **Freight Text** (serif, Cargo-licensed) for the h1 name and
+card titles, **Monument Grotesk Variable** for body, **Golos Text** for the grey labels. Their CSS
+requests serif weights 200 and 500 but only Book(400) and Bold files load, and browsers do not
+synthesise lighter weights, so what actually renders is **Book 400**, not 200. Spectral is our
+free stand-in, picked by the owner at gate 0 from a 3-variant preview against Libre Baskerville
+and Fraunces.
+
+**Normalising is mandatory.** Measured at a 2545px viewport (their root font-size is fluid:
+20.736px at 2560px) and normalised to 1440px. A raw px reading off that site means nothing
+without a stated width. Letter-spacing is copied as fixed px, not em, because theirs is fixed px.
+
+| tier | before | after | genesiating @1440 |
+|---|---|---|---|
+| h1 name | 27px Libre Baskerville | 29px Spectral 400, -0.7px, lh 1.3 | 29.33px |
+| card title (h3) | 22px Fraunces 500 | 16.5px Spectral 500, -0.3px, lh 1.3 | 16.48px |
+| list title (label) | 18px Geist 600 | 15.25px Geist 600, lh 1.7 | 15.25px |
+| body | 18px, lh 1.625 | 15.25px, lh 1.7 | 15.25px, lh 1.70 |
+| section label (h2) | 13px Geist 400 | unchanged (#63) | 12.91px |
+| /projects title | 48px, hardcoded, outside the ramp | 29px `text-h1` | — |
+| distinct text colours, home | 12 | 10 | 8 |
+
+- **`--font-hero` and `--font-baskerville` are gone.** #60's hero-only escape hatch existed only
+  until the site-wide face was decided; that is this ticket. `--font-display` is now Spectral
+  everywhere and nothing references the retired tokens.
+- **Colours: 12 to 10.** Three white alphas on dark surfaces (0.8, 0.6, 0.5) collapse to two
+  steps: `text-white/75` for muted, `text-white/50` for faint. `TechTag`'s tooltip went
+  `text-surface` to `text-white` (250,250,249 and pure white were two census rows for one
+  perceived colour). The remaining gap to genesiating's 8 is deliberate: accent-green (#27) and
+  diff-add / diff-del (#40), which are content colours, not palette.
+- **Two changes the owner added at gate 2, outside the plan.** The hero tagline no longer runs
+  #60's staggered colour sweep on load; the `useEffect` is deleted and hover-only colouring (#37)
+  is untouched. And `Section`'s padding went `py-24` to `py-16` (96px to 64px, home page 6768px
+  to 6385px), picked as variant B from three screenshots of the real page. The spacing follows
+  from this ticket: the padding was set against 18px body type and the type shrank under it.
+
+**Worth carrying.**
+- **A next/font or `@theme` edit is served STALE by a running dev server.** The Turbopack cache in
+  `.next` kept serving `--font-fraunces` through hard reloads, so `--font-display` resolved to an
+  empty var and every serif fell back to Geist. `rm -rf .next` and restart. This is the same
+  gotcha #60 recorded for `layout.tsx`; it applies to `globals.css` too.
+- **The ~375px check never happened.** The Chrome extension's `resize_window` reports success but
+  does not change the page viewport, and osascript could not reach the window holding the
+  automated tab. Card titles got SMALLER, so `truncate` cannot clip worse than before, but nobody
+  looked. The owner accepted at gate 2 having been told exactly that.
+- **The 404 counter now renders a synthetic bold.** `NotFoundCounter.tsx:31` asks for
+  `font-semibold` (600) and Spectral is loaded at 400 and 500 only. It looks fine; no ticket was
+  opened. Fixes are a 600 weight in the font call or `font-medium` at the call site.
+- **`Footer.tsx:13` is the social icons, not text.** The plan listed it in the colour collapse, so
+  those three icons went 60% to 75% white. It does not move the text census.
+- The plan's task 5 said `git rm public/preview-type.html`; git never tracked that file, so it was
+  removed with plain `rm` and there is no fifth commit.
+
 ### 2026-09-01 — Section headings become 13px Geist labels (#63)
 
 Resolves the ramp inversion #60 left behind, where the 27px hero h1 sat below the 32px section

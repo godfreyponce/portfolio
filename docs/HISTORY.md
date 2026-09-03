@@ -11,6 +11,39 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-09-03 — kal's row icon box filled with the K mark (#70)
+
+The kal row on `/projects` rendered the empty bordered placeholder square because its entry had
+no `iconSrc`. It now shows the bone-on-ink K, the same mark iOS puts on the home screen. Two
+things changed: one added line in `lib/projects.ts` (`iconSrc: "/projects/kal/LOGO.png"`, placed
+after `date` to match cometadvisor / remix / nudge) and one new asset,
+`public/projects/kal/LOGO.png` (180x180 RGBA, 2589 bytes). No component changed —
+`ProjectsIndex.tsx:46-55` already branches on `iconSrc` and renders a 40x40 `next/image` with
+`rounded-sm object-contain border border-rule`, so setting the field flips kal from the
+empty-box branch to the image branch.
+
+- **The apple-touch-icon is not a file in the Kal repo.** `~/Developer/Kal/app/apple-icon.tsx` is
+  a Next.js metadata route that renders the icon at request time with `ImageResponse`: 180x180,
+  square corners, background `#1F2421`, one "K" in `#F7F6F3`. iOS rounds the corners itself. So
+  the asset has to be fetched from the deployed site, at
+  `https://kal-delta.vercel.app/apple-icon` — **no `.png` extension, that path 404s**. It is
+  public (Kal's `proxy.ts` matcher excludes `apple-icon` from auth) and a plain curl returns
+  `200 image/png 2589`. The K renders in satori's default sans, not the Georgia the source asks
+  for; that is what the home screen shows, so it is correct. Do not "fix" the font.
+- **`public/projects/kal/kalLogo.png` is the wrong asset** and stays where it is as kal's first
+  media slide. It is a wide wordmark banner, illegible at 40px.
+- **The first `/projects` render after starting the dev server showed the old, empty box.** One
+  re-navigate showed the K, with no code change in between and no console error either time. The
+  file served fine the whole time (`/projects/kal/LOGO.png` → `200 image/png 2589`, and
+  `/_next/image?...w=96&q=75` → `200 image/png 555`). Reload before debugging a `lib/projects.ts`
+  edit that looks like it did not take.
+- **No preview variants.** The ticket pinned the asset and the 40px box already existed, so the
+  owner's 3-variant rule had nothing to pick from. Called out in the plan.
+- **No deviations from the plan.** Every step's expected output matched, including the byte count.
+- Spot-checked at gate 2: the four rows that already had logos (CometAdvisor, Remix, Nudge,
+  TechAssist) still show them, and the empty-box rows (Debrief, glass, jiraPlane, Jira-Alerts,
+  clawd) are still empty. `npx tsc --noEmit` exited 0 with no output.
+
 ### 2026-09-03 — Remix reframed as a GDSC Sprint project (#68)
 
 `ProjectStatus` gains a fifth member, `"sprint"`, and Remix moves onto it. Five changed lines

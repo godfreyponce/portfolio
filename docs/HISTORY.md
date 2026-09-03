@@ -11,6 +11,32 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-09-01 — Duplicate Jira-Alerts slide removed (#66)
+
+One data edit: one `MediaItem` removed from Jira-Alerts' `media` array in `lib/projects.ts`, plus
+`git rm public/projects/jira-alerts/jira-alerts.png` (106222 bytes, 744x260). `git diff` is
+exactly `-1`. No component changed, for the same reason as #67: the carousel and the lightbox both
+read `media` in order, so the flow shot became slide 2 on its own and the dot labels renumbered
+themselves. Slides 1 and 2 had been the same picture, because the banner's own payload IS the
+Teams notification screenshot and slide 2 was that shot cropped tight. Two slides remain: banner,
+then the Power Automate flow shot.
+
+- **No deviations from the plan.** The plan's one correction to the ticket held up: the live
+  reference is `lib/projects.ts:177`, not :176 as the ticket said. Grep confirmed exactly one live
+  hit before the edit; the other hits are historical plan files under `docs/plans/`.
+- **No preview variants.** A deletion offers nothing to pick from, so the owner's 3-variant rule
+  had no material. Called out in the plan rather than skipped silently.
+- **`/projects` is a collapsed accordion.** Nothing about a project's carousel exists in the DOM
+  until its row is clicked open. A first pass that greps for `img` or dot buttons on page load
+  finds zero of both and looks like a broken change. Click the row first.
+- **`next/image` srcs are query-string encoded**, so reading them back through `javascript_tool`
+  trips the cookie/query-string block. `decodeURIComponent` the src and split off everything from
+  `?` onward to get a readable filename.
+- Verified live: two dots, `Go to slide 1` and `Go to slide 2`; slide 2 is the flow shot; the
+  lightbox reads `2 / 2` on the flow shot and `1 / 2` on the banner; no broken image, no 404 in
+  the dev server log. The one console entry is a pre-existing Next.js LCP hint about the banner.
+- Gates: `tsc --noEmit` clean, exit 0, no output.
+
 ### 2026-09-01 — HackAI team photo as CometAdvisor slide 3 (#67)
 
 One data edit: one `MediaItem` inserted at index 2 of CometAdvisor's `media` array in

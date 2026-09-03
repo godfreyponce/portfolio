@@ -11,6 +11,36 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-09-03 — Remix reframed as a GDSC Sprint project (#68)
+
+`ProjectStatus` gains a fifth member, `"sprint"`, and Remix moves onto it. Five changed lines
+total: the union in `lib/projects.ts`, Remix's `status` and `description` in the same file, one
+key in `rowLabel` (`ProjectsIndex.tsx`), one key in `statusLabel` (`ProjectCard.tsx`). Remix's
+pill now reads `Sprint` on the /projects row and on the homepage Lab card, and the description
+closes with "Built at my GDSC (Google Developer Student Club) machine learning sprints event."
+The other seven `status: "project"` entries are untouched and still read `Personal`.
+
+- **A new union member, not a remap.** The ticket asked for this explicitly. Both label maps are
+  `as const` objects indexed as `map[status]`, so `tsc` refuses to compile until each has the new
+  key. That is what makes the two-map edit self-enforcing rather than a thing to remember.
+- **The two maps still disagree for `project`** ("Personal" on the row, "Project" on the card,
+  owner pick at #30). For `sprint` there is no such split: both say "Sprint".
+- **One deviation from the plan, in the plan's arithmetic.** The plan expected 9
+  `status: "project"` entries before the edit and 8 after. There were 8 before and 7 after, so
+  the plan's "expect 8 `Personal` pills" check was off by one. Verified live: 7 `Personal`, 1
+  `Sprint`, 3 `Hackathon`, which is all 11 projects.
+- **No preview variants.** The pill is an existing `Badge` whose text changes and the ticket fixed
+  the word, so the owner's 3-variant rule had nothing to pick from. Called out in the plan.
+- **Remix now has the longest description on the site**, 253 characters against CometAdvisor's
+  136, so it is the new worst case for Lab card height. Worth knowing before anyone lengthens
+  another description.
+- **The browser extension refuses to resize the window to phone widths** ("bounds must be at least
+  50% within visible screen space"), and the site's smooth scroll swallows programmatic scrolling
+  inside an injected iframe, so a mobile screenshot was not reachable. The narrow-width check was
+  done by measurement instead: the page loaded in a 386px iframe, description bottom 72px above
+  the card's clip box, "View project" button 25px above it, no horizontal overflow.
+- Gates: `tsc --noEmit` clean, exit 0, no output. No console errors on either page.
+
 ### 2026-09-01 — Duplicate Jira-Alerts slide removed (#66)
 
 One data edit: one `MediaItem` removed from Jira-Alerts' `media` array in `lib/projects.ts`, plus

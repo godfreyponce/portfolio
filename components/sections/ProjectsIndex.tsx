@@ -179,7 +179,7 @@ export default function ProjectsIndex() {
             <h2 className="text-h2 uppercase text-ink-faint">{label}</h2>
             <div className="mt-4 border-t border-rule">
               {rows.map((p) => (
-                <ProjectRow key={p.title} project={p} />
+                <ProjectRow key={`${group}-${p.title}`} project={p} />
               ))}
             </div>
           </section>

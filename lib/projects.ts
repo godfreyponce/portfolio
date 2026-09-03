@@ -136,6 +136,7 @@ export const projects: Project[] = [
     tags: ["Next.js", "Claude", "Neon", "iron-session"],
     status: "project",
     date: "June 2026",
+    iconSrc: "/projects/kal/LOGO.png",
     githubLink: "https://github.com/godfreyponce/kal",
     media: [
       { type: "image", src: "/projects/kal/kalLogo.png", alt: "kal wordmark", fit: "contain" },

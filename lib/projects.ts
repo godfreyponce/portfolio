@@ -1,7 +1,7 @@
 import type { MediaItem } from "@/components/ui/MediaCarousel";
 
 export type ProjectGroup = "daily" | "work" | "hackathons" | "misc";
-export type ProjectStatus = "live" | "building" | "hackathon" | "project";
+export type ProjectStatus = "live" | "building" | "hackathon" | "project" | "sprint";
 
 export interface Project {
   title: string;
@@ -73,12 +73,12 @@ export const projects: Project[] = [
   {
     title: "Remix",
     description:
-      "Remix analyzes your resume and job description to surface skill gaps, then builds a personalized interview around them, basically so you can practice what actually matters.",
+      "Remix analyzes your resume and job description to surface skill gaps, then builds a personalized interview around them, basically so you can practice what actually matters. Built at my GDSC (Google Developer Student Club) machine learning sprints event.",
     shortDesc: "Mock interviews built from your resume's actual skill gaps.",
     group: "hackathons",
     featured: true,
     tags: ["FAISS", "HuggingFace", "Gemini", "LangChain"],
-    status: "project",
+    status: "sprint",
     date: "February 2026",
     githubLink: "https://github.com/MMehta45/sprint-ml1",
     iconSrc: "/projects/remix/LOGO.png",

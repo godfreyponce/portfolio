@@ -10,7 +10,7 @@ import MediaCarousel, { type MediaItem } from "@/components/ui/MediaCarousel";
 import { GROUPS, projectsNewestFirst, shortDate, techIcons, type Project, type ProjectGroup } from "@/lib/projects";
 
 // Row pill copy (#30 owner pick): "Personal", not the homepage's "Project".
-const rowLabel = { live: "Live", building: "Building", hackathon: "Hackathon", project: "Personal" } as const;
+const rowLabel = { live: "Live", building: "Building", hackathon: "Hackathon", project: "Personal", sprint: "Sprint" } as const;
 
 function youtubeId(url?: string): string | null {
   if (!url) return null;

@@ -36,6 +36,7 @@ const statusLabel = {
   building: "Building",
   hackathon: "Hackathon",
   project: "Project",
+  sprint: "Sprint",
 } as const;
 
 export default function ProjectCard({

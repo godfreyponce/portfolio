@@ -11,6 +11,37 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-09-03 — Filter switches collapse every row on /projects (#71)
+
+Clicking a filter tab on `/projects` used to leave already-expanded rows expanded. Now every
+filter click, including back to All, leaves every visible row collapsed. One changed line,
+`ProjectsIndex.tsx:182`: the row key went from `key={p.title}` to
+`key={`${group}-${p.title}`}`. Nothing else in the file, and no other file, changed.
+
+- **Why the bug existed.** Each row's `open` flag is local state inside `ProjectRow`
+  (`ProjectsIndex.tsx:30`). A switch from All to one group unmounts the other sections, so their
+  rows lose their state, but the surviving section and its rows keep their keys and their parent,
+  so React reconciles them in place and `open` survives. Compounding the key with `group` means a
+  switch gives every row a new key, React unmounts the old one and mounts a fresh one with
+  `open === false`.
+- **Why the key and not an effect or lifted state.** `useEffect(() => setOpen(false), [group])`
+  needs `group` as a prop, renders once open then once closed, and is the "adjusting state on
+  prop change" pattern the React docs say to replace with a key. Lifting `open` into the parent
+  as a set of titles adds state, props, and an unwanted collapse animation on the surviving rows.
+  Both rejected in the plan; the owner's rule is simplest wins.
+- **Clicking the tab that is already selected changes nothing.** `setGroup` with the same value
+  does not re-render, keys do not change, and an expanded row stays expanded. Predicted in the
+  plan, confirmed at gate 2, accepted as-is: a click on the active tab is not a filter switch.
+- **The remount re-fetches each row's icon,** so a row's 40x40 `next/image` can show as an empty
+  box for a beat after a filter click, then fill in. Same first-render lag #70 documented, now
+  reachable without a dev-server restart. Cosmetic, not a regression from this edit.
+- **No preview variants.** The ticket changes behaviour, not appearance; nothing new is drawn, so
+  the owner's 3-variant rule had nothing to pick from. Called out in the plan.
+- **No deviations from the plan.** Verified in the browser across all five checks in the plan's
+  step 4 (switch away, expand/collapse inside a filter, switch back to All with the whole page
+  scrolled, two rows expanded in two sections then filtered to one, and the active-tab click).
+  `npx tsc --noEmit` exited 0 with no output.
+
 ### 2026-09-03 — kal's row icon box filled with the K mark (#70)
 
 The kal row on `/projects` rendered the empty bordered placeholder square because its entry had

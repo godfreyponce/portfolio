@@ -19,7 +19,8 @@ import {
 } from "lucide-react";
 import MediaCarousel from "@/components/ui/MediaCarousel";
 import Badge from "@/components/ui/Badge";
-import { techIcons, type Project } from "@/lib/projects";
+import TechChip from "@/components/ui/TechChip";
+import { type Project } from "@/lib/projects";
 
 const lucideMap = {
   radio: Radio,
@@ -175,15 +176,10 @@ export default function ProjectCard({
                 }
               >
                 <div className="flex flex-col gap-4 rounded-none border border-rule bg-surface-sunken p-4">
-                  <div className="flex flex-wrap items-center justify-between gap-2 border-b border-rule pb-2">
-                    <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap items-center justify-between gap-2 border-b border-rule pb-2 pt-6">
+                    <div className="flex flex-wrap items-center gap-4">
                       {tags.map((tag) => (
-                        <Badge key={tag} className="gap-1.5">
-                          {techIcons[tag] && (
-                            <Image src={techIcons[tag]} alt="" width={13} height={13} unoptimized className="opacity-75" />
-                          )}
-                          {tag}
-                        </Badge>
+                        <TechChip key={tag} tag={tag} />
                       ))}
                     </div>
                     {date && <span className="ml-auto text-xs font-medium uppercase tracking-wider text-ink-subtle">{date}</span>}

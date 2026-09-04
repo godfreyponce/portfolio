@@ -24,7 +24,8 @@ export interface Project {
   iconLucide?: "radio" | "timer" | "eye" | "server" | "brain" | "dollar" | "rocket";
 }
 
-// Brand marks in public/tech (FAISS uses the Meta mark; Nebula API is the UTD Nebula app-icon, Plaid the official lattice)
+// Brand marks in public/tech (FAISS uses the Meta mark; Nebula API is the UTD Nebula app-icon, Plaid the official lattice;
+// #69: tags naming a brand's product/API share that brand's mark, Nitter is the project's own PNG)
 export const techIcons: Record<string, string> = {
   Gemini: "/tech/gemini.svg",
   ElevenLabs: "/tech/elevenlabs.svg",
@@ -37,6 +38,31 @@ export const techIcons: Record<string, string> = {
   Auth0: "/tech/auth0.svg",
   SwiftUI: "/tech/swift.svg",
   Figma: "/tech/figma.svg",
+  "Next.js": "/tech/nextjs.svg",
+  Claude: "/tech/claude.svg",
+  "Claude Code CLI": "/tech/claude.svg",
+  "Claude Code Hooks": "/tech/claude.svg",
+  Neon: "/tech/neon.svg",
+  Python: "/tech/python.svg",
+  "Vercel Functions": "/tech/vercel.svg",
+  Nitter: "/tech/nitter.png",
+  "YouTube RSS": "/tech/youtube.svg",
+  Substack: "/tech/substack.svg",
+  "GitHub API": "/tech/github.svg",
+  Zod: "/tech/zod.svg",
+  "Jira Data Center API": "/tech/jira.svg",
+  "Jira REST API": "/tech/jira.svg",
+  "Microsoft Teams": "/tech/teams.svg",
+  "Power Automate": "/tech/powerautomate.svg",
+  Electron: "/tech/electron.svg",
+  "Node.js": "/tech/nodejs.svg",
+  "CSS Animation": "/tech/css.svg",
+  "ESP32-C3": "/tech/espressif.svg",
+  Arduino: "/tech/arduino.svg",
+  "Adafruit ST7789": "/tech/adafruit.svg",
+  React: "/tech/react.svg",
+  OpenAI: "/tech/openai.svg",
+  "terraria.wiki.gg": "/tech/wikigg.svg",
 };
 
 // Section order and visitor-facing labels for /projects (#36). Copy mirrors the profile README;

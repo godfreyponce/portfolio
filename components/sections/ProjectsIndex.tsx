@@ -7,7 +7,8 @@ import { ArrowLeft, ArrowUpRight, ChevronRight, FlaskConical, Github } from "luc
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Badge from "@/components/ui/Badge";
 import MediaCarousel, { type MediaItem } from "@/components/ui/MediaCarousel";
-import { GROUPS, projectsNewestFirst, shortDate, techIcons, type Project, type ProjectGroup } from "@/lib/projects";
+import TechChip from "@/components/ui/TechChip";
+import { GROUPS, projectsNewestFirst, shortDate, type Project, type ProjectGroup } from "@/lib/projects";
 
 // Row pill copy (#30 owner pick): "Personal", not the homepage's "Project".
 const rowLabel = { live: "Live", building: "Building", hackathon: "Hackathon", project: "Personal", sprint: "Sprint" } as const;
@@ -89,25 +90,9 @@ function ProjectRow({ project }: { project: Project }) {
                   {tags.length > 0 && (
                     <div>
                       <div className="text-xs font-medium uppercase tracking-wider text-ink-faint">Built with</div>
-                      <div className="mt-2 flex flex-wrap gap-2">
+                      <div className="mt-2 flex flex-wrap items-center gap-4 pt-6">
                         {tags.map((tag) => (
-                          <Badge
-                            key={tag}
-                            tabIndex={0}
-                            className="group gap-1.5 outline-offset-2 hover:border-accent hover:text-ink focus-visible:border-accent focus-visible:text-ink motion-safe:transition motion-safe:hover:-translate-y-0.5 motion-safe:focus-visible:-translate-y-0.5"
-                          >
-                            {techIcons[tag] && (
-                              <Image
-                                src={techIcons[tag]}
-                                alt=""
-                                width={13}
-                                height={13}
-                                unoptimized
-                                className="opacity-75 group-hover:opacity-100 group-focus-visible:opacity-100 motion-safe:transition-opacity"
-                              />
-                            )}
-                            {tag}
-                          </Badge>
+                          <TechChip key={tag} tag={tag} />
                         ))}
                       </div>
                     </div>

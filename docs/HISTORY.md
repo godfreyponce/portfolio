@@ -11,6 +11,57 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-09-03 — jiraPlane's flight plays as a video slide (#65)
+
+jiraPlane's second slide on `/projects` was frame 24 of a 9,404,846 byte gif, a still, so the
+animation the project is named for was invisible. It now plays: muted, looping, no controls,
+gif-like. 28 insertions and 4 deletions across three files, plus one new asset,
+`public/projects/jiraplane/flight.mp4` at 260,042 bytes, which is 2.8% of the source gif.
+
+- **`MediaItem` gained a third type and one optional field.** `type: "image" | "youtube" | "video"`
+  and `poster?: string` (`MediaCarousel.tsx:10-18`). A video item is
+  `{ type: "video", src: <mp4>, poster: <png>, alt }`. The still that used to be the slide,
+  `jiraplane.png`, is kept and is now the poster.
+- **The carousel change is one branch in the `picture` slot** (`MediaCarousel.tsx:176-187`), in
+  front of the existing contain and cover branches. Everything wrapping `picture` is untouched, so
+  the video inherits the expandable button, its `aria-label`, the ref that returns focus on close
+  (#49), and the `dragged` guard. A `<video>` with no `controls` is not interactive content, so it
+  is valid inside that `<button>` and stays out of the Tab order.
+- **The lightbox needed two edits, not one.** The stage gained a video branch between youtube and
+  `ImageStage` (`MediaLightbox.tsx:277-287`), using `h-full w-full object-contain` rather than
+  `max-h-full max-w-full`, which would have shown a 560px video at native size in a ~1060px stage.
+  The neighbour preload guard also had to change, from `(n.type === "youtube" && n.videoId) ||
+  !n.src` to `n.type !== "image" || !n.src` (`MediaLightbox.tsx:240`): a video has a `src`, so the
+  old test would have handed `flight.mp4` to `next/image` and asked the optimizer for an mp4.
+  Verified: one request for `flight.mp4`, zero `/_next/image` requests containing `mp4`.
+- **The lightbox plays the video rather than being non-clickable like YouTube slides.** The plan
+  decided this and the ticket left it open. The lightbox pages with arrows through every item, so
+  its stage has to render a video regardless; making the carousel slide non-clickable would have
+  added a branch without removing one.
+- **CRF 28, the owner's pick from three variants** (23 / 28 / 33) previewed at both call-site
+  widths, 838px `cover` for the row and 1060px `contain` for the stage. 23 more than doubled the
+  bytes on a source that is already a soft phone video; 33 smeared the Jira tag text.
+- **The plan's trial encode sizes did not reproduce.** The same command produced 610,946 / 260,042
+  / 118,628 against the plan's 527,582 / 228,278 / 111,479. All three still cleared "meaningfully
+  smaller", so the pick was unaffected, but a planned byte count is worth re-measuring.
+- **Two accepted side effects.** The lightbox mounts its own `<video>`, so it starts at 0 instead
+  of continuing from the row's copy; a 9 s loop, and a gif would do the same. And a filter click
+  remounts the row (#71), so the poster shows for a beat before playback resumes.
+- **All slides stay mounted** (`MediaCarousel.tsx:154`), so the video plays behind slide 1 from the
+  moment the row opens. That is the gif behaviour the ticket asked for. It is not paused when it is
+  not the active slide, deliberately. Reduced motion does not pause it either, for the same reason.
+- **Nothing reaches the homepage.** `ProjectCard` does SSR its carousel, where React's known
+  missing-`muted`-attribute quirk could block autoplay until hydration, but jiraPlane is not
+  `featured`, so no video renders there. Re-check autoplay on that surface if one ever does.
+- **Verification could not run through the Chrome extension**, and the reason is now a STATE.md
+  gotcha. Chrome sat behind a fullscreen terminal, so the tab reported `visibilityState: "hidden"`
+  through every `activate`; a hidden tab pauses muted autoplay video and freezes the
+  `AnimatePresence mode="wait"` crossfade, so ArrowRight moved the counter to `2 / 2` while the
+  stage kept the old slide. Headless Chrome over CDP with `prefers-reduced-motion: reduce` emulated
+  cleared both: reduced motion removes the exit animation that needed frames. Node 24's built-in
+  `WebSocket` drove CDP directly, with no puppeteer or `ws` in the tree.
+- **No deviations from the plan** beyond the encode sizes above and the verification route.
+
 ### 2026-09-03 — Filter switches collapse every row on /projects (#71)
 
 Clicking a filter tab on `/projects` used to leave already-expanded rows expanded. Now every

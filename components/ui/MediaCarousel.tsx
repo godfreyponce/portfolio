@@ -8,11 +8,13 @@ import CarouselArrow from "@/components/ui/CarouselArrow";
 import MediaLightbox from "@/components/ui/MediaLightbox";
 
 export interface MediaItem {
-  type: "image" | "youtube";
+  type: "image" | "youtube" | "video";
   src: string;
   alt?: string;
   videoId?: string;
   fit?: "cover" | "contain";
+  /** "video" only: the still shown until the first frame decodes. */
+  poster?: string;
 }
 
 interface MediaCarouselProps {
@@ -172,7 +174,18 @@ export default function MediaCarousel({ items, title, expandable }: MediaCarouse
           {items.map((item, i) => {
             const active = i === current;
             const picture =
-              item.fit === "contain" ? (
+              item.type === "video" ? (
+                <video
+                  src={item.src}
+                  poster={item.poster}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  aria-label={item.alt || title}
+                  className="h-full w-full object-cover"
+                />
+              ) : item.fit === "contain" ? (
                 <>
                   <Image
                     src={item.src}

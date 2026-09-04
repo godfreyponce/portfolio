@@ -237,7 +237,7 @@ export default function MediaLightbox({ items, title, startIndex, onClose }: Med
             .filter((i) => i >= 0 && i < count)
             .map((i) => {
               const n = items[i];
-              if ((n.type === "youtube" && n.videoId) || !n.src) return null;
+              if (n.type !== "image" || !n.src) return null;
               return (
                 <Image
                   key={i}
@@ -273,6 +273,17 @@ export default function MediaLightbox({ items, title, startIndex, onClose }: Med
                   title={title}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
+                />
+              ) : item.type === "video" ? (
+                <video
+                  src={item.src}
+                  poster={item.poster}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  aria-label={item.alt || title}
+                  className="h-full w-full object-contain"
                 />
               ) : item.src ? (
                 <ImageStage item={item} title={title} reduced={reduced} />

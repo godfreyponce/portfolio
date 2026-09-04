@@ -189,7 +189,7 @@ export const projects: Project[] = [
     githubLink: "https://github.com/godfreyponce/jiraPlane",
     media: [
       { type: "image", src: "/projects/jiraplane/jiraplaneLogo.png", alt: "jiraPlane paper plane towing a Jira tag", fit: "contain" },
-      { type: "image", src: "/projects/jiraplane/jiraplane.png", alt: "jiraPlane flying across a laptop screen" },
+      { type: "video", src: "/projects/jiraplane/flight.mp4", poster: "/projects/jiraplane/jiraplane.png", alt: "jiraPlane flying across a laptop screen" },
     ],
   },
   {

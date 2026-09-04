@@ -11,6 +11,63 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-09-04 — BUILT WITH tags become brand marks that name themselves on hover (#69)
+
+Only 11 of the 36 tags in `techIcons` had a mark, so hackathon projects looked iconified and
+everything else read as plain text. Every tag with an official mark now has one, and the chip
+itself was restyled: a tag with a mark shows the 20x20 mark **alone**, and reveals its name in a
+small bordered label above it on hover or keyboard focus. Tags with no official mark keep the
+text badge. 22 new assets in `public/tech/` (21 SVG + `nitter.png`), 25 new `techIcons` keys, and
+a new component `components/ui/TechChip.tsx` that both render sites call
+(`ProjectsIndex.tsx`, `ProjectCard.tsx`).
+
+- **The restyle was not in the plan.** The plan was assets-plus-map-entries, explicitly "No
+  component edits." At the icon-sheet gate the owner asked for icon-only chips with the name on
+  hover, picked variant A of three (bare marks + tooltip; square chip that widens; bare marks +
+  one shared name line), and the build grew a component. The other two variants are described in
+  the plan-gate exchange only; the throwaway `public/preview-tech.html` was deleted.
+- **The tooltip MUST use a named group.** `ProjectCard.tsx:69-70` puts a plain `group` on the
+  card root. Tailwind's `group-hover:` compiles to `.group:hover &`, which matches **any**
+  hovered ancestor carrying `group` — so with an unnamed group, moving the cursor anywhere on a
+  Lab card lit up every tag's tooltip at once, stacked on top of each other. `group/chip` +
+  `group-hover/chip:` fixes it. This was caught in the browser at gate 2, not by `tsc`.
+- **Both tag rows needed `pt-6`.** The tooltip is `absolute bottom-full mb-2`, and the row it
+  sits in is inside an `overflow-hidden` box in both places (the framer-motion height animation
+  on `/projects`, the `max-h-80` drawer on the card). Without top padding the label is clipped.
+  On the card the padding went on the header row, not the tags div, so the date stays aligned.
+- **Parent-brand marks are deliberate.** A tag naming a brand's product or API borrows that
+  brand's mark: `Jira Data Center API` and `Jira REST API` share `jira.svg`, `Claude Code CLI`
+  and `Claude Code Hooks` share `claude.svg`, `Vercel Functions` → Vercel, `YouTube RSS` →
+  YouTube, `GitHub API` → GitHub, `ESP32-C3` → Espressif, `terraria.wiki.gg` → wiki.gg. The
+  ticket itself established the rule by offering `public/logos/jira.svg` for the Jira tags.
+- **`iron-session` and `launchd` have no official mark** and stay text-only. Owner decision on
+  the ticket: no invented or generic placeholder icons.
+- **Three simple-icons slugs are gone from the current CDN** (`microsoftteams`, `powerautomate`,
+  `openai` all 404 on `cdn.simpleicons.org`). They still exist in the pinned npm release at
+  `https://cdn.jsdelivr.net/npm/simple-icons@12/icons/<slug>.svg`; `@13` and later 404. Those
+  files carry no `fill`, so the build added one with `sed`. Hexes: Teams `6264A7`,
+  Power Automate `0066FF`, OpenAI `412991`.
+- **Near-black marks use the ink token `1c1917`, not `000000`** — Next.js, Vercel, GitHub,
+  Adafruit — matching the existing `elevenlabs.svg` precedent. `python.svg`, `jira.svg` and
+  `css.svg` were **copied** from `public/logos/` (the Timeline set), byte-identical to a fresh
+  fetch; the Timeline is untouched and was spot-checked at gate 2.
+- **Nitter has no simple-icons entry.** Its mark is the project's own
+  `raw.githubusercontent.com/zedeus/nitter/master/public/logo.png` (500x500, 1865 bytes). A PNG
+  in `public/tech/` has precedent (`nebula.png`).
+- **`next/image` here is `loading="lazy"`, which makes verification lie.** A freshly expanded row
+  reports `naturalWidth: 0` / `complete: false` for a second or two, and a screenshot taken then
+  shows blank gaps where the marks are. That is not a broken asset. Also `window.scrollTo` and
+  `scrollIntoView` do nothing on this site (smooth-scroll library owns the scroll container) — use
+  the extension's real scroll action. And **the screenshot coordinate space is offset roughly
+  +13px in x from `getBoundingClientRect`**, enough to miss a 20px hover target.
+- **Follow-up filed as #72:** hover and keyboard focus are the only ways to read a name, so on a
+  touch device the names are unreachable. Flagged at the pick gate and deferred, not solved here.
+- The plan's step-4 check predicted 22 "ok" lines; only 21 are SVG (Nitter is a PNG and is not in
+  that loop). The count of 22 new files is right.
+- `npx tsc --noEmit` exited 0 with no output. Verified in the browser on `/projects` (kal:
+  3 marks + `iron-session` text; Jira-Alerts: 4 marks + `launchd` text) and on the homepage Lab
+  card drawer (CometAdvisor), including that only the hovered mark shows its name.
+
 ### 2026-09-03 — jiraPlane's flight plays as a video slide (#65)
 
 jiraPlane's second slide on `/projects` was frame 24 of a 9,404,846 byte gif, a still, so the

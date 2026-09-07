@@ -87,7 +87,7 @@ export default function ProjectCard({
         )}
 
         {media && media.length > 0 ? (
-          <MediaCarousel items={media} title={title} />
+          <MediaCarousel items={media} title={title} expandable="single" />
         ) : youtubeId ? (
           <iframe
             className="h-full w-full border-0"

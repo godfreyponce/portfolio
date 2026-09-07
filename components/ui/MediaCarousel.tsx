@@ -6,6 +6,7 @@ import { ImageIcon } from "lucide-react";
 import { motion, useMotionValue, animate, useReducedMotion, type PanInfo } from "framer-motion";
 import CarouselArrow from "@/components/ui/CarouselArrow";
 import MediaLightbox from "@/components/ui/MediaLightbox";
+import SingleLightbox from "@/components/ui/SingleLightbox";
 
 export interface MediaItem {
   type: "image" | "youtube" | "video";
@@ -20,8 +21,9 @@ export interface MediaItem {
 interface MediaCarouselProps {
   items: MediaItem[];
   title: string;
-  /** Opt in to click-to-enlarge. Off on the homepage card, on for the /projects row (#49). */
-  expandable?: boolean;
+  /** Click-to-enlarge. Off by default. "slideshow" is the /projects overlay with paging (#49);
+   *  "single" enlarges one slide with no paging, the homepage Lab card (#64). */
+  expandable?: "slideshow" | "single";
 }
 
 export const IMAGE_SIZES = "(max-width: 767px) 100vw, 500px";
@@ -290,7 +292,19 @@ export default function MediaCarousel({ items, title, expandable }: MediaCarouse
         </>
       )}
 
-      {lightbox !== null && (
+      {lightbox !== null && expandable === "single" && (
+        <SingleLightbox
+          item={items[lightbox]}
+          title={title}
+          onClose={() => {
+            const closeIndex = lightbox;
+            setLightbox(null);
+            slideButtons.current[closeIndex]?.focus();
+          }}
+        />
+      )}
+
+      {lightbox !== null && expandable === "slideshow" && (
         <MediaLightbox
           items={items}
           title={title}

@@ -41,7 +41,7 @@ const BUTTON =
 // Own component so `sharp` resets with the slide: the parent keys it by index.
 // CAROUSEL_SIZES must stay the carousel's own string; any other value misses the cache and
 // the first frame goes back to blank, silently.
-function ImageStage({
+export function ImageStage({
   item,
   title,
   reduced,

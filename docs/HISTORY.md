@@ -11,6 +11,53 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-09-06 — Clicking a Lab card image enlarges it, one picture, no paging (#64)
+
+Last ticket of the #64 to #71 batch. The homepage Lab carousel had all of #49's click plumbing
+sitting unused: `ProjectCard` mounted `MediaCarousel` without `expandable`, so a click did
+nothing. This ticket turns it on and gives it its own overlay instead of reusing the /projects one.
+
+- **Owner picked variant C of three**, from the throwaway `public/preview-64.html` (deleted after
+  the pick, never committed). A = cream page, hairline border, mono caption. B = near-black page,
+  picture alone, no caption. C = dimmed page, the picture in a raised white card with the name
+  below it in Spectral, the card dropping in with a small tilt. All three drop the /projects panel,
+  arrows, counter and title footer; that absence is most of what makes them "visibly different".
+- **One deviation from the plan, visible in the preview the owner picked from**: the tilt runs on
+  the card, not on the stage inside a still card. "A raised paper card dropped on the page" means
+  the card moves. The transform still never touches the `fixed` root.
+- **`expandable` is a union now, not a boolean**: `"slideshow" | "single"`. `ProjectsIndex` passes
+  `"slideshow"` (the #49 overlay, byte-for-byte unchanged), `ProjectCard` passes `"single"`. The
+  `expandable ? <button> : picture` branch still works because both strings are truthy, and `tsc`
+  refuses a third value. Keeping the boolean and adding a second prop would spell one choice twice.
+- **`ImageStage` is exported from `MediaLightbox`, not copied.** It is the two-layer trick (cached
+  carousel-sized request underneath, large render faded in on load) that makes the big picture paint
+  on the first frame. Its `sizes` string already asks for a rendition wider than the new stage, so
+  `SingleLightbox` needed no `sizes` of its own. That one `export` keyword is the entire edit to
+  `MediaLightbox.tsx`.
+- **Any click closes, including a click on the picture.** `MediaLightbox` closes only on the scrim,
+  because its panel holds arrows and a footer worth clicking. Here the viewport is one picture with
+  nothing else to do. Esc and the X close too. The owner accepted this at gate 2 without changing it.
+- **The stage is sized in `vw`/`vh` (88 x 78), not to the picture.** `next/image` `fill` has no
+  natural size to read before load. The consequence, checked at 375x812 and accepted at gate 2: on a
+  phone a wide screenshot fills the width and leaves grey gutters above and below it inside the
+  card. Nothing is clipped and the page does not scroll sideways (`scrollWidth` 375 vs client 375;
+  the card lands at left 10, right 366).
+- **Verified in the running site at 1280x900**: overlay is a child of `<body>`, one button inside it
+  (the X, so no arrows and no counter), focus starts on the X and returns to the clicked slide
+  button on close, `body` overflow locked and restored, a real wheel over the overlay left `scrollY`
+  at 0 while the same wheel with no overlay moved it 1940 to 2845, a 220px mouse drag paged the
+  carousel and opened nothing while a plain click on the same spot opened it, TechAssist's YouTube
+  slide is still not wrapped in a zoom button (13 zoom buttons for 14 slides), and /projects still
+  reports `CometAdvisor slideshow`, `Close slideshow`, `1 / 4`, two buttons.
+- **Correction to a gotcha: headless Chrome over CDP DOES run animation frames here.** STATE.md said
+  it buys an exact viewport but not motion. Under `--headless=new` on Chrome 152 the card was caught
+  mid-animation at 120ms (`matrix(0.9937, -0.0055, ...)`, opacity 0.786) and settled to
+  `transform: none` afterwards, and a synthesised `Input.dispatchMouseEvent` drag reached
+  Framer Motion's drag detection and paged the carousel. Reduced motion emulated through
+  `Emulation.setEmulatedMedia` gave `transform: none`, opacity 1 at 120ms, so the reduced path is
+  real and not just a frozen frame. Both the drag check and the motion check, which past tickets
+  handed to the owner, ran unattended.
+
 ### 2026-09-04 — BUILT WITH tags become brand marks that name themselves on hover (#69)
 
 Only 11 of the 36 tags in `techIcons` had a mark, so hackathon projects looked iconified and
@@ -2146,6 +2193,7 @@ components/sections/TheLab.tsx        async server component; fetches contributi
 components/sections/ProjectStack.tsx  sticky stack + StackedCard math + GitHubTile + Heatmap
 components/sections/ProjectCard.tsx   grid|stack variants; techIcons map; upward expander
 components/ui/MediaCarousel.tsx       all-mounted crossfade carousel; fit:"contain" backdrop
+components/ui/SingleLightbox.tsx      Lab enlarge overlay (#64): one picture, no paging
 lib/projects.ts                       project data (11 projects, GROUPS sections)
 lib/github.ts                         getContributions() server fetch, 6h revalidate
 public/tech/*.svg                     brand-colored tag icons

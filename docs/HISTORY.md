@@ -11,6 +11,46 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-09-06 — BUILT WITH tag names reach touch devices (#72)
+
+Filed during the #69 build, which made the tags icon-only: hover and keyboard focus were the only
+two ways to read a name, and a phone has neither. This closes the last open work ticket.
+
+- **Why both reveal paths were dead on a phone.** Tailwind v4 wraps every `hover:` utility,
+  `group-hover/chip:` included, in `@media (hover: hover)`, so on a touch device those rules do not
+  exist at all; and a tap does not match `:focus-visible`, so the focus path never fired either.
+  The marks showed, the names did not, and nothing on the page could bring them up.
+- **Owner picked variant A of three**, from the throwaway `public/preview-chips.html` (deleted
+  after the pick, never committed). A = `@media (hover: none)` falls back to the pre-#69 text badge,
+  the mark at 13x13 beside its name. B = the tooltip keys off `:focus` instead of `:focus-visible`,
+  so a tap reveals it and the icon-only look survives everywhere. C = the same fallback as A keyed
+  to `max-sm:` (640px) instead of to touch. All three render byte-identical markup on a device that
+  can hover, which is why the preview needed a simulated-touch screenshot to be judgeable at all.
+- **`[@media(hover:none)]:` rather than a `@custom-variant` in `globals.css`**, so exactly one
+  shipped file changes. It is the exact complement of the query Tailwind already uses for `hover:`,
+  so the fallback appears precisely where the tooltip cannot.
+- **The fallback needs its wrapper span.** `hidden` and `[@media(hover:none)]:contents` both set
+  `display`, and putting the plain `hidden` on `Badge` itself would fight Badge's own `inline-flex`.
+  Confirmed in the served stylesheet: `.hidden` at line 955 and both `@media (hover: none)` blocks
+  at 3554 and 3560 sit inside the same `@layer utilities` (636 to 3565), so equal specificity plus
+  later source order makes the touch rules win. `display: contents` also keeps the Badge a direct
+  flex item of the tag row, so the row's `gap-4` still applies.
+- **`TechChip` returns a fragment now.** Safe because both call sites put `key` on `<TechChip>`
+  itself (`ProjectsIndex.tsx:95`, `ProjectCard.tsx:182`); neither call site changed.
+- **Accessibility unchanged.** The icon chip keeps `alt={tag}`; the fallback image is `alt=""`
+  because the tag text follows it, same as the pre-#69 markup. On touch the icon chip is
+  `display: none`, so it is neither focusable nor in the accessibility tree there.
+- **Verified on desktop:** `/projects` glass row and the homepage CometAdvisor drawer both
+  unchanged, hover still names the mark, `iron-session` still a plain text badge, and 1 of 14
+  tooltips lit with the cursor inside a card, so the named `group/chip` from #69 still holds.
+  `tsc --noEmit` clean. **Not verified by the builder:** a real touch input. The extension emulates
+  neither `hover: none` nor taps, so the touch branch was proven from the compiled CSS and checked
+  by the owner in DevTools device mode at gate 2.
+- **Two small notes for the next session.** `npx next dev` already answers on the LAN address it
+  prints, so a phone check needs no `-H 0.0.0.0`. And walking `document.styleSheets` through
+  `javascript_tool` found none of the utility rules; `curl` the served stylesheet and grep it,
+  which is the same move the `motion-safe:` nesting check already uses.
+
 ### 2026-09-06 — Clicking a Lab card image enlarges it, one picture, no paging (#64)
 
 Last ticket of the #64 to #71 batch. The homepage Lab carousel had all of #49's click plumbing

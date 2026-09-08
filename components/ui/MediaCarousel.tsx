@@ -294,11 +294,12 @@ export default function MediaCarousel({ items, title, expandable }: MediaCarouse
 
       {lightbox !== null && expandable === "single" && (
         <SingleLightbox
-          item={items[lightbox]}
+          items={items}
           title={title}
-          onClose={() => {
-            const closeIndex = lightbox;
+          startIndex={lightbox}
+          onClose={(closeIndex) => {
             setLightbox(null);
+            snap(closeIndex);
             slideButtons.current[closeIndex]?.focus();
           }}
         />

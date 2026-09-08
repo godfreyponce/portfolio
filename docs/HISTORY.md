@@ -11,6 +11,80 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-09-08 — The Lab enlarge overlay pages through the card's images (#73)
+
+Filed after #64 shipped the one-picture overlay. Enlarging a Lab card image put the visitor in a
+dead end: four pictures in the card, one reachable, and the only way to the next was to close and
+click again. No preview round, because the look was picked at #64 and the ticket only adds paging
+inside it. No deviations from the plan.
+
+- **Owner decisions from intake, all settled before the build:** the clicked card's own images
+  only, the #64 card look with paging added inside it, right half next and left half previous,
+  the carousel follows on close, stop at the ends with no wrap, crossfade, and **no hint of any
+  kind** — no counter, no dots, no arrows. That last one is why the overlay still screenshots
+  exactly like #64's.
+- **`SingleLightbox` took `MediaLightbox`'s prop contract**: the full `items` list plus
+  `startIndex`, reporting back through `onClose(index)`. That made the carousel's `"single"`
+  branch a copy of its `"slideshow"` branch — `setLightbox(null)`, `snap(closeIndex)`,
+  `slideButtons.current[closeIndex]?.focus()` — a seven-line diff in `MediaCarousel.tsx`. The two
+  overlays stay separate components on purpose (#64); they now just take the same props.
+  **`MediaLightbox.tsx` did not change at all.**
+- **The overlay decides zoomability itself**, with one predicate mirroring the carousel's render
+  branch (`MediaCarousel.tsx:231-241`): a YouTube slide with a `videoId` gets an iframe, anything
+  else with a `src` gets the zoom button. Paging walks the list and skips the rest, so TechAssist's
+  video slide is stepped over. The alternative, handing the overlay a pre-filtered list, would need
+  a second array to map the overlay's index back to a carousel index for `snap` and the focus
+  return.
+- **Everything new is gated on `multiple`** (more than one enlargeable item). With one image there
+  are no pan handlers, no wheel listener, no `touch-none`, no click handler on the stage and no
+  `cursor-default`, and the arrow keys fall through — #64's behaviour exactly. **No Lab card has one
+  image today** (CometAdvisor 4, Remix 3, Nudge 3, TechAssist 3 plus the video), so this was proven
+  by reading the gate, not by clicking, and `lib/projects.ts` was deliberately not edited to
+  manufacture a fixture.
+- **The crossfade is an `AnimatePresence` in default sync mode, keyed by index** — not
+  `mode="wait"`, which is a fade-out-then-in. Both layers are `absolute inset-0`, so the outgoing
+  one fades out under the incoming one, and the incoming layer's bottom `ImageStage` image is the
+  request the carousel already made, so it paints on the first frame. 200ms, matching the card's
+  own entrance rather than introducing a third number. The caption swaps instantly: fading it would
+  leave a blank beat under the stage. No neighbour preload, unlike `MediaLightbox` — every carousel
+  slide stays mounted, so the picture is already fetched.
+- **The trackpad pages too, which the ticket did not ask for.** It named keys, click zones and
+  touch swipe. But its own constraint said to mind the browser's back/forward gesture, and the only
+  fix is a non-passive `wheel` listener that `preventDefault`s horizontal intent (React's `onWheel`
+  is passive — same reason `MediaCarousel.tsx:96-97` has its own). Once the gesture is consumed,
+  swallowing it silently in an overlay that pages on every other horizontal gesture would read as
+  broken. Same accumulate / fire-once / lock-until-quiet block and the same exported constants as
+  the carousel and `MediaLightbox`, so one macOS momentum burst is one picture: a 3-tick swipe
+  moved exactly one.
+- **Click zones are the halves of the stage box, not of the painted picture.** The box is
+  `88vw x 78vh` with the picture `object-contain` inside it, so a click in a letterbox gutter pages
+  too. Measuring the painted picture would need the natural size, which `fill` does not expose
+  before load, and the gutters are the same sunken grey as the box.
+- **Only the picture stopped closing.** The card's padding and the caption below it still close on
+  click, as every click did in #64. The stage gets `cursor-default` when paging is on, because the
+  root's `cursor-zoom-out` would otherwise inherit onto a surface that no longer closes; a
+  directional cursor would be a hint, and the owner said none.
+- **The pan lives on the root**, so a swipe starting over the scrim pages as well, exactly like
+  `MediaLightbox`. On a phone the card fills the viewport and the scrim is a thin frame, so the
+  difference is invisible there. The flip happens on release and the picture never follows the
+  finger — the #49 owner decision, carried over: no `drag`, no motion value.
+- **A click that ends a drag must not page or close.** Same `dragged` ref as the carousel: set on
+  pan start, cleared a tick after settle, checked by both the root click (close) and the stage click
+  (page). Proven: a leftward mouse drag paged exactly once and left the overlay open, where a
+  degraded drag would have paged twice or landed on the wrong picture.
+- **Verified in the browser** on the homepage Lab cards: arrow keys page with the caption
+  following and stop at both ends (forward 4x from the logo stays on the tech stack, back 5x stays
+  on the logo); the right half pages forward and the left half back, neither closing; mid-fade the
+  stage held two `absolute inset-0` layers at 0.39 and 0.61 opacity and one afterwards; a mouse drag
+  left paged forward, right paged back, and a 300px vertical drag did nothing; a 3-tick horizontal
+  wheel paged once and the page did not navigate back; scrim, X and Esc all close and Tab keeps
+  focus on the X; TechAssist stops at its third image and closes onto slide 3, not the video;
+  `/projects` still opens `MediaLightbox` with its arrows and `1 / 3` counter. Console held only
+  the pre-existing Next.js LCP warnings. `tsc --noEmit` clean.
+- **Not verified by the builder:** a real touch swipe. The extension cannot send touch. Framer's
+  pan runs on pointer events for mouse and touch alike, so the mouse drag exercises the same
+  `settle`; the owner checked device mode at gate 2.
+
 ### 2026-09-06 — BUILT WITH tag names reach touch devices (#72)
 
 Filed during the #69 build, which made the tags icon-only: hover and keyboard focus were the only

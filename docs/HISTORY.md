@@ -11,6 +11,19 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-09-09 — Nudge demo video as the last slide (no ticket)
+
+Owner request in-session, no ticket. Two lines in `lib/projects.ts`: `videoUrl` set to
+`https://www.youtube.com/watch?v=wPNfufwHK0U` and a `youtube` `MediaItem` (`videoId: "wPNfufwHK0U"`)
+appended as Nudge's fourth slide, after the tech stack. Same shape as TechAssist, which
+carries both fields for the same reason: `videoUrl` is only the fallback when a project has
+no `media`, so the slide itself has to be in the list. No component change, no asset.
+
+- **Verified by payload, not by screenshot.** The carousel mounts a YouTube iframe only for the
+  active slide, so the server HTML never contains an embed for any project (TechAssist's is
+  absent too). The check was that the video id reaches the page payload exactly as
+  TechAssist's does. `tsc --noEmit` clean.
+
 ### 2026-09-09 — GDSC team poster as Remix slide 3 (no ticket)
 
 Owner request in-session, no ticket. One `MediaItem` inserted at index 2 of Remix's `media` in

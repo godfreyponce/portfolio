@@ -14,6 +14,8 @@ export interface MediaItem {
   alt?: string;
   videoId?: string;
   fit?: "cover" | "contain";
+  /** "cover" only: CSS object-position, e.g. "center 65%" to show more of the bottom. */
+  position?: string;
   /** "video" only: the still shown until the first frame decodes. */
   poster?: string;
 }
@@ -216,6 +218,7 @@ export default function MediaCarousel({ items, title, expandable }: MediaCarouse
                   fill
                   draggable={false}
                   className="object-cover"
+                  style={item.position ? { objectPosition: item.position } : undefined}
                   quality={90}
                   sizes={IMAGE_SIZES}
                 />

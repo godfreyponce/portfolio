@@ -11,6 +11,20 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-09-08 — Judge photo as CometAdvisor slide 3, with a per-image crop position (no ticket)
+
+Owner request in-session, no ticket. One `MediaItem` inserted at index 2 of CometAdvisor's
+`media` in `lib/projects.ts`, plus the asset `public/projects/cometadvisor/comet-team.jpg`
+(1152x1536 portrait JPEG): HackAI 2026 judge Abhishek Rai's selfie with the team, the app open
+on the laptop. The #67 presenting shot moved to slide 4 on its own. Alt text names the judge,
+because the owner wanted the caption to say who he is.
+
+- **`MediaItem.position` is new.** A portrait photo in a landscape cover box centres on the
+  middle of the frame, and the owner wanted the crop moved. `position?: string` is applied as
+  `style={{ objectPosition }}` on the cover branch only; contain and video branches ignore it.
+  This photo sits at `center 35%`, picked by eye over two rounds (65% first, then flipped).
+  Items without it render byte-identical to before.
+
 ### 2026-09-08 — The Lab enlarge overlay pages through the card's images (#73)
 
 Filed after #64 shipped the one-picture overlay. Enlarging a Lab card image put the visitor in a
@@ -2306,7 +2320,7 @@ components/canvas/LossGraph.tsx       ghost-runs training divider (self-containe
 components/sections/TheLab.tsx        async server component; fetches contributions
 components/sections/ProjectStack.tsx  sticky stack + StackedCard math + GitHubTile + Heatmap
 components/sections/ProjectCard.tsx   grid|stack variants; techIcons map; upward expander
-components/ui/MediaCarousel.tsx       all-mounted crossfade carousel; fit:"contain" backdrop
+components/ui/MediaCarousel.tsx       all-mounted crossfade carousel; fit:"contain" backdrop; per-image position
 components/ui/SingleLightbox.tsx      Lab enlarge overlay (#64): one picture, no paging
 lib/projects.ts                       project data (11 projects, GROUPS sections)
 lib/github.ts                         getContributions() server fetch, 6h revalidate

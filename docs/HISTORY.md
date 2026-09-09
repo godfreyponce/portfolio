@@ -11,6 +11,23 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-09-09 — GDSC team poster as Remix slide 3 (no ticket)
+
+Owner request in-session, no ticket. One `MediaItem` inserted at index 2 of Remix's `media` in
+`lib/projects.ts`, plus the asset `public/projects/remix/gdsc-team.jpg` (1080x1350 portrait
+JPEG): the "Machine Learning 1" team slide from gdg.utd's Sprints feature post on Instagram
+(post DU_D1IKjWiE, slide 5), five faces with name tags and Monish's quote. Sits between the
+presenting photo and the tech stack.
+
+- **Contain, not cover.** The poster is 4:5 in a 3:2 frame. Cover would keep only the faces and
+  lose the headline and the quote, which are the reason to add it over another team photo, so it
+  renders the same way as the logo and stack slides: whole poster on its own blurred backdrop.
+  No component change; `MediaItem.position` from 2026-09-08 is not used here.
+- **The file came off Instagram's CDN, not from the pasted screenshot.** The owner pasted a
+  viewer screenshot with arrows and dots baked in; the original was fetched from the logged-in
+  post through a throwaway local URL-fetcher, because the Chrome extension redacts CDN URLs and
+  base64 from tool results and Instagram's CSP blocks a POST to localhost from the page.
+
 ### 2026-09-08 — Judge photo as CometAdvisor slide 3, with a per-image crop position (no ticket)
 
 Owner request in-session, no ticket. One `MediaItem` inserted at index 2 of CometAdvisor's

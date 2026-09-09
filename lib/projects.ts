@@ -128,11 +128,13 @@ export const projects: Project[] = [
     date: "January 2026",
     githubLink: "https://github.com/godfreyponce/tamuhack-26",
     devpostLink: "https://devpost.com/software/tamuhack-pq8rof",
+    videoUrl: "https://www.youtube.com/watch?v=wPNfufwHK0U",
     iconSrc: "/projects/nudge/LOGO.png",
     media: [
       { type: "image", src: "/projects/nudge/nudgelogo.jpeg", alt: "Nudge logo" },
       { type: "image", src: "/projects/nudge/nudge.png", alt: "Nudge screenshot" },
       { type: "image", src: "/projects/nudge/nudge-stack.png", alt: "Nudge tech stack", fit: "contain" },
+      { type: "youtube", src: "", videoId: "wPNfufwHK0U" },
     ],
   },
   {

@@ -112,6 +112,7 @@ export const projects: Project[] = [
     media: [
       { type: "image", src: "/projects/remix/remixLogo.png", alt: "Remix project overview", fit: "contain" },
       { type: "image", src: "/projects/remix/Godfrey.JPG", alt: "Presenting Remix" },
+      { type: "image", src: "/projects/remix/gdsc-team.jpg", alt: "GDSC Machine Learning 1 team feature from the sprint Instagram post", fit: "contain" },
       { type: "image", src: "/projects/remix/remix_stack.png", alt: "Remix tech stack", fit: "contain" },
     ],
   },

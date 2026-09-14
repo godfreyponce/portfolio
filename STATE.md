@@ -4,7 +4,163 @@ status: in-progress
 last_worked_on: 2026-09-14
 next_action: ""
 blocked_on: ""
-phase: "#74 (The Lab: TryHackMe icon in the streak row) shipped and closed 2026-09-14, EMPTYING THE WORK QUEUE AGAIN: only #53 and #35 stay open, so next_action is blank. THE TICKET CHANGED SHAPE TWICE BEFORE IT WAS BUILT: intake put a live rank in the hero social row, the owner rejected the hero placement at the first preview gate (2026-09-12), then moved it under the GitHub tile (2026-09-13), and the live number was dropped (2026-09-14) because TryHackMe sits behind a Vercel JavaScript challenge that answers 429 to every server-side fetch and sends no CORS header to a browser one; passing that challenge is bot-detection evasion and out of scope. So there is NO API ROUTE AND NO FETCH, only an icon and a link. THE OWNER PICKED VARIANT B of three hovers (a dark bg-surface-inverse square fills in, the mark turns white) AND THE FULL SIMPLE ICONS MARK, cloud plus binary digits, over the plan's cloud-only crop; at 22px the digits blur, and the owner saw that in the preview. StreakLine is now the two-end row (TryHackMeLink left, StreakNumbers right) and StreakNumbers keeps the return null, so the link survives a failed GitHub fetch and is in the SSR HTML while the numbers are not. The plan's brand color token was NOT added because variant B does not use it, so globals.css did not change and the branch had one commit, fast-forwarded. Side effect: in the grid layout the row now always takes 24px under the tile. #73 (Lab overlay: page through the card's images with arrow keys, click zones and swipe) shipped and closed 2026-09-08, EMPTYING THE WORK QUEUE AGAIN: only #53 (feel pass, the owner's to close) and #35 (the pinned map) stay open, so next_action is blank until a ticket is filed and green-lit. NO PREVIEW ROUND and no deviations from the plan, because the look was already picked at #64. SingleLightbox now takes the FULL items list plus startIndex and reports back through onClose(index), the same contract MediaLightbox already had, so the carousel's \"single\" branch became a copy of its \"slideshow\" branch (snap the track, return focus) and MediaLightbox.tsx did not change at all. EVERYTHING NEW IS GATED ON `multiple` (more than one enlargeable item, where enlargeable mirrors the carousel's render branch: not a YouTube slide with a videoId, and it has a src), so a one-image card renders and behaves exactly as #64 shipped it; NO LAB CARD HAS ONE IMAGE TODAY, so that path was proven from the gate in the code, not by clicking, and lib/projects.ts was deliberately not edited to manufacture a fixture. THE CROSSFADE IS AN AnimatePresence IN DEFAULT SYNC MODE keyed by index, not mode=\"wait\": both layers are absolute inset-0, so the outgoing fades out under the incoming, and the incoming layer's bottom ImageStage image is the carousel's cached request, which is what paints on the first frame. 200ms, matching the card's entrance. THE TRACKPAD PAGES TOO, a decision the plan flagged at gate 1: the ticket named only keys, click zones and touch, but a non-passive wheel listener with preventDefault is the only thing that stops Chrome's back/forward swipe, and swallowing a consumed gesture silently would read as broken; same accumulate / fire-once / lock-until-quiet constants as the carousel and MediaLightbox. Click zones are the halves of the STAGE BOX, so a letterbox gutter pages too, and the picture is the only surface that stopped closing (card padding and caption still close). Verified in the browser: arrow keys with both end stops, both click halves, a mouse drag each way, a vertical drag (nothing), a 3-tick trackpad swipe (exactly one picture, and the page did not navigate back), scrim / X / Esc close, the Tab trap, TechAssist's YouTube slide stepped over, and /projects still on MediaLightbox with its arrows and 1 / 3 counter. THE BUILDER CANNOT SEND TOUCH, but Framer routes mouse and touch through the same pointer events, so the mouse drag exercises the same settle path; the owner checked real touch in DevTools device mode. #72 (Tech chips: tag names are unreachable on touch devices) shipped and closed 2026-09-06, WHICH EMPTIES THE WORK QUEUE AT THE TIME (#73 was filed and built after it): only #53 (feel pass, the owner's to close) and #35 (the pinned map) stay open, so next_action is blank until a ticket is filed and green-lit. THE OWNER PICKED VARIANT A of three previews: where the browser reports it cannot hover, TechChip renders the pre-#69 text badge (the mark at 13x13 beside its name) instead of the icon-only chip, and a hover-capable device gets byte-identical markup to before. WHY BOTH REVEAL PATHS WERE DEAD ON A PHONE: Tailwind v4 wraps every hover: utility, group-hover/chip: included, in @media (hover: hover), so those rules do not exist on touch, and a tap never matches :focus-visible. The arbitrary variant [@media(hover:none)]: is used instead of a @custom-variant in globals.css so that exactly one shipped file changes. THE FALLBACK NEEDS ITS WRAPPER SPAN, because hidden and [@media(hover:none)]:contents both set display and a plain hidden on Badge would fight Badge's own inline-flex; the served CSS puts .hidden at line 955 and both @media (hover: none) blocks at 3554/3560 inside the same @layer utilities (636 to 3565), so later source order makes the touch rules win. TechChip returns a fragment now, safe because both call sites put key on <TechChip> itself. Verified on desktop: /projects and the homepage drawer unchanged, and 1 of 14 tooltips lit with the cursor inside a card, so the named group from #69 still holds. THE BUILDER CANNOT TEST TOUCH (the extension emulates neither hover: none nor taps), so the touch branch was proven from the compiled CSS and checked by the owner in DevTools device mode. Two notes: npx next dev ALREADY ANSWERS ON THE LAN address it prints, so a phone check needs no -H 0.0.0.0; and walking document.styleSheets through javascript_tool found none of the utility rules, so curl the served stylesheet and grep it instead. #64 (Lab lightbox: click to enlarge images in THE LAB) shipped and closed 2026-09-06, emptying the #64 to #71 batch. A click on a homepage Lab card picture now opens SingleLightbox: one picture, no paging, no arrows, no counter, portaled to document.body because the Lab cards are scale-transformed sticky motion.divs. THE OWNER PICKED VARIANT C of three previews (dimmed page, the picture in a raised white card with its name below, the card dropping in with a small tilt) and the build tilts THE CARD, not the stage inside a still card, which is the one place it departs from the plan. MediaCarousel expandable is now "slideshow" | "single" instead of a boolean, so the two overlays are named at the call site and tsc refuses a third value; the expandable ? button : picture branch still works because both strings are truthy. ImageStage is EXPORTED from MediaLightbox rather than copied (its cached-layer trick is what makes the big picture paint on the first frame), and that one export keyword is the whole edit to that file. ANY CLICK CLOSES, the picture included, unlike MediaLightbox where only the scrim does. The stage is sized 88vw x 78vh rather than to the picture, because next/image fill has no natural size before load; accepted consequence, checked at 375x812: on a phone a wide screenshot leaves grey gutters above and below it inside the card, nothing clipped, no sideways scroll. #69 (Tech chips: add logos for the unmapped BUILT WITH techs) shipped and closed 2026-09-04, leaving #64 as the only open ticket of the #64 to #71 batch. THE TICKET GREW A RESTYLE MID-BUILD: the plan was assets-plus-map-entries and said NO COMPONENT EDITS, but at the icon-sheet gate the owner asked for icon-only chips and picked variant A of three, so a tag with an official mark now shows the 20x20 mark ALONE and names itself in a label above it on hover or keyboard focus. Tags with no mark (iron-session, launchd) keep the text badge. 22 new assets in public/tech, 25 new techIcons keys, and a new components/ui/TechChip.tsx that ProjectsIndex and ProjectCard both call. THE TOOLTIP MUST USE A NAMED GROUP: ProjectCard.tsx:69-70 puts a plain group class on the card root and Tailwind group-hover: matches ANY hovered ancestor carrying group, so an unnamed group lit up every tooltip in the card at once whenever the cursor was anywhere on it; group/chip fixes it, and tsc cannot catch this, only the browser can. Both tag rows also needed pt-6, because the tooltip is absolute bottom-full and sits inside an overflow-hidden box in both places (the framer-motion height animation on /projects, the max-h-80 drawer on the card). Parent-brand marks are deliberate: Jira Data Center API and Jira REST API share jira.svg, Claude Code CLI and Claude Code Hooks share claude.svg, plus Vercel Functions, YouTube RSS, GitHub API, ESP32-C3 and terraria.wiki.gg. THREE SIMPLE-ICONS SLUGS ARE GONE from the current CDN (microsoftteams, powerautomate, openai all 404) and come from the pinned simple-icons@12 on jsDelivr with a fill added by sed; @13 and later 404. Near-black marks use the ink hex 1c1917, not 000000. python/jira/css were copied from public/logos and the Timeline is untouched. NEXT/IMAGE IS LAZY HERE, so a freshly expanded row reports naturalWidth 0 for a second or two and screenshots blank; that is not a broken asset. window.scrollTo and scrollIntoView do nothing on this site (a smooth-scroll library owns the scroll container), and the screenshot coordinate space is offset about +13px in x from getBoundingClientRect, enough to miss a 20px hover target. #72 was filed: hover and focus are the only ways to read a name, so touch devices cannot reach them. #65 (jiraPlane: play the plane animation as a real video slide) shipped and closed 2026-09-03, taken out of order ahead of #69. MediaItem gained a third type, \"video\", plus an optional poster, and both render sites branch on it: MediaCarousel builds the <video> in the same picture slot images use, so the expandable button, its aria-label and the focus-return ref all apply unchanged; MediaLightbox renders one in its stage AND its neighbour preload guard changed from the youtube-or-empty test to n.type !== \"image\", without which an mp4 would be handed to next/image. The asset is public/projects/jiraplane/flight.mp4, 260,042 bytes, encoded off ~/Developer/jiraPlane/docs/media/flight.gif (9,404,846 bytes) at CRF 28, the owner's pick from three variants; the crop is 560x314 because yuv420p needs even dimensions. THE PLAN'S TRIAL ENCODE SIZES DID NOT REPRODUCE: the same command gave 610,946 / 260,042 / 118,628 against the plan's 527,582 / 228,278 / 111,479, so re-measure rather than trusting a planned byte count. TWO ACCEPTED SIDE EFFECTS: the lightbox mounts its own <video>, so it starts at 0 instead of continuing from the row's copy; and a filter click remounts the row (#71), so the poster shows for a beat before playback resumes. #71 (Projects filter: switching filters collapses expanded rows) shipped and closed 2026-09-03, the fifth and last green-lit ticket of the #64 to #71 batch. ONE CHANGED LINE, ProjectsIndex.tsx:182: the row key went from key={p.title} to a template literal that prefixes the active filter. Each row's open flag is local state in ProjectRow (ProjectsIndex.tsx:30), so a row that survived a filter switch kept its key, its parent, and therefore its open state; a new key makes React unmount it and mount a fresh closed one. The rejected alternatives are in the plan and in HISTORY: an effect on group is the adjusting-state-on-prop-change pattern React tells you to replace with a key, and lifting open into the parent adds state plus an unwanted collapse animation. TWO ACCEPTED SIDE EFFECTS: clicking the tab that is ALREADY selected changes nothing (setGroup with the same value does not re-render, so an expanded row stays expanded, and the owner accepted that a click on the active tab is not a filter switch); and the remount re-fetches each row icon, so a 40x40 next/image can flash as an empty box for a beat after a filter click. No deviations from the plan and no preview variants (behaviour, not appearance). #70 (kal: fill the row icon box with the K mark) shipped and closed 2026-09-03, the fourth of the #64 to #71 batch. Two things changed and no component did: one added iconSrc line on kal's entry in lib/projects.ts, plus the new asset public/projects/kal/LOGO.png (180x180, 2589 bytes). ProjectsIndex.tsx:46-55 already branches on iconSrc, so setting the field flips a row from the empty bordered box to a 40x40 next/image. THE KAL APPLE ICON IS NOT A FILE IN THE KAL REPO: app/apple-icon.tsx is a Next.js metadata route rendered at request time by ImageResponse, so the asset has to be fetched from the deployed site at https://kal-delta.vercel.app/apple-icon, WITH NO .png EXTENSION (that path 404s). It is public and curl-able. Do not use public/projects/kal/kalLogo.png, which is a wide wordmark banner and illegible at 40px; it stays as kal's first media slide. No deviations from the plan and no preview variants (the ticket pinned the asset and the box already existed). One thing worth carrying, now a gotcha below: the FIRST /projects render after starting the dev server showed the pre-edit empty box, and one re-navigate showed the K with no code change between. #68 (Remix: reframe as a GDSC Sprint project) shipped and closed 2026-09-03, the third of the batch. ProjectStatus gained a fifth member, \"sprint\", and Remix moved onto it: five changed lines, the union plus Remix's status and description in lib/projects.ts, plus one key in each of the two label maps (rowLabel in ProjectsIndex, statusLabel in ProjectCard). BOTH MAPS ARE as const AND INDEXED BY STATUS, so tsc refuses to compile until each has the new key, which is what makes a new status member self-enforcing instead of a thing to remember. The maps still disagree for project (\"Personal\" on the row, \"Project\" on the card, owner pick at #30); for sprint both say \"Sprint\". Two things #68 left behind: REMIX NOW HAS THE LONGEST DESCRIPTION ON THE SITE, 253 chars against CometAdvisor's 136, so it is the new worst case for Lab card height; and THE BROWSER EXTENSION REFUSES TO RESIZE THE WINDOW to phone widths (\"bounds must be at least 50% within visible screen space\") while the site's smooth scroll swallows programmatic scrolling inside an injected iframe, so a mobile screenshot is not reachable and narrow-width checks have to be done by measurement in an iframe instead. #66 and #67 shipped and closed 2026-09-01, the second and first of the batch: one MediaItem removed from lib/projects.ts plus a git rm of the PNG, and one MediaItem inserted at index 2. Neither changed a component, because the carousel and the lightbox both read media in order. /projects IS A COLLAPSED ACCORDION, so nothing about a project's carousel exists in the DOM until the row is clicked open; and next/image srcs are query-string encoded, so reading them back through javascript_tool trips the cookie/query-string block unless you decodeURIComponent and split off everything from ? onward."
+phase: >-
+  #74 (The Lab: TryHackMe icon in the streak row) shipped and closed 2026-09-14, EMPTYING THE WORK
+  QUEUE AGAIN: only #53 and #35 stay open, so next_action is blank. THE TICKET CHANGED SHAPE TWICE
+  BEFORE IT WAS BUILT: intake put a live rank in the hero social row, the owner rejected the hero
+  placement at the first preview gate (2026-09-12), then moved it under the GitHub tile (2026-09-13),
+  and the live number was dropped (2026-09-14) because TryHackMe sits behind a Vercel JavaScript
+  challenge that answers 429 to every server-side fetch and sends no CORS header to a browser one;
+  passing that challenge is bot-detection evasion and out of scope. So there is NO API ROUTE AND NO
+  FETCH, only an icon and a link. THE OWNER PICKED VARIANT B of three hovers (a dark
+  bg-surface-inverse square fills in, the mark turns white) AND THE FULL SIMPLE ICONS MARK, cloud plus
+  binary digits, over the plan's cloud-only crop; at 22px the digits blur, and the owner saw that in
+  the preview. StreakLine is now the two-end row (TryHackMeLink left, StreakNumbers right) and
+  StreakNumbers keeps the return null, so the link survives a failed GitHub fetch and is in the SSR
+  HTML while the numbers are not. The plan's brand color token was NOT added because variant B does
+  not use it, so globals.css did not change and the branch had one commit, fast-forwarded. Side
+  effect: in the grid layout the row now always takes 24px under the tile. #73 (Lab overlay: page
+  through the card's images with arrow keys, click zones and swipe) shipped and closed 2026-09-08,
+  EMPTYING THE WORK QUEUE AGAIN: only #53 (feel pass, the owner's to close) and #35 (the pinned map)
+  stay open, so next_action is blank until a ticket is filed and green-lit. NO PREVIEW ROUND and no
+  deviations from the plan, because the look was already picked at #64. SingleLightbox now takes the
+  FULL items list plus startIndex and reports back through onClose(index), the same contract
+  MediaLightbox already had, so the carousel's "single" branch became a copy of its "slideshow" branch
+  (snap the track, return focus) and MediaLightbox.tsx did not change at all. EVERYTHING NEW IS GATED
+  ON `multiple` (more than one enlargeable item, where enlargeable mirrors the carousel's render
+  branch: not a YouTube slide with a videoId, and it has a src), so a one-image card renders and
+  behaves exactly as #64 shipped it; NO LAB CARD HAS ONE IMAGE TODAY, so that path was proven from the
+  gate in the code, not by clicking, and lib/projects.ts was deliberately not edited to manufacture a
+  fixture. THE CROSSFADE IS AN AnimatePresence IN DEFAULT SYNC MODE keyed by index, not mode="wait":
+  both layers are absolute inset-0, so the outgoing fades out under the incoming, and the incoming
+  layer's bottom ImageStage image is the carousel's cached request, which is what paints on the first
+  frame. 200ms, matching the card's entrance. THE TRACKPAD PAGES TOO, a decision the plan flagged at
+  gate 1: the ticket named only keys, click zones and touch, but a non-passive wheel listener with
+  preventDefault is the only thing that stops Chrome's back/forward swipe, and swallowing a consumed
+  gesture silently would read as broken; same accumulate / fire-once / lock-until-quiet constants as
+  the carousel and MediaLightbox. Click zones are the halves of the STAGE BOX, so a letterbox gutter
+  pages too, and the picture is the only surface that stopped closing (card padding and caption still
+  close). Verified in the browser: arrow keys with both end stops, both click halves, a mouse drag
+  each way, a vertical drag (nothing), a 3-tick trackpad swipe (exactly one picture, and the page did
+  not navigate back), scrim / X / Esc close, the Tab trap, TechAssist's YouTube slide stepped over,
+  and /projects still on MediaLightbox with its arrows and 1 / 3 counter. THE BUILDER CANNOT SEND
+  TOUCH, but Framer routes mouse and touch through the same pointer events, so the mouse drag
+  exercises the same settle path; the owner checked real touch in DevTools device mode. #72 (Tech
+  chips: tag names are unreachable on touch devices) shipped and closed 2026-09-06, WHICH EMPTIES THE
+  WORK QUEUE AT THE TIME (#73 was filed and built after it): only #53 (feel pass, the owner's to
+  close) and #35 (the pinned map) stay open, so next_action is blank until a ticket is filed and
+  green-lit. THE OWNER PICKED VARIANT A of three previews: where the browser reports it cannot hover,
+  TechChip renders the pre-#69 text badge (the mark at 13x13 beside its name) instead of the icon-only
+  chip, and a hover-capable device gets byte-identical markup to before. WHY BOTH REVEAL PATHS WERE
+  DEAD ON A PHONE: Tailwind v4 wraps every hover: utility, group-hover/chip: included, in @media
+  (hover: hover), so those rules do not exist on touch, and a tap never matches :focus-visible. The
+  arbitrary variant [@media(hover:none)]: is used instead of a @custom-variant in globals.css so that
+  exactly one shipped file changes. THE FALLBACK NEEDS ITS WRAPPER SPAN, because hidden and
+  [@media(hover:none)]:contents both set display and a plain hidden on Badge would fight Badge's own
+  inline-flex; the served CSS puts .hidden at line 955 and both @media (hover: none) blocks at
+  3554/3560 inside the same @layer utilities (636 to 3565), so later source order makes the touch
+  rules win. TechChip returns a fragment now, safe because both call sites put key on <TechChip>
+  itself. Verified on desktop: /projects and the homepage drawer unchanged, and 1 of 14 tooltips lit
+  with the cursor inside a card, so the named group from #69 still holds. THE BUILDER CANNOT TEST
+  TOUCH (the extension emulates neither hover: none nor taps), so the touch branch was proven from the
+  compiled CSS and checked by the owner in DevTools device mode. Two notes: npx next dev ALREADY
+  ANSWERS ON THE LAN address it prints, so a phone check needs no -H 0.0.0.0; and walking
+  document.styleSheets through javascript_tool found none of the utility rules, so curl the served
+  stylesheet and grep it instead. #64 (Lab lightbox: click to enlarge images in THE LAB) shipped and
+  closed 2026-09-06, emptying the #64 to #71 batch. A click on a homepage Lab card picture now opens
+  SingleLightbox: one picture, no paging, no arrows, no counter, portaled to document.body because the
+  Lab cards are scale-transformed sticky motion.divs. THE OWNER PICKED VARIANT C of three previews
+  (dimmed page, the picture in a raised white card with its name below, the card dropping in with a
+  small tilt) and the build tilts THE CARD, not the stage inside a still card, which is the one place
+  it departs from the plan. MediaCarousel expandable is now "slideshow" | "single" instead of a
+  boolean, so the two overlays are named at the call site and tsc refuses a third value; the
+  expandable ? button : picture branch still works because both strings are truthy. ImageStage is
+  EXPORTED from MediaLightbox rather than copied (its cached-layer trick is what makes the big picture
+  paint on the first frame), and that one export keyword is the whole edit to that file. ANY CLICK
+  CLOSES, the picture included, unlike MediaLightbox where only the scrim does. The stage is sized
+  88vw x 78vh rather than to the picture, because next/image fill has no natural size before load;
+  accepted consequence, checked at 375x812: on a phone a wide screenshot leaves grey gutters above and
+  below it inside the card, nothing clipped, no sideways scroll. #69 (Tech chips: add logos for the
+  unmapped BUILT WITH techs) shipped and closed 2026-09-04, leaving #64 as the only open ticket of the
+  #64 to #71 batch. THE TICKET GREW A RESTYLE MID-BUILD: the plan was assets-plus-map-entries and said
+  NO COMPONENT EDITS, but at the icon-sheet gate the owner asked for icon-only chips and picked
+  variant A of three, so a tag with an official mark now shows the 20x20 mark ALONE and names itself
+  in a label above it on hover or keyboard focus. Tags with no mark (iron-session, launchd) keep the
+  text badge. 22 new assets in public/tech, 25 new techIcons keys, and a new
+  components/ui/TechChip.tsx that ProjectsIndex and ProjectCard both call. THE TOOLTIP MUST USE A
+  NAMED GROUP: ProjectCard.tsx:69-70 puts a plain group class on the card root and Tailwind
+  group-hover: matches ANY hovered ancestor carrying group, so an unnamed group lit up every tooltip
+  in the card at once whenever the cursor was anywhere on it; group/chip fixes it, and tsc cannot
+  catch this, only the browser can. Both tag rows also needed pt-6, because the tooltip is absolute
+  bottom-full and sits inside an overflow-hidden box in both places (the framer-motion height
+  animation on /projects, the max-h-80 drawer on the card). Parent-brand marks are deliberate: Jira
+  Data Center API and Jira REST API share jira.svg, Claude Code CLI and Claude Code Hooks share
+  claude.svg, plus Vercel Functions, YouTube RSS, GitHub API, ESP32-C3 and terraria.wiki.gg. THREE
+  SIMPLE-ICONS SLUGS ARE GONE from the current CDN (microsoftteams, powerautomate, openai all 404) and
+  come from the pinned simple-icons@12 on jsDelivr with a fill added by sed; @13 and later 404.
+  Near-black marks use the ink hex 1c1917, not 000000. python/jira/css were copied from public/logos
+  and the Timeline is untouched. NEXT/IMAGE IS LAZY HERE, so a freshly expanded row reports
+  naturalWidth 0 for a second or two and screenshots blank; that is not a broken asset.
+  window.scrollTo and scrollIntoView do nothing on this site (a smooth-scroll library owns the scroll
+  container), and the screenshot coordinate space is offset about +13px in x from
+  getBoundingClientRect, enough to miss a 20px hover target. #72 was filed: hover and focus are the
+  only ways to read a name, so touch devices cannot reach them. #65 (jiraPlane: play the plane
+  animation as a real video slide) shipped and closed 2026-09-03, taken out of order ahead of #69.
+  MediaItem gained a third type, "video", plus an optional poster, and both render sites branch on it:
+  MediaCarousel builds the <video> in the same picture slot images use, so the expandable button, its
+  aria-label and the focus-return ref all apply unchanged; MediaLightbox renders one in its stage AND
+  its neighbour preload guard changed from the youtube-or-empty test to n.type !== "image", without
+  which an mp4 would be handed to next/image. The asset is public/projects/jiraplane/flight.mp4,
+  260,042 bytes, encoded off ~/Developer/jiraPlane/docs/media/flight.gif (9,404,846 bytes) at CRF 28,
+  the owner's pick from three variants; the crop is 560x314 because yuv420p needs even dimensions. THE
+  PLAN'S TRIAL ENCODE SIZES DID NOT REPRODUCE: the same command gave 610,946 / 260,042 / 118,628
+  against the plan's 527,582 / 228,278 / 111,479, so re-measure rather than trusting a planned byte
+  count. TWO ACCEPTED SIDE EFFECTS: the lightbox mounts its own <video>, so it starts at 0 instead of
+  continuing from the row's copy; and a filter click remounts the row (#71), so the poster shows for a
+  beat before playback resumes. #71 (Projects filter: switching filters collapses expanded rows)
+  shipped and closed 2026-09-03, the fifth and last green-lit ticket of the #64 to #71 batch. ONE
+  CHANGED LINE, ProjectsIndex.tsx:182: the row key went from key={p.title} to a template literal that
+  prefixes the active filter. Each row's open flag is local state in ProjectRow
+  (ProjectsIndex.tsx:30), so a row that survived a filter switch kept its key, its parent, and
+  therefore its open state; a new key makes React unmount it and mount a fresh closed one. The
+  rejected alternatives are in the plan and in HISTORY: an effect on group is the
+  adjusting-state-on-prop-change pattern React tells you to replace with a key, and lifting open into
+  the parent adds state plus an unwanted collapse animation. TWO ACCEPTED SIDE EFFECTS: clicking the
+  tab that is ALREADY selected changes nothing (setGroup with the same value does not re-render, so an
+  expanded row stays expanded, and the owner accepted that a click on the active tab is not a filter
+  switch); and the remount re-fetches each row icon, so a 40x40 next/image can flash as an empty box
+  for a beat after a filter click. No deviations from the plan and no preview variants (behaviour, not
+  appearance). #70 (kal: fill the row icon box with the K mark) shipped and closed 2026-09-03, the
+  fourth of the #64 to #71 batch. Two things changed and no component did: one added iconSrc line on
+  kal's entry in lib/projects.ts, plus the new asset public/projects/kal/LOGO.png (180x180, 2589
+  bytes). ProjectsIndex.tsx:46-55 already branches on iconSrc, so setting the field flips a row from
+  the empty bordered box to a 40x40 next/image. THE KAL APPLE ICON IS NOT A FILE IN THE KAL REPO:
+  app/apple-icon.tsx is a Next.js metadata route rendered at request time by ImageResponse, so the
+  asset has to be fetched from the deployed site at https://kal-delta.vercel.app/apple-icon, WITH NO
+  .png EXTENSION (that path 404s). It is public and curl-able. Do not use
+  public/projects/kal/kalLogo.png, which is a wide wordmark banner and illegible at 40px; it stays as
+  kal's first media slide. No deviations from the plan and no preview variants (the ticket pinned the
+  asset and the box already existed). One thing worth carrying, now a gotcha below: the FIRST
+  /projects render after starting the dev server showed the pre-edit empty box, and one re-navigate
+  showed the K with no code change between. #68 (Remix: reframe as a GDSC Sprint project) shipped and
+  closed 2026-09-03, the third of the batch. ProjectStatus gained a fifth member, "sprint", and Remix
+  moved onto it: five changed lines, the union plus Remix's status and description in lib/projects.ts,
+  plus one key in each of the two label maps (rowLabel in ProjectsIndex, statusLabel in ProjectCard).
+  BOTH MAPS ARE as const AND INDEXED BY STATUS, so tsc refuses to compile until each has the new key,
+  which is what makes a new status member self-enforcing instead of a thing to remember. The maps
+  still disagree for project ("Personal" on the row, "Project" on the card, owner pick at #30); for
+  sprint both say "Sprint". Two things #68 left behind: REMIX NOW HAS THE LONGEST DESCRIPTION ON THE
+  SITE, 253 chars against CometAdvisor's 136, so it is the new worst case for Lab card height; and THE
+  BROWSER EXTENSION REFUSES TO RESIZE THE WINDOW to phone widths ("bounds must be at least 50% within
+  visible screen space") while the site's smooth scroll swallows programmatic scrolling inside an
+  injected iframe, so a mobile screenshot is not reachable and narrow-width checks have to be done by
+  measurement in an iframe instead. #66 and #67 shipped and closed 2026-09-01, the second and first of
+  the batch: one MediaItem removed from lib/projects.ts plus a git rm of the PNG, and one MediaItem
+  inserted at index 2. Neither changed a component, because the carousel and the lightbox both read
+  media in order. /projects IS A COLLAPSED ACCORDION, so nothing about a project's carousel exists in
+  the DOM until the row is clicked open; and next/image srcs are query-string encoded, so reading them
+  back through javascript_tool trips the cookie/query-string block unless you decodeURIComponent and
+  split off everything from ? onward.
 ---
 
 # personalWebsite — Project State

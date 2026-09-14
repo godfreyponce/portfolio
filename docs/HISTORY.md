@@ -11,6 +11,45 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-09-14 — TryHackMe icon in the Lab streak row (#74)
+
+Intake (2026-09-10) asked for a TryHackMe link with a live rank ("Top 20%") in the hero social
+row. The ticket was re-scoped twice before it was built. At the first build's preview gate
+(2026-09-12) the owner rejected the hero row: it is three uppercase words, not icons, and a
+fourth item wraps at 400px. On 2026-09-13 the owner marked the new spot on a screenshot, the
+empty left end of the streak row under the GitHub tile. On 2026-09-14 the live number was dropped.
+
+- **Why there is no number.** The 2026-09-11 spike: `tryhackme.com` answers HTTP 429 with a Vercel
+  Security Checkpoint page to `curl`, to a full Chrome header set, and on all three paths
+  (`/api/v2/public-profile`, `/api/v2/badges/public-profile`, `/p/poncegodfrey`). A cross-origin
+  `fetch()` from our page fails with no `Access-Control-Allow-Origin`. Passing the challenge means
+  running its script, which is bot-detection evasion. So no API route, no client fetch, no `lib/`
+  change. If the rank is ever wanted it is its own ticket.
+- **Shipped** (`1123fc0`, `components/sections/ProjectStack.tsx` only). `StreakLine` is now the row,
+  `flex items-center justify-between`, with a new local `TryHackMeLink` on the left and the old
+  numbers, renamed `StreakNumbers`, on the right. `StreakNumbers` keeps `if (!streaks) return null`,
+  so the link does not vanish when the GitHub fetch fails. Both layout branches already rendered
+  `StreakLine` under the tile, so the call sites did not change. The link is
+  `https://tryhackme.com/p/poncegodfrey`, `target="_blank"`, `rel="noopener noreferrer"`,
+  `aria-label="TryHackMe profile"`.
+- **Owner picks, from `public/preview-thm.html` (deleted).** Hover B of three: a 32px
+  `bg-surface-inverse` square fills in and the mark turns white, the GitHub tile's own swap (A was
+  the hero `.tactile-link` lift with a brand cursor, C a one-shot float like the count-up). Rest
+  colour `text-ink-faint`, the grey of "longest". And the FULL Simple Icons mark (cloud plus binary
+  digits, `viewBox 0 0 24 24`, drawn at 22px) over the plan's cloud-only crop of the first subpath.
+  The digits blur at that size; the owner saw both side by side and chose the full mark.
+- **Plan deviation.** The plan added `--color-brand-tryhackme: #212c42` for every variant, but B uses
+  no brand colour, so it was not added and `globals.css` is unchanged. One commit instead of two,
+  fast-forwarded onto main.
+- **Side effect.** In the grid layout (SSR, below md, reduced motion) the row used to disappear with
+  the numbers; it now always holds the link and takes 24px under the tile.
+- **Verified.** SSR HTML (`streaks === null`) contains the anchor with all three attributes and 0
+  matches for `day longest streak on GitHub`. Stacked layout in Chrome: link at x 282 and numbers
+  ending at x 1182 of a 900px row, `elementFromPoint` hits the link, hover reads background
+  `rgb(28, 25, 23)` and colour white, the count-up still runs (71, 40 at 150ms, 71), and a click
+  opened the profile in a new tab. Grid layout in a 390px iframe: 340px row, link left, numbers
+  right, one line. `tsc --noEmit` clean. Real touch was not checked.
+
 ### 2026-09-09 — Nudge demo video as the last slide (no ticket)
 
 Owner request in-session, no ticket. Two lines in `lib/projects.ts`: `videoUrl` set to

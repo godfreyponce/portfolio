@@ -11,6 +11,35 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-09-14 — STATE.md head parses as YAML again (#75)
+
+Filed at the #74 accept, when Ruby Psych failed on the STATE.md head. The cause was `phase`: one
+15,069-character double-quoted line that mixed 20 escaped inner quotes with raw ones, first written
+by the #64 docs commit (`2ba9751`, `MediaCarousel expandable is now "slideshow" | "single"`). Every
+YAML parser rejects a raw `"` inside a double-quoted scalar, so the whole head had been unreadable
+from #64 until this fix. Nothing on the site reads the head, so nothing visible broke.
+
+- **Shipped** (`9647a1a`, `STATE.md` only). `phase` is now a `>-` folded block scalar: the same text
+  on two-space-indented lines wrapped at 100 characters, which a parser joins back with single
+  spaces. The 20 `\"` escapes became plain `"`, since a backslash is literal inside a block scalar.
+  A throwaway scratchpad script did the rewrite and refused to write unless js-yaml read the new
+  head back to exactly the intended text. The owner picked this shape over escaping or single
+  quotes at /plan-ticket, because it has no quoting rules for a later docs commit to break.
+- **Verified.** Before: js-yaml `bad indentation of a mapping entry (6:6585)`, gray-matter
+  `incomplete explicit mapping pair ... at line 7, column 7239`, Psych `did not find expected key
+  while parsing a block mapping at line 2 column 1`. After: all three read the head and report
+  `phase` at 15,040 characters. The diff removed one line. `~/Developer/tools/state-lint` stayed
+  clean (exit 0). `tsc --noEmit` clean. No dev server; the site does not render STATE.md.
+- **Done when, replaced clause.** "glass renders the personalWebsite card" could not be checked:
+  glass syncs cards from a per-project `glass.md`, and STATE.md-head sync is its unbuilt Stage 2.
+  A gray-matter parse of the head, the parser glass would use, stood in for it (recorded on the
+  ticket at plan time).
+- **Plan defects, found at build.** The Step 1 Ruby command was garbled (its tail was pasted twice)
+  and ran as `2>&1 | head -1` instead. Step 5 expected a removed-line count of 1 and got 2; the
+  extra line is the `--- a/STATE.md` diff header, which the grep counts.
+- **Follow-ups.** A strict-YAML parse guard for state-lint is `godfreyponce/dev-meta#2`. The #75
+  entry at this accept is the first written inside the block, and the head was parsed again after it.
+
 ### 2026-09-14 — TryHackMe icon in the Lab streak row (#74)
 
 Intake (2026-09-10) asked for a TryHackMe link with a live rank ("Top 20%") in the hero social

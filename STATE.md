@@ -5,6 +5,17 @@ last_worked_on: 2026-09-14
 next_action: ""
 blocked_on: ""
 phase: >-
+  #75 (STATE.md head is not valid YAML) fixed and closed 2026-09-14, EMPTYING THE WORK QUEUE AGAIN:
+  only #53 and #35 stay open, so next_action is blank. THE HEAD HAD NEVER PARSED: phase was one
+  double-quoted line holding raw inner quotes from the #64 entry, so js-yaml, gray-matter (the parser
+  glass uses) and Ruby Psych all failed on the whole head. PHASE IS NOW A >- FOLDED BLOCK SCALAR: the
+  same text on two-space-indented lines, which a parser joins back into one line with single spaces,
+  so quotes inside it need no escaping; the 20 old backslash-quote escapes became plain quotes. All
+  three parsers read the fixed head and agreed on 15040 characters, and state-lint stayed clean. NEW
+  ENTRIES GO IN AS INDENTED LINES AT THE TOP OF THE BLOCK, NEVER AS A QUOTED LINE. The Done when
+  clause about glass rendering the card could not be checked, because glass reads a per-project
+  glass.md today and STATE.md-head sync is its unbuilt Stage 2, so a gray-matter parse of the head
+  stood in for it. A strict-YAML guard for state-lint is filed as godfreyponce/dev-meta#2.
   #74 (The Lab: TryHackMe icon in the streak row) shipped and closed 2026-09-14, EMPTYING THE WORK
   QUEUE AGAIN: only #53 and #35 stay open, so next_action is blank. THE TICKET CHANGED SHAPE TWICE
   BEFORE IT WAS BUILT: intake put a live rank in the hero social row, the owner rejected the hero
@@ -174,9 +185,8 @@ Archive: `docs/HISTORY.md`. Queue: GitHub Issues (`gh issue list`). Protocol: `A
 
 ## Now
 
-- The work queue holds no green-lit work ticket. #74 closed 2026-09-14, so `next_action` is
+- The work queue holds no green-lit work ticket. #75 closed 2026-09-14, so `next_action` is
   blank; the next session starts by filing one or green-lighting one, not by picking from the queue.
-  #75 (STATE.md head is not valid YAML) was filed at the #74 accept and is not green-lit.
 - Feel pass #53: every build ticket under it has landed (#55 to #60, #62, #63, #61). #53 itself
   is still open; closing it is the owner's call.
 - Map issue #35 is pinned; regenerate `docs/decision-map.html`
@@ -197,6 +207,11 @@ Verify visually via Chrome automation at localhost:3000 (scroll the whole page).
 
 ## Gotchas (short form — full detail in docs/HISTORY.md)
 
+- **`phase` in the head is a `>-` block scalar (#75). Never turn it back into a one-line quoted
+  string**: one raw `"` inside a double-quoted value breaks js-yaml, gray-matter and Psych on the
+  whole head, and that went unseen from #64 to #74. At accept, add the new entry as two-space-indented
+  lines at the top of the block, no quotes, no escaping, no line starting with extra spaces (a
+  more-indented line keeps its newline). Then parse the head once with `js-yaml` before committing.
 - The FIRST page render after starting the dev server can show pre-edit data (#70): `/projects`
   came back with kal's old empty icon box even though the `lib/projects.ts` edit predated
   `npm run dev`, and one re-navigate showed the new icon with no code change and no console error

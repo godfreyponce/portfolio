@@ -169,6 +169,7 @@ export default function Timeline() {
 
         <TimelineItem
           date="Fall 2024 - Present"
+          present
           title="Community & Events Officer"
           subtitle="Google Developer Student Club (GDSC)"
           logoSrc="/gdsc_logo.png"

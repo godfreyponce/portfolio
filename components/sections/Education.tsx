@@ -58,7 +58,7 @@ export default function Education() {
         <EducationItem
           title="BS in Computer Science"
           subtitle="The University of Texas at Dallas"
-          date="Fall 2024 - Winter 2027"
+          date="Fall 2024 - Spring 2028"
           description="Minor in Cognitive Science"
           logoSrc="/utd_logo.jpeg"
         />

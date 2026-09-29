@@ -498,7 +498,7 @@ then the Power Automate flow shot.
 
 - **No deviations from the plan.** The plan's one correction to the ticket held up: the live
   reference is `lib/projects.ts:177`, not :176 as the ticket said. Grep confirmed exactly one live
-  hit before the edit; the other hits are historical plan files under `docs/plans/`.
+  hit before the edit; the other hits are historical plan files under `docs/superpowers/plans/`.
 - **No preview variants.** A deletion offers nothing to pick from, so the owner's 3-variant rule
   had no material. Called out in the plan rather than skipped silently.
 - **`/projects` is a collapsed accordion.** Nothing about a project's carousel exists in the DOM
@@ -1795,7 +1795,7 @@ This entry exists so it does not happen a third time.
   home link navigates to `/` and the homepage still renders; ~390px via
   same-origin iframe: no horizontal overflow, numeral clamps to its 96px
   floor, blurb and link each hold one line. `tsc --noEmit` exit 0. Plan
-  `docs/plans/2026-08-13-issue-31.md`.
+  `docs/superpowers/plans/2026-08-13-issue-31.md`.
 - **Flagged at accept, deliberately not "fixed":** the stickman is a fixed
   200×140 SVG next to a fluid `clamp(96px,20vw,160px)` numeral, so he reads
   small at desktop and proportional at 390px. The shipped Fraunces is chunkier
@@ -1838,7 +1838,7 @@ This entry exists so it does not happen a third time.
   end with the same four Lab cards; ~390px via same-origin iframe (fullscreen
   Chrome still refuses `resize_window`): one-liners/dates hide, toggle wraps to
   two lines, long header wraps. `tsc --noEmit` exit 0. Plan
-  `docs/plans/2026-08-13-issue-36.md`; the only deviations were the toggle (owner
+  `docs/superpowers/plans/2026-08-13-issue-36.md`; the only deviations were the toggle (owner
   ask) and the `tab` field it needed on `GROUPS`.
 - **Left open:** the seven new entries have empty `tags` — per-project tech tags
   would be their own ticket; guessing stacks risked wrong copy.
@@ -1856,7 +1856,7 @@ This entry exists so it does not happen a third time.
   matching `app/layout.tsx`'s existing pattern.
 - **Verification:** `curl localhost:3000/robots.txt` and `/sitemap.xml` both
   returned exactly the expected output (no visual surface, so no Chrome pass);
-  `tsc --noEmit` exit 0. Plan `docs/plans/2026-08-10-issue-32.md`, followed
+  `tsc --noEmit` exit 0. Plan `docs/superpowers/plans/2026-08-10-issue-32.md`, followed
   with zero deviations.
 
 ### 2026-08-03 — Featured Lab stack + /projects index page (#30)

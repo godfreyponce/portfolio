@@ -22,8 +22,8 @@ Planning and building do not share a window. A context that has read the issue, 
 and written a plan is a **poor context to then write the code in** — so the plan goes to a file and
 a fresh session builds from it.
 
-- **`/plan-ticket [#N]`** — read the ticket, write `docs/plans/YYYY-MM-DD-issue-N.md`, stop. No
-  code. The owner reads the plan (**gate 1** — cheap; nothing is built yet).
+- **`/plan-ticket [#N]`** — read the ticket, write `docs/superpowers/plans/YYYY-MM-DD-issue-N.md`,
+  stop. No code. The owner reads the plan (**gate 1** — cheap; nothing is built yet).
 - `/clear`
 - **`/build-ticket [#N]`** — build from the plan file, verify in the running site, **paste the real
   `tsc` output**, stop before landing anything on main. Multi-task plans build on a ticket branch
@@ -74,7 +74,18 @@ There is no test suite here. Verification is the running site plus the type chec
   page. No `npm run build` to verify changes; no `npm install` unless the owner asks.
 - **One dev server at a time.** `pkill -f "next dev"` before starting one. Subagents must never
   start dev servers.
-- **Stop what you started.** Kill any dev server you launched before ending the session.
+- **Stop what you started.** Kill any dev server you launched before ending the session, and kill
+  it when you stop for gate 2 — do not leave it running while the owner reads the diff.
+
+The full check. **Paste the real `tsc` output**, not a claim about it:
+
+```bash
+pkill -f "next dev"      # ALWAYS kill existing dev servers first; only ONE at a time
+npm run dev              # http://localhost:3000
+npx tsc --noEmit         # ONCE at the end of the change, not in a loop
+```
+
+Check the change visually via Chrome automation at localhost:3000 (scroll the whole page).
 
 # Question tickets — mapping decisions
 
@@ -101,11 +112,23 @@ a build:
   Read-only (it only reads `gh issue list`) and it writes one self-contained HTML file, so it
   rides along in the accept-time docs commit and the picture in the repo never lags the queue.
 
-# Visual changes — owner's established workflow
+# Visual rule
 
-Propose variants (owner rule: 3) as a throwaway HTML file in `public/` (works at
-localhost:3000/preview-x.html AND file://), owner picks one, wire the winner into the real
-components, then DELETE the preview file. Confirm understanding before executing.
+Anything visual gets 3 single-file HTML variants first; the owner picks; the winner gets wired in.
+Three variants means three shapes — a second flavor of the first shape doesn't count. Variants go
+in `public/` as throwaway files `preview-a.html`, `preview-b.html`, `preview-c.html` (each works at
+localhost:3000/preview-a.html AND via file://); the winner is wired into the real components; then
+DELETE all three preview files — they are never committed. Confirm understanding before executing.
+
+# Commit format
+
+`type(scope): summary (refs #N)`. Trailers: the harness default `Co-Authored-By` line, nothing
+else. No commit hook. The accept-time docs commit also carries the regenerated decision map (see
+"Question tickets"):
+
+```bash
+node ~/Developer/tools/decision-map/decision-map.mjs godfreyponce/portfolio --out docs/decision-map.html
+```
 
 # Shipped copy
 

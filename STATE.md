@@ -192,7 +192,7 @@ Archive: `docs/HISTORY.md`. Queue: GitHub Issues (`gh issue list`). Protocol: `A
 - Map issue #35 is pinned; regenerate `docs/decision-map.html`
   at every ticket close (command in AGENTS.md, "Question tickets").
 - Pre-existing tree items (owner's, don't touch): unstaged deletion of
-  agent_architecture_strategy.md, untracked Icon file, untracked `docs/plans/*` (plan files
+  agent_architecture_strategy.md, untracked Icon file, untracked `docs/superpowers/plans/*` (plan files
   have never been tracked here), and untracked `public/godfrey_portrait.jpg` (kept as an asset).
 
 ## Run / verify (do this first)

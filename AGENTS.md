@@ -72,8 +72,9 @@ There is no test suite here. Verification is the running site plus the type chec
 - **While iterating, check only what you touched** in the browser. `npx tsc --noEmit` runs **once,
   at the end** of `/build-ticket` — not in a loop, and never as a substitute for looking at the
   page. No `npm run build` to verify changes; no `npm install` unless the owner asks.
-- **One dev server at a time.** `pkill -f "next dev"` before starting one. Subagents must never
-  start dev servers.
+- **At most one dev server per worktree, on a free port, stopped by whoever started it.** The
+  session that builds the ticket may start it (under `/rt`, that is the build subagent); helper
+  subagents it spawns may not.
 - **Stop what you started.** Kill any dev server you launched before ending the session, and kill
   it when you stop for gate 2 — do not leave it running while the owner reads the diff.
 

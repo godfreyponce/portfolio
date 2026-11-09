@@ -63,6 +63,8 @@ export const techIcons: Record<string, string> = {
   React: "/tech/react.svg",
   OpenAI: "/tech/openai.svg",
   "terraria.wiki.gg": "/tech/wikigg.svg",
+  Nemotron: "/tech/nvidia.svg",
+  "Raspberry Pi": "/tech/raspberrypi.svg",
 };
 
 // Section order and visitor-facing labels for /projects (#36). Copy mirrors the profile README;
@@ -75,6 +77,30 @@ export const GROUPS: { key: ProjectGroup; label: string; tab: string }[] = [
 ];
 
 export const projects: Project[] = [
+  {
+    title: "LAND",
+    description:
+      "A safety box for the home. After an earthquake alert, or when someone in the room goes still, it asks out loud if they're okay. Say help, or stay quiet three times, and it raises a demo alarm on a responder dashboard. An NVIDIA Nemotron agent runs the check-in, but a fixed rule in code decides the alarm, never the model. In the demo, the quake and the movement are simulated. Built at HackUTD 2026 with Rafael Amador on hardware.",
+    shortDesc: "A home safety box that asks if you're okay after a quake, and raises an alarm when you can't answer.",
+    group: "hackathons",
+    featured: true,
+    tags: ["Nemotron", "ElevenLabs", "Raspberry Pi", "Python"],
+    status: "hackathon",
+    date: "November 2026",
+    githubLink: "https://github.com/godfreyponce/hackutd-26",
+    devpostLink: "https://devpost.com/software/rickroll-bfz6v9",
+    videoUrl: "https://www.youtube.com/watch?v=tZQrHPPwC6E",
+    iconSrc: "/projects/land/LOGO.png",
+    media: [
+      { type: "image", src: "/projects/land/land-person-and-box.jpg", alt: "Staged photo of a person lying still on a bedroom floor, with an inset of the real LAND box and its lit ring" },
+      { type: "youtube", src: "", videoId: "tZQrHPPwC6E" },
+      { type: "image", src: "/projects/land/land-dashboard.jpg", alt: "LAND responder dashboard after a simulated 0.82 g quake. Home H000 is the one real box; the other 499 homes on the map are simulated." },
+      { type: "image", src: "/projects/land/land-inside.jpg", alt: "The real LAND box with its lid lifted and a Raspberry Pi 5 inside" },
+      { type: "image", src: "/projects/land/land-architecture.png", alt: "LAND architecture: the box, the event hub, the Nemotron agent, ElevenLabs voice, the alarm rule in code, and the responder dashboard", fit: "contain" },
+      { type: "image", src: "/projects/land/land-3d-checks-in.jpg", alt: "3D render, not a photo: the LAND box notices a person lying still on a bedroom floor" },
+      { type: "image", src: "/projects/land/land-3d-shaking.jpg", alt: "3D render, not a photo: shingles fall from a house roof as the shaking hits" },
+    ],
+  },
   {
     title: "CometAdvisor",
     description:

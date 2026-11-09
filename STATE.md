@@ -1,10 +1,17 @@
 ---
 glass: ""
 status: in-progress
-last_worked_on: 2026-09-14
-next_action: ""
+last_worked_on: 2026-11-09
+next_action: "none: no ticket is ready-for-agent"
 blocked_on: ""
 phase: >-
+  #76 (LAND as the lead project card) shipped and closed 2026-11-09 as data and assets only: one new
+  first entry in lib/projects.ts with a 7-item carousel, six local images and a LOGO.png in
+  public/projects/land/, and two new tag marks (Nemotron uses the NVIDIA mark, Raspberry Pi its own).
+  Featured count is now 5, so with reduced motion at desktop width the GitHub tile sits alone in the
+  last Lab row, accepted. No other ticket is ready-for-agent, so next_action names none. #77 (the
+  full check's pkill stops other worktrees' dev servers) was filed during the build and is not
+  green-lit.
   #75 (STATE.md head is not valid YAML) fixed and closed 2026-09-14, EMPTYING THE WORK QUEUE AGAIN:
   only #53 and #35 stay open, so next_action is blank. THE HEAD HAD NEVER PARSED: phase was one
   double-quoted line holding raw inner quotes from the #64 entry, so js-yaml, gray-matter (the parser
@@ -185,8 +192,10 @@ Archive: `docs/HISTORY.md`. Queue: GitHub Issues (`gh issue list`). Protocol: `A
 
 ## Now
 
-- The work queue holds no green-lit work ticket. #75 closed 2026-09-14, so `next_action` is
-  blank; the next session starts by filing one or green-lighting one, not by picking from the queue.
+- The work queue holds no green-lit work ticket. #76 closed 2026-11-09, so `next_action` names
+  none; the next session starts by filing one or green-lighting one, not by picking from the queue.
+  #77 (the full check's `pkill -f "next dev"` stops other worktrees' dev servers) was filed during
+  the #76 build and is not green-lit.
 - Feel pass #53: every build ticket under it has landed (#55 to #60, #62, #63, #61). #53 itself
   is still open; closing it is the owner's call.
 - Map issue #35 is pinned; regenerate `docs/decision-map.html`

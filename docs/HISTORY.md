@@ -11,6 +11,35 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-11-09 — LAND (HackUTD 2026) is the lead project card (#76)
+
+LAND (Life Against Natural Disaster), built at HackUTD 2026 "Zero Day" with Rafael Amador on
+hardware, joins the site as the newest Hackathons entry and the first card of the homepage Lab
+stack, ahead of CometAdvisor. Featured count goes from 4 to 5.
+
+- **Shipped** (`beae29b`, data and assets only). One new first entry in `projects` in
+  `lib/projects.ts` with the copy, links and tags the ticket fixed, and a 7-item `media` carousel:
+  staged floor photo, the 91 s YouTube cut (`tZQrHPPwC6E`), the responder dashboard, the open box,
+  the architecture diagram (`fit: "contain"`), and two 3D renders. All six images are byte copies
+  in `public/projects/land/` at 1500x1000; the icon is `land-mark-navy.svg` exported to a 256x256
+  `LOGO.png` (the site has one light theme, and the white mark disappears on it). Two new
+  `techIcons` keys: `Nemotron` uses the NVIDIA mark (#69 parent-brand rule) and `Raspberry Pi`
+  its own, both Simple Icons SVGs in `public/tech/`.
+- **Honest copy.** The dashboard alt says the other 499 homes are simulated and H000 is the one
+  real box; the two renders' alts start "3D render, not a photo"; the floor photo's alt says
+  "Staged". The description says the quake and movement were simulated and the alarm is a demo.
+- **Verified.** Desktop (1434) and phone width (390, measured in the same call): Lab order LAND,
+  CometAdvisor, Remix, Nudge, TechAssist; all 7 slides load in order; the YouTube slide mounts
+  only when active and played; 7 dots clear the arrows at phone width; tag hovers read Nemotron
+  and Raspberry Pi; GitHub and Devpost hrefs resolve to the right pages; `/projects` shows LAND
+  first under "Hackathons and sprints" with `Nov 2026`. `tsc --noEmit` clean. No build figure:
+  this repo's full check has no page count.
+- **Known, accepted.** With reduced motion at desktop width the Lab falls back to its grid, and 5
+  featured cards leave the GitHub tile alone in the last row (plan decision 4). `videoUrl` is set
+  but never renders, because both card components use it only when `media` is empty.
+- **Follow-ups.** #77: the AGENTS.md full check's `pkill -f "next dev"` stops other worktrees' dev
+  servers.
+
 ### 2026-09-14 — STATE.md head parses as YAML again (#75)
 
 Filed at the #74 accept, when Ruby Psych failed on the STATE.md head. The cause was `phase`: one

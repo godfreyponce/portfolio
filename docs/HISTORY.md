@@ -11,6 +11,29 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-11-11 - The Lab section head in the council-climb style (#84)
+
+Follow-up to the council-climb ship (#78 to #82): The Lab was the last homepage section still
+wearing the old 13px uppercase grey label.
+
+- **Shipped** (`c54e402`). `TheLab.tsx` now uses the siblings' wrapper (a `max-w-page px-6`
+  column with a ruled `section`, `pb-16`) and the exact head class string from `Timeline.tsx`:
+  "The Lab »" in Spectral italic 500, 21px, 55px below the rule, with the stack 51px below it.
+- **Removed.** `Section` from this section, the `Reveal` around the head, and the subtitle
+  "Experiments, agents, and open-source ideas." (preview-d has none).
+- **Verified.** Port 3084 (not 3000, #77), headless Chrome over CDP against `preview-d.html`.
+  At 1440x900 and 390x844 the head reads "The Lab »" on both pages, and its size, weight, style,
+  line height, spacing and colour (21px, 500, italic, 27.3px, -0.3px, rgb(28, 25, 23)) equal the
+  Work Experience and Passions heads and the spec. Head 56px below the section top (55 plus the
+  rule), stack 51px below the head, no gap to the loss graph, head left 242 at 1440 and 24 at
+  390, all equal to the spec. No sideways scroll at either width. Stack 900px at 1440 and 342px
+  at 390, "See all projects" centred on it (0px off). Reduced motion at 1440: grid 956px, the
+  same as the spec, head opacity 1. The cards still stack at 1440. `tsc --noEmit` clean. No
+  build figure: this repo's full check has no page count.
+- **Known, accepted.** Under reduced motion at 768px and up, the grid fallback widens from
+  912px to 956px, the same as preview-d. The default stack stays 900px. The worktree had no
+  `.env.local`, so the GitHub tile showed its empty state during the check.
+
 ### 2026-11-10 - Council-climb footer: links with handles (#82)
 
 Last ship of the council climb (parent #53). The footer keeps the dark sticky reveal and now

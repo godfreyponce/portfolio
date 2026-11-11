@@ -1,10 +1,14 @@
 ---
 glass: ""
 status: in-progress
-last_worked_on: 2026-11-10
+last_worked_on: 2026-11-11
 next_action: "none: no ticket is ready-for-agent"
 blocked_on: ""
 phase: >-
+  #84 (The Lab section head) shipped and closed 2026-11-11: The Lab now uses the same wrapper and
+  head as Work Experience and Passions, "The Lab »" in Spectral italic over a rule, and the old grey
+  subtitle is gone because preview-d has none. #83, #85 and #77 land after it at the same accept.
+  next_action names none.
   #82 (council-climb footer) shipped and closed 2026-11-10, ENDING THE COUNCIL-CLIMB SHIP: #78 to
   #82 are all on main. The footer keeps its dark sticky reveal and shows GitHub, LinkedIn and Email
   as text links with each handle under them. #85 (the footer's bottom-row grey is below AA
@@ -220,9 +224,9 @@ Archive: `docs/HISTORY.md`. Queue: GitHub Issues (`gh issue list`). Protocol: `A
 
 ## Now
 
-- Council-climb ship (#78 to #82) is done and on main. Its follow-ups #83 (video-slide drag),
-  #84 (The Lab heading) and #85 (footer grey contrast) are filed, not green-lit. #77 (the full check's `pkill -f "next dev"` stops other worktrees'
-  dev servers) is not green-lit, so nobody runs that line.
+- Council-climb ship (#78 to #82) is done and on main. Its follow-ups #83 (video-slide drag) and
+  #85 (footer grey contrast) are accepted and landing next. #77 (the full check's `pkill -f "next dev"`
+  stops other worktrees' dev servers) is accepted too, so nobody runs that line.
 - Feel pass #53: every build ticket under it has landed (#55 to #60, #62, #63, #61). #53 itself
   is still open; closing it is the owner's call.
 - Map issue #35 is pinned; regenerate `docs/decision-map.html`

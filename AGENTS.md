@@ -78,15 +78,20 @@ There is no test suite here. Verification is the running site plus the type chec
 - **Stop what you started.** Kill any dev server you launched before ending the session, and kill
   it when you stop for gate 2 — do not leave it running while the owner reads the diff.
 
-The full check. **Paste the real `tsc` output**, not a claim about it:
+The full check. **Paste the real `tsc` output**, not a claim about it. `<port>` is 3000 plus the
+issue number (3077 for #77), or the next port up if another worktree has it.
 
 ```bash
-pkill -f "next dev"      # ALWAYS kill existing dev servers first; only ONE at a time
-npm run dev              # http://localhost:3000
-npx tsc --noEmit         # ONCE at the end of the change, not in a loop
+lsof -ti tcp:<port> -sTCP:LISTEN          # must print nothing: the port is free
+npm run dev -- -p <port>                  # this worktree's one dev server, http://localhost:<port>
+npx tsc --noEmit                          # ONCE at the end of the change, not in a loop
+kill $(lsof -ti tcp:<port> -sTCP:LISTEN)  # stop only your server, by its PID
+pgrep -fl "$PWD/node_modules/"            # must print nothing: this worktree's server is gone
 ```
 
-Check the change visually via Chrome automation at localhost:3000 (scroll the whole page).
+Never stop a server by name, as in `pkill -f "next dev"`: the name matches every worktree's server.
+
+Check the change visually via Chrome automation at localhost:<port> (scroll the whole page).
 
 # Question tickets — mapping decisions
 
@@ -140,8 +145,8 @@ anything a visitor reads on the site. It does not apply to these internal docs.
 
 Personal portfolio website built with Next.js 16, React 19, Tailwind v4, and Framer Motion.
 
-- Do NOT run multiple Node processes simultaneously; do not run `next build` and `next dev` at
-  the same time.
+- One dev server per worktree (see `# Verification scope`), and never `next build` and `next dev`
+  at the same time in one worktree. Other worktrees' servers belong to their sessions: leave them.
 - After large refactors, clear the Next.js cache if builds behave unexpectedly: `rm -rf .next`.
 - TypeScript errors are expected during active refactoring — do not spam `tsc` to check, and do
   not run type checks in a loop.

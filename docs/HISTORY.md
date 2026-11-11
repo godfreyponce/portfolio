@@ -11,6 +11,22 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-11-11 - Visual rule and headless Chrome gotcha use per-worktree ports (#86)
+
+Left over from #77: two lines still used fixed ports after the full check moved to a port per
+worktree.
+
+- **Shipped** (`3a6570d`). AGENTS.md `# Visual rule`: previews work at
+  `localhost:<port>/preview-a.html`, the full check's `<port>`. STATE.md's headless Chrome gotcha:
+  Chrome runs on `<cdp-port>` (9222 plus the issue number) and stops with
+  `kill $(lsof -ti tcp:<cdp-port> -sTCP:LISTEN)`, not `pkill -f 'remote-debugging-port=9222'`.
+- **Verified.** Two real headless Chromes on 9308 and 9309, each with its own profile in the
+  scratchpad: the old name pattern matched 12 processes across both (helpers carry the flag
+  too); the new stop line stopped only 9308's Chrome, with no leftover process, and 9309 kept
+  listening until its own stop. No port change was needed. No `tsc` run: this worktree has no
+  `node_modules`, and the change is docs only.
+  `grep -n 'localhost:3000\|9222' AGENTS.md STATE.md` now prints only the new gotcha line.
+
 ### 2026-11-11 - Feel pass closed (#53)
 
 The owner closed #53 after the council-climb ship and its follow-ups went live.

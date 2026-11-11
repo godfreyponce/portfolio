@@ -2,9 +2,13 @@
 glass: ""
 status: in-progress
 last_worked_on: 2026-11-11
-next_action: "#86"
+next_action: "none: no ticket is ready-for-agent"
 blocked_on: ""
 phase: >-
+  #86 (Visual rule and headless Chrome gotcha use per-worktree ports) shipped and closed 2026-11-11,
+  EMPTYING THE WORK QUEUE: only the pinned map #35 stays open. Previews now open on the full check's
+  port, and headless Chrome runs on 9222 plus the issue number and stops by its PID, never by name.
+  The stop line was proven on two real headless Chromes. next_action names none.
   #53 (feel pass, parent of the council-climb ship) closed by the owner 2026-11-11: every build
   ticket under it is on main and live, #55 to #63 and #78 to #85. #86 (fixed ports in the Visual
   rule and the headless Chrome gotcha) is green-lit by the owner and building in its own worktree,
@@ -243,8 +247,8 @@ Archive: `docs/HISTORY.md`. Queue: GitHub Issues (`gh issue list`). Protocol: `A
 
 ## Now
 
-- #86 (the Visual rule and the headless Chrome gotcha still use fixed ports) is green-lit and
-  building under /rt in its own worktree. Feel pass #53 and the council-climb ship are closed.
+- Nothing is mid-flight. The work queue is empty except the pinned map #35; feel pass #53, the
+  council-climb ship and all its follow-ups (#77, #83 to #86) are closed and on main.
 - Map issue #35 is pinned; regenerate `docs/decision-map.html`
   at every ticket close (command in AGENTS.md, "Question tickets").
 - Pre-existing tree items (owner's, don't touch): unstaged deletion of
@@ -313,8 +317,11 @@ Verify visually via Chrome automation at localhost:<port> (scroll the whole page
   ignores `resize_window` entirely, with `visibilityState: "hidden"` and `outerWidth: 0`. The
   `osascript` active-tab fix below does NOT clear this one (#55). When a measurement needs an exact
   viewport, skip the extension and drive headless Chrome over CDP the way #54 and #55 did:
-  `--headless=new --remote-debugging-port=9222`, then `Emulation.setDeviceMetricsOverride` and
-  `Runtime.evaluate`. Kill it after (`pkill -f 'remote-debugging-port=9222'`).
+  `--headless=new --remote-debugging-port=<cdp-port>`, then `Emulation.setDeviceMetricsOverride`
+  and `Runtime.evaluate`. `<cdp-port>` is 9222 plus the issue number (9308 for #86), or the next
+  port up if another worktree has it. Stop it after by its PID,
+  `kill $(lsof -ti tcp:<cdp-port> -sTCP:LISTEN)`. Never by name: `pkill -f 'remote-debugging-port'`
+  matches every worktree's headless Chrome.
   Headless buys an exact viewport, NOT motion: `requestAnimationFrame` does not fire there either,
   so anything rAF-driven is dead in it too. The streak count-up never advanced under CDP even with
   `prefers-reduced-motion: no-preference` emulated and a real `mouseMoved` on the handler's element

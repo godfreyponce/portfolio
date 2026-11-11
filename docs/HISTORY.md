@@ -11,6 +11,44 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-11-10 - Council-climb logo strip, Work Experience, Education and loss graph (#79)
+
+Second build of the council-climb ship (parent #53). Everything between the hero and The Lab now
+matches preview-d: the stick-figure gap, a logo strip, two-column entries and the loss graph in
+the page column.
+
+- **Shipped** (`d227bba`). Entry data moved to `lib/experience.ts` (`WORK`, `EDUCATION`, type
+  `Entry`), so the strip and the entries share one list of ids. `EntryList.tsx` (server) renders
+  both sections: a 22px org logo, the org as a dashed link, an en dash and the role, one grey
+  13.5px description, grey stack icons and the dates, with "Present" in accent green. Two columns
+  from 768px, one below. Section heads are Spectral italic 21px with a », and Spectral now loads
+  its italic style. `LogoStrip.tsx` (client) shows six 56px greyscale logos under "Where I've
+  worked and studied". Hover or focus colours the logo and sets `data-hot` on its entry, which
+  colours that entry's stack icons. A click scrolls the entry to the middle of the viewport,
+  waits until `scrollY` is still for 3 frames, then sets `data-pop` for a 1.2 s pop
+  (`--animate-entry-pop`, a still version under reduced motion). The loss graph and the stick
+  figure moved into the 1004px column; the figure's feet land on the strip's top rule.
+- **Copy changes.** One description per entry (the first bullet). The four second bullets left
+  the site. "Conducting" and "Developing" became past tense (decision 20). The roles read
+  "AI Data Researcher, Contract" and "AI Agent Developer, Externship". The org links and strip
+  alt texts are new, from preview-d.
+- **Removed.** `components/ui/Avatar.tsx`, `components/ui/TechTag.tsx`, the "Details" toggles,
+  the Education card, and the reveal fade in these sections.
+- **Verified.** Port 3079 in its own tab (not 3000, #77). At 2096 wide: strip images 56x56 with
+  a 48px gap, heads Spectral italic 500 21px in ink, work list 466px + 466px, org link 15.25px
+  600, description 13.5px, loss canvas 956x192 with a live readout. Real pointer hover on Wayfair
+  sets its 5 stack icons to opacity 1, then 0.45 on leave. Real click on Apple: entry centred
+  exactly, `data-pop` for 1.21 s. A second click on the centred entry pops without scrolling, a
+  quick Wayfair then Apple click leaves no `data-pop`, and Tab plus Enter work. Iframes at 390
+  and 768: no sideways scroll, one column and a 3 by 2 strip at 390. `tsc --noEmit` clean. No
+  build figure: this repo's full check has no page count.
+- **Known, accepted.** The Lab still has the old 13px head; no ship ticket owned it, so it is
+  filed as #84. The reduced-motion pop was
+  read in the built CSS, not exercised. The pop can start before a smooth scroll begins on a
+  120 Hz screen (seen once in about ten runs), the same as preview-d's script.
+- **Landed** on main after #81, rebased with no conflict (both add the same Spectral italic
+  line to `layout.tsx`); `tsc --noEmit` clean on the merged tree.
+
 ### 2026-11-10 - Council-climb Passions plate (#81)
 
 Second ship of the council climb (parent #53). Passions now matches preview-d's
@@ -38,7 +76,7 @@ and Home Lab as two short text notes beside it.
 - **Known, accepted.** Passions is the only section under the hero with no fade-in until #79
   and #80 land. Reduced motion was read, not exercised: nothing in the section animates.
 
-### 2026-11-10 — Council-climb Lab fixes: LAND card, whole first photo, plain-text status (#80)
+### 2026-11-10 - Council-climb Lab fixes: LAND card, whole first photo, plain-text status (#80)
 
 The three Lab card fixes the owner accepted in the council climb (decision 25) are wired into the
 live components. "See all projects" needed no change: it was already centred live (decision 24's
@@ -66,7 +104,7 @@ open item); the 28px offset existed only in the preview.
   YouTube slide does not move the carousel; `MediaCarousel.tsx` is unchanged by this ticket.
 - **Follow-ups.** #83: the video-slide drag, filed at accept without `ready-for-agent`.
 
-### 2026-11-10 — Council-climb hero: portrait, folded bio, email copy (#78)
+### 2026-11-10 - Council-climb hero: portrait, folded bio, email copy (#78)
 
 First ship of the council climb (parent #53). The hero now matches preview-d's `header.gh-wrap`,
 and the separate Bio section is gone; its copy lives in the hero.

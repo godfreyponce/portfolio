@@ -2,9 +2,15 @@
 glass: ""
 status: in-progress
 last_worked_on: 2026-11-10
-next_action: "#79"
+next_action: "#82"
 blocked_on: ""
 phase: >-
+  #79 (council-climb logo strip, Work Experience, Education and loss graph) shipped and closed
+  2026-11-10: a row of six greyscale logos under the hero lights and scrolls to its entry, the two
+  sections are short two-column lists with one line per job, and the loss graph sits in the page
+  column. Entry data lives in lib/experience.ts; Avatar.tsx and TechTag.tsx are gone. #84 (The Lab
+  heading keeps the old small grey label) was filed at accept, not green-lit. next_action is #82,
+  the last ship ticket.
   #81 (council-climb Passions plate) shipped and closed 2026-11-10: Passions now matches
   preview-d's section#soccer, the soccer photo large with its caption and Snowboarding and Home Lab
   as two short text notes beside it. The highlight-soccer pulse is gone at both ends, and
@@ -210,8 +216,7 @@ Archive: `docs/HISTORY.md`. Queue: GitHub Issues (`gh issue list`). Protocol: `A
 ## Now
 
 - Council-climb ship, #78 to #82, green-lit and run by an orchestrator thread (council-climb
-  decision 33). #78, #80 and #81 landed. #79 and #82 are building in parallel, one worktree
-  each; they land one at a time after their gate 2. #77 (the full check's `pkill -f "next dev"` stops other worktrees'
+  decision 33). #78 to #81 landed. #82 (footer) is accepted and lands next. #77 (the full check's `pkill -f "next dev"` stops other worktrees'
   dev servers) is not green-lit, so nobody runs that line.
 - Feel pass #53: every build ticket under it has landed (#55 to #60, #62, #63, #61). #53 itself
   is still open; closing it is the owner's call.

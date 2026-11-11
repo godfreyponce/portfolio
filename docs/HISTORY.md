@@ -11,6 +11,34 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-11-10 - Council-climb footer: links with handles (#82)
+
+Last ship of the council climb (parent #53). The footer keeps the dark sticky reveal and now
+matches preview-d's `footer.fa`.
+
+- **Shipped** (`39d2633`). `Footer.tsx` stays a server component: the serif name links to `#top`,
+  then GitHub, LinkedIn and Email as dashed text links with the handle in grey Geist Mono under
+  each (three columns from 768px, stacked below), then a `white/10` rule, the live
+  `LatestCommitLine` and "© Godfrey Ponce". The links use `SocialLink` with no aria-label, since
+  the text names them. `#top` is a plain anchor, so the existing `html` smooth scroll and its
+  reduced-motion `auto` rule do the work with no script.
+- **Removed.** The `lucide-react` icons in the footer and the `.tactile-link` rules in
+  `globals.css` (the footer icons were its only users). `.tactile-btn` stays.
+- **Verified.** Port 3082 (not 3000, #77), headless Chrome over CDP. At 1440x900 and 390x844:
+  0 reveal leaks over 10509 and 11448 hit tests, footer bottom at the viewport bottom and shorter
+  than the viewport (303px, 450px), no sideways scroll. Fonts, sizes, weights and colours of the
+  name, link, handle and © match the spec; link lefts 242, 569, 895 at 1440 and 24 at 390, the
+  same as the spec. Hover keeps the text rgb(250, 250, 249) and makes the border solid. `#top`
+  scrolls smoothly (5856 of 5994 at 120ms, 0 at 2s) and instantly under reduced motion, where the
+  link transition is `none`. `tsc --noEmit` clean. No build figure: this repo's full check has
+  no page count.
+- **Known, accepted.** The commit-line diff colours stay the live `diff-add`/`diff-del` tokens,
+  not the spec's `#4ade80`/`#f87171`, and the chevron keeps its 4px margin, not the spec's 6px
+  gap. The page lid on `main` stays. The bottom row's `ink-subtle` on the dark footer is 3.65:1,
+  below AA's 4.5:1 (the old `white/50` was 5.23:1); it is the spec's colour. The worktree had no
+  `.env.local`, so the live check saw the commit line's empty state.
+- **Follow-ups.** #85: the bottom-row contrast; the owner accepted #82 with the spec colour.
+
 ### 2026-11-10 - Council-climb logo strip, Work Experience, Education and loss graph (#79)
 
 Second build of the council-climb ship (parent #53). Everything between the hero and The Lab now

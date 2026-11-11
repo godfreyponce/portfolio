@@ -2,9 +2,14 @@
 glass: ""
 status: in-progress
 last_worked_on: 2026-11-10
-next_action: "#82"
+next_action: "none: no ticket is ready-for-agent"
 blocked_on: ""
 phase: >-
+  #82 (council-climb footer) shipped and closed 2026-11-10, ENDING THE COUNCIL-CLIMB SHIP: #78 to
+  #82 are all on main. The footer keeps its dark sticky reveal and shows GitHub, LinkedIn and Email
+  as text links with each handle under them. #85 (the footer's bottom-row grey is below AA
+  contrast) was filed at accept. No ticket is ready-for-agent, so next_action names none; the
+  open follow-ups #83, #84 and #85 are not green-lit.
   #79 (council-climb logo strip, Work Experience, Education and loss graph) shipped and closed
   2026-11-10: a row of six greyscale logos under the hero lights and scrolls to its entry, the two
   sections are short two-column lists with one line per job, and the loss graph sits in the page
@@ -215,8 +220,8 @@ Archive: `docs/HISTORY.md`. Queue: GitHub Issues (`gh issue list`). Protocol: `A
 
 ## Now
 
-- Council-climb ship, #78 to #82, green-lit and run by an orchestrator thread (council-climb
-  decision 33). #78 to #81 landed. #82 (footer) is accepted and lands next. #77 (the full check's `pkill -f "next dev"` stops other worktrees'
+- Council-climb ship (#78 to #82) is done and on main. Its follow-ups #83 (video-slide drag),
+  #84 (The Lab heading) and #85 (footer grey contrast) are filed, not green-lit. #77 (the full check's `pkill -f "next dev"` stops other worktrees'
   dev servers) is not green-lit, so nobody runs that line.
 - Feel pass #53: every build ticket under it has landed (#55 to #60, #62, #63, #61). #53 itself
   is still open; closing it is the owner's call.

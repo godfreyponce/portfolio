@@ -29,7 +29,7 @@ export default function Footer() {
           ))}
         </ul>
 
-        <div className="mt-12 flex flex-wrap justify-between gap-x-6 gap-y-2 border-t border-white/10 pt-6 font-mono text-[12.5px] leading-[1.7] text-ink-subtle max-md:flex-col">
+        <div className="mt-12 flex flex-wrap justify-between gap-x-6 gap-y-2 border-t border-white/10 pt-6 font-mono text-[12.5px] leading-[1.7] text-white/50 max-md:flex-col">
           <LatestCommitLine />
           <span>© Godfrey Ponce</span>
         </div>

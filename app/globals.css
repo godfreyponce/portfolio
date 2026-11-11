@@ -174,26 +174,10 @@ body {
 }
 
 /*
- * Tactile raised/pressed physics (#38, cmrg.me-inspired). Plain classes, not
- * @utility, because they must beat
- * layered transition utilities, so color timing is folded into the shorthand.
- * Links carry the motion only - nothing grows behind them (owner pick, 2026-08-17);
- * the button carries the reference's rest-state bevel and presses into it.
- * The link padding is offset by an equal negative margin, so the hit area grows
- * without the row's layout moving.
+ * Tactile raised/pressed button (#38, cmrg.me-inspired). A plain class, not
+ * @utility, because it must beat layered transition utilities. It carries the
+ * reference's rest-state bevel and presses into it.
  */
-.tactile-link {
-  display: inline-block;
-  padding: 6px 12px;
-  margin: -6px -12px;
-  transition: transform 150ms ease, color 150ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-.tactile-link:hover {
-  transform: translateY(-1px);
-}
-.tactile-link:active {
-  transform: translateY(1px) scale(0.96);
-}
 .tactile-btn {
   border-color: transparent;
   background: linear-gradient(to bottom, var(--color-surface-raised), var(--color-surface));
@@ -211,9 +195,6 @@ body {
     0 0 0 1px var(--color-rule);
 }
 @media (prefers-reduced-motion: reduce) {
-  .tactile-link,
-  .tactile-link:hover,
-  .tactile-link:active,
   .tactile-btn,
   .tactile-btn:hover,
   .tactile-btn:active {

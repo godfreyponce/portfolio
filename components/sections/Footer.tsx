@@ -1,31 +1,38 @@
-import { Github, Linkedin, Mail } from "lucide-react";
 import LatestCommitLine from "@/components/ui/LatestCommitLine";
 import SocialLink from "@/components/ui/SocialLink";
 
+const LINKS = [
+  { label: "GitHub", href: "https://github.com/godfreyponce", handle: "github.com/godfreyponce" },
+  { label: "LinkedIn", href: "https://linkedin.com/in/godfreyponce", handle: "linkedin.com/in/godfreyponce" },
+  { label: "Email", href: "mailto:poncegodfrey@gmail.com", handle: "poncegodfrey@gmail.com" },
+];
+
 export default function Footer() {
   return (
-    <footer className="sticky bottom-0 z-0 w-full bg-surface-inverse py-12 text-white">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-6 md:flex-row">
-        <h2 className="font-display text-2xl font-medium">
-          <a href="#top">Godfrey Ponce</a>
-        </h2>
+    <footer className="sticky bottom-0 z-0 w-full bg-surface-inverse py-12 text-body">
+      <div className="mx-auto max-w-page px-6">
+        <p className="font-display text-2xl leading-[1.3] tracking-[-0.4px]">
+          <a href="#top" className="text-surface">Godfrey Ponce</a>
+        </p>
 
-        <div className="flex gap-6 text-white/75">
-          <SocialLink href="https://github.com/godfreyponce" ariaLabel="GitHub" className="tactile-link hover:!text-white">
-            <Github size={24} />
-          </SocialLink>
-          <SocialLink href="https://linkedin.com/in/godfreyponce" ariaLabel="LinkedIn" className="tactile-link hover:!text-white">
-            <Linkedin size={24} />
-          </SocialLink>
-          <SocialLink href="mailto:poncegodfrey@gmail.com" ariaLabel="Email" className="tactile-link hover:!text-white">
-            <Mail size={24} />
-          </SocialLink>
+        <ul className="mt-8 grid grid-cols-3 gap-x-6 gap-y-5 max-md:grid-cols-1">
+          {LINKS.map(({ label, href, handle }) => (
+            <li key={label}>
+              <SocialLink
+                href={href}
+                className="border-b border-dashed border-surface/40 font-semibold text-surface duration-200 hover:border-surface hover:!text-surface motion-reduce:transition-none"
+              >
+                {label}
+              </SocialLink>
+              <span className="mt-1 block font-mono text-[13px] leading-[1.5] text-ink-faint wrap-anywhere">{handle}</span>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-12 flex flex-wrap justify-between gap-x-6 gap-y-2 border-t border-white/10 pt-6 font-mono text-[12.5px] leading-[1.7] text-ink-subtle max-md:flex-col">
+          <LatestCommitLine />
+          <span>© Godfrey Ponce</span>
         </div>
-      </div>
-
-      <div className="mx-auto mt-12 flex max-w-6xl flex-col items-center justify-between gap-2 border-t border-white/10 px-6 pt-8 text-sm text-white/50 md:flex-row">
-        <LatestCommitLine />
-        <span>© Godfrey Ponce</span>
       </div>
     </footer>
   );

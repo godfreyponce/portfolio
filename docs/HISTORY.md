@@ -11,6 +11,45 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-11-10 — Council-climb hero: portrait, folded bio, email copy (#78)
+
+First ship of the council climb (parent #53). The hero now matches preview-d's `header.gh-wrap`,
+and the separate Bio section is gone; its copy lives in the hero.
+
+- **Shipped** (`48f574c`). `Hero.tsx` is a client component that renders `<header id="top">`: a
+  372x558 2:3 portrait (`public/godfrey_portrait.jpg`, already tracked by `77de695`) beside the
+  name, the tagline (still with its #37 hover scramble) and the two bio paragraphs, then LinkedIn
+  and GitHub icons and the email in mono with a "copy" control that reads "copied" in accent for
+  1.6 s. One column under 768px. The Soccer link scrolls to `#soccer`, still fires
+  `highlight-soccer`, and wears the device's soccer emoji as a cursor. `app/page.tsx` renders
+  header, main and footer as siblings, so the footer's `#top` link resolves at last.
+- **Base for #79 to #82.** `--container-page: 1004px` (`max-w-page`), `--font-mono` is Geist Mono
+  (loaded in `layout.tsx`; the four existing `font-mono` spots below the hero changed face, not
+  size), `@utility link-dashed`, `@utility cursor-soccer`, and a reduced-motion rule that makes
+  `html` scroll instant. `Section.tsx` keeps 960px for now.
+- **Removed.** `About.tsx`, `SimpleBackground.tsx`, the three brand cursors, the `.email-google`
+  animation, `.hover-bubble`, and the `brand-github` and `google-*` tokens.
+  `public/godfrey_headShot.JPG` stays as the crop source but nothing reads it.
+- **Verified.** Port 3078 in its own tab (not 3000, #77). At 2096 wide: portrait 372x558, 48px
+  gap, name 29px Spectral, tagline and bio 15.25px, mono computes to Geist Mono; below the hero
+  the first `h2` is 13px and every `text-body` is 15.25px. Real clicks: "copied" in
+  rgb(194, 65, 12), back to "copy" at 1.6 s, and a second click restarts the timer. Soccer
+  scrolls smoothly and fires the event once. Iframes at 390, 768 and 1003: no sideways scroll,
+  one column at 390. `tsc --noEmit` clean. No build figure: this repo's full check has no page
+  count.
+- **Known, accepted.** At 768 to 775px the action row overflows its column by 7px into the
+  gutter, the same as the preview. The reduced-motion instant scroll was read, not exercised.
+- **Fixed at gate 2** (owner: "fix the two, then accept"). The email link gets
+  `motion-reduce:transition-none`, so its colour fade is off under reduced motion, and a
+  visually hidden `role="status"` `aria-live="polite"` region says "copied" while the label does.
+  Checked in headless Chrome with reduced motion emulated: `transition-property` reads `none`
+  (with no preference it is SocialLink's 150ms `transition-colors`, not `link-dashed`'s 200ms),
+  and after a real click the region reads "copied", then empties at 1.6 s.
+- **Known, accepted at gate 2.** The Soccer link scrolls but leaves keyboard focus in the hero.
+  The child answered three planner questions at gate 1 and the owner kept all three: the tagline
+  keeps its scramble, Geist Mono replaces the old mono everywhere, and the worktree got its own
+  `npm install`.
+
 ### 2026-11-09 — LAND (HackUTD 2026) is the lead project card (#76)
 
 LAND (Life Against Natural Disaster), built at HackUTD 2026 "Zero Day" with Rafael Amador on

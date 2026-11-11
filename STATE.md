@@ -1,10 +1,17 @@
 ---
 glass: ""
 status: in-progress
-last_worked_on: 2026-11-09
-next_action: "none: no ticket is ready-for-agent"
+last_worked_on: 2026-11-10
+next_action: "#80"
 blocked_on: ""
 phase: >-
+  #78 (council-climb hero and base type) shipped and closed 2026-11-10, the first ticket of the
+  council-climb ship (#78 to #82, run by an orchestrator thread, decision 33). The hero is now a
+  header with the portrait, name, tagline, the folded-in bio and an email copy control; About.tsx
+  and SimpleBackground.tsx are gone. It adds the base the other four tickets build on: max-w-page
+  (1004px), Geist Mono as font-mono, link-dashed and cursor-soccer utilities, and an instant scroll
+  under reduced motion. next_action is #80 (Lab fixes, also at gate 2); #79, #81 and #82 start
+  after it, in parallel.
   #76 (LAND as the lead project card) shipped and closed 2026-11-09 as data and assets only: one new
   first entry in lib/projects.ts with a 7-item carousel, six local images and a LOGO.png in
   public/projects/land/, and two new tag marks (Nemotron uses the NVIDIA mark, Raspberry Pi its own).
@@ -184,7 +191,7 @@ phase: >-
 # personalWebsite — Project State
 
 Personal portfolio site. Next.js 16 (App Router, Turbopack) + React 19 + Tailwind v4 +
-Framer Motion. Single page (`app/page.tsx`): Hero → About → StickmanRunner → Timeline →
+Framer Motion. Single page (`app/page.tsx`): Hero (header, bio folded in) → StickmanRunner → Timeline →
 Education → LossGraph → The Lab → Passions → Footer. Repo: github.com/godfreyponce/portfolio (private).
 
 *Thin snapshot. `next_action` above names the ticket that is up now — start there.
@@ -192,17 +199,17 @@ Archive: `docs/HISTORY.md`. Queue: GitHub Issues (`gh issue list`). Protocol: `A
 
 ## Now
 
-- The work queue holds no green-lit work ticket. #76 closed 2026-11-09, so `next_action` names
-  none; the next session starts by filing one or green-lighting one, not by picking from the queue.
-  #77 (the full check's `pkill -f "next dev"` stops other worktrees' dev servers) was filed during
-  the #76 build and is not green-lit.
+- Council-climb ship, #78 to #82, green-lit and run by an orchestrator thread (council-climb
+  decision 33). #78 landed. #80 is accepted and lands next; #79, #81 and #82 then run in
+  parallel, one worktree each. #77 (the full check's `pkill -f "next dev"` stops other worktrees'
+  dev servers) is not green-lit, so nobody runs that line.
 - Feel pass #53: every build ticket under it has landed (#55 to #60, #62, #63, #61). #53 itself
   is still open; closing it is the owner's call.
 - Map issue #35 is pinned; regenerate `docs/decision-map.html`
   at every ticket close (command in AGENTS.md, "Question tickets").
 - Pre-existing tree items (owner's, don't touch): unstaged deletion of
-  agent_architecture_strategy.md, untracked Icon file, untracked `docs/superpowers/plans/*` (plan files
-  have never been tracked here), and untracked `public/godfrey_portrait.jpg` (kept as an asset).
+  agent_architecture_strategy.md, untracked Icon file, untracked older `docs/superpowers/plans/*` files
+  (since #76, each ticket's plan rides in its docs commit).
 
 ## Run / verify (do this first)
 

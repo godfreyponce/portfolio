@@ -17,6 +17,7 @@ const geistMono = Geist_Mono({
 const spectral = Spectral({
   subsets: ["latin"],
   weight: ["400", "500"],
+  style: ["normal", "italic"],
   variable: "--font-spectral",
   display: "swap",
 });

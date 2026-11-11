@@ -30,7 +30,6 @@ export default function Hero() {
     if (!target) return;
     e.preventDefault();
     target.scrollIntoView();
-    window.dispatchEvent(new CustomEvent("highlight-soccer"));
   };
 
   return (

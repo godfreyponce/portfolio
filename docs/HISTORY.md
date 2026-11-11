@@ -11,6 +11,34 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-11-10 — Council-climb Lab fixes: LAND card, whole first photo, plain-text status (#80)
+
+The three Lab card fixes the owner accepted in the council climb (decision 25) are wired into the
+live components. "See all projects" needed no change: it was already centred live (decision 24's
+open item); the 28px offset existed only in the preview.
+
+- **Shipped** (`42da73d`). `lib/projects.ts`: a new optional `Project.cardUsesShortDesc`, set on
+  LAND only, and `fit: "contain"` on LAND's first slide (`land-person-and-box.jpg`), so the whole
+  dark photo shows over its blurred copy instead of a crop to "ND". `ProjectCard.tsx`: the card
+  shows `shortDesc` when that flag is set, and the status tag ("Hackathon", "Sprint") is a plain
+  `span` (12px, 500, `text-ink-subtle`, 10px under 640px) instead of a bordered `Badge`.
+  `Badge.tsx`, `MediaCarousel.tsx`, `ProjectStack.tsx`, `TheLab.tsx` and `/projects` are unchanged.
+- **Verified.** In iframes of exactly 1440x900 and 390x844 on a dev server at port 3100, side by
+  side with `preview-d.html`: LAND's first slide is `object-fit: contain` over a `blur(40px)`
+  copy, with "LAND", "Are you okay?" and the box inset all visible; LAND's card shows the
+  100-character short description inside the 440px stack card, and the other four keep their full
+  description; every status tag measures border 0px, padding 0px, radius 0px, 12px at 1440 and
+  10px at 390, on the title row with no title truncation; LAND's tech chips keep a 1px border;
+  all five logos are 40x40, `contain`, 4px radius; "See all projects" centre x equals the stack
+  centre x (720 = 720 at 1440, 195 = 195 in the grid fallback at 390); no sideways scroll at 390;
+  mouse drag moves LAND's carousel and a click on slide 1 opens the lightbox; `/projects` still
+  shows LAND's full description when its row is expanded. `tsc --noEmit` clean. No build figure:
+  this repo's full check has no page count.
+- **Known, accepted.** The preview's Lab heading ("The Lab »") and stack width differ from live;
+  neither is in this ticket (decision 24 keeps the live stack). A mouse drag that starts on the
+  YouTube slide does not move the carousel; `MediaCarousel.tsx` is unchanged by this ticket.
+- **Follow-ups.** #83: the video-slide drag, filed at accept without `ready-for-agent`.
+
 ### 2026-11-10 — Council-climb hero: portrait, folded bio, email copy (#78)
 
 First ship of the council climb (parent #53). The hero now matches preview-d's `header.gh-wrap`,

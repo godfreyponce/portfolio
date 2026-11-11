@@ -5,6 +5,11 @@ last_worked_on: 2026-11-10
 next_action: "#79"
 blocked_on: ""
 phase: >-
+  #81 (council-climb Passions plate) shipped and closed 2026-11-10: Passions now matches
+  preview-d's section#soccer, the soccer photo large with its caption and Snowboarding and Home Lab
+  as two short text notes beside it. The highlight-soccer pulse is gone at both ends, and
+  layout.tsx now loads Spectral italic for the section head. next_action stays #79; #82 is still
+  building.
   #80 (council-climb Lab fixes) shipped and closed 2026-11-10: LAND's card shows its short
   description, its first photo shows whole (contain over a blurred copy), and the status tag is
   plain grey text, not a bordered badge. "See all projects" was already centred live. #83 (a drag
@@ -205,7 +210,7 @@ Archive: `docs/HISTORY.md`. Queue: GitHub Issues (`gh issue list`). Protocol: `A
 ## Now
 
 - Council-climb ship, #78 to #82, green-lit and run by an orchestrator thread (council-climb
-  decision 33). #78 and #80 landed. #79, #81 and #82 are building in parallel, one worktree
+  decision 33). #78, #80 and #81 landed. #79 and #82 are building in parallel, one worktree
   each; they land one at a time after their gate 2. #77 (the full check's `pkill -f "next dev"` stops other worktrees'
   dev servers) is not green-lit, so nobody runs that line.
 - Feel pass #53: every build ticket under it has landed (#55 to #60, #62, #63, #61). #53 itself

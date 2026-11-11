@@ -11,6 +11,33 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-11-10 - Council-climb Passions plate (#81)
+
+Second ship of the council climb (parent #53). Passions now matches preview-d's
+`section#soccer`, the Plate: the soccer photo large with its caption under it, and Snowboarding
+and Home Lab as two short text notes beside it.
+
+- **Shipped** (`fe19d63`). `Passions.tsx` is a server component: a `max-w-page px-6` column
+  holding `<section id="soccer" class="scroll-mt-24">` with a 1px rule on top, a "Passions »"
+  Spectral italic 500 21px head, and a grid of `minmax(0,1.75fr) minmax(0,1fr)` with 48px column
+  gap (photo 578, notes 330 at desktop). One column under 768px. `godfrey_soccerShot.jpg` renders
+  at its 1400x933 ratio, no crop. Copy is the old text word for word.
+- **Removed.** The "Beyond my Mac" subtitle, the drawn mountains, the lucide icons, the dark Home
+  Lab tile, the image hover zoom, `Reveal` and `Section` on this section, and the
+  `highlight-soccer` event at both ends (Hero no longer sends it, Passions no longer listens).
+- **Shared surface.** `layout.tsx` now loads Spectral italic (`style: ["normal", "italic"]`), so
+  the head is a real italic face. No `globals.css` or `--text-*` change.
+- **Verified.** Port 3081 in its own tab (not 3000, #77). Site and preview-d measured in
+  same-origin iframes at 1440, 768 and 390: every block within 1px of the spec (rule 956, head
+  56px below the section top, grid 55px below the head, notes top level with the photo, a rule
+  28px under "Carving Lines"). Eyebrows are 13px (`text-h2`), the spec's 12.9px. A Spectral
+  italic face is loaded. At 1440x900 the hero's Soccer link lands the section top at 96px (spec
+  95.8); in a taller window it stops at the page bottom. No console error, no sideways scroll at
+  390 or 768, no middle dot or em dash in the section. `tsc --noEmit` clean. No build figure:
+  this repo's full check has no page count.
+- **Known, accepted.** Passions is the only section under the hero with no fade-in until #79
+  and #80 land. Reduced motion was read, not exercised: nothing in the section animates.
+
 ### 2026-11-10 — Council-climb Lab fixes: LAND card, whole first photo, plain-text status (#80)
 
 The three Lab card fixes the owner accepted in the council climb (decision 25) are wired into the

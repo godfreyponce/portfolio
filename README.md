@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+![Godfrey Ponce, developer, godfreyponce.dev](public/og-card.png)
 
-## Getting Started
+# godfreyponce.dev
 
-First, run the development server:
+My website, live at **[godfreyponce.dev](https://godfreyponce.dev)**.
+
+## like how it looks? steal it.
+
+Seriously, go fork it, put your name on it, I'd be flattered.
+
+<sub>(Legally, the code is MIT licensed, so you can copy it, change it, and ship it as long as the license file comes along, but my face, my photos, and my project screenshots aren't part of the deal, so please steal responsibly.)</sub>
+
+## run it
 
 ```bash
+git clone https://github.com/godfreyponce/portfolio && cd portfolio
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Optional: add a `GITHUB_TOKEN` to `.env.local` and the footer shows my latest commit, or skip it and that line stays hidden.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## built with
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Next.js 16, React 19, Tailwind v4, Framer Motion, and three.js, set in Spectral and Geist, hosted on AWS Amplify behind Cloudflare.
 
-## Learn More
+## license
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+[MIT](LICENSE) (code only, see the parentheses above)

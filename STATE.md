@@ -2,9 +2,13 @@
 glass: ""
 status: in-progress
 last_worked_on: 2026-11-11
-next_action: "none: no ticket is ready-for-agent"
+next_action: "#86"
 blocked_on: ""
 phase: >-
+  #53 (feel pass, parent of the council-climb ship) closed by the owner 2026-11-11: every build
+  ticket under it is on main and live, #55 to #63 and #78 to #85. #86 (fixed ports in the Visual
+  rule and the headless Chrome gotcha) is green-lit by the owner and building in its own worktree,
+  so next_action is #86.
   #77 (full check stops only this worktree's dev server) shipped and closed 2026-11-11, ENDING THE
   COUNCIL-CLIMB FOLLOW-UPS: #83, #84, #85 and #77 are all on main. The AGENTS.md full check now
   starts each worktree's dev server on 3000 plus the issue number and stops it by its PID, never by
@@ -239,10 +243,8 @@ Archive: `docs/HISTORY.md`. Queue: GitHub Issues (`gh issue list`). Protocol: `A
 
 ## Now
 
-- Council-climb ship (#78 to #82) and its follow-ups #83, #84, #85 and #77 are done and on main.
-  #86 (the Visual rule and the headless Chrome gotcha still use fixed ports) is filed, not green-lit.
-- Feel pass #53: every build ticket under it has landed (#55 to #60, #62, #63, #61). #53 itself
-  is still open; closing it is the owner's call.
+- #86 (the Visual rule and the headless Chrome gotcha still use fixed ports) is green-lit and
+  building under /rt in its own worktree. Feel pass #53 and the council-climb ship are closed.
 - Map issue #35 is pinned; regenerate `docs/decision-map.html`
   at every ticket close (command in AGENTS.md, "Question tickets").
 - Pre-existing tree items (owner's, don't touch): unstaged deletion of

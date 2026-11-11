@@ -11,6 +11,14 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-11-11 - Feel pass closed (#53)
+
+The owner closed #53 after the council-climb ship and its follow-ups went live.
+
+- **Under it.** The feel-pass build tickets #55 to #60, #62, #63 and #61, then the council-climb
+  ship #78 to #82 and its follow-ups #83, #84, #85 and #77. All are on main.
+- **Still open.** #86 (docs only: two lines with fixed ports) and the pinned map #35.
+
 ### 2026-11-11 - Full check stops only this worktree's dev server (#77)
 
 Found during #76: the full check's `pkill -f "next dev"` matched every Next dev server on the

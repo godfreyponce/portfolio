@@ -5,6 +5,10 @@ last_worked_on: 2026-11-11
 next_action: "none: no ticket is ready-for-agent"
 blocked_on: ""
 phase: >-
+  #83 (carousel drag from a YouTube slide) shipped and closed 2026-11-11: a clear layer covers the
+  YouTube iframe until the video starts, so a drag or swipe on LAND's video slide pages the
+  carousel, and a click removes the layer and plays the video. Paging away brings the layer back.
+  Before play, YouTube's poster hover does not react, accepted. next_action names none.
   #85 (footer bottom row contrast) shipped and closed 2026-11-11: the commit line and the copyright
   are now white/50, 5.23:1 on the dark footer instead of 3.65:1, still dimmer than the handles. The
   commit reply was faked in headless Chrome, so the live API reply was not seen. next_action names
@@ -228,8 +232,8 @@ Archive: `docs/HISTORY.md`. Queue: GitHub Issues (`gh issue list`). Protocol: `A
 
 ## Now
 
-- Council-climb ship (#78 to #82) is done and on main. Its follow-up #83 (video-slide drag)
-  is accepted and landing next. #77 (the full check's `pkill -f "next dev"`
+- Council-climb ship (#78 to #82) and its follow-ups #83, #84 and #85 are done and on main.
+  #77 (the full check's `pkill -f "next dev"`
   stops other worktrees' dev servers) is accepted too, so nobody runs that line.
 - Feel pass #53: every build ticket under it has landed (#55 to #60, #62, #63, #61). #53 itself
   is still open; closing it is the owner's call.

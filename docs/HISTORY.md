@@ -11,6 +11,35 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-11-11 - Carousel drag from a YouTube slide (#83)
+
+Found during #80. A mouse drag that started on LAND's YouTube slide did not page the carousel.
+
+- **Cause, proven before the fix.** A real CDP mouse drag on LAND's video slide left the active dot
+  at 1 (a photo-slide drag in the same session paged 0 to 1), and `elementFromPoint` at the slide
+  centre was the `IFRAME`: pointer events that start inside the cross-origin YouTube iframe never
+  reach the Framer Motion track.
+- **Shipped** (`de34357`). `MediaCarousel.tsx` only. In a carousel with more than one slide, a
+  transparent `aria-hidden` layer covers the YouTube iframe until the video starts, so drags and
+  swipes reach the track. A click that is not the end of a drag (the `dragged` ref, as on the
+  lightbox button) removes the layer and sends YouTube's `playVideo` command with `postMessage`
+  (`enablejsapi=1` on the embed URL); after that the iframe gets every event, so YouTube's own
+  controls work. `snap` resets the play state whenever the slide changes, so paging back brings
+  the layer back. The reload-with-autoplay fallback was not needed.
+- **Verified.** Port 3083 (not 3000, #77), headless Chrome over CDP. Video-slide drag: dot 1 to 1
+  before, 1 to 2 after. The YouTube player reported states 5, -1, 3, 1 (cued to playing) after the
+  first click and 2 (paused) after a second click on its own controls. A slow 40px drag that snaps
+  back still fires a click on the layer, and the layer stays (the guard swallowed it). Play, page
+  away and back: the layer is back and a drag pages again. 390x844 touch: swipe pages 1 to 2, tap
+  starts the video, `scrollWidth` 390. Reduced motion (pan path): drag pages 1 to 2. /projects at
+  1440: LAND pages 1 to 2, Nudge 3 to 2 from its last slide. Photo drag, lightbox open and Escape,
+  next arrow, dots and ArrowRight unchanged; the layer has no `tabindex`. `tsc --noEmit` clean. No
+  build figure: this repo's full check has no page count.
+- **Known, accepted.** Until the video starts, YouTube's poster hover (title bar, Share, Watch
+  on YouTube) does not react, and a click on those spots starts the video instead. No carousel
+  on the site today has a single YouTube slide, so the no-layer branch for one-item carousels is
+  not exercised.
+
 ### 2026-11-11 - Footer bottom row contrast (#85)
 
 Follow-up to #82, found by its review. The footer's bottom row (the commit line and the ©) was

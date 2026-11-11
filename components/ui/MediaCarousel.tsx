@@ -48,6 +48,8 @@ export default function MediaCarousel({ items, title, expandable }: MediaCarouse
   const [current, setCurrent] = useState(0);
   const [maxDrag, setMaxDrag] = useState(0);
   const [lightbox, setLightbox] = useState<number | null>(null);
+  const [playing, setPlaying] = useState<number | null>(null);
+  const ytFrame = useRef<HTMLIFrameElement>(null);
   // A click that ends a drag must not open the lightbox. Set on drag/pan start, cleared a tick
   // after settle so the trailing click still sees it.
   const dragged = useRef(false);
@@ -65,6 +67,7 @@ export default function MediaCarousel({ items, title, expandable }: MediaCarouse
 
   const snap = (index: number) => {
     const target = Math.max(0, Math.min(count - 1, index));
+    if (target !== idx.current) setPlaying(null);
     idx.current = target;
     setCurrent(target);
     animate(x, -target * step.current, reduced ? { duration: 0 } : SPRING);
@@ -233,13 +236,33 @@ export default function MediaCarousel({ items, title, expandable }: MediaCarouse
               >
                 {item.type === "youtube" && item.videoId ? (
                   active ? (
-                    <iframe
-                      className="h-full w-full border-0"
-                      src={`https://www.youtube.com/embed/${item.videoId}?autoplay=0&mute=1&controls=1&loop=1&playlist=${item.videoId}`}
-                      title={title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
+                    <>
+                      <iframe
+                        ref={ytFrame}
+                        className="h-full w-full border-0"
+                        src={`https://www.youtube.com/embed/${item.videoId}?autoplay=0&mute=1&controls=1&loop=1&playlist=${item.videoId}&enablejsapi=1`}
+                        title={title}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                      {/* Pointer events that start inside a cross-origin iframe never reach the
+                          track, so this layer catches them until the first click hands the video
+                          to YouTube. */}
+                      {hasMultiple && playing !== i && (
+                        <div
+                          aria-hidden
+                          className="absolute inset-0 cursor-pointer"
+                          onClick={() => {
+                            if (dragged.current) return;
+                            setPlaying(i);
+                            ytFrame.current?.contentWindow?.postMessage(
+                              JSON.stringify({ event: "command", func: "playVideo", args: [] }),
+                              "https://www.youtube.com",
+                            );
+                          }}
+                        />
+                      )}
+                    </>
                   ) : null
                 ) : item.src ? (
                   expandable ? (

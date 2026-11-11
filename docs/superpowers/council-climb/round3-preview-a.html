@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Preview A: Index</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+.gh-wrap{background:#fafaf9;font-family:'Geist',ui-sans-serif,system-ui,sans-serif;color:#1c1917;-webkit-font-smoothing:antialiased}
+.gh-sec{box-sizing:border-box;max-width:1004px;margin:0 auto;padding:128px 24px 0;display:grid;grid-template-columns:372px minmax(0,1fr);column-gap:48px;align-items:start}
+.gh-photo{display:block;width:372px;height:558px;object-fit:cover;object-position:50% 30%;border-radius:0}
+.gh-text>*{margin:0}
+.gh-name{font-family:'Spectral',ui-serif,Georgia,serif;font-size:1.8125rem;line-height:1.3;letter-spacing:-.7px;font-weight:400;color:#1c1917;margin-top:-6px!important}
+.gh-tag{margin-top:6px!important;font-size:.953125rem;line-height:1.4;color:#a8a29e}
+.gh-bio{margin-top:28px!important;font-size:.953125rem;line-height:1.7;color:#44403c}
+.gh-bio p{margin:0}.gh-bio p+p{margin-top:24px}
+.gh-bio a{color:#78716c;text-decoration:none;border-bottom:1px dashed rgba(127,127,127,.5);transition:color .2s,border-color .2s}
+.gh-bio a:hover{color:#1c1917;border-bottom-color:#1c1917}
+.gh-act{margin-top:32px!important;display:flex;align-items:center;gap:12px}
+.gh-btn{display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border:1px solid #1c1917;border-radius:4px;font-size:.71875rem;line-height:1.5;letter-spacing:.1em;text-transform:uppercase;color:#57534e;text-decoration:none;transition:background-color .2s,color .2s}
+.gh-btn:hover{background:#1c1917;color:#fafaf9}
+.gh-li{display:inline-flex;color:#78716c;transition:color .2s}
+.gh-li:hover{color:#0a66c2}
+.gh-li svg{width:22px;height:22px;display:block}
+@media (max-width:767px){.gh-sec{grid-template-columns:1fr;padding-top:48px;row-gap:32px}.gh-photo{width:100%;height:auto;aspect-ratio:2/3}}
+@media (prefers-reduced-motion:reduce){.gh-btn,.gh-li,.gh-bio a{transition:none}}
+</style>
+<style>
+/* Variant A, Index. Scoped under .ix (main) and .ix-foot (footer); nothing here reaches .gh-*. */
+body{margin:0;background:#fafaf9;overflow-x:clip}
+.ix,.ix-foot{font-family:'Geist',ui-sans-serif,system-ui,sans-serif;font-size:.953125rem;line-height:1.7;color:#44403c;background:#fafaf9;-webkit-font-smoothing:antialiased;display:block}
+.ix *,.ix *::before,.ix *::after,.ix-foot *,.ix-foot *::before,.ix-foot *::after{box-sizing:border-box}
+.ix :where(h2,h3,p,ul,ol,figure),.ix-foot :where(h2,p){margin:0;padding:0}
+.ix-col{max-width:1004px;margin:0 auto;padding:0 24px}
+
+/* the dashed link, the only link style on the page */
+.ix-a{color:#78716c;text-decoration:none;border-bottom:1px dashed rgba(127,127,127,.5);transition:color .2s,border-color .2s}
+.ix-a:hover{color:#1c1917;border-bottom-color:#1c1917}
+.ix-b{font-weight:600;color:#44403c}
+a.ix-b{text-decoration:none;border-bottom:1px dashed rgba(127,127,127,.5);transition:color .2s,border-color .2s}
+a.ix-b:hover{color:#1c1917;border-bottom-color:#1c1917}
+
+/* hero portrait bottom to first rule: 120px. The stick figure stands in this gap, feet on the rule. */
+.ix-gap{position:relative;height:120px}
+.ix-run{position:absolute;left:0;right:0;top:16px;height:108px;overflow:hidden;color:#1c1917;pointer-events:none}
+.ix-run svg{position:absolute;inset:0;width:100%;height:100%}
+
+/* every block opens with the 1px rule and closes 64px above the next one */
+.ix-sec{border-top:1px solid #e7e5e4;padding-bottom:64px}
+.ix-h{margin-top:55px;font-family:'Spectral',ui-serif,Georgia,serif;font-style:italic;font-weight:500;font-size:1.3125rem;line-height:1.3;letter-spacing:-.3px;color:#1c1917}
+.ix-h+*{margin-top:51px}
+
+/* centred grey caption over a full-column figure */
+.ix-cap{margin-top:40px;text-align:center;color:#a8a29e}
+.ix-cap+*{margin-top:30px}
+
+/* logo strip */
+.ix-logos{display:flex;justify-content:center;flex-wrap:wrap;gap:24px 48px;list-style:none}
+.ix-logos img{display:block;width:56px;height:56px;object-fit:cover;filter:grayscale(1);opacity:.5;mix-blend-mode:multiply}
+
+/* two-column list: bold title + role, subject line, grey date */
+.ix-list{list-style:none;column-count:2;column-gap:24px;margin-bottom:-26px}
+.ix-list li{break-inside:avoid;padding-bottom:26px}
+.ix-d{color:#a8a29e}
+.ix-d b{font-weight:600;color:#2d6a4f}
+
+/* loss graph */
+.ix-loss{position:relative;height:192px;cursor:crosshair;overflow:hidden}
+.ix-loss canvas{display:block;width:100%;height:100%}
+.ix-read{position:absolute;right:0;top:0;pointer-events:none;user-select:none;font:400 12px/1.4 'Geist Mono',ui-monospace,monospace;letter-spacing:.025em;color:#78716c;font-variant-numeric:tabular-nums}
+.ix-read span{color:#c2410c}
+
+/* 3-up card rows */
+.ix-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:30px;row-gap:48px;list-style:none}
+.ix-slot{display:block;width:100%;aspect-ratio:2.4/1;object-fit:cover;border-radius:0}
+.ix-dk{position:relative;overflow:hidden;background:#1c1917;display:flex;align-items:center;justify-content:center}
+.ix-eye{margin-top:20px;font-size:.80625rem;line-height:1.4;letter-spacing:.4px;text-transform:uppercase;color:#a8a29e}
+.ix-ct{margin-top:4px;font-family:'Spectral',ui-serif,Georgia,serif;font-weight:400;font-size:1.3125rem;line-height:1.3;letter-spacing:-.3px;color:#1c1917}
+.ix-cp{margin-top:8px}
+.ix-cl{margin-top:8px;color:#a8a29e}
+.ix-phones{gap:8px}
+.ix-phones img{height:84%;width:auto;min-width:0;max-width:30%;object-fit:contain}
+.ix-mtn{position:absolute;left:0;right:0;bottom:0;width:100%;height:70%}
+.ix-gh{transition:opacity .2s}
+.ix-gh:hover{opacity:.85}
+.ix-heat{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,auto);grid-template-columns:repeat(26,minmax(0,1fr));gap:3px;width:calc(100% - 32px)}
+.ix-heat i{display:block;aspect-ratio:1;border-radius:2px}
+.ix-streak{margin-top:8px;display:flex;align-items:center;justify-content:space-between}
+.ix-thm{display:flex;width:32px;height:32px;margin:-4px 0;align-items:center;justify-content:center;color:#a8a29e;transition:background-color .2s,color .2s}
+.ix-thm:hover{background:#1c1917;color:#fafaf9}
+.ix-num{display:flex;align-items:baseline;gap:16px;color:#a8a29e;font-variant-numeric:tabular-nums}
+.ix-num strong{font-weight:800;font-size:17px;letter-spacing:-.01em;color:#57534e}
+.ix-num strong small{font-size:13px;font-weight:400}
+.ix-num span{font-size:12.9px}
+#soccer{scroll-margin-top:96px}
+
+/* outlined button, same spec as the hero's */
+.ix-more{margin-top:48px}
+.ix-btn{display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border:1px solid #1c1917;border-radius:4px;font-size:.71875rem;line-height:1.5;letter-spacing:.1em;text-transform:uppercase;color:#57534e;text-decoration:none;transition:background-color .2s,color .2s}
+.ix-btn:hover{background:#1c1917;color:#fafaf9}
+
+/* footer: one more rule, two quiet lines */
+.ix-foot .ix-col>div{border-top:1px solid #e7e5e4;padding:40px 0 164px;display:flex;flex-wrap:wrap;align-items:center;column-gap:24px;row-gap:8px}
+.ix-foot .ix-fl{margin-left:auto}
+.ix-fn{font-weight:600;color:#44403c}
+.ix-fn a{color:inherit;text-decoration:none}
+.ix-fi{display:flex;gap:16px;justify-content:flex-end}
+.ix-fi a{display:flex;color:#78716c;transition:color .2s}
+.ix-fi a:hover{color:#1c1917}
+.ix-fl{font:400 12.5px/1.7 'Geist Mono',ui-monospace,monospace;color:#a8a29e;display:flex;align-items:center;gap:6px}
+.ix-add{color:#1a7f37}.ix-del{color:#cf222e}
+.ix-fc{color:#a8a29e}
+.ix-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+@media (max-width:767px){
+  .ix-list{column-count:1}
+  .ix-cards{grid-template-columns:minmax(0,1fr);row-gap:40px}
+  .ix-logos{display:grid;grid-template-columns:repeat(3,56px);justify-content:center;gap:24px 48px}
+  .ix-foot .ix-col>div{flex-direction:column;align-items:flex-start}
+  .ix-foot .ix-fl{margin-left:0}
+}
+@media (prefers-reduced-motion:reduce){
+  .ix-a,a.ix-b,.ix-gh,.ix-thm,.ix-btn,.ix-fi a{transition:none}
+}
+</style>
+</head>
+<body>
+<header class="gh-wrap" id="top">
+  <section class="gh-sec">
+    <img class="gh-photo" src="godfrey_portrait.jpg" alt="Godfrey Ponce" width="586" height="879">
+    <div class="gh-text">
+      <h1 class="gh-name">Godfrey Ponce</h1>
+      <p class="gh-tag">I like to build agents that think, so we humans can create</p>
+      <div class="gh-bio">
+        <p>Hey! I'm a junior Computer Science major with a minor in Cognitive Science at <a href="https://www.utdallas.edu" title="The University of Texas at Dallas" target="_blank" rel="noopener noreferrer">UTD</a>, and I like to build things.</p>
+        <p><a href="#soccer">Soccer</a> taught me resilience, discipline, and belief in teamwork. Code gives me a way to use those lessons. Let's talk about agents, the beautiful game, and everything in between.</p>
+      </div>
+      <div class="gh-act">
+        <a class="gh-btn" href="mailto:poncegodfrey@gmail.com">Send me an email <span aria-hidden="true">&rarr;</span></a>
+        <a class="gh-li" href="https://linkedin.com/in/godfreyponce" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a>
+      </div>
+    </div>
+  </section>
+</header>
+<main class="ix">
+<div class="ix-col">
+
+  <div class="ix-gap">
+    <div class="ix-run" id="ix-run" aria-hidden="true">
+      <svg id="ix-man-svg" viewBox="0 0 600 108">
+        <g id="ix-mg" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0">
+          <circle cx="0" cy="-32" r="10"/>
+          <line x1="0" y1="-22" x2="0" y2="8"/>
+          <line id="ix-al" x1="0" y1="-16" x2="3" y2="2"/>
+          <line id="ix-ar" x1="0" y1="-16" x2="-3" y2="2"/>
+          <line id="ix-ll" x1="0" y1="8" x2="3" y2="30"/>
+          <line id="ix-lr" x1="0" y1="8" x2="-3" y2="30"/>
+          <circle id="ix-el" cx="-3.5" cy="-33.5" r="1.3" fill="currentColor" stroke="none"/>
+          <circle id="ix-er" cx="3.5" cy="-33.5" r="1.3" fill="currentColor" stroke="none"/>
+          <path id="ix-mo" d="M -4 -29 Q 0 -26.75 4 -29" stroke-width="1.5"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <section class="ix-sec" aria-label="Where I've worked and studied">
+    <p class="ix-cap">Where I've worked and studied <span aria-hidden="true">&darr;</span></p>
+    <ul class="ix-logos">
+      <li><img src="utdjonsson_logo.jpeg" alt="Jonsson School of Engineering and Computer Science" width="56" height="56"></li>
+      <li><img src="team_handshake_logo.jpeg" alt="Handshake AI" width="56" height="56"></li>
+      <li><img src="wayfair_logo.jpeg" alt="Wayfair" width="56" height="56"></li>
+      <li><img src="apple_logo.jpeg" alt="Apple" width="56" height="56"></li>
+      <li><img src="gdsc_logo.png" alt="Google Developer Student Club" width="56" height="56"></li>
+      <li><img src="utd_logo.jpeg" alt="The University of Texas at Dallas" width="56" height="56"></li>
+    </ul>
+  </section>
+
+  <section class="ix-sec" aria-labelledby="ix-work">
+    <h2 class="ix-h" id="ix-work">Work Experience&nbsp;&raquo;</h2>
+    <ul class="ix-list">
+      <li>
+        <p><a class="ix-b" href="https://engineering.utdallas.edu" target="_blank" rel="noopener noreferrer">Jonsson School of Engineering &amp; Computer Science (UT Dallas)</a> &ndash; Web Specialist</p>
+        <p>WordPress, HTML, CSS, JavaScript, Jira, Dreamweaver, Silktide</p>
+        <p class="ix-d">August 2025 - <b>Present</b></p>
+      </li>
+      <li>
+        <p><a class="ix-b" href="https://joinhandshake.com" target="_blank" rel="noopener noreferrer">Handshake AI</a> &ndash; AI Data Researcher, Contract</p>
+        <p>Conducting RLHF to fine-tune multimodal AI models, focusing on alignment, safety, and reasoning logic.</p>
+        <p class="ix-d">November 2025 - January 2026</p>
+      </li>
+      <li>
+        <p><a class="ix-b" href="https://www.wayfair.com" target="_blank" rel="noopener noreferrer">Wayfair</a> &ndash; AI Agent Developer, Externship</p>
+        <p>Python, Google Gemini, Tableau, n8n, JavaScript</p>
+        <p class="ix-d">October 2025 - December 2025</p>
+      </li>
+      <li>
+        <p><a class="ix-b" href="https://www.apple.com" target="_blank" rel="noopener noreferrer">Apple</a> &ndash; Technical Advisor</p>
+        <p>Tableau, iOS/macOS, Keynote</p>
+        <p class="ix-d">May 2025 - August 2025</p>
+      </li>
+      <li>
+        <p><a class="ix-b" href="https://gdg.community.dev" target="_blank" rel="noopener noreferrer">Google Developer Student Club (GDSC)</a> &ndash; Community &amp; Events Officer</p>
+        <p>Spearheaded a social media strategy boosting engagement by 850% and gaining 150k+ video views.</p>
+        <p class="ix-d">Fall 2024 - <b>Present</b></p>
+      </li>
+    </ul>
+  </section>
+
+  <section class="ix-sec" aria-labelledby="ix-edu">
+    <h2 class="ix-h" id="ix-edu">Education&nbsp;&raquo;</h2>
+    <ul class="ix-list">
+      <li>
+        <p><a class="ix-b" href="https://www.utdallas.edu" target="_blank" rel="noopener noreferrer">The University of Texas at Dallas</a> &ndash; BS in Computer Science</p>
+        <p>Minor in Cognitive Science</p>
+        <p class="ix-d">Fall 2024 - Spring 2028</p>
+      </li>
+    </ul>
+  </section>
+
+  <section class="ix-sec" aria-label="Training loss, live">
+    <p class="ix-cap">A model training while you read <span aria-hidden="true">&darr;</span></p>
+    <figure class="ix-loss">
+      <canvas id="ix-loss" aria-hidden="true"></canvas>
+      <div class="ix-read" id="ix-read"></div>
+    </figure>
+  </section>
+
+  <section class="ix-sec" aria-labelledby="ix-lab">
+    <h2 class="ix-h" id="ix-lab">The Lab&nbsp;&raquo;</h2>
+    <ul class="ix-cards">
+      <li>
+        <img class="ix-slot" src="projects/land/land-inside.jpg" alt="The real LAND box with its lid lifted and a Raspberry Pi 5 inside">
+        <p class="ix-eye">Hackathon, Nov 2026</p>
+        <h3 class="ix-ct">LAND</h3>
+        <p class="ix-cp">A home safety box that asks if you're okay after a quake, and raises an alarm when you can't answer.</p>
+        <p class="ix-cl"><a class="ix-a" href="https://github.com/godfreyponce/hackutd-26" target="_blank" rel="noopener noreferrer">GitHub</a>, <a class="ix-a" href="https://devpost.com/software/rickroll-bfz6v9" target="_blank" rel="noopener noreferrer">Devpost</a>, <a class="ix-a" href="https://www.youtube.com/watch?v=tZQrHPPwC6E" target="_blank" rel="noopener noreferrer">Video</a></p>
+      </li>
+      <li>
+        <img class="ix-slot" src="projects/cometadvisor/cometLogo.png" alt="CometAdvisor, your AI academic advisor">
+        <p class="ix-eye">Hackathon, Mar 2026</p>
+        <h3 class="ix-ct">CometAdvisor</h3>
+        <p class="ix-cp">An AI advisor that turns your transcript into a semester plan.</p>
+        <p class="ix-cl"><a class="ix-a" href="https://github.com/godfreyponce/hackai-26/tree/main" target="_blank" rel="noopener noreferrer">GitHub</a>, <a class="ix-a" href="https://devpost.com/software/untitled-project-h2z8qftmvkj9" target="_blank" rel="noopener noreferrer">Devpost</a>, <a class="ix-a" href="https://www.youtube.com/watch?v=T0LmM8ngKk4" target="_blank" rel="noopener noreferrer">Live demo</a></p>
+      </li>
+      <li>
+        <img class="ix-slot" src="projects/remix/Godfrey.JPG" alt="Presenting Remix">
+        <p class="ix-eye">Sprint, Feb 2026</p>
+        <h3 class="ix-ct">Remix</h3>
+        <p class="ix-cp">Mock interviews built from your resume's actual skill gaps.</p>
+        <p class="ix-cl"><a class="ix-a" href="https://github.com/MMehta45/sprint-ml1" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+      </li>
+      <li>
+        <img class="ix-slot" src="projects/nudge/nudge.png" alt="Nudge screenshot">
+        <p class="ix-eye">Hackathon, Jan 2026</p>
+        <h3 class="ix-ct">Nudge</h3>
+        <p class="ix-cp">An AI budgeting assistant built by four broke college students.</p>
+        <p class="ix-cl"><a class="ix-a" href="https://github.com/godfreyponce/tamuhack-26" target="_blank" rel="noopener noreferrer">GitHub</a>, <a class="ix-a" href="https://devpost.com/software/tamuhack-pq8rof" target="_blank" rel="noopener noreferrer">Devpost</a>, <a class="ix-a" href="https://www.youtube.com/watch?v=wPNfufwHK0U" target="_blank" rel="noopener noreferrer">Video</a></p>
+      </li>
+      <li>
+        <div class="ix-slot ix-dk ix-phones"><img src="projects/techassist/techassist-scan.jpeg" alt="TechAssist QR scanner screen"><img src="projects/techassist/techassist-home.jpg" alt="TechAssist home screen with the work order list"><img src="projects/techassist/techassist-search.jpg" alt="TechAssist troubleshooting article search"></div>
+        <p class="ix-eye">Hackathon, Oct 2025</p>
+        <h3 class="ix-ct">TechAssist</h3>
+        <p class="ix-cp">A native iOS assistant with scan-to-solution QR navigation for data center techs.</p>
+        <p class="ix-cl"><a class="ix-a" href="https://github.com/godfreyponce/TechAssistCLONE" target="_blank" rel="noopener noreferrer">GitHub</a>, <a class="ix-a" href="https://devpost.com/software/techassist" target="_blank" rel="noopener noreferrer">Devpost</a>, <a class="ix-a" href="https://www.youtube.com/watch?v=RTfW7j82g7E" target="_blank" rel="noopener noreferrer">Video</a></p>
+      </li>
+      <li>
+        <a class="ix-slot ix-dk ix-gh" href="https://github.com/godfreyponce" target="_blank" rel="noopener noreferrer" aria-label="GitHub contributions, last 26 weeks"><span class="ix-heat" id="ix-heat"></span></a>
+        <p class="ix-eye">GitHub, last 26 weeks</p>
+        <h3 class="ix-ct">View more on GitHub</h3>
+        <p class="ix-cp">Explore my repositories and <a class="ix-a" href="https://github.com/godfreyponce" target="_blank" rel="noopener noreferrer">contributions</a>.</p>
+        <div class="ix-streak">
+          <a class="ix-thm" href="https://tryhackme.com/p/poncegodfrey" target="_blank" rel="noopener noreferrer" aria-label="TryHackMe profile"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M10.705 0C7.54 0 4.902 2.285 4.349 5.291a4.525 4.525 0 0 0-4.107 4.5 4.525 4.525 0 0 0 4.52 4.52h6.761a.625.625 0 1 0 0-1.25H4.761a3.273 3.273 0 0 1-3.27-3.27A3.273 3.273 0 0 1 6.59 7.08a.625.625 0 0 0 .7-1.035 4.488 4.488 0 0 0-1.68-.69 5.223 5.223 0 0 1 5.096-4.104 5.221 5.221 0 0 1 5.174 4.57 4.489 4.489 0 0 0-.488.305.625.625 0 1 0 .731 1.013 3.245 3.245 0 0 1 1.912-.616 3.278 3.278 0 0 1 3.203 2.61.625.625 0 0 0 1.225-.251 4.533 4.533 0 0 0-4.428-3.61 4.54 4.54 0 0 0-.958.105C16.556 2.328 13.9 0 10.705 0zm5.192 10.64a.925.925 0 0 0-.462.108.913.913 0 0 0-.313.29 1.27 1.27 0 0 0-.175.427 2.39 2.39 0 0 0-.054.514c0 .181.018.353.054.517.036.164.095.307.175.43a.899.899 0 0 0 .313.297c.127.073.281.11.462.11.18 0 .334-.037.46-.11a.897.897 0 0 0 .309-.296c.08-.124.137-.267.173-.431.036-.164.054-.336.054-.517 0-.18-.018-.352-.054-.514a1.271 1.271 0 0 0-.173-.426.901.901 0 0 0-.309-.291.917.917 0 0 0-.46-.108zm6.486 0a.925.925 0 0 0-.462.108.913.913 0 0 0-.313.29 1.27 1.27 0 0 0-.175.427 2.39 2.39 0 0 0-.053.514c0 .181.017.353.053.517.036.164.095.307.175.43a.899.899 0 0 0 .313.297c.127.073.281.11.462.11.18 0 .334-.037.46-.11a.897.897 0 0 0 .31-.296c.078-.124.136-.267.172-.431.036-.164.054-.336.054-.517 0-.18-.018-.352-.054-.514a1.271 1.271 0 0 0-.173-.426.901.901 0 0 0-.308-.291.916.916 0 0 0-.461-.108zm-8.537.068l-.84.618.313.43.476-.368v1.877h.603v-2.557zm6.486 0l-.841.618.314.43.477-.368v1.877h.603v-2.557zm-4.435.445c.08 0 .143.028.193.084.05.057.087.127.114.21.026.083.044.173.054.269a2.541 2.541 0 0 1 0 .533c-.01.097-.028.187-.054.27a.584.584 0 0 1-.114.21.243.243 0 0 1-.193.085.248.248 0 0 1-.195-.086.584.584 0 0 1-.118-.209 1.245 1.245 0 0 1-.056-.27 2.645 2.645 0 0 1 0-.533c.01-.096.029-.186.056-.27a.583.583 0 0 1 .118-.209.25.25 0 0 1 .195-.084zm6.486 0c.08 0 .144.028.193.084.05.057.087.127.114.21.027.083.044.173.054.269a2.541 2.541 0 0 1 0 .533c-.01.097-.027.187-.054.27a.584.584 0 0 1-.114.21.243.243 0 0 1-.193.085.249.249 0 0 1-.195-.086.581.581 0 0 1-.117-.209 1.245 1.245 0 0 1-.056-.27 2.642 2.642 0 0 1 0-.533c.01-.096.028-.186.056-.27a.58.58 0 0 1 .117-.209.25.25 0 0 1 .195-.084zm-2.191 3.51a.93.93 0 0 0-.463.109.908.908 0 0 0-.312.291c-.08.122-.139.263-.175.426a2.383 2.383 0 0 0-.054.514c0 .18.018.353.054.516.036.164.094.308.175.432a.91.91 0 0 0 .312.296.92.92 0 0 0 .463.11c.18 0 .333-.037.46-.11a.892.892 0 0 0 .308-.296 1.32 1.32 0 0 0 .174-.432c.036-.163.054-.335.054-.516 0-.18-.018-.352-.054-.514a1.274 1.274 0 0 0-.174-.426.89.89 0 0 0-.309-.291.918.918 0 0 0-.46-.108zm-6.402.07l-.841.617.314.43.476-.369v1.878h.604v-2.557zm2.125 0l-.841.617.314.43.477-.369v1.878h.603v-2.557zm2.116 0l-.84.617.313.43.477-.369v1.878h.603v-2.557zm2.16.443c.08 0 .144.028.194.085a.605.605 0 0 1 .114.21c.026.083.044.172.053.269a2.639 2.639 0 0 1 0 .532 1.28 1.28 0 0 1-.053.27.585.585 0 0 1-.114.21.244.244 0 0 1-.193.085.25.25 0 0 1-.196-.085.589.589 0 0 1-.117-.21 1.245 1.245 0 0 1-.056-.27 2.597 2.597 0 0 1 0-.532c.01-.097.028-.186.056-.27a.589.589 0 0 1 .117-.209.249.249 0 0 1 .196-.085zm-6.729 3.073a.676.676 0 0 0-.335.078.661.661 0 0 0-.227.211.91.91 0 0 0-.127.31c-.027.118-.04.242-.04.373s.013.256.04.375a.93.93 0 0 0 .127.313.65.65 0 0 0 .227.215c.092.053.204.08.335.08a.655.655 0 0 0 .334-.08.65.65 0 0 0 .225-.215c.057-.09.1-.194.125-.313a1.75 1.75 0 0 0 .04-.375c0-.13-.014-.255-.04-.373a.931.931 0 0 0-.125-.31.658.658 0 0 0-.225-.21.667.667 0 0 0-.334-.08zm3.086 0a.675.675 0 0 0-.336.078.661.661 0 0 0-.226.211.907.907 0 0 0-.127.31 1.69 1.69 0 0 0-.04.373c0 .131.013.256.04.375a.928.928 0 0 0 .127.313c.058.09.134.162.226.215.093.053.205.08.336.08a.655.655 0 0 0 .334-.08.65.65 0 0 0 .224-.215c.058-.09.1-.194.126-.313a1.752 1.752 0 0 0 0-.748.94.94 0 0 0-.126-.31.657.657 0 0 0-.224-.21.667.667 0 0 0-.334-.08zm5.108 0a.675.675 0 0 0-.336.078.661.661 0 0 0-.226.211.91.91 0 0 0-.127.31c-.027.118-.04.242-.04.373s.013.256.04.375a.931.931 0 0 0 .127.313c.058.09.134.162.226.215.093.053.205.08.336.08.13 0 .243-.027.334-.08a.65.65 0 0 0 .224-.215c.058-.09.1-.194.126-.313a1.75 1.75 0 0 0 .04-.375c0-.13-.014-.255-.04-.373a.943.943 0 0 0-.126-.31.657.657 0 0 0-.224-.21.668.668 0 0 0-.334-.08zm-6.658.05l-.61.448.227.311.346-.266v1.362h.438v-1.856zm3.068 0l-.61.448.227.311.346-.266v1.362h.438v-1.856zm5.108 0l-.611.448.228.311.346-.266v1.362h.438v-1.856zm-9.712.322c.058 0 .105.02.14.062a.421.421 0 0 1 .083.151.96.96 0 0 1 .04.196 1.932 1.932 0 0 1 0 .386.954.954 0 0 1-.04.197.421.421 0 0 1-.083.152.176.176 0 0 1-.14.061.18.18 0 0 1-.141-.06.427.427 0 0 1-.085-.153.887.887 0 0 1-.041-.197 1.96 1.96 0 0 1 0-.386.893.893 0 0 1 .04-.196.42.42 0 0 1 .086-.151.181.181 0 0 1 .141-.062zm3.086 0c.058 0 .104.02.14.062a.421.421 0 0 1 .082.151.94.94 0 0 1 .04.196 1.906 1.906 0 0 1 0 .386.93.93 0 0 1-.04.197.421.421 0 0 1-.082.152.176.176 0 0 1-.14.061.18.18 0 0 1-.141-.06.42.42 0 0 1-.086-.153.846.846 0 0 1-.04-.197 1.965 1.965 0 0 1-.011-.195c0-.057.004-.121.01-.191a.849.849 0 0 1 .041-.196.42.42 0 0 1 .086-.151.182.182 0 0 1 .141-.062zm5.108 0c.058 0 .104.02.14.062a.421.421 0 0 1 .082.151.92.92 0 0 1 .04.196 1.963 1.963 0 0 1 0 .386.943.943 0 0 1-.04.197.421.421 0 0 1-.082.152.177.177 0 0 1-.14.061.18.18 0 0 1-.142-.06.437.437 0 0 1-.085-.153.95.95 0 0 1-.04-.197 1.965 1.965 0 0 1-.011-.195c0-.057.004-.121.01-.191a.959.959 0 0 1 .04-.196.47.47 0 0 1 .086-.151.181.181 0 0 1 .142-.062zm-1.684 1.814a.675.675 0 0 0-.336.079.66.66 0 0 0-.227.21.91.91 0 0 0-.127.31 1.731 1.731 0 0 0 0 .748.939.939 0 0 0 .127.314c.059.09.134.162.227.215.093.053.205.08.336.08a.66.66 0 0 0 .334-.08.648.648 0 0 0 .224-.215c.058-.09.1-.195.126-.314a1.737 1.737 0 0 0-.001-.747.928.928 0 0 0-.125-.31.65.65 0 0 0-.224-.211.668.668 0 0 0-.334-.079zm3.063 0a.676.676 0 0 0-.336.079.664.664 0 0 0-.227.21.906.906 0 0 0-.127.31 1.74 1.74 0 0 0 0 .748.936.936 0 0 0 .127.314.66.66 0 0 0 .227.215c.092.053.204.08.336.08a.654.654 0 0 0 .334-.08.648.648 0 0 0 .223-.215c.058-.09.1-.195.126-.314a1.74 1.74 0 0 0 0-.747.928.928 0 0 0-.126-.31.65.65 0 0 0-.223-.211.666.666 0 0 0-.334-.079zm-1.545.05l-.611.448.228.312.346-.267v1.363h.438v-1.856zm-1.518.323c.057 0 .104.02.14.061a.42.42 0 0 1 .082.152.91.91 0 0 1 .04.195 1.966 1.966 0 0 1 0 .387.951.951 0 0 1-.04.197.421.421 0 0 1-.082.152.177.177 0 0 1-.14.06.18.18 0 0 1-.142-.06.428.428 0 0 1-.085-.152.914.914 0 0 1-.04-.197 1.96 1.96 0 0 1-.011-.195c0-.058.003-.122.01-.192a.923.923 0 0 1 .041-.195c.02-.06.048-.11.085-.152a.181.181 0 0 1 .142-.061zm3.063 0c.057 0 .104.02.14.061a.42.42 0 0 1 .082.152.94.94 0 0 1 .04.195 1.91 1.91 0 0 1 0 .387.93.93 0 0 1-.04.197.422.422 0 0 1-.083.152.175.175 0 0 1-.14.06.18.18 0 0 1-.141-.06.423.423 0 0 1-.085-.152.907.907 0 0 1-.04-.197 1.95 1.95 0 0 1 0-.387.915.915 0 0 1 .04-.195c.02-.06.048-.11.085-.152a.182.182 0 0 1 .142-.061zm-9.713.185a.465.465 0 0 0-.232.055.456.456 0 0 0-.157.146.627.627 0 0 0-.089.215 1.168 1.168 0 0 0-.027.259c0 .09.009.177.027.26a.648.648 0 0 0 .089.216c.04.063.093.112.157.149a.459.459 0 0 0 .232.056c.09 0 .168-.02.231-.056a.45.45 0 0 0 .156-.149.67.67 0 0 0 .087-.217 1.218 1.218 0 0 0 0-.518.647.647 0 0 0-.087-.215.448.448 0 0 0-.156-.146.458.458 0 0 0-.23-.055zm1.052.035l-.423.31.158.217.24-.185v.944h.303v-1.286zm-1.052.224c.04 0 .073.014.097.042a.284.284 0 0 1 .057.105.69.69 0 0 1 .028.136c.004.049.007.092.007.133 0 .04-.003.086-.007.135a.684.684 0 0 1-.028.136.285.285 0 0 1-.057.105.123.123 0 0 1-.097.043.125.125 0 0 1-.098-.043.298.298 0 0 1-.059-.105.612.612 0 0 1-.028-.136 1.39 1.39 0 0 1 0-.268.62.62 0 0 1 .028-.136.297.297 0 0 1 .06-.105.125.125 0 0 1 .097-.042zm3.775 1.394a.463.463 0 0 0-.232.054.452.452 0 0 0-.157.146.621.621 0 0 0-.088.214 1.19 1.19 0 0 0 0 .519.641.641 0 0 0 .088.217.46.46 0 0 0 .157.15.458.458 0 0 0 .232.054.454.454 0 0 0 .232-.055.45.45 0 0 0 .155-.149.664.664 0 0 0 .087-.217 1.189 1.189 0 0 0 0-.519.642.642 0 0 0-.087-.214.446.446 0 0 0-.155-.146.459.459 0 0 0-.232-.054zm1.052.034l-.423.31.158.216.24-.185v.945h.303V22.68zm-1.052.223c.04 0 .073.014.098.043a.3.3 0 0 1 .057.105.643.643 0 0 1 .027.135 1.31 1.31 0 0 1 0 .268.654.654 0 0 1-.027.137.307.307 0 0 1-.057.105.124.124 0 0 1-.098.042.125.125 0 0 1-.098-.042.293.293 0 0 1-.059-.105.618.618 0 0 1-.028-.137 1.364 1.364 0 0 1 0-.268.612.612 0 0 1 .028-.135.287.287 0 0 1 .06-.105.123.123 0 0 1 .097-.043z"/></svg></a>
+          <span class="ix-num" id="ix-num">
+            <span class="ix-sr">124 day current streak, 124 day longest streak on GitHub</span>
+            <strong aria-hidden="true"><span data-n="124">124</span> <small>&#x1F525;</small></strong>
+            <span aria-hidden="true">longest <span data-n="124">124</span></span>
+          </span>
+        </div>
+      </li>
+    </ul>
+    <p class="ix-more"><a class="ix-btn" href="https://godfreyponce.dev/projects">See all projects (12) <span aria-hidden="true">&rarr;</span></a></p>
+  </section>
+
+  <section class="ix-sec" aria-labelledby="ix-pass">
+    <h2 class="ix-h" id="ix-pass">Passions&nbsp;&raquo;</h2>
+    <ul class="ix-cards">
+      <li id="soccer">
+        <img class="ix-slot" src="godfrey_soccerShot.jpg" alt="Godfrey playing soccer" style="object-position:50% 40%">
+        <p class="ix-eye">Soccer</p>
+        <h3 class="ix-ct">The Beautiful Game</h3>
+        <p class="ix-cp">A lifelong athlete, I believe the best results come from disciplined teamwork, bringing in the same energy and translating it over to professional environments.</p>
+      </li>
+      <li>
+        <div class="ix-slot ix-dk" aria-hidden="true"><svg class="ix-mtn" viewBox="0 0 400 300" preserveAspectRatio="none"><path d="M0 220 L80 150 L140 190 L220 110 L300 170 L400 120 L400 300 L0 300 Z" fill="rgba(250,250,249,.12)"/><path d="M0 250 L60 200 L130 230 L210 170 L290 210 L400 180 L400 300 L0 300 Z" fill="rgba(250,250,249,.08)"/></svg></div>
+        <p class="ix-eye">Snowboarding</p>
+        <h3 class="ix-ct">Carving Lines</h3>
+      </li>
+      <li>
+        <div class="ix-slot ix-dk" aria-hidden="true"><svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="#78716c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="8" x="2" y="2" rx="2"/><rect width="20" height="8" x="2" y="14" rx="2"/><path d="M6 6h.01M6 18h.01"/></svg></div>
+        <p class="ix-eye">Home Lab</p>
+        <h3 class="ix-ct">Self-hosted by default</h3>
+        <p class="ix-cp">I self host my own infrastructure to avoid paying for subscriptions and to keep my data secure/private.</p>
+      </li>
+    </ul>
+  </section>
+
+</div>
+</main>
+<footer class="ix-foot">
+  <div class="ix-col"><div>
+    <p class="ix-fn"><a href="#top">Godfrey Ponce</a></p>
+    <p class="ix-fi">
+      <a href="https://github.com/godfreyponce" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg></a>
+      <a href="https://linkedin.com/in/godfreyponce" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg></a>
+      <a href="mailto:poncegodfrey@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></a>
+    </p>
+    <p class="ix-fl"><svg viewBox="0 0 4 5" width="8" height="10" shape-rendering="crispEdges" aria-hidden="true"><g fill="#3b82f6"><rect x="0" y="0" width="2" height="1"/><rect x="1" y="1" width="2" height="1"/></g><rect fill="#6366f1" x="2" y="2" width="2" height="1"/><g fill="#8b5cf6"><rect x="1" y="3" width="2" height="1"/><rect x="0" y="4" width="2" height="1"/></g></svg>lines changed today: <span class="ix-add">+15506</span> <span class="ix-del">-736</span></p>
+    <p class="ix-fc">&copy; Godfrey Ponce</p>
+  </div></div>
+</footer>
+<script>
+(function(){
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Heatmap: the last 26 weeks, GitHub's dark-mode scale (ProjectStack.tsx HEAT_COLORS).
+  var HEAT=["00000011000111140000111100101130000011100011110100111","11000112100111101000111000101131000111010011120000012","01011111100011201000111101001100110121000011120001011","01000111100111110011122010011210101111101001101001111","00101110100011100011114000011110011112000111100011111","01001111110011211000110000111200101213000001200001111","00000111001111110001130101111110001110000111201100110"];
+  var HC=["rgba(255,255,255,.06)","#0e4429","#006d32","#26a641","#39d353"];
+  var heat=document.getElementById('ix-heat'),hf=document.createDocumentFragment();
+  for(var c=27;c<53;c++)for(var r=0;r<7;r++){var e=document.createElement('i');e.style.background=HC[+HEAT[r][c]];hf.appendChild(e)}
+  heat.appendChild(hf);
+
+  // Streak numbers count up from 0 on hover (ProjectStack.tsx StreakNumbers).
+  var num=document.getElementById('ix-num'),nraf=0;
+  num.addEventListener('mouseenter',function(){
+    if(reduce)return;
+    var els=num.querySelectorAll('[data-n]'),t0=performance.now();
+    cancelAnimationFrame(nraf);
+    (function step(now){
+      var t=Math.min((now-t0)/600,1),k=1-Math.pow(1-t,3);
+      els.forEach(function(x){x.textContent=Math.round(k*+x.dataset.n)});
+      if(t<1)nraf=requestAnimationFrame(step);
+    })(t0);
+  });
+
+  // Loss graph: LossGraph.tsx, ported line for line.
+  (function(){
+    var N=360,TOTAL_STEPS=50000,DRAW_FRAMES=420,HOLD_FRAMES=70,MAX_GHOSTS=4;
+    var INK='rgba(28, 25, 23, 0.6)',GHOST='rgba(28, 25, 23, 0.12)',ACCENT='#c2410c';
+    var canvas=document.getElementById('ix-loss'),readout=document.getElementById('ix-read'),ctx=canvas.getContext('2d');
+    function noise(t){return Math.sin(t)*Math.sin(t*2.5)*Math.sin(t*.5)}
+    function curveTarget(p,w,h,seed){var baseline=h*.7,amp=h*.4,decay=Math.exp(-4*p),t=(p*w+seed)*.01;return baseline-amp*decay-noise(t*10)*(decay*40)}
+    function yToLoss(y,h){return Math.max(.015,((h*.7-y)/(h*.4))*2.303)}
+    var w=0,h=0,ys=[],ghosts=[],runIdx=0,frame=0,holding=0,best=Infinity,raf=0,running=false,prevMouseY=0;
+    var points=[];for(var i=0;i<=N;i++)points.push({y:0,vy:0});
+    function genRun(){var seed=559+runIdx*977;ys=[];for(var i=0;i<=N;i++)ys.push(curveTarget(i/N,w,h,seed))}
+    function fit(){var dpr=devicePixelRatio||1;w=canvas.parentElement.clientWidth;h=canvas.parentElement.clientHeight||192;canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);ctx.setTransform(dpr,0,0,dpr,0,0)}
+    function strokeCurve(trace,upTo,style,width,springs){ctx.beginPath();ctx.strokeStyle=style;ctx.lineWidth=width;for(var i=0;i<=upTo;i++){var x=i/N*w,y=trace[i]+(springs?points[i].y:0);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.stroke()}
+    if(reduce){
+      var renderStatic=function(){fit();ctx.clearRect(0,0,w,h);for(var r=0;r<3;r++){runIdx=r;genRun();strokeCurve(ys,N,GHOST,1.5,false)}runIdx=3;genRun();strokeCurve(ys,N,INK,2,false);readout.textContent='run 4 | loss '+yToLoss(ys[N],h).toFixed(3)};
+      renderStatic();addEventListener('resize',renderStatic);return;
+    }
+    function resize(){fit();ghosts.length=0;best=Infinity;genRun()}
+    canvas.addEventListener('mousemove',function(e){
+      var rect=canvas.getBoundingClientRect(),mx=e.clientX-rect.left,my=e.clientY-rect.top,dy=my-prevMouseY;
+      for(var i=0;i<=N;i++){var px=i/N*w,dx=Math.abs(mx-px);if(dx<20)points[i].vy+=dy*.1*Math.pow(1-dx/20,2)}
+      prevMouseY=my;
+    });
+    function draw(){
+      if(!running)return;
+      ctx.clearRect(0,0,w,h);
+      for(var k=0;k<points.length;k++){var q=points[k];q.vy+=(0-q.y)*.05;q.vy*=.95;q.y+=q.vy}
+      for(var g=0;g<ghosts.length;g++)strokeCurve(ghosts[g],N,GHOST,1.5,false);
+      var p=Math.min(1,frame/DRAW_FRAMES),headIdx=Math.floor(p*N);
+      strokeCurve(ys,headIdx,INK,2,true);
+      var hx=headIdx/N*w,hy=ys[headIdx]+points[headIdx].y;
+      ctx.save();ctx.shadowColor=ACCENT;ctx.shadowBlur=10;ctx.fillStyle=ACCENT;ctx.beginPath();ctx.arc(hx,hy,3.5,0,Math.PI*2);ctx.fill();ctx.restore();
+      var loss=yToLoss(ys[headIdx],h);
+      if(p<1){
+        readout.textContent='run '+(runIdx+1)+' | step '+Math.floor(p*TOTAL_STEPS).toLocaleString()+' | loss '+loss.toFixed(3)+(best<Infinity?' | best '+best.toFixed(3):'');
+        frame++;
+      }else{
+        if(holding===0)readout.innerHTML=loss<best?'run '+(runIdx+1)+' | loss '+loss.toFixed(3)+' <span>&#9733; new best</span>':'run '+(runIdx+1)+' | loss '+loss.toFixed(3)+' | best '+best.toFixed(3)+' <span>&#10003;</span>';
+        holding++;
+        if(holding>HOLD_FRAMES){best=Math.min(best,loss);ghosts.push(ys);if(ghosts.length>MAX_GHOSTS)ghosts.shift();runIdx++;frame=0;holding=0;genRun()}
+      }
+      raf=requestAnimationFrame(draw);
+    }
+    function start(){if(running)return;running=true;draw()}
+    function stop(){running=false;cancelAnimationFrame(raf)}
+    resize();addEventListener('resize',resize);
+    new IntersectionObserver(function(es){es[0].isIntersecting?start():stop()},{rootMargin:'100px'}).observe(canvas);
+  })();
+
+  // Stick figure: StickmanRunner.tsx, ported. His x mirrors your scroll; standing still he breathes and blinks.
+  (function(){
+    var BASE_Y=74,ARM_LEN=18,LEG_LEN=22;
+    var band=document.getElementById('ix-run'),svg=document.getElementById('ix-man-svg'),g=document.getElementById('ix-mg');
+    var armL=document.getElementById('ix-al'),armR=document.getElementById('ix-ar'),legL=document.getElementById('ix-ll'),legR=document.getElementById('ix-lr');
+    var eyeL=document.getElementById('ix-el'),eyeR=document.getElementById('ix-er'),mouth=document.getElementById('ix-mo');
+    var W=600;
+    function size(){W=band.clientWidth||600;svg.setAttribute('viewBox','0 0 '+W+' 108')}
+    function clamp(v,a,b){return Math.min(b,Math.max(a,v))}
+    function setLimb(l,a,len,oy){l.setAttribute('x2',Math.sin(a)*len);l.setAttribute('y2',oy+Math.cos(a)*len)}
+    function apply(p){
+      g.setAttribute('transform','translate('+p.x+' '+p.y+') rotate('+p.lean+' 0 -8)');g.setAttribute('opacity','1');
+      setLimb(armL,p.armL,ARM_LEN,-16);setLimb(armR,p.armR,ARM_LEN,-16);setLimb(legL,p.legL,LEG_LEN,8);setLimb(legR,p.legR,LEG_LEN,8);
+      mouth.setAttribute('d','M -4 -29 Q 0 '+(-29+p.mouth*4.5)+' 4 -29');
+      eyeL.setAttribute('cx',-3.5+p.eyeDx);eyeL.setAttribute('r',p.eyeR);eyeR.setAttribute('cx',3.5+p.eyeDx);eyeR.setAttribute('r',p.eyeR);
+    }
+    size();
+    if(reduce){
+      // static waving pose, no loop
+      var cx=function(){return W/2};
+      apply({x:cx(),y:BASE_Y,lean:0,armL:.25,armR:-2.2,legL:.14,legR:-.14,mouth:.8,eyeR:1.3,eyeDx:0});
+      addEventListener('resize',function(){size();apply({x:cx(),y:BASE_Y,lean:0,armL:.25,armR:-2.2,legL:.14,legR:-.14,mouth:.8,eyeR:1.3,eyeDx:0})});
+      return;
+    }
+    var m={phase:0,lastX:null,vel:0,lastMove:0,blinkAt:-1,blinkStart:-1},on=false,raf=0;
+    function tick(ts){
+      if(!on)return;
+      var rect=band.getBoundingClientRect(),vh=innerHeight;
+      var pr=clamp(1-(rect.top+70)/(vh*1.7),0,1),x=-30+(W+60)*pr;
+      var dx=m.lastX===null?0:x-m.lastX;m.lastX=x;
+      m.vel=m.vel*.85+dx*.15;if(Math.abs(dx)>.3)m.lastMove=ts;m.phase+=Math.abs(dx)*.085;
+      var moving=ts-m.lastMove<350,s=Math.sin(m.phase)*.85;
+      var p={x:x,y:BASE_Y,lean:0,armL:.18,armR:-.18,legL:.14,legR:-.14,mouth:.6,eyeR:1.3,eyeDx:0};
+      if(moving){
+        p.y=BASE_Y-Math.abs(Math.sin(m.phase))*5;p.lean=clamp(m.vel*2.2,-16,16);
+        p.legL=s;p.legR=-s;p.armL=-s*.8;p.armR=s*.8;p.eyeDx=clamp(m.vel,-2,2);
+      }else{
+        var bt=ts*.004;p.y=BASE_Y-1.5+Math.sin(bt)*1.5;p.armL=.18+Math.sin(bt)*.04;p.armR=-.18-Math.sin(bt)*.04;p.mouth=.55;
+        if(m.blinkAt<0)m.blinkAt=ts+1500+Math.random()*1500;
+        if(ts>=m.blinkAt&&m.blinkStart<0){m.blinkStart=ts;m.blinkAt=ts+2800+Math.random()*1600}
+        if(m.blinkStart>=0){var bp=(ts-m.blinkStart)/140;if(bp>=1)m.blinkStart=-1;else p.eyeR*=Math.max(.15,bp<.5?1-bp*2:(bp-.5)*2)}
+      }
+      apply(p);
+      raf=requestAnimationFrame(tick);
+    }
+    function start(){if(on)return;m.lastX=null;on=true;raf=requestAnimationFrame(tick)}
+    function stop(){on=false;cancelAnimationFrame(raf)}
+    addEventListener('resize',size);
+    new IntersectionObserver(function(es){es[0].isIntersecting?start():stop()},{rootMargin:'10% 0px'}).observe(band);
+  })();
+})();
+</script>
+</body>
+</html>

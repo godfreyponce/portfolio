@@ -123,7 +123,7 @@ a build:
 Anything visual gets 3 single-file HTML variants first; the owner picks; the winner gets wired in.
 Three variants means three shapes — a second flavor of the first shape doesn't count. Variants go
 in `public/` as throwaway files `preview-a.html`, `preview-b.html`, `preview-c.html` (each works at
-localhost:3000/preview-a.html AND via file://); the winner is wired into the real components; then
+localhost:<port>/preview-a.html AND via file://); the winner is wired into the real components; then
 DELETE all three preview files — they are never committed. Confirm understanding before executing.
 
 # Commit format

@@ -218,14 +218,16 @@ export default function LossGraph() {
   }, [reducedMotion]);
 
   return (
-    <div className="w-full py-12">
-      <div className="relative h-48 w-full cursor-crosshair overflow-hidden">
-        <canvas ref={canvasRef} className="h-full w-full" />
-        <div
-          ref={readoutRef}
-          className="pointer-events-none absolute right-6 top-0 select-none font-mono text-xs tracking-wide text-ink-subtle tabular-nums"
-        />
-      </div>
+    <div className="mx-auto max-w-page px-6">
+      <section aria-label="Training loss, live" className="border-t border-rule pb-16">
+        <figure className="relative mt-[55px] h-48 cursor-crosshair overflow-hidden">
+          <canvas ref={canvasRef} aria-hidden="true" className="block h-full w-full" />
+          <div
+            ref={readoutRef}
+            className="pointer-events-none absolute right-0 top-0 select-none font-mono text-xs leading-[1.4] tracking-wide text-ink-subtle tabular-nums"
+          />
+        </figure>
+      </section>
     </div>
   );
 }

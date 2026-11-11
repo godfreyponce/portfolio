@@ -165,39 +165,47 @@ export default function StickmanRunner() {
   if (reduced) {
     // Static waving pose, no animation loops.
     return (
-      <div className="relative h-[140px] w-full overflow-hidden">
-        <svg viewBox="0 0 200 140" className="absolute inset-0 h-full w-full" aria-hidden>
-          <g transform="translate(100 74)" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" fill="none">
-            <circle cx={0} cy={-32} r={10} />
-            <line x1={0} y1={-22} x2={0} y2={8} />
-            <line x1={0} y1={-16} x2={Math.sin(0.25) * ARM_LEN} y2={-16 + Math.cos(0.25) * ARM_LEN} />
-            <line x1={0} y1={-16} x2={Math.sin(-2.2) * ARM_LEN} y2={-16 + Math.cos(-2.2) * ARM_LEN} />
-            <line x1={0} y1={8} x2={Math.sin(0.14) * LEG_LEN} y2={8 + Math.cos(0.14) * LEG_LEN} />
-            <line x1={0} y1={8} x2={Math.sin(-0.14) * LEG_LEN} y2={8 + Math.cos(-0.14) * LEG_LEN} />
-            <circle cx={-3.5} cy={-33.5} r={1.3} fill="currentColor" stroke="none" />
-            <circle cx={3.5} cy={-33.5} r={1.3} fill="currentColor" stroke="none" />
-            <path d="M -4 -29 Q 0 -25.4 4 -29" strokeWidth={1.5} />
-          </g>
-        </svg>
+      <div className="mx-auto max-w-page px-6">
+        <div className="relative h-[120px]">
+          <div className="pointer-events-none absolute inset-x-0 top-4 h-[108px] overflow-hidden text-ink">
+            <svg viewBox="0 0 200 108" className="absolute inset-0 h-full w-full" aria-hidden>
+              <g transform="translate(100 74)" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" fill="none">
+                <circle cx={0} cy={-32} r={10} />
+                <line x1={0} y1={-22} x2={0} y2={8} />
+                <line x1={0} y1={-16} x2={Math.sin(0.25) * ARM_LEN} y2={-16 + Math.cos(0.25) * ARM_LEN} />
+                <line x1={0} y1={-16} x2={Math.sin(-2.2) * ARM_LEN} y2={-16 + Math.cos(-2.2) * ARM_LEN} />
+                <line x1={0} y1={8} x2={Math.sin(0.14) * LEG_LEN} y2={8 + Math.cos(0.14) * LEG_LEN} />
+                <line x1={0} y1={8} x2={Math.sin(-0.14) * LEG_LEN} y2={8 + Math.cos(-0.14) * LEG_LEN} />
+                <circle cx={-3.5} cy={-33.5} r={1.3} fill="currentColor" stroke="none" />
+                <circle cx={3.5} cy={-33.5} r={1.3} fill="currentColor" stroke="none" />
+                <path d="M -4 -29 Q 0 -25.4 4 -29" strokeWidth={1.5} />
+              </g>
+            </svg>
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div ref={containerRef} className="relative h-[140px] w-full overflow-hidden">
-      <svg viewBox={`0 0 ${width} 140`} className="absolute inset-0 h-full w-full" aria-hidden>
-        <g ref={gRef} stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" fill="none" opacity={0}>
-          <circle cx={0} cy={-32} r={10} />
-          <line x1={0} y1={-22} x2={0} y2={8} />
-          <line ref={armLRef} x1={0} y1={-16} x2={3} y2={2} />
-          <line ref={armRRef} x1={0} y1={-16} x2={-3} y2={2} />
-          <line ref={legLRef} x1={0} y1={8} x2={3} y2={30} />
-          <line ref={legRRef} x1={0} y1={8} x2={-3} y2={30} />
-          <circle ref={eyeLRef} cx={-3.5} cy={-33.5} r={1.3} fill="currentColor" stroke="none" />
-          <circle ref={eyeRRef} cx={3.5} cy={-33.5} r={1.3} fill="currentColor" stroke="none" />
-          <path ref={mouthRef} d="M -4 -29 Q 0 -26.75 4 -29" strokeWidth={1.5} />
-        </g>
-      </svg>
+    <div className="mx-auto max-w-page px-6">
+      <div className="relative h-[120px]">
+        <div ref={containerRef} className="pointer-events-none absolute inset-x-0 top-4 h-[108px] overflow-hidden text-ink">
+          <svg viewBox={`0 0 ${width} 108`} className="absolute inset-0 h-full w-full" aria-hidden>
+            <g ref={gRef} stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" fill="none" opacity={0}>
+              <circle cx={0} cy={-32} r={10} />
+              <line x1={0} y1={-22} x2={0} y2={8} />
+              <line ref={armLRef} x1={0} y1={-16} x2={3} y2={2} />
+              <line ref={armRRef} x1={0} y1={-16} x2={-3} y2={2} />
+              <line ref={legLRef} x1={0} y1={8} x2={3} y2={30} />
+              <line ref={legRRef} x1={0} y1={8} x2={-3} y2={30} />
+              <circle ref={eyeLRef} cx={-3.5} cy={-33.5} r={1.3} fill="currentColor" stroke="none" />
+              <circle ref={eyeRRef} cx={3.5} cy={-33.5} r={1.3} fill="currentColor" stroke="none" />
+              <path ref={mouthRef} d="M -4 -29 Q 0 -26.75 4 -29" strokeWidth={1.5} />
+            </g>
+          </svg>
+        </div>
+      </div>
     </div>
   );
 }

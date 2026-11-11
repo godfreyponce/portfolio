@@ -58,6 +58,36 @@
   --shadow-lift: 0 2px 4px rgba(28, 25, 23, 0.06), 0 12px 32px rgba(28, 25, 23, 0.08);
   --shadow-lid: 0 24px 48px rgba(28, 25, 23, 0.35); /* page content over the pinned footer (#39) */
 
+  /* ---- Animation: logo strip pop on the entry it jumps to (#79, preview a-pop). rgba(231,229,228,.8) is rule at 80%. ---- */
+  --animate-entry-pop: entry-pop 1.2s ease-out;
+  --animate-entry-pop-still: entry-pop-still 1.2s ease-out;
+  @keyframes entry-pop {
+    0% {
+      background: rgba(231, 229, 228, 0.8);
+      box-shadow: 0 0 0 12px rgba(231, 229, 228, 0.8);
+      transform: none;
+    }
+    15% {
+      transform: scale(1.015);
+    }
+    100% {
+      background: rgba(231, 229, 228, 0);
+      box-shadow: 0 0 0 12px rgba(231, 229, 228, 0);
+      transform: none;
+    }
+  }
+  @keyframes entry-pop-still {
+    0%,
+    60% {
+      background: rgba(231, 229, 228, 0.8);
+      box-shadow: 0 0 0 12px rgba(231, 229, 228, 0.8);
+    }
+    100% {
+      background: rgba(231, 229, 228, 0);
+      box-shadow: 0 0 0 12px rgba(231, 229, 228, 0);
+    }
+  }
+
   /* ---- Type ramp (#58, reworked #63, matched to the reference #62): one
      size per tier. Values measured off genesiating.com on 2026-09-01 at a
      2545px viewport and normalised to 1440px. Their type is fluid (root

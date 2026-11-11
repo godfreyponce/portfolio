@@ -1,6 +1,7 @@
 import LossGraph from "@/components/canvas/LossGraph";
 import Hero from "@/components/sections/Hero";
 import StickmanRunner from "@/components/StickmanRunner";
+import LogoStrip from "@/components/sections/LogoStrip";
 import Timeline from "@/components/sections/Timeline";
 import Education from "@/components/sections/Education";
 import TheLab from "@/components/sections/TheLab";
@@ -14,6 +15,7 @@ export default function Home() {
       {/* The lid: opaque page content that slides off the footer pinned beneath it (#39) */}
       <main className="relative z-10 border-b border-rule bg-surface shadow-lid">
         <StickmanRunner />
+        <LogoStrip />
         <Timeline />
         <Education />
         <LossGraph />

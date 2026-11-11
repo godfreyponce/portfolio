@@ -18,7 +18,6 @@ import {
   Timer,
 } from "lucide-react";
 import MediaCarousel from "@/components/ui/MediaCarousel";
-import Badge from "@/components/ui/Badge";
 import TechChip from "@/components/ui/TechChip";
 import { type Project } from "@/lib/projects";
 
@@ -49,7 +48,7 @@ export default function ProjectCard({
   featured?: boolean;
   variant?: "grid" | "stack";
 }) {
-  const { title, description, tags, status, date, link, githubLink, devpostLink, videoUrl, media, iconSrc, iconLucide } = project;
+  const { title, description, shortDesc, cardUsesShortDesc, tags, status, date, link, githubLink, devpostLink, videoUrl, media, iconSrc, iconLucide } = project;
   const stack = variant === "stack";
 
   const youtubeId = videoUrl?.includes("youtube.com")
@@ -139,12 +138,12 @@ export default function ProjectCard({
                 {title}
               </h3>
             </div>
-            <Badge className="shrink-0 max-sm:px-1 max-sm:text-[10px]">
+            <span className="shrink-0 text-xs font-medium text-ink-subtle max-sm:text-[10px]">
               {statusLabel[status]}
-            </Badge>
+            </span>
           </div>
 
-          <p className="mt-2 text-body text-ink-subtle">{description}</p>
+          <p className="mt-2 text-body text-ink-subtle">{cardUsesShortDesc ? shortDesc : description}</p>
 
           {(link || githubLink || devpostLink) && (
             <div

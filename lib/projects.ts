@@ -8,6 +8,8 @@ export interface Project {
   description: string;
   /** Hand-written one-liner for /projects index rows; full description shows expanded (#30). */
   shortDesc: string;
+  /** The homepage stack card is 440px tall and the full description overflows it (#80). */
+  cardUsesShortDesc?: boolean;
   /** README-mirroring section on /projects (#36). */
   group: ProjectGroup;
   /** Hand-picked for the homepage Lab stack, 4-6 max (#30). */
@@ -82,6 +84,7 @@ export const projects: Project[] = [
     description:
       "A safety box for the home. After an earthquake alert, or when someone in the room goes still, it asks out loud if they're okay. Say help, or stay quiet three times, and it raises a demo alarm on a responder dashboard. An NVIDIA Nemotron agent runs the check-in, but a fixed rule in code decides the alarm, never the model. In the demo, the quake and the movement are simulated. Built at HackUTD 2026 with Rafael Amador on hardware.",
     shortDesc: "A home safety box that asks if you're okay after a quake, and raises an alarm when you can't answer.",
+    cardUsesShortDesc: true,
     group: "hackathons",
     featured: true,
     tags: ["Nemotron", "ElevenLabs", "Raspberry Pi", "Python"],
@@ -92,7 +95,7 @@ export const projects: Project[] = [
     videoUrl: "https://www.youtube.com/watch?v=tZQrHPPwC6E",
     iconSrc: "/projects/land/LOGO.png",
     media: [
-      { type: "image", src: "/projects/land/land-person-and-box.jpg", alt: "Staged photo of a person lying still on a bedroom floor, with an inset of the real LAND box and its lit ring" },
+      { type: "image", src: "/projects/land/land-person-and-box.jpg", alt: "Staged photo of a person lying still on a bedroom floor, with an inset of the real LAND box and its lit ring", fit: "contain" },
       { type: "youtube", src: "", videoId: "tZQrHPPwC6E" },
       { type: "image", src: "/projects/land/land-dashboard.jpg", alt: "LAND responder dashboard after a simulated 0.82 g quake. Home H000 is the one real box; the other 499 homes on the map are simulated." },
       { type: "image", src: "/projects/land/land-inside.jpg", alt: "The real LAND box with its lid lifted and a Raspberry Pi 5 inside" },

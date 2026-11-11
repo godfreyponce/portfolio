@@ -11,6 +11,24 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-11-11 - Footer bottom row contrast (#85)
+
+Follow-up to #82, found by its review. The footer's bottom row (the commit line and the ©) was
+`ink-subtle` on `surface-inverse`, 3.65:1, below AA's 4.5:1 for 12.5px text.
+
+- **Shipped** (`57d91e8`). The bottom-row `div` in `Footer.tsx` is `text-white/50`, the old
+  footer's value, 5.23:1. It stays dimmer than the handles' `ink-faint` (6.93:1). The diff
+  numbers keep `diff-add` and `diff-del`; the chevron keeps its fills. No new token, no layout
+  change.
+- **Verified.** Port 3085 (not 3000, #77), headless Chrome over CDP, ratios from computed colours
+  blended onto the computed footer background rgb(28, 25, 23) with a 1x1 canvas (the computed
+  colour is `oklab(... / 0.5)`, blended rgb(142, 140, 139)). At 1440x900 and 390x844, on both
+  commit-line states: before 3.65 (fail), after 5.23 (pass), handles 6.93, `+` rgb(63, 185, 80)
+  and `-` rgb(248, 81, 73) unchanged, footer height (303px, 471px) and row box the same before
+  and after. `tsc --noEmit` clean. No build figure: this repo's full check has no page count.
+- **Known.** The worktree had no `.env.local`, so the check faked the `/api/latest-commit` reply
+  inside headless Chrome; the real API reply was not seen.
+
 ### 2026-11-11 - The Lab section head in the council-climb style (#84)
 
 Follow-up to the council-climb ship (#78 to #82): The Lab was the last homepage section still

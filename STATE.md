@@ -5,6 +5,10 @@ last_worked_on: 2026-11-11
 next_action: "none: no ticket is ready-for-agent"
 blocked_on: ""
 phase: >-
+  #85 (footer bottom row contrast) shipped and closed 2026-11-11: the commit line and the copyright
+  are now white/50, 5.23:1 on the dark footer instead of 3.65:1, still dimmer than the handles. The
+  commit reply was faked in headless Chrome, so the live API reply was not seen. next_action names
+  none.
   #84 (The Lab section head) shipped and closed 2026-11-11: The Lab now uses the same wrapper and
   head as Work Experience and Passions, "The Lab »" in Spectral italic over a rule, and the old grey
   subtitle is gone because preview-d has none. #83, #85 and #77 land after it at the same accept.
@@ -224,8 +228,8 @@ Archive: `docs/HISTORY.md`. Queue: GitHub Issues (`gh issue list`). Protocol: `A
 
 ## Now
 
-- Council-climb ship (#78 to #82) is done and on main. Its follow-ups #83 (video-slide drag) and
-  #85 (footer grey contrast) are accepted and landing next. #77 (the full check's `pkill -f "next dev"`
+- Council-climb ship (#78 to #82) is done and on main. Its follow-up #83 (video-slide drag)
+  is accepted and landing next. #77 (the full check's `pkill -f "next dev"`
   stops other worktrees' dev servers) is accepted too, so nobody runs that line.
 - Feel pass #53: every build ticket under it has landed (#55 to #60, #62, #63, #61). #53 itself
   is still open; closing it is the owner's call.

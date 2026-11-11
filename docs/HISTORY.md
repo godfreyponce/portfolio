@@ -11,6 +11,28 @@ scroll-driven stickman, scroll-stacking Lab cards, crossfading carousel, retina-
 images, GitHub contribution heatmap, brand icons on tech tags, Signal card removed.
 Everything below was verified in the browser + `tsc --noEmit` clean.*
 
+### 2026-11-11 - Full check stops only this worktree's dev server (#77)
+
+Found during #76: the full check's `pkill -f "next dev"` matched every Next dev server on the
+machine, so one worktree's build stopped other worktrees' servers.
+
+- **Shipped** (`14a4d0a`). AGENTS.md `# Verification scope`: the full check picks a free port
+  (3000 plus the issue number), starts the server with `npm run dev -- -p <port>`, stops it with
+  `kill $(lsof -ti tcp:<port> -sTCP:LISTEN)`, and confirms with `pgrep -fl "$PWD/node_modules/"`.
+  One line forbids stopping a server by name. `# Project rules` now says one dev server per
+  worktree and no `next build` beside `next dev` in one worktree, instead of "no multiple Node
+  processes", which the full check itself broke.
+- **Verified.** Two Python stand-ins on 3077 and 3078, each carrying a fake
+  `/fake/wt-x/node_modules/.bin/next dev` path in its arguments: the old name pattern matched
+  both; the new stop line killed only 3077's. (`exec -a` naming did not work: Homebrew Python
+  re-execs into Python.app and drops argv[0].) Not yet proven on a real `next dev`
+  (no `node_modules` in the worktree): the path check is there for a parent that outlives its child.
+- **Still to sync.** STATE.md's Run / verify block and its .next-cache gotcha repeat the old
+  pkill; the headless Chrome gotcha kills by a fixed port name. AGENTS.md `# Visual rule` still
+  names `localhost:3000/preview-a.html`.
+- **Synced at accept.** STATE.md's Run / verify block and its .next-cache gotcha now use the new
+  check. The Visual rule's port and the headless Chrome gotcha's fixed-name kill are #86.
+
 ### 2026-11-11 - Carousel drag from a YouTube slide (#83)
 
 Found during #80. A mouse drag that started on LAND's YouTube slide did not page the carousel.

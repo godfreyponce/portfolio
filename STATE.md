@@ -5,6 +5,13 @@ last_worked_on: 2026-11-11
 next_action: "none: no ticket is ready-for-agent"
 blocked_on: ""
 phase: >-
+  #77 (full check stops only this worktree's dev server) shipped and closed 2026-11-11, ENDING THE
+  COUNCIL-CLIMB FOLLOW-UPS: #83, #84, #85 and #77 are all on main. The AGENTS.md full check now
+  starts each worktree's dev server on 3000 plus the issue number and stops it by its PID, never by
+  name. STATE.md's Run / verify block and .next-cache gotcha now match it. The new stop line was
+  tried only on stand-in servers, so the next real build proves it. #86 (the Visual rule and the
+  headless Chrome gotcha still use fixed ports) was filed at accept, not green-lit. next_action
+  names none.
   #83 (carousel drag from a YouTube slide) shipped and closed 2026-11-11: a clear layer covers the
   YouTube iframe until the video starts, so a drag or swipe on LAND's video slide pages the
   carousel, and a click removes the layer and plays the video. Paging away brings the layer back.
@@ -232,9 +239,8 @@ Archive: `docs/HISTORY.md`. Queue: GitHub Issues (`gh issue list`). Protocol: `A
 
 ## Now
 
-- Council-climb ship (#78 to #82) and its follow-ups #83, #84 and #85 are done and on main.
-  #77 (the full check's `pkill -f "next dev"`
-  stops other worktrees' dev servers) is accepted too, so nobody runs that line.
+- Council-climb ship (#78 to #82) and its follow-ups #83, #84, #85 and #77 are done and on main.
+  #86 (the Visual rule and the headless Chrome gotcha still use fixed ports) is filed, not green-lit.
 - Feel pass #53: every build ticket under it has landed (#55 to #60, #62, #63, #61). #53 itself
   is still open; closing it is the owner's call.
 - Map issue #35 is pinned; regenerate `docs/decision-map.html`
@@ -245,13 +251,18 @@ Archive: `docs/HISTORY.md`. Queue: GitHub Issues (`gh issue list`). Protocol: `A
 
 ## Run / verify (do this first)
 
+`<port>` is 3000 plus the issue number, or the next port up if another worktree has it (#77).
+
 ```bash
-pkill -f "next dev"      # ALWAYS kill existing dev servers first; only ONE at a time
-npm run dev              # http://localhost:3000
-npx tsc --noEmit         # run ONCE at the end of a change, not in a loop
+lsof -ti tcp:<port> -sTCP:LISTEN          # must print nothing: the port is free
+npm run dev -- -p <port>                  # this worktree's one dev server
+npx tsc --noEmit                          # run ONCE at the end of a change, not in a loop
+kill $(lsof -ti tcp:<port> -sTCP:LISTEN)  # stop only your server, by its PID
+pgrep -fl "$PWD/node_modules/"            # must print nothing: this worktree's server is gone
 ```
+Never stop a server by name (`pkill -f "next dev"` matches every worktree's server).
 No `npm run build` to verify changes; no `npm install` unless the owner asks.
-Verify visually via Chrome automation at localhost:3000 (scroll the whole page).
+Verify visually via Chrome automation at localhost:<port> (scroll the whole page).
 
 ## Gotchas (short form — full detail in docs/HISTORY.md)
 
@@ -269,8 +280,8 @@ Verify visually via Chrome automation at localhost:3000 (scroll the whole page).
   loads again. It fills in. Not a missing `iconSrc`.
 - A running dev server serves STALE CSS after a `globals.css` `@theme` or `next/font` edit.
   In #62 `--font-display` kept resolving to the deleted `--font-fraunces`, so every serif fell
-  back to Geist through hard reloads. `pkill -f "next dev"; rm -rf .next; npm run dev`. Suspect
-  this BEFORE debugging the CSS.
+  back to Geist through hard reloads. Stop your server by its port (see Run / verify), run
+  `rm -rf .next`, and start it again. Suspect this BEFORE debugging the CSS.
 - The Chrome extension cannot resize the page viewport here: `resize_window` returns success and
   `document.documentElement.clientWidth` does not move. **osascript bounds DID reach it in #73**,
   which corrects the old "they do not" line: `activate` plus `set active tab index` cleared a

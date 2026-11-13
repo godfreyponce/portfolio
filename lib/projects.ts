@@ -98,7 +98,7 @@ export const projects: Project[] = [
       { type: "image", src: "/projects/land/land-person-and-box.jpg", alt: "Staged photo of a person lying still on a bedroom floor, with an inset of the real LAND box and its lit ring", fit: "contain" },
       { type: "youtube", src: "", videoId: "tZQrHPPwC6E" },
       { type: "image", src: "/projects/land/land-dashboard.jpg", alt: "LAND responder dashboard after a simulated 0.82 g quake. Home H000 is the one real box; the other 499 homes on the map are simulated." },
-      { type: "image", src: "/projects/land/land-inside.jpg", alt: "The real LAND box with its lid lifted and a Raspberry Pi 5 inside" },
+      { type: "image", src: "/projects/land/land-inside.jpg", alt: "The LAND box opened from above, showing the Raspberry Pi 5 with its Hailo AI HAT, the breadboard of sensors, the speaker and the PIR sensor", fit: "contain" },
       { type: "image", src: "/projects/land/land-architecture.png", alt: "LAND architecture: the box, the event hub, the Nemotron agent, ElevenLabs voice, the alarm rule in code, and the responder dashboard", fit: "contain" },
       { type: "image", src: "/projects/land/land-3d-checks-in.jpg", alt: "3D render, not a photo: the LAND box notices a person lying still on a bedroom floor" },
       { type: "image", src: "/projects/land/land-3d-shaking.jpg", alt: "3D render, not a photo: shingles fall from a house roof as the shaking hits" },
